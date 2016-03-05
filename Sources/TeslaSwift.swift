@@ -38,6 +38,18 @@ public class TeslaSwift {
 
 extension TeslaSwift {
 	
+	/**
+	Performs the authentition with the Tesla API
+	
+	You only need to call this once. The token will be stored and your credentials.
+	If the token expires your credentials will be reused.
+	
+	- parameter email:      The email address.
+	- parameter password:   The password.
+	
+	- returns: A Future with the AuthToken.
+	*/
+
 	public func authenticate(email:String, password:String) -> Future<AuthToken,TeslaError> {
 		
 		self.email = email
@@ -59,6 +71,11 @@ extension TeslaSwift {
 		
 	}
 	
+	/**
+	Fetchs the list of your vehicles including not delivered ones
+	
+	- returns: A Future with an array of Vehicles.
+	*/
 	public func getVehicles() -> Future<[Vehicle],TeslaError> {
 		
 		let url = NSURL(string: baseURL.stringByAppendingString("/api/1/vehicles"))!
