@@ -20,13 +20,9 @@ public enum TeslaError:ErrorType {
 public class TeslaSwift {
 	
 	public static let defaultInstance = TeslaSwift()
-	
-	var token:AuthToken?
-	private var email:String?
-	private var password:String?
-	
 	public var useMockServer = false
 	
+	var token:AuthToken?
 	var baseURL:String {
 		if useMockServer {
 			return "https://private-anon-6ec07f49d-timdorr.apiary-mock.com"
@@ -34,9 +30,17 @@ public class TeslaSwift {
 			return "https://owner-api.teslamotors.com"
 		}
 	}
+	
+	private var email:String?
+	private var password:String?
 }
 
 extension TeslaSwift {
+	
+	
+	public var isAuthenticated:Bool {
+		return token != nil
+	}
 	
 	/**
 	Performs the authentition with the Tesla API
