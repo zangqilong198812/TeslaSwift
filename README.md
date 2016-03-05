@@ -27,11 +27,11 @@ Import the module
 	import TeslaSwift
 ```
 
-1. Perform an authentication with your My Tesla credentials: 
+Perform an authentication with your My Tesla credentials: 
 ```swift 
 TeslaSwift.defaultInstance.authenticate(email, password: password)
 ```
-2. Use the future to check the success: 
+Use the future to check the success: 
 ```swift 
 .andThen { (result) -> Void in
 					
@@ -82,8 +82,9 @@ When the token expires the library will perform another authentication with your
 TODO
 ============
 The library is still under development.
+
 The api is much bigger and it will take some time until i get to the 1.0 version.
-Library design might change. The Futures library and Alamonfire might chnage to other libraries or removed.
+Library design might change. The Futures library and Alamonfire might change to other libraries or removed.
 
 Licence
 ============
