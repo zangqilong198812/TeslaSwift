@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
 		if let email = emailTextField.text,
 			let password = passwordTextField.text {
 				
-				TeslaSwift.defaultInstance.authenticate(email, password: password).andThen(callback: { (result) -> Void in
+				TeslaSwift.defaultInstance.authenticate(email, password: password).andThen { (result) -> Void in
 					
 					switch result {
 					case .Success(_):
@@ -29,7 +29,7 @@ class LoginViewController: UIViewController {
 						self.messageLabel.text = "Error: \(error as NSError)"
 					}
 					
-				})
+				}
 		} else {
 			messageLabel.text = "Please add your credentials"
 		}

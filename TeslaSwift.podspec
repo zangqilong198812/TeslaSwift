@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "0.0.2"
+	s.version      = "0.0.3"
 	s.summary      = "Swift library to access the Tesla Model S API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 	s.social_media_url   = "https://twitter.com/jonas2man"
 	s.platform     = :ios, "8.0"
 
-	s.source       = { :git => "https://github.com/jonasman/TeslaSwift.git", :tag => "0.0.2" }
+	s.source       = { :git => "https://github.com/jonasman/TeslaSwift.git", :tag => "v#{s.version}" }
 
 	s.source_files  = "Sources/**/*.swift"
 
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
 	s.requires_arc = true
 
-	s.dependency "BrightFutures"
+	s.dependency "BrightFutures" , "~> 3.0"
 	s.dependency "Alamofire", "~> 3.0"
 	s.dependency "AlamofireObjectMapper", "~> 2.1"
 
