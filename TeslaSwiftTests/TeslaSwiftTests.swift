@@ -31,8 +31,8 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").andThen { (result) -> Void in
 			
 			switch result {
-			case .Success(let reponse):
-				print(reponse.accessToken)
+			case .Success(_):
+				break
 			case .Failure(let error):
 				print(error)
 			}
@@ -86,8 +86,8 @@ class TeslaSwiftTests: XCTestCase {
 				(result) -> Void in
 				
 				switch result {
-				case .Success(let response):
-					print(response)
+				case .Success(_):
+					break
 				case .Failure(let error):
 					print(error)
 					XCTFail((error as NSError).description)

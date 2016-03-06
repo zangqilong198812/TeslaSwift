@@ -13,7 +13,7 @@ public class AuthToken:Mappable {
 	
 	var accessToken:String?
 	var tokenType:String?
-	var createdAt:NSDate?
+	var createdAt:NSDate? = NSDate()
 	var expiresIn:NSTimeInterval?
 	
 	var isValid:Bool {
