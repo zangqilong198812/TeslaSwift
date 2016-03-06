@@ -44,7 +44,6 @@ class TeslaSwiftTests: XCTestCase {
     }
 	
 	func testReuseToken() {
-		// This test doesn't work on the mock server
 		
 		let expection = expectationWithDescription("All Done")
 		
@@ -102,5 +101,32 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 
+	func testGetVehicleState() {
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.getVehicleStatus(vehicles[0])
+			}.andThen { (result) -> Void in
+				switch result {
+				case .Success(_):
+					break
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+
+				
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+		
+	}
     
 }

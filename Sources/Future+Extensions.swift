@@ -63,5 +63,30 @@ extension Alamofire.Request {
 		
 		return promise.future
 	}
+	
+	func responseObjectFuture() -> Future<AnyObject,TeslaError> {
+		
+		let promise = Promise<AnyObject, TeslaError>()
+		
+		responseJSON { (response:Response<AnyObject, NSError>) -> Void in
+			
+			switch(response.result) {
+			case .Success(let value):
+				promise.success(value)
+			case .Failure(let error):
+				promise.failure(TeslaError.NetworkError(error: error))
+			}
+			
+			}.responseString { (response) -> Void in
+				switch(response.result) {
+				case .Success(let value):
+					print("Result: \(value)")
+				case .Failure(let error):
+					print("Result: \(error as NSError)")
+				}
+		}
+		
+		return promise.future
+	}
 
 }

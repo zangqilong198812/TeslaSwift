@@ -11,16 +11,11 @@ import ObjectMapper
 import BrightFutures
 import Alamofire
 
-public enum TeslaError:ErrorType {
-	case NetworkError(error:NSError)
-	case JSONParsingError(error:NSError)
-	case AuthenticationRequired
-}
-
 enum Endpoint {
 	
 	case Authentication
 	case Vehicles
+	case MobileAccess(vehicleID: Int)
 }
 
 extension Endpoint {
@@ -31,6 +26,8 @@ extension Endpoint {
 			return "/oauth/token"
 		case .Vehicles:
 			return "/api/1/vehicles"
+		case .MobileAccess(let vehicleID):
+			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
 		}
 	}
 	
@@ -39,6 +36,8 @@ extension Endpoint {
 		case .Authentication:
 			return .POST
 		case .Vehicles:
+			return .GET
+		case .MobileAccess(_):
 			return .GET
 		}
 	}
@@ -51,6 +50,14 @@ extension Endpoint {
 		}
 	}
 }
+
+public enum TeslaError:ErrorType {
+	case NetworkError(error:NSError)
+	case JSONParsingError(error:NSError)
+	case AuthenticationRequired
+	case VehicleStateError
+}
+
 
 public class TeslaSwift {
 	
@@ -114,6 +121,24 @@ extension TeslaSwift {
 		
 	}
 	
+	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleState,TeslaError> {
+	
+		return checkAuthentication().map {
+			(token) -> () in
+			}.flatMap {
+				() -> Future<AnyObject, TeslaError> in
+				return self.request(.MobileAccess(vehicleID: vehicle.vehicleID!), body: nil)
+				// Zip here with the rest of the apis
+			}.flatMap {
+				(result: AnyObject) -> Future<VehicleState, TeslaError> in
+
+				let vehicleState = VehicleState()
+				vehicleState.mobileAccess = (result as! [String:Bool])["response"]
+				return Future<VehicleState,TeslaError>(value: vehicleState)
+				
+				}
+
+	}
 }
 
 extension TeslaSwift {
@@ -151,6 +176,10 @@ extension TeslaSwift {
 	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<[T],TeslaError> {
 		
 		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath)
+	}
+	func request(endpoint:Endpoint, body:Mappable?) -> Future<AnyObject,TeslaError> {
+		
+		return prepareRequest(endpoint, body: body).responseObjectFuture()
 	}
 	
 	func prepareRequest(endpoint:Endpoint, body:Mappable?) -> Request {
