@@ -19,16 +19,21 @@ extension Alamofire.Request {
 		let promise = Promise<T, TeslaError>()
 		
 		responseObject(keyPath) { (response:Response<T, NSError>) -> Void in
-		
-			switch(response.result){
+			
+			switch(response.result) {
 			case .Success(let value):
-				print("Result: \(response.result.value!)")
 				promise.success(value)
 			case .Failure(let error):
-				print("Result: \(response.result.error!)")
 				promise.failure(TeslaError.NetworkError(error: error))
 			}
-		
+			}.responseString { (response) -> Void in
+				switch(response.result) {
+				case .Success(let value):
+					print("Result: \(value)")
+				case .Failure(let error):
+					print("Result: \(error as NSError)")
+				}
+				
 		}
 		
 		return promise.future
@@ -40,15 +45,20 @@ extension Alamofire.Request {
 		
 		responseArray(keyPath) { (response:Response<[T], NSError>) -> Void in
 			
-			switch(response.result){
+			switch(response.result) {
 			case .Success(let value):
-				print("Result: \(response.result.value!)")
 				promise.success(value)
 			case .Failure(let error):
-				print("Result: \(response.result.error!)")
 				promise.failure(TeslaError.NetworkError(error: error))
 			}
 			
+		}.responseString { (response) -> Void in
+			switch(response.result) {
+			case .Success(let value):
+				print("Result: \(value)")
+			case .Failure(let error):
+				print("Result: \(error as NSError)")
+			}
 		}
 		
 		return promise.future

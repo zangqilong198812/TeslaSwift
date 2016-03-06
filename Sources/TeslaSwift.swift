@@ -17,19 +17,47 @@ public enum TeslaError:ErrorType {
 	case AuthenticationRequired
 }
 
-public class TeslaSwift {
+enum Endpoint {
 	
-	public static let defaultInstance = TeslaSwift()
-	public var useMockServer = false
+	case Authentication
+	case Vehicles
+}
+
+extension Endpoint {
+
+	var path:String {
+		switch self {
+		case .Authentication:
+			return "/oauth/token"
+		case .Vehicles:
+			return "/api/1/vehicles"
+		}
+	}
 	
-	var token:AuthToken?
-	var baseURL:String {
+	var method: Alamofire.Method {
+		switch self {
+		case .Authentication:
+			return .POST
+		case .Vehicles:
+			return .GET
+		}
+	}
+	
+	func baseURL(useMockServer:Bool) -> String {
 		if useMockServer {
 			return "https://private-anon-6ec07f49d-timdorr.apiary-mock.com"
 		} else {
 			return "https://owner-api.teslamotors.com"
 		}
 	}
+}
+
+public class TeslaSwift {
+	
+	public static let defaultInstance = TeslaSwift()
+	public var useMockServer = true
+	
+	var token:AuthToken?
 	
 	private var email:String?
 	private var password:String?
@@ -58,8 +86,6 @@ extension TeslaSwift {
 		
 		self.email = email
 		self.password = password
-		
-		let url = NSURL(string: baseURL.stringByAppendingString("/oauth/token"))!
 
 		let body = AuthTokenRequest()
 		body.email = email
@@ -68,7 +94,7 @@ extension TeslaSwift {
 		body.clientSecret = "c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9d220"
 		body.clientID = "e4a9949fcfa04068f59abb5a658f2bac0a3428e4652315490b659d5ab3f35a9e"
 		
-		return request(.POST, url: url, body: body)
+		return request(.Authentication, body: body)
 			.andThen { (result) -> Void in
 			self.token = result.value
 		}
@@ -82,10 +108,8 @@ extension TeslaSwift {
 	*/
 	public func getVehicles() -> Future<[Vehicle],TeslaError> {
 		
-		let url = NSURL(string: baseURL.stringByAppendingString("/api/1/vehicles"))!
-		
 		return checkAuthentication().flatMap { (token) -> Future<[Vehicle], TeslaError> in
-			self.request(.GET, url: url, body: nil, keyPath: "response")
+			self.request(.Vehicles, body: nil, keyPath: "response")
 		}
 		
 	}
@@ -120,19 +144,19 @@ extension TeslaSwift {
 		}
 	}
 	
-	func request<T:Mappable>(method: Alamofire.Method, url:NSURL, body:Mappable?, keyPath:String? = nil) -> Future<T,TeslaError> {
+	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<T,TeslaError> {
 		
-		return prepareRequest(method, url: url, body: body).responseObjectFuture(keyPath)
+		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath)
 	}
-	func request<T:Mappable>(method: Alamofire.Method, url:NSURL, body:Mappable?, keyPath:String? = nil) -> Future<[T],TeslaError> {
+	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<[T],TeslaError> {
 		
-		return prepareRequest(method, url: url, body: body).responseObjectFuture(keyPath)
+		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath)
 	}
 	
-	func prepareRequest(method: Alamofire.Method, url:NSURL, body:Mappable?) -> Request {
+	func prepareRequest(endpoint:Endpoint, body:Mappable?) -> Request {
 		
-		let request = NSMutableURLRequest(URL: url)
-		request.HTTPMethod = method.rawValue
+		let request = NSMutableURLRequest(URL: NSURL(string: endpoint.baseURL(useMockServer).stringByAppendingString(endpoint.path))!)
+		request.HTTPMethod = endpoint.method.rawValue
 		
 		if let token = self.token?.accessToken {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
