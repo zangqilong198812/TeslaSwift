@@ -1,5 +1,5 @@
 # TeslaSwift
-Swift library to access the Tesla Model S API
+Swift library to access the Tesla Model S API base on [Unofficial Tesla Model S API](http://docs.timdorr.apiary.io/#)
 
 Installation
 ============
@@ -27,8 +27,11 @@ Import the module
 	import TeslaSwift
 ```
 
-1. Perform an authentication with your My Tesla credentials: `TeslaSwift.defaultInstance.authenticate(email, password: password)`
-2. Use the future to check the success: 
+Perform an authentication with your My Tesla credentials: 
+```swift 
+TeslaSwift.defaultInstance.authenticate(email, password: password)
+```
+Use the future to check the success: 
 ```swift 
 .andThen { (result) -> Void in
 					
@@ -75,6 +78,13 @@ Other Features
 ============
 After the authentication is done. The library manages itself the access token. 
 When the token expires the library will perform another authentication with your past credentials.
+
+TODO
+============
+The library is still under development.
+
+The api is much bigger and it will take some time until i get to the 1.0 version.
+Library design might change. The Futures library and Alamonfire might change to other libraries or removed.
 
 Licence
 ============
