@@ -16,6 +16,7 @@ enum Endpoint {
 	case Authentication
 	case Vehicles
 	case MobileAccess(vehicleID: Int)
+	case ChargeState(vehicleID: Int)
 }
 
 extension Endpoint {
@@ -28,6 +29,8 @@ extension Endpoint {
 			return "/api/1/vehicles"
 		case .MobileAccess(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
+		case .ChargeState(let vehicleID):
+			return "/api/1/vehicles/\(vehicleID)/data_request/charge_state"
 		}
 	}
 	
@@ -35,9 +38,7 @@ extension Endpoint {
 		switch self {
 		case .Authentication:
 			return .POST
-		case .Vehicles:
-			return .GET
-		case .MobileAccess(_):
+		case .Vehicles,MobileAccess,ChargeState:
 			return .GET
 		}
 	}
@@ -122,22 +123,23 @@ extension TeslaSwift {
 	}
 	
 	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleState,TeslaError> {
-	
-		return checkAuthentication().map {
-			(token) -> () in
+		
+		return checkAuthentication().flatMap {
+			(token) -> Future<(AnyObject,ChargeState), TeslaError> in
+			
+			return   self.request(Endpoint.MobileAccess(vehicleID: vehicle.vehicleID!),body: nil)
+				.zip(self.request(.ChargeState(vehicleID: vehicle.vehicleID!), body: nil, keyPath: "response"))
+			
 			}.flatMap {
-				() -> Future<AnyObject, TeslaError> in
-				return self.request(.MobileAccess(vehicleID: vehicle.vehicleID!), body: nil)
-				// Zip here with the rest of the apis
-			}.flatMap {
-				(result: AnyObject) -> Future<VehicleState, TeslaError> in
-
+				(result: (AnyObject,ChargeState)) -> Future<VehicleState, TeslaError> in
+				
 				let vehicleState = VehicleState()
-				vehicleState.mobileAccess = (result as! [String:Bool])["response"]
+				vehicleState.mobileAccess = (result.0 as! [String:Bool])["response"]
+				vehicleState.chargeState = result.1
 				return Future<VehicleState,TeslaError>(value: vehicleState)
 				
-				}
-
+		}
+		
 	}
 }
 
