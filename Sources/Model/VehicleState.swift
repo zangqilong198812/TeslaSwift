@@ -33,11 +33,11 @@ public class ChargeState:Mappable {
 			value = miles
 		}
 		init(kms:Double) {
-			value = kms / 1.6
+			value = kms / 1.609344
 		}
 		
 		var miles:Double { return value }
-		var kms:Double { return value * 1.6 }
+		var kms:Double { return value * 1.609344 }
 	}
 	
 	/**
