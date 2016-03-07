@@ -24,13 +24,14 @@ public class ChargeState:Mappable {
 	enum ChargingState:String {
 		case Complete = "Complete"
 		case Charging = "Charging"
+		case Disconnected = "Disconnected"
 	}
 	
 	struct Distance {
 		private var value:Double
 		
-		init(miles:Double) {
-			value = miles
+		init(miles:Double?) {
+			value = miles ?? 0.0
 		}
 		init(kms:Double) {
 			value = kms / 1.609344
@@ -73,7 +74,7 @@ public class ChargeState:Mappable {
 	/**
 	Current flowing into the battery
 	*/
-	internal(set) var batteryCurrent:Int?
+	internal(set) var batteryCurrent:Double?
 	
 	internal(set) var chargeStartingRange:Double?
 	internal(set) var chargeStartingSOC:Double?
@@ -103,7 +104,7 @@ public class ChargeState:Mappable {
 	/**
 	miles/hour while charging or -1 if not charging
 	*/
-	internal(set) var chargeRate:Int?
+	internal(set) var chargeRate:Double?
 	/**
 	Vehicle charging por is open?
 	*/
@@ -113,13 +114,16 @@ public class ChargeState:Mappable {
 	public required init?(_ map: Map) { }
 	
 	public func mapping(map: Map) {
+		
+		let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
+		
 		chargingState			<- map["charging_state"]
 		chargeToMaxRange		<- map["charge_to_max_range"]
 		maxRangeChargeCounter	<- map["max_range_charge_counter"]
 		fastChargerPresent		<- map["fast_charger_present"]
-		batteryRange			<- map["battery_range"]
-		estimatedBatteryRange	<- map["est_battery_range"]
-		idealBatteryRange		<- map["ideal_battery_range"]
+		batteryRange			<- (map["battery_range"], distanceTransform)
+		estimatedBatteryRange	<- (map["est_battery_range"], distanceTransform)
+		idealBatteryRange		<- (map["ideal_battery_range"], distanceTransform)
 		batteryLevel			<- map["battery_level"]
 		batteryCurrent			<- map["battery_current"]
 		chargeStartingRange		<- map["charge_starting_range"]
