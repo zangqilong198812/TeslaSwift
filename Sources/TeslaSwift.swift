@@ -45,7 +45,7 @@ extension Endpoint {
 	
 	func baseURL(useMockServer:Bool) -> String {
 		if useMockServer {
-			return "https://private-anon-6ec07f49d-timdorr.apiary-mock.com"
+			return "https://private-623898-modelsapi.apiary-mock.com"
 		} else {
 			return "https://owner-api.teslamotors.com"
 		}
