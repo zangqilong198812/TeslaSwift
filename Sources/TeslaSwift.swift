@@ -54,9 +54,7 @@ extension Endpoint {
 
 public enum TeslaError:ErrorType {
 	case NetworkError(error:NSError)
-	case JSONParsingError(error:NSError)
 	case AuthenticationRequired
-	case VehicleStateError
 }
 
 
@@ -110,7 +108,7 @@ extension TeslaSwift {
 	}
 	
 	/**
-	Fetchs the list of your vehicles including not delivered ones
+	Fetchs the list of your vehicles including not yet delivered ones
 	
 	- returns: A Future with an array of Vehicles.
 	*/
