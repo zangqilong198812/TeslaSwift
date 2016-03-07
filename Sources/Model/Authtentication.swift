@@ -27,7 +27,7 @@ public class AuthToken:Mappable {
 	
 	//MARK: Mappable protocol
 	required public init?(_ map: Map){
-		
+		if (map.JSONDictionary.count < 3 ) { return nil }
 	}
 	
 	public func mapping(map: Map) {
