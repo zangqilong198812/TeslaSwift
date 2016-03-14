@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "0.0.6"
+	s.version      = "0.0.7"
 	s.summary      = "Swift library to access the Tesla Model S API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -24,5 +24,6 @@ Pod::Spec.new do |s|
 	s.dependency "Alamofire", "~> 3.0"
 	s.dependency "AlamofireObjectMapper", "~> 2.1"
 	s.dependency 'Result', '~> 1.0'
+	s.dependency 'ObjectMapper', '~> 1.1'
 
 end
