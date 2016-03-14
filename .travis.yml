@@ -1,0 +1,7 @@
+language: objective-c  
+osx_image: xcode7.2
+xcode_project: TeslaSwift.xcodeproj 
+xcode_scheme: TeslaSwift
+xcode_sdk: iphonesimulator9.2
+notifications:
+  email: false
