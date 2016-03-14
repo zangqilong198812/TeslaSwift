@@ -11,15 +11,15 @@ import ObjectMapper
 
 public class Vehicle: Mappable {
 	
-	var color:String?
-	var displayName:String?
-	var id:Int?
-	var optionCodes:String?
-	var userID:Int?
-	var vehicleID:Int?
-	var vin:String?
-	var tokens:[String]?
-	var state:String?
+	public var color:String?
+	public var displayName:String?
+	public var id:Int?
+	public var optionCodes:String?
+	public var userID:Int?
+	public var vehicleID:Int?
+	public var vin:String?
+	public var tokens:[String]?
+	public var state:String?
 	
 	//MARK: Mappable protocol
 	required public init?(_ map: Map){

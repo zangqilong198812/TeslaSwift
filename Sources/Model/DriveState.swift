@@ -13,11 +13,13 @@ import CoreLocation
 public class DriveState: Mappable {
 	
 	public var shiftState:String?
-	var speed:CLLocationSpeed?
-	var latitude:CLLocationDegrees?
-	var longitude:CLLocationDegrees?
-	var heading:CLLocationDirection?
-	var date:NSDate?
+	
+	public var speed:CLLocationSpeed?
+	public var latitude:CLLocationDegrees?
+	public var longitude:CLLocationDegrees?
+	public var heading:CLLocationDirection?
+	public var date:NSDate?
+	
 	public var position:CLLocation? {
 		if let latitude = latitude,
 			let longitude = longitude,

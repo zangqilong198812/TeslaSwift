@@ -11,31 +11,31 @@ import ObjectMapper
 
 public class ClimateState: Mappable {
 	
-	struct Temperature {
+	public struct Temperature {
 		private var value:Double
 		
-		init(celsius:Double?) {
+		public init(celsius:Double?) {
 			value = celsius ?? 0.0
 		}
-		init(fahrenheit:Double) {
+		public init(fahrenheit:Double) {
 			value = (fahrenheit - 32.0) / 1.8
 		}
 		
-		var celsius:Double { return value }
-		var fahrenheit:Double { return (value * 1.8) + 32.0 }
+		public var celsius:Double { return value }
+		public var fahrenheit:Double { return (value * 1.8) + 32.0 }
 	}
 	
-	var insideTemperature:Temperature?
-	var outsideTemperature:Temperature?
-	var driverTemperatureSetting:Temperature?
-	var passengerTemperatureSetting:Temperature?
-	var isAutoConditioningOn:Bool?
-	var isFrontDefrosterOn:Bool?
-	var isRearDefrosterOn:Bool?
+	public var insideTemperature:Temperature?
+	public var outsideTemperature:Temperature?
+	public var driverTemperatureSetting:Temperature?
+	public var passengerTemperatureSetting:Temperature?
+	public var isAutoConditioningOn:Bool?
+	public var isFrontDefrosterOn:Bool?
+	public var isRearDefrosterOn:Bool?
 	/*
 	* Fan speed 0-6 or nil
 	*/
-	var fanStatus:Int?
+	public var fanStatus:Int?
 	
 	
 	public required init?(_ map: Map) { }

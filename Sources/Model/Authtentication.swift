@@ -16,7 +16,7 @@ public class AuthToken:Mappable {
 	var createdAt:NSDate? = NSDate()
 	var expiresIn:NSTimeInterval?
 	
-	var isValid:Bool {
+	public var isValid:Bool {
 		if let createdAt = createdAt, expiresIn = expiresIn {
 			return -NSDate().timeIntervalSinceDate(createdAt) < expiresIn
 		} else {

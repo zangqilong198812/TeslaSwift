@@ -11,94 +11,94 @@ import ObjectMapper
 
 public class ChargeState:Mappable {
 	
-	enum ChargingState:String {
+	public enum ChargingState:String {
 		case Complete = "Complete"
 		case Charging = "Charging"
 		case Disconnected = "Disconnected"
 	}
 	
-	struct Distance {
+	public struct Distance {
 		private var value:Double
 		
-		init(miles:Double?) {
+		public init(miles:Double?) {
 			value = miles ?? 0.0
 		}
-		init(kms:Double) {
+		public init(kms:Double) {
 			value = kms / 1.609344
 		}
 		
-		var miles:Double { return value }
-		var kms:Double { return value * 1.609344 }
+		public var miles:Double { return value }
+		public var kms:Double { return value * 1.609344 }
 	}
 	
 	/**
 	Current state of the charging
 	*/
-	internal(set) var chargingState:ChargingState?
+	public internal(set) var chargingState:ChargingState?
 	/**
 	Charge to max rate or standard
 	*/
-	internal(set) var chargeToMaxRange:Bool?
-	internal(set) var maxRangeChargeCounter:Int?
+	public internal(set) var chargeToMaxRange:Bool?
+	public internal(set) var maxRangeChargeCounter:Int?
 	/**
 	Vehicle connected to supercharger?
 	*/
-	internal(set) var fastChargerPresent:Bool?
+	public internal(set) var fastChargerPresent:Bool?
 	
 	/**
 	Rated Miles
 	*/
-	internal(set) var batteryRange:Distance?
+	public internal(set) var batteryRange:Distance?
 	/**
 	Range estimated from recent driving
 	*/
-	internal(set) var estimatedBatteryRange:Distance?
+	public internal(set) var estimatedBatteryRange:Distance?
 	/**
 	Ideal Miles
 	*/
-	internal(set) var idealBatteryRange:Distance?
+	public internal(set) var idealBatteryRange:Distance?
 	/**
 	Percentage of the battery
 	*/
-	internal(set) var batteryLevel:Int?
+	public internal(set) var batteryLevel:Int?
 	/**
 	Current flowing into the battery
 	*/
-	internal(set) var batteryCurrent:Double?
+	public internal(set) var batteryCurrent:Double?
 	
-	internal(set) var chargeStartingRange:Double?
-	internal(set) var chargeStartingSOC:Double?
+	public internal(set) var chargeStartingRange:Double?
+	public internal(set) var chargeStartingSOC:Double?
 	
 	/**
 	Voltage. Only has value while charging
 	*/
-	internal(set) var chargerVoltage:Int?
+	public internal(set) var chargerVoltage:Int?
 	/**
 	Max current allowed by charger and adapter
 	*/
-	internal(set) var chargerPilotCurrent:Int?
+	public internal(set) var chargerPilotCurrent:Int?
 	/**
 	Current actually being drawn
 	*/
-	internal(set) var chargerActualCurrent:Int?
+	public internal(set) var chargerActualCurrent:Int?
 	/**
 	KW of charger
 	*/
-	internal(set) var chargerPower:Int?
+	public internal(set) var chargerPower:Int?
 	
 	
 	/**
 	Only valid while charging
 	*/
-	internal(set) var timeToFullCharge:Int?
+	public internal(set) var timeToFullCharge:Int?
 	/**
 	miles/hour while charging or -1 if not charging
 	*/
-	internal(set) var chargeRate:Double?
+	public internal(set) var chargeRate:Double?
 	/**
 	Vehicle charging por is open?
 	*/
-	internal(set) var chargePortDoorOpen:Bool?
+	public internal(set) var chargePortDoorOpen:Bool?
 	
 	
 	public required init?(_ map: Map) { }
