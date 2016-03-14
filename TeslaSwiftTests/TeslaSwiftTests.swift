@@ -121,8 +121,6 @@ class TeslaSwiftTests: XCTestCase {
 					XCTFail((error as NSError).description)
 				}
 				expection.fulfill()
-
-				
 		}
 		
 		waitForExpectationsWithTimeout(5, handler: nil)

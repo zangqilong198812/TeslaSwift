@@ -17,6 +17,7 @@ enum Endpoint {
 	case Vehicles
 	case MobileAccess(vehicleID: Int)
 	case ChargeState(vehicleID: Int)
+	case ClimateState(vehicleID: Int)
 }
 
 extension Endpoint {
@@ -31,6 +32,8 @@ extension Endpoint {
 			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
 		case .ChargeState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/charge_state"
+		case .ClimateState(let vehicleID):
+			return "/api/1/vehicles/\(vehicleID)/data_request/climate_state"
 		}
 	}
 	
@@ -38,7 +41,7 @@ extension Endpoint {
 		switch self {
 		case .Authentication:
 			return .POST
-		case .Vehicles,MobileAccess,ChargeState:
+		case .Vehicles,MobileAccess,ChargeState,ClimateState:
 			return .GET
 		}
 	}
@@ -123,17 +126,21 @@ extension TeslaSwift {
 	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleState,TeslaError> {
 		
 		return checkAuthentication().flatMap {
-			(token) -> Future<(AnyObject,ChargeState), TeslaError> in
+			(token) -> Future<((AnyObject,ChargeState),ClimateState), TeslaError> in
 			
-			return   self.request(Endpoint.MobileAccess(vehicleID: vehicle.vehicleID!),body: nil)
-				.zip(self.request(.ChargeState(vehicleID: vehicle.vehicleID!), body: nil, keyPath: "response"))
+			let vehicleID = vehicle.vehicleID!
+			
+			return self.request(Endpoint.MobileAccess(vehicleID: vehicleID),body: nil)
+				.zip(self.request(.ChargeState(vehicleID: vehicleID), body: nil, keyPath: "response"))
+				.zip(self.request(.ClimateState(vehicleID: vehicleID), body: nil, keyPath: "response"))
 			
 			}.flatMap {
-				(result: (AnyObject,ChargeState)) -> Future<VehicleState, TeslaError> in
+				(result:(mobileAccess:AnyObject,chargeState:ChargeState), result2: ClimateState) -> Future<VehicleState, TeslaError> in
 				
 				let vehicleState = VehicleState()
-				vehicleState.mobileAccess = (result.0 as! [String:Bool])["response"]
-				vehicleState.chargeState = result.1
+				vehicleState.mobileAccess = (result.mobileAccess as! [String:Bool])["response"]
+				vehicleState.chargeState = result.chargeState
+				vehicleState.climateState = result2
 				return Future<VehicleState,TeslaError>(value: vehicleState)
 				
 		}
