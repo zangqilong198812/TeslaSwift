@@ -115,16 +115,16 @@ class TeslaSwiftTests: XCTestCase {
 		
 		let path = NSBundle(forClass: self.dynamicType).pathForResource("MobileAccess", ofType: "json")!
 		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.MobileAccess(vehicleID: 0).path), builder: jsonData(data))
+		stub(uri(Endpoint.MobileAccess(vehicleID: 1234567890).path), builder: jsonData(data))
 		let path2 = NSBundle(forClass: self.dynamicType).pathForResource("ChargeState", ofType: "json")!
 		let data2 = NSData(contentsOfFile: path2)!
-		stub(uri(Endpoint.ChargeState(vehicleID: 0).path), builder: jsonData(data2))
+		stub(uri(Endpoint.ChargeState(vehicleID: 1234567890).path), builder: jsonData(data2))
 		let path3 = NSBundle(forClass: self.dynamicType).pathForResource("ClimateSettings", ofType: "json")!
 		let data3 = NSData(contentsOfFile: path3)!
-		stub(uri(Endpoint.ClimateState(vehicleID: 0).path), builder: jsonData(data3))
+		stub(uri(Endpoint.ClimateState(vehicleID: 1234567890).path), builder: jsonData(data3))
 		let path4 = NSBundle(forClass: self.dynamicType).pathForResource("DriveState", ofType: "json")!
 		let data4 = NSData(contentsOfFile: path4)!
-		stub(uri(Endpoint.DriveState(vehicleID: 0).path), builder: jsonData(data4))
+		stub(uri(Endpoint.DriveState(vehicleID: 1234567890).path), builder: jsonData(data4))
 
 		
 		let expection = expectationWithDescription("All Done")
@@ -139,7 +139,7 @@ class TeslaSwiftTests: XCTestCase {
 			}.andThen { (result) -> Void in
 				switch result {
 				case .Success(let response):
-					XCTAssertEqual(response.mobileAccess, true)
+					XCTAssertEqual(response.mobileAccess, false)
 					XCTAssertEqual(response.chargeState?.chargingState, .Complete)
 					XCTAssertEqual(response.climateState?.insideTemperature?.celsius,17.0)
 					XCTAssertEqual(response.driveState?.position?.course,4.0)
