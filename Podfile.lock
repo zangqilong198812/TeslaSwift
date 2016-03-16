@@ -5,19 +5,30 @@ PODS:
     - ObjectMapper (~> 1.0)
   - BrightFutures (3.3.0):
     - Result (~> 1.0)
+  - Mockingjay (1.1.1):
+    - Mockingjay/Core (= 1.1.1)
+    - Mockingjay/XCTest (= 1.1.1)
+  - Mockingjay/Core (1.1.1):
+    - URITemplate (~> 1.3)
+  - Mockingjay/XCTest (1.1.1):
+    - Mockingjay/Core
   - ObjectMapper (1.1.5)
   - Result (1.0.2)
+  - URITemplate (1.3.1)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - AlamofireObjectMapper (~> 2.1)
   - BrightFutures (~> 3.0)
+  - Mockingjay
 
 SPEC CHECKSUMS:
   Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
   AlamofireObjectMapper: 82391c31f23e37bdb2660da174bcf81b202da39d
   BrightFutures: f4b491b3107487a0469973a74f81f334eb0ed60a
+  Mockingjay: 757f80abc947b5ec2918b1bb14f3066574720430
   ObjectMapper: 528b1a6677a6acac7747edd508576983e76a9148
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
+  URITemplate: 398a48d6559e23b77bd41176b675b017ad1fc959
 
 COCOAPODS: 0.39.0

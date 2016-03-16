@@ -8,12 +8,21 @@
 
 import XCTest
 @testable import TeslaSwift
+import Mockingjay
 
 class TeslaSwiftTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("Authentication", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Authentication.path), builder: jsonData(data))
+		
+		let path2 = NSBundle(forClass: self.dynamicType).pathForResource("Vehicles", ofType: "json")!
+		let data2 = NSData(contentsOfFile: path2)!
+		stub(uri(Endpoint.Vehicles.path), builder: jsonData(data2))
     }
     
     override func tearDown() {
@@ -31,7 +40,8 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").andThen { (result) -> Void in
 			
 			switch result {
-			case .Success(_):
+			case .Success(let response):
+				XCTAssertEqual(response.accessToken, "abc123-mock")
 				break
 			case .Failure(let error):
 				print(error)
@@ -85,8 +95,8 @@ class TeslaSwiftTests: XCTestCase {
 				(result) -> Void in
 				
 				switch result {
-				case .Success(_):
-					break
+				case .Success(let response):
+					XCTAssertEqual(response[0].displayName, "mockCar")
 				case .Failure(let error):
 					print(error)
 					XCTFail((error as NSError).description)
@@ -103,6 +113,20 @@ class TeslaSwiftTests: XCTestCase {
 
 	func testGetVehicleState() {
 		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("MobileAccess", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.MobileAccess(vehicleID: 0).path), builder: jsonData(data))
+		let path2 = NSBundle(forClass: self.dynamicType).pathForResource("ChargeState", ofType: "json")!
+		let data2 = NSData(contentsOfFile: path2)!
+		stub(uri(Endpoint.ChargeState(vehicleID: 0).path), builder: jsonData(data2))
+		let path3 = NSBundle(forClass: self.dynamicType).pathForResource("ClimateSettings", ofType: "json")!
+		let data3 = NSData(contentsOfFile: path3)!
+		stub(uri(Endpoint.ClimateState(vehicleID: 0).path), builder: jsonData(data3))
+		let path4 = NSBundle(forClass: self.dynamicType).pathForResource("DriveState", ofType: "json")!
+		let data4 = NSData(contentsOfFile: path4)!
+		stub(uri(Endpoint.DriveState(vehicleID: 0).path), builder: jsonData(data4))
+
+		
 		let expection = expectationWithDescription("All Done")
 		
 		let service = TeslaSwift()
@@ -114,8 +138,11 @@ class TeslaSwiftTests: XCTestCase {
 				service.getVehicleStatus(vehicles[0])
 			}.andThen { (result) -> Void in
 				switch result {
-				case .Success(_):
-					break
+				case .Success(let response):
+					XCTAssertEqual(response.mobileAccess, true)
+					XCTAssertEqual(response.chargeState?.chargingState, .Complete)
+					XCTAssertEqual(response.climateState?.insideTemperature?.celsius,17.0)
+					XCTAssertEqual(response.driveState?.position?.course,4.0)
 				case .Failure(let error):
 					print(error)
 					XCTFail((error as NSError).description)

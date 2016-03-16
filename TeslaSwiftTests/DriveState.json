@@ -1,0 +1,10 @@
+{
+	"response": {
+		"shift_state": null,
+		"speed": null,
+		"latitude": 33.794839,
+		"longitude": -84.401593,
+		"heading": 4,
+		"gps_as_of": 1359863204
+	}
+}
