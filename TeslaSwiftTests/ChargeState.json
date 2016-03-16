@@ -4,7 +4,7 @@
 		"charge_to_max_range": false,
 		"max_range_charge_counter": 0,
 		"fast_charger_present": false,
-		"battery_range": 239.02,
+		"battery_range": 200.00,
 		"est_battery_range": 155.79,
 		"ideal_battery_range": 275.09,
 		"battery_level": 91,

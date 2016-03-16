@@ -141,8 +141,9 @@ class TeslaSwiftTests: XCTestCase {
 				case .Success(let response):
 					XCTAssertEqual(response.mobileAccess, false)
 					XCTAssertEqual(response.chargeState?.chargingState, .Complete)
-					XCTAssertEqual(response.climateState?.insideTemperature?.celsius,17.0)
-					XCTAssertEqual(response.driveState?.position?.course,4.0)
+					XCTAssertEqual(response.chargeState?.batteryRange?.miles, 200.0)
+					XCTAssertEqual(response.climateState?.insideTemperature?.celsius,18.0)
+					XCTAssertEqual(response.driveState?.position?.course,10.0)
 				case .Failure(let error):
 					print(error)
 					XCTFail((error as NSError).description)
