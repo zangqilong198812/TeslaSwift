@@ -15,5 +15,5 @@ public class VehicleState {
 	public internal(set) var chargeState:ChargeState?
 	public internal(set) var climateState:ClimateState?
 	public internal(set) var driveState:DriveState?
-	
+	public internal(set) var guiSettings:GuiSettings?
 }

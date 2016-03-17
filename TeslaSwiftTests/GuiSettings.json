@@ -1,0 +1,9 @@
+{
+	"response": {
+		"gui_distance_units": "km/hr",
+		"gui_temperature_units": "C",
+		"gui_charge_rate_units": "km/hr",
+		"gui_24_hour_time": false,
+		"gui_range_display": "Rated"
+	}
+}
