@@ -40,8 +40,8 @@
 		CFD2E7DC1C8A13D60005E882 /* TeslaSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7DB1C8A13D60005E882 /* TeslaSwiftTests.swift */; };
 		CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */; };
 		CFD2E7E91C8A13F20005E882 /* TeslaSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */; };
-		CFD3BFD71C8CD8C0008315BF /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD3BFD61C8CD8C0008315BF /* VehicleState.swift */; };
-		CFD3BFD81C8CD8C0008315BF /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD3BFD61C8CD8C0008315BF /* VehicleState.swift */; };
+		CFD3BFD71C8CD8C0008315BF /* VehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD3BFD61C8CD8C0008315BF /* VehicleDetails.swift */; };
+		CFD3BFD81C8CD8C0008315BF /* VehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD3BFD61C8CD8C0008315BF /* VehicleDetails.swift */; };
 		CFD950641C8A306C008397BD /* Authtentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD950631C8A306C008397BD /* Authtentication.swift */; };
 		CFD950651C8A306C008397BD /* Authtentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD950631C8A306C008397BD /* Authtentication.swift */; };
 /* End PBXBuildFile section */
@@ -61,6 +61,7 @@
 		7C5AEB708C3C44C998EB4F29 /* Pods_TeslaSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9E44B9CD2B872D38D4B48D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B58FF58E7CA28A6BBAC8EC98 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		CF01EA611C9EBA900064B2B5 /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
 		CF22AC201C8AD16600D80559 /* Future+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Extensions.swift"; sourceTree = "<group>"; };
 		CF22AC241C8AE61000D80559 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		CF26AA171C9720D900090B20 /* ChargeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeState.swift; sourceTree = "<group>"; };
@@ -91,7 +92,7 @@
 		CFD2E7DB1C8A13D60005E882 /* TeslaSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaSwiftTests.swift; sourceTree = "<group>"; };
 		CFD2E7DD1C8A13D60005E882 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeslaSwift.swift; sourceTree = "<group>"; };
-		CFD3BFD61C8CD8C0008315BF /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
+		CFD3BFD61C8CD8C0008315BF /* VehicleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetails.swift; sourceTree = "<group>"; };
 		CFD950631C8A306C008397BD /* Authtentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authtentication.swift; sourceTree = "<group>"; };
 		CFD950661C8A44F4008397BD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		FA2F328B45A7B2B2337E8D8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -224,11 +225,12 @@
 			children = (
 				CFD950631C8A306C008397BD /* Authtentication.swift */,
 				CF22AC241C8AE61000D80559 /* Vehicle.swift */,
-				CFD3BFD61C8CD8C0008315BF /* VehicleState.swift */,
+				CFD3BFD61C8CD8C0008315BF /* VehicleDetails.swift */,
 				CF26AA171C9720D900090B20 /* ChargeState.swift */,
 				CF26AA1A1C9721CD00090B20 /* ClimateState.swift */,
 				CF26AA1D1C9728B100090B20 /* DriveState.swift */,
 				CF37B81E1C9B40720000E894 /* GuiSettings.swift */,
+				CF01EA611C9EBA900064B2B5 /* VehicleState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -446,7 +448,7 @@
 				CF48FA991C8B08AC00B1DA93 /* TabController.swift in Sources */,
 				CF37B81F1C9B40720000E894 /* GuiSettings.swift in Sources */,
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
-				CFD3BFD71C8CD8C0008315BF /* VehicleState.swift in Sources */,
+				CFD3BFD71C8CD8C0008315BF /* VehicleDetails.swift in Sources */,
 				CF22AC211C8AD16600D80559 /* Future+Extensions.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF22AC251C8AE61000D80559 /* Vehicle.swift in Sources */,
@@ -461,7 +463,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFD3BFD81C8CD8C0008315BF /* VehicleState.swift in Sources */,
+				CFD3BFD81C8CD8C0008315BF /* VehicleDetails.swift in Sources */,
 				CF26AA1F1C9728B100090B20 /* DriveState.swift in Sources */,
 				CF26AA191C9720D900090B20 /* ChargeState.swift in Sources */,
 				CF22AC221C8AD16600D80559 /* Future+Extensions.swift in Sources */,

@@ -129,7 +129,7 @@ extension TeslaSwift {
 		
 	}
 	
-	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleState,TeslaError> {
+	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleDetails,TeslaError> {
 		
 		return checkAuthentication().flatMap {
 			(token) -> Future<((((AnyObject,ChargeState),ClimateState),DriveState),GuiSettings), TeslaError> in
@@ -143,16 +143,16 @@ extension TeslaSwift {
 				.zip(self.request(.GuiSettings(vehicleID: vehicleID), body: nil, keyPath: "response"))
 			
 			}.flatMap {
-				(result:(((mobileAccess:AnyObject, chargeState:ChargeState), climateState:ClimateState), driveState:DriveState), guiSettings:GuiSettings) -> Future<VehicleState, TeslaError> in
+				(result:(((mobileAccess:AnyObject, chargeState:ChargeState), climateState:ClimateState), driveState:DriveState), guiSettings:GuiSettings) -> Future<VehicleDetails, TeslaError> in
 			
 		
-				let vehicleState = VehicleState()
+				let vehicleState = VehicleDetails()
 				vehicleState.mobileAccess = (result.0.0.mobileAccess as! [String:Bool])["response"]
 				vehicleState.chargeState = result.0.0.chargeState
 				vehicleState.climateState = result.0.climateState
 				vehicleState.driveState = result.driveState
 				vehicleState.guiSettings = guiSettings
-				return Future<VehicleState,TeslaError>(value: vehicleState)
+				return Future<VehicleDetails,TeslaError>(value: vehicleState)
 				
 		}
 		
