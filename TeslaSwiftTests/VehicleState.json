@@ -1,0 +1,20 @@
+{
+	"response": {
+		"df": false,
+		"dr": false,
+		"pf": false,
+		"pr": false,
+		"ft": false,
+		"rt": false,
+		"car_verson": "1.19.42",
+		"locked": true,
+		"sun_roof_installed": false,
+		"sun_roof_state": "unknown",
+		"sun_roof_percent_open": 0,
+		"dark_rims": true,
+		"wheel_type": "Base19",
+		"has_spoiler": false,
+		"roof_color": "Colored",
+		"perf_config": "Base"
+	}
+}

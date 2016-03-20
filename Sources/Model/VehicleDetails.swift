@@ -16,4 +16,5 @@ public class VehicleDetails {
 	public internal(set) var climateState:ClimateState?
 	public internal(set) var driveState:DriveState?
 	public internal(set) var guiSettings:GuiSettings?
+	public internal(set) var vehicleState:VehicleState?
 }

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		9395728EB21CC315B0F1F262 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663732209E4E55CAD3A287C6 /* Pods.framework */; };
 		9AAFBE5B21CC8DB811C28A62 /* Pods_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C5AEB708C3C44C998EB4F29 /* Pods_TeslaSwiftTests.framework */; };
+		CF01EA641C9EBCA80064B2B5 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF01EA611C9EBA900064B2B5 /* VehicleState.swift */; };
+		CF01EA651C9EBCA90064B2B5 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF01EA611C9EBA900064B2B5 /* VehicleState.swift */; };
+		CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF01EA661C9EC1950064B2B5 /* VehicleState.json */; };
 		CF22AC211C8AD16600D80559 /* Future+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF22AC201C8AD16600D80559 /* Future+Extensions.swift */; };
 		CF22AC221C8AD16600D80559 /* Future+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF22AC201C8AD16600D80559 /* Future+Extensions.swift */; };
 		CF22AC251C8AE61000D80559 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF22AC241C8AE61000D80559 /* Vehicle.swift */; };
@@ -62,6 +65,7 @@
 		7F9E44B9CD2B872D38D4B48D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B58FF58E7CA28A6BBAC8EC98 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		CF01EA611C9EBA900064B2B5 /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
+		CF01EA661C9EC1950064B2B5 /* VehicleState.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleState.json; sourceTree = "<group>"; };
 		CF22AC201C8AD16600D80559 /* Future+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Extensions.swift"; sourceTree = "<group>"; };
 		CF22AC241C8AE61000D80559 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		CF26AA171C9720D900090B20 /* ChargeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeState.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				CF26AA2A1C99D13B00090B20 /* ClimateSettings.json */,
 				CF26AA2C1C99D14D00090B20 /* DriveState.json */,
 				CF37B81C1C9B40200000E894 /* GuiSettings.json */,
+				CF01EA661C9EC1950064B2B5 /* VehicleState.json */,
 			);
 			name = Recorded;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 			files = (
 				CF26AA251C99CF9300090B20 /* Vehicles.json in Resources */,
 				CF26AA271C99D11700090B20 /* MobileAccess.json in Resources */,
+				CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */,
 				CF26AA2D1C99D14D00090B20 /* DriveState.json in Resources */,
 				CF26AA231C99CE8400090B20 /* Authentication.json in Resources */,
 				CF26AA291C99D12700090B20 /* ChargeState.json in Resources */,
@@ -450,6 +456,7 @@
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CFD3BFD71C8CD8C0008315BF /* VehicleDetails.swift in Sources */,
 				CF22AC211C8AD16600D80559 /* Future+Extensions.swift in Sources */,
+				CF01EA641C9EBCA80064B2B5 /* VehicleState.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF22AC251C8AE61000D80559 /* Vehicle.swift in Sources */,
 				CF26AA1B1C9721CD00090B20 /* ClimateState.swift in Sources */,
@@ -467,6 +474,7 @@
 				CF26AA1F1C9728B100090B20 /* DriveState.swift in Sources */,
 				CF26AA191C9720D900090B20 /* ChargeState.swift in Sources */,
 				CF22AC221C8AD16600D80559 /* Future+Extensions.swift in Sources */,
+				CF01EA651C9EBCA90064B2B5 /* VehicleState.swift in Sources */,
 				CF37B8201C9B40720000E894 /* GuiSettings.swift in Sources */,
 				CFD2E7DC1C8A13D60005E882 /* TeslaSwiftTests.swift in Sources */,
 				CFD2E7E91C8A13F20005E882 /* TeslaSwift.swift in Sources */,

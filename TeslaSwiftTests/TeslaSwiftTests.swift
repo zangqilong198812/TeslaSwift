@@ -128,6 +128,9 @@ class TeslaSwiftTests: XCTestCase {
 		let path5 = NSBundle(forClass: self.dynamicType).pathForResource("GuiSettings", ofType: "json")!
 		let data5 = NSData(contentsOfFile: path5)!
 		stub(uri(Endpoint.GuiSettings(vehicleID: 1234567890).path), builder: jsonData(data5))
+		let path6 = NSBundle(forClass: self.dynamicType).pathForResource("VehicleState", ofType: "json")!
+		let data6 = NSData(contentsOfFile: path6)!
+		stub(uri(Endpoint.VehicleState(vehicleID: 1234567890).path), builder: jsonData(data6))
 		
 		let expection = expectationWithDescription("All Done")
 		
@@ -147,6 +150,7 @@ class TeslaSwiftTests: XCTestCase {
 					XCTAssertEqual(response.climateState?.insideTemperature?.celsius,18.0)
 					XCTAssertEqual(response.driveState?.position?.course,10.0)
 					XCTAssertEqual(response.guiSettings?.distanceUnits,"km/hr")
+					XCTAssertEqual(response.vehicleState?.darkRims, true)
 				case .Failure(let error):
 					print(error)
 					XCTFail((error as NSError).description)
