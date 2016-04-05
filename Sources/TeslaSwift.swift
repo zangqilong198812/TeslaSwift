@@ -45,7 +45,7 @@ extension Endpoint {
 		case .VehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
 		case let .Command(vehicleID, command):
-			return "/api/1/vehicles/\(vehicleID)/command/\(command)"
+			return "/api/1/vehicles/\(vehicleID)/\(command)"
 		}
 	}
 	
