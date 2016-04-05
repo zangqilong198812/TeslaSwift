@@ -21,6 +21,7 @@ enum Endpoint {
 	case DriveState(vehicleID: Int)
 	case GuiSettings(vehicleID: Int)
 	case VehicleState(vehicleID: Int)
+	case Command(vehicleID: Int, command:VehicleCommand)
 }
 
 extension Endpoint {
@@ -43,12 +44,14 @@ extension Endpoint {
 			return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
 		case .VehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
+		case let .Command(vehicleID, command):
+			return "/api/1/vehicles/\(vehicleID)/data_request/\(command)"
 		}
 	}
 	
 	var method: Alamofire.Method {
 		switch self {
-		case .Authentication:
+		case .Authentication, .Command:
 			return .POST
 		case .Vehicles,MobileAccess,ChargeState,ClimateState,DriveState,.GuiSettings,.VehicleState:
 			return .GET
@@ -69,6 +72,9 @@ public enum TeslaError:ErrorType {
 	case AuthenticationRequired
 }
 
+public enum VehicleCommand:String {
+	case WakeUp = "wake_up"
+}
 
 public class TeslaSwift {
 	
@@ -132,6 +138,11 @@ extension TeslaSwift {
 		
 	}
 	
+	/**
+	Fetchs the vehicle status
+	
+	- returns: A Future with VehicleDetails object containing all the possible status information.
+	*/
 	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleDetails,TeslaError> {
 		
 		return checkAuthentication().flatMap {
@@ -159,6 +170,14 @@ extension TeslaSwift {
 				vehicleDetails.vehicleState = vehicleState
 				return Future<VehicleDetails,TeslaError>(value: vehicleDetails)
 				
+		}
+		
+	}
+	
+	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand) -> Future<CommandResponse,TeslaError> {
+	
+		return checkAuthentication().flatMap { (token) -> Future<CommandResponse, TeslaError> in
+			self.request(.Command(vehicleID: vehicle.vehicleID!, command: command), body: nil, keyPath: "response")
 		}
 		
 	}
