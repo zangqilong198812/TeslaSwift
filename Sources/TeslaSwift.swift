@@ -22,8 +22,6 @@ enum Endpoint {
 	case GuiSettings(vehicleID: Int)
 	case VehicleState(vehicleID: Int)
 	case Command(vehicleID: Int, command:VehicleCommand)
-	
-	case RawPost(value:String)
 }
 
 extension Endpoint {
@@ -47,15 +45,13 @@ extension Endpoint {
 		case .VehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
 		case let .Command(vehicleID, command):
-			return "/api/1/vehicles/\(vehicleID)/\(command.rawValue)"
-		case let .RawPost(raw):
-			return raw
+			return "/api/1/vehicles/\(vehicleID)/\(command.path())"
 		}
 	}
 	
 	var method: Alamofire.Method {
 		switch self {
-		case .Authentication, .Command, .RawPost:
+		case .Authentication, .Command:
 			return .POST
 		case .Vehicles,MobileAccess,ChargeState,ClimateState,DriveState,.GuiSettings,.VehicleState:
 			return .GET
@@ -72,14 +68,33 @@ extension Endpoint {
 }
 
 
-public enum VehicleCommand:String {
-	case WakeUp = "wake_up"
-	case ValetMode = "command/set_valet_mode" // Options required
-	case ResetValetPin = "command/reset_valet_pin"
-	case OpenChargeDoor = "command/charge_port_door_open"
-	case ChargeLimitStandard = "command/charge_standard"
-	case ChargeLimitMaxRange = "command/charge_max_range"
-	case ChargeLimitPercentage = "command/set_charge_limit?percent="
+public enum VehicleCommand {
+	case WakeUp
+	case ValetMode(options:ValetCommandOptions)
+	case ResetValetPin
+	case OpenChargeDoor
+	case ChargeLimitStandard
+	case ChargeLimitMaxRange
+	case ChargeLimitPercentage(limit:Int)
+	
+	func path() -> String {
+		switch self {
+		case .WakeUp:
+			return "wake_up"
+		case .ValetMode:
+			return "command/set_valet_mode"
+		case .ResetValetPin:
+			return "command/reset_valet_pin"
+		case .OpenChargeDoor:
+			return "command/charge_port_door_open"
+		case .ChargeLimitStandard:
+			return "command/charge_standard"
+		case .ChargeLimitMaxRange:
+			return "command/charge_max_range"
+		case let .ChargeLimitPercentage(limit):
+			return  "command/set_charge_limit?percent=\(limit)"
+		}
+	}
 }
 
 
@@ -200,33 +215,20 @@ extension TeslaSwift {
 	
 	- parameter vehicle: the vehicle that will receive the command
 	- parameter command: the command to send to the vehicle
-	- parameter options: if a command requires options, it should be included here
 	- returns: A Future with the CommandResponse object containing the results of the command.
 	*/
-	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand, options:Mappable? = nil) -> Future<CommandResponse,TeslaError> {
+	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand) -> Future<CommandResponse,TeslaError> {
 		
-		var internalCommand = Endpoint.Command(vehicleID: vehicle.vehicleID!, command: command)
-		var internalOptions = options
+		var body:Mappable?
 		
 		switch command {
-		case .ValetMode:
-			if options == nil || !(options is ValetCommandOptions) {
-				return Future(error: .InvalidOptionsForCommand)
-				
-			}
-		case .ChargeLimitPercentage:
-			if options == nil || !(options is ChargeLimitPercentageOptions){
-				return Future(error: .InvalidOptionsForCommand)
-			} else {
-				let completeCommand = "\(internalCommand.path)\((options as! ChargeLimitPercentageOptions).percentage)"
-				internalCommand = Endpoint.RawPost(value: completeCommand)
-				internalOptions = nil
-			}
+		case let .ValetMode(options):
+			body = options
 		default: break
 		}
 		
 		return checkAuthentication().flatMap { (token) -> Future<CommandResponse, TeslaError> in
-			self.request(internalCommand, body: internalOptions, keyPath: "response")
+			self.request(.Command(vehicleID: vehicle.vehicleID!, command: command), body: body, keyPath: "response")
 		}
 		
 	}

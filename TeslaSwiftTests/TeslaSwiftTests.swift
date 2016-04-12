@@ -195,21 +195,21 @@ class TeslaSwiftTests: XCTestCase {
 	
 	func testCommandValetMode() {
 		
+		let options = ValetCommandOptions(valetActivated: true, pin: "1234")
+		
 		let path = NSBundle(forClass: self.dynamicType).pathForResource("SetValetMode", ofType: "json")!
 		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ValetMode).path), builder: jsonData(data))
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ValetMode(options: options)).path), builder: jsonData(data))
 		
 		let expection = expectationWithDescription("All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		let options = ValetCommandOptions(valetActivated: true, pin: "1234")
-		
 		service.authenticate("user", password: "pass").flatMap { (token) in
 			service.getVehicles()
 			}.flatMap { (vehicles) in
-				service.sendCommandToVehicle(vehicles[0], command: .ValetMode, options: options)
+				service.sendCommandToVehicle(vehicles[0], command: .ValetMode(options: options))
 			}.andThen { (result) -> Void in
 				
 				switch result {
@@ -219,39 +219,6 @@ class TeslaSwiftTests: XCTestCase {
 				case .Failure(let error):
 					print(error)
 					XCTFail((error as NSError).description)
-				}
-				expection.fulfill()
-		}
-		
-		waitForExpectationsWithTimeout(5, handler: nil)
-	}
-	
-	func testCommandValetModeNoOptions() {
-		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("SetValetMode", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ValetMode).path), builder: jsonData(data))
-		
-		let expection = expectationWithDescription("All Done")
-		
-		let service = TeslaSwift()
-		service.useMockServer = true
-		
-		service.authenticate("user", password: "pass").flatMap { (token) in
-			service.getVehicles()
-			}.flatMap { (vehicles) in
-				service.sendCommandToVehicle(vehicles[0], command: .ValetMode, options: nil)
-			}.andThen { (result) -> Void in
-				
-				switch result {
-				case .Success(_):
-					XCTFail("shoud not be success")
-				case .Failure(let error):
-					if case TeslaError.InvalidOptionsForCommand = error {
-						//pass
-					} else {
-						XCTFail("wrong error")
-					}
 				}
 				expection.fulfill()
 		}
@@ -394,12 +361,10 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		let options = ChargeLimitPercentageOptions(percentage: 10)
-		
 		service.authenticate("user", password: "pass").flatMap { (token) in
 			service.getVehicles()
 			}.flatMap { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitPercentage, options: options)
+				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitPercentage(limit: 10))
 			}.andThen { (result) -> Void in
 				
 				switch result {
