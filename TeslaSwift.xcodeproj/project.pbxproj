@@ -37,6 +37,7 @@
 		CF5D13A41CB41A3000744DCC /* CommandResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D13A31CB41A3000744DCC /* CommandResponse.swift */; };
 		CF5D13A51CB41A3000744DCC /* CommandResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D13A31CB41A3000744DCC /* CommandResponse.swift */; };
 		CF5D13A71CB41BAE00744DCC /* WakeUp.json in Resources */ = {isa = PBXBuildFile; fileRef = CF5D13A61CB41BAE00744DCC /* WakeUp.json */; };
+		CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */; };
 		CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */; };
 		CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */; };
 		CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */; };
@@ -50,6 +51,8 @@
 		CFD3BFD81C8CD8C0008315BF /* VehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD3BFD61C8CD8C0008315BF /* VehicleDetails.swift */; };
 		CFD950641C8A306C008397BD /* Authtentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD950631C8A306C008397BD /* Authtentication.swift */; };
 		CFD950651C8A306C008397BD /* Authtentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD950631C8A306C008397BD /* Authtentication.swift */; };
+		CFF60BB11CBD6C18004249CB /* ValetCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */; };
+		CFF60BB21CBD6C18004249CB /* ValetCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +92,7 @@
 		CF5D13A31CB41A3000744DCC /* CommandResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandResponse.swift; sourceTree = "<group>"; };
 		CF5D13A61CB41BAE00744DCC /* WakeUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WakeUp.json; sourceTree = "<group>"; };
 		CFA037A31C8A160600FA2423 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetValetMode.json; sourceTree = "<group>"; };
 		CFD2E7C11C8A13D60005E882 /* TeslaSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeslaSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +108,7 @@
 		CFD3BFD61C8CD8C0008315BF /* VehicleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetails.swift; sourceTree = "<group>"; };
 		CFD950631C8A306C008397BD /* Authtentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authtentication.swift; sourceTree = "<group>"; };
 		CFD950661C8A44F4008397BD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
+		CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValetCommandOptions.swift; sourceTree = "<group>"; };
 		FA2F328B45A7B2B2337E8D8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -167,6 +172,7 @@
 				CF37B81C1C9B40200000E894 /* GuiSettings.json */,
 				CF01EA661C9EC1950064B2B5 /* VehicleState.json */,
 				CF5D13A61CB41BAE00744DCC /* WakeUp.json */,
+				CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */,
 			);
 			name = Recorded;
 			sourceTree = "<group>";
@@ -243,6 +249,7 @@
 				CF37B81E1C9B40720000E894 /* GuiSettings.swift */,
 				CF01EA611C9EBA900064B2B5 /* VehicleState.swift */,
 				CF5D13A31CB41A3000744DCC /* CommandResponse.swift */,
+				CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -348,6 +355,7 @@
 				CF26AA271C99D11700090B20 /* MobileAccess.json in Resources */,
 				CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */,
 				CF26AA2D1C99D14D00090B20 /* DriveState.json in Resources */,
+				CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */,
 				CF26AA231C99CE8400090B20 /* Authentication.json in Resources */,
 				CF26AA291C99D12700090B20 /* ChargeState.json in Resources */,
 				CF37B81D1C9B40200000E894 /* GuiSettings.json in Resources */,
@@ -468,6 +476,7 @@
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF22AC251C8AE61000D80559 /* Vehicle.swift in Sources */,
 				CF26AA1B1C9721CD00090B20 /* ClimateState.swift in Sources */,
+				CFF60BB11CBD6C18004249CB /* ValetCommandOptions.swift in Sources */,
 				CFD950641C8A306C008397BD /* Authtentication.swift in Sources */,
 				CF26AA1E1C9728B100090B20 /* DriveState.swift in Sources */,
 				CF5D13A41CB41A3000744DCC /* CommandResponse.swift in Sources */,
@@ -485,6 +494,7 @@
 				CF26AA191C9720D900090B20 /* ChargeState.swift in Sources */,
 				CF22AC221C8AD16600D80559 /* Future+Extensions.swift in Sources */,
 				CF01EA651C9EBCA90064B2B5 /* VehicleState.swift in Sources */,
+				CFF60BB21CBD6C18004249CB /* ValetCommandOptions.swift in Sources */,
 				CF37B8201C9B40720000E894 /* GuiSettings.swift in Sources */,
 				CFD2E7DC1C8A13D60005E882 /* TeslaSwiftTests.swift in Sources */,
 				CFD2E7E91C8A13F20005E882 /* TeslaSwift.swift in Sources */,

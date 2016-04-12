@@ -45,7 +45,7 @@ extension Endpoint {
 		case .VehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
 		case let .Command(vehicleID, command):
-			return "/api/1/vehicles/\(vehicleID)/\(command)"
+			return "/api/1/vehicles/\(vehicleID)/\(command.rawValue)"
 		}
 	}
 	
@@ -70,10 +70,12 @@ extension Endpoint {
 public enum TeslaError:ErrorType {
 	case NetworkError(error:NSError)
 	case AuthenticationRequired
+	case InvalidOptionsForCommand
 }
 
 public enum VehicleCommand:String {
 	case WakeUp = "wake_up"
+	case ValetMode = "command/set_valet_mode"
 }
 
 public class TeslaSwift {
@@ -174,7 +176,15 @@ extension TeslaSwift {
 		
 	}
 	
-	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand) -> Future<CommandResponse,TeslaError> {
+	
+	
+	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand, options:Mappable? = nil) -> Future<CommandResponse,TeslaError> {
+		
+		if case .ValetMode = command {
+			if options == nil {
+				return Future(error: .InvalidOptionsForCommand)
+			}
+		}
 	
 		return checkAuthentication().flatMap { (token) -> Future<CommandResponse, TeslaError> in
 			self.request(.Command(vehicleID: vehicle.vehicleID!, command: command), body: nil, keyPath: "response")

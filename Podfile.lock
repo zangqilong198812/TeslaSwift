@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.3.0)
+  - Alamofire (3.3.1)
   - AlamofireObjectMapper (2.1.2):
     - Alamofire (~> 3.2)
     - ObjectMapper (~> 1.0)
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - Mockingjay
 
 SPEC CHECKSUMS:
-  Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
   AlamofireObjectMapper: 82391c31f23e37bdb2660da174bcf81b202da39d
   BrightFutures: f4b491b3107487a0469973a74f81f334eb0ed60a
   Mockingjay: 757f80abc947b5ec2918b1bb14f3066574720430
