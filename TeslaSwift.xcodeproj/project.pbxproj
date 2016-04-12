@@ -44,6 +44,7 @@
 		CFA984EE1CBD758200B23C7D /* ChargeLimitMaxRange.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984ED1CBD758200B23C7D /* ChargeLimitMaxRange.json */; };
 		CFA984F31CBD7CBC00B23C7D /* ChargeLimitPercentage.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984F21CBD7CBC00B23C7D /* ChargeLimitPercentage.json */; };
 		CFA984F51CBD81C400B23C7D /* StartCharging.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984F41CBD81C400B23C7D /* StartCharging.json */; };
+		CFA984F71CBD826B00B23C7D /* StopCharging.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984F61CBD826B00B23C7D /* StopCharging.json */; };
 		CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */; };
 		CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */; };
 		CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */; };
@@ -105,6 +106,7 @@
 		CFA984ED1CBD758200B23C7D /* ChargeLimitMaxRange.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChargeLimitMaxRange.json; sourceTree = "<group>"; };
 		CFA984F21CBD7CBC00B23C7D /* ChargeLimitPercentage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChargeLimitPercentage.json; sourceTree = "<group>"; };
 		CFA984F41CBD81C400B23C7D /* StartCharging.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartCharging.json; sourceTree = "<group>"; };
+		CFA984F61CBD826B00B23C7D /* StopCharging.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StopCharging.json; sourceTree = "<group>"; };
 		CFD2E7C11C8A13D60005E882 /* TeslaSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeslaSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				CFA984ED1CBD758200B23C7D /* ChargeLimitMaxRange.json */,
 				CFA984F21CBD7CBC00B23C7D /* ChargeLimitPercentage.json */,
 				CFA984F41CBD81C400B23C7D /* StartCharging.json */,
+				CFA984F61CBD826B00B23C7D /* StopCharging.json */,
 			);
 			name = Recorded;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFA984F71CBD826B00B23C7D /* StopCharging.json in Resources */,
 				CFA984EA1CBD739400B23C7D /* OpenChargeDoor.json in Resources */,
 				CF26AA251C99CF9300090B20 /* Vehicles.json in Resources */,
 				CFA984EE1CBD758200B23C7D /* ChargeLimitMaxRange.json in Resources */,

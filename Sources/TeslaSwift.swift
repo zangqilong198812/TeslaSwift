@@ -77,6 +77,7 @@ public enum VehicleCommand {
 	case ChargeLimitMaxRange
 	case ChargeLimitPercentage(limit:Int)
 	case StartCharging
+	case StopCharging
 	
 	func path() -> String {
 		switch self {
@@ -96,6 +97,8 @@ public enum VehicleCommand {
 			return  "command/set_charge_limit?percent=\(limit)"
 		case .StartCharging:
 			return  "command/charge_start"
+		case .StopCharging:
+			return "command/charge_stop"
 		}
 	}
 }
