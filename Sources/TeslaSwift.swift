@@ -22,6 +22,8 @@ enum Endpoint {
 	case GuiSettings(vehicleID: Int)
 	case VehicleState(vehicleID: Int)
 	case Command(vehicleID: Int, command:VehicleCommand)
+	
+	case RawPost(value:String)
 }
 
 extension Endpoint {
@@ -46,12 +48,14 @@ extension Endpoint {
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
 		case let .Command(vehicleID, command):
 			return "/api/1/vehicles/\(vehicleID)/\(command.rawValue)"
+		case let .RawPost(raw):
+			return raw
 		}
 	}
 	
 	var method: Alamofire.Method {
 		switch self {
-		case .Authentication, .Command:
+		case .Authentication, .Command, .RawPost:
 			return .POST
 		case .Vehicles,MobileAccess,ChargeState,ClimateState,DriveState,.GuiSettings,.VehicleState:
 			return .GET
@@ -71,10 +75,11 @@ extension Endpoint {
 public enum VehicleCommand:String {
 	case WakeUp = "wake_up"
 	case ValetMode = "command/set_valet_mode" // Options required
-	case ResetValetPin = "/command/reset_valet_pin"
-	case OpenChargeDoor = "/command/charge_port_door_open"
-	case ChargeLimitStandard = "/command/charge_standard"
-	case ChargeLimitMaxRange = "/command/charge_max_range"
+	case ResetValetPin = "command/reset_valet_pin"
+	case OpenChargeDoor = "command/charge_port_door_open"
+	case ChargeLimitStandard = "command/charge_standard"
+	case ChargeLimitMaxRange = "command/charge_max_range"
+	case ChargeLimitPercentage = "command/set_charge_limit?percent="
 }
 
 
@@ -200,17 +205,28 @@ extension TeslaSwift {
 	*/
 	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand, options:Mappable? = nil) -> Future<CommandResponse,TeslaError> {
 		
+		var internalCommand = Endpoint.Command(vehicleID: vehicle.vehicleID!, command: command)
+		var internalOptions = options
+		
 		switch command {
 		case .ValetMode:
-			if options == nil {
+			if options == nil || !(options is ValetCommandOptions) {
 				return Future(error: .InvalidOptionsForCommand)
 				
+			}
+		case .ChargeLimitPercentage:
+			if options == nil || !(options is ChargeLimitPercentageOptions){
+				return Future(error: .InvalidOptionsForCommand)
+			} else {
+				let completeCommand = "\(internalCommand.path)\((options as! ChargeLimitPercentageOptions).percentage)"
+				internalCommand = Endpoint.RawPost(value: completeCommand)
+				internalOptions = nil
 			}
 		default: break
 		}
 		
 		return checkAuthentication().flatMap { (token) -> Future<CommandResponse, TeslaError> in
-			self.request(.Command(vehicleID: vehicle.vehicleID!, command: command), body: nil, keyPath: "response")
+			self.request(internalCommand, body: internalOptions, keyPath: "response")
 		}
 		
 	}

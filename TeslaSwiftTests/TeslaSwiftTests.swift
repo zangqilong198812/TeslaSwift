@@ -383,4 +383,37 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectationsWithTimeout(5, handler: nil)
 	}
 	
+	func testCommandChargePercentage() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("ChargeLimitPercentage", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri("/api/1/vehicles/1234567890/command/set_charge_limit"), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		let options = ChargeLimitPercentageOptions(percentage: 10)
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitPercentage, options: options)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test charge percentage")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
 }
