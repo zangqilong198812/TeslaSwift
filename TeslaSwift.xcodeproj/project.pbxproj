@@ -40,6 +40,7 @@
 		CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */; };
 		CFA984E81CBD730500B23C7D /* ResetValetPin.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E71CBD730500B23C7D /* ResetValetPin.json */; };
 		CFA984EA1CBD739400B23C7D /* OpenChargeDoor.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E91CBD739400B23C7D /* OpenChargeDoor.json */; };
+		CFA984EC1CBD74B500B23C7D /* ChargeLimitStandard.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984EB1CBD74B500B23C7D /* ChargeLimitStandard.json */; };
 		CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */; };
 		CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */; };
 		CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */; };
@@ -97,6 +98,7 @@
 		CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetValetMode.json; sourceTree = "<group>"; };
 		CFA984E71CBD730500B23C7D /* ResetValetPin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ResetValetPin.json; sourceTree = "<group>"; };
 		CFA984E91CBD739400B23C7D /* OpenChargeDoor.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OpenChargeDoor.json; sourceTree = "<group>"; };
+		CFA984EB1CBD74B500B23C7D /* ChargeLimitStandard.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChargeLimitStandard.json; sourceTree = "<group>"; };
 		CFD2E7C11C8A13D60005E882 /* TeslaSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeslaSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */,
 				CFA984E71CBD730500B23C7D /* ResetValetPin.json */,
 				CFA984E91CBD739400B23C7D /* OpenChargeDoor.json */,
+				CFA984EB1CBD74B500B23C7D /* ChargeLimitStandard.json */,
 			);
 			name = Recorded;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */,
 				CF26AA231C99CE8400090B20 /* Authentication.json in Resources */,
 				CF26AA291C99D12700090B20 /* ChargeState.json in Resources */,
+				CFA984EC1CBD74B500B23C7D /* ChargeLimitStandard.json in Resources */,
 				CF37B81D1C9B40200000E894 /* GuiSettings.json in Resources */,
 				CFA984E81CBD730500B23C7D /* ResetValetPin.json in Resources */,
 				CF26AA2B1C99D13B00090B20 /* ClimateSettings.json in Resources */,

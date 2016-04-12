@@ -73,6 +73,7 @@ public enum VehicleCommand:String {
 	case ValetMode = "command/set_valet_mode" // Options required
 	case ResetValetPin = "/command/reset_valet_pin"
 	case OpenChargeDoor = "/command/charge_port_door_open"
+	case ChargeLimitStandard = "/command/charge_standard"
 }
 
 
