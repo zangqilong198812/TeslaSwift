@@ -71,6 +71,7 @@ extension Endpoint {
 public enum VehicleCommand:String {
 	case WakeUp = "wake_up"
 	case ValetMode = "command/set_valet_mode" // Options required
+	case ResetValetPin = "/command/reset_valet_pin"
 }
 
 

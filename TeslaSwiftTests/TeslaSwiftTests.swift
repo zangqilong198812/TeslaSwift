@@ -259,4 +259,35 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectationsWithTimeout(5, handler: nil)
 	}
 	
+	func testCommandResetValetPin() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("ResetValetPin", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ResetValetPin).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .ResetValetPin)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test resetValet")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
 }
