@@ -290,4 +290,35 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectationsWithTimeout(5, handler: nil)
 	}
 	
+	func testCommandOpenChargePort() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("OpenChargeDoor", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .OpenChargeDoor).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .OpenChargeDoor)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test open charge door")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
 }
