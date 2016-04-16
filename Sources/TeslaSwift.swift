@@ -11,6 +11,13 @@ import ObjectMapper
 import BrightFutures
 import Alamofire
 
+public enum RoofState:String {
+	case Open = "open"
+	case Close = "close"
+	case Comfort = "comfort"
+	case Vent = "vent"
+	case Move = "move"
+}
 
 public enum VehicleCommand {
 	case WakeUp
@@ -28,6 +35,10 @@ public enum VehicleCommand {
 	case LockDoors
 	case SetTemperature(driverTemperature:Double, passangerTemperature:Double)
 	case StartAutoConditioning
+	case StopAutoConditioning
+	case SetSunRoof(state:RoofState, percentage:Double)
+	case StartVehicle(password:String)
+	case OpenTrunk(options:OpenTrunkOptions)
 	
 	func path() -> String {
 		switch self {
@@ -61,6 +72,14 @@ public enum VehicleCommand {
 			return "command/set_temps?driver_temp=\(driverTemperature)&passenger_temp=\(passangerTemperature)"
 		case .StartAutoConditioning:
 			return "command/auto_conditioning_start"
+		case .StopAutoConditioning:
+			return "command/auto_conditioning_stop"
+		case let .SetSunRoof(state, percentage):
+			return "command/sun_roof_control?state=\(state.rawValue)&percent=\(percentage)"
+		case let .StartVehicle(password):
+			return "command/remote_start_drive?password=\(password)"
+		case .OpenTrunk:
+			return "command/trunk_open"
 		}
 	}
 }
@@ -186,6 +205,8 @@ extension TeslaSwift {
 		
 		switch command {
 		case let .ValetMode(options):
+			body = options
+		case let .OpenTrunk(options):
 			body = options
 		default: break
 		}

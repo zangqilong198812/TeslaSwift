@@ -53,6 +53,12 @@
 		CFA985021CC257C800B23C7D /* LockDoors.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985011CC257C800B23C7D /* LockDoors.json */; };
 		CFA985041CC2589000B23C7D /* SetTemperature.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985031CC2589000B23C7D /* SetTemperature.json */; };
 		CFA985061CC2593400B23C7D /* StartAutoConditioning.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985051CC2593400B23C7D /* StartAutoConditioning.json */; };
+		CFA985081CC267A200B23C7D /* StopAutoConditioning.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985071CC267A200B23C7D /* StopAutoConditioning.json */; };
+		CFA9850A1CC2691500B23C7D /* SetSunRoof.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985091CC2691500B23C7D /* SetSunRoof.json */; };
+		CFA9850C1CC269B000B23C7D /* StartVehicle.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA9850B1CC269B000B23C7D /* StartVehicle.json */; };
+		CFA9850E1CC26A2800B23C7D /* OpenTrunkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9850D1CC26A2800B23C7D /* OpenTrunkOptions.swift */; };
+		CFA9850F1CC26A2800B23C7D /* OpenTrunkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9850D1CC26A2800B23C7D /* OpenTrunkOptions.swift */; };
+		CFA985111CC26BA000B23C7D /* OpenTrunk.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985101CC26BA000B23C7D /* OpenTrunk.json */; };
 		CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */; };
 		CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */; };
 		CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */; };
@@ -122,6 +128,11 @@
 		CFA985011CC257C800B23C7D /* LockDoors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LockDoors.json; sourceTree = "<group>"; };
 		CFA985031CC2589000B23C7D /* SetTemperature.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetTemperature.json; sourceTree = "<group>"; };
 		CFA985051CC2593400B23C7D /* StartAutoConditioning.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartAutoConditioning.json; sourceTree = "<group>"; };
+		CFA985071CC267A200B23C7D /* StopAutoConditioning.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StopAutoConditioning.json; sourceTree = "<group>"; };
+		CFA985091CC2691500B23C7D /* SetSunRoof.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetSunRoof.json; sourceTree = "<group>"; };
+		CFA9850B1CC269B000B23C7D /* StartVehicle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartVehicle.json; sourceTree = "<group>"; };
+		CFA9850D1CC26A2800B23C7D /* OpenTrunkOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenTrunkOptions.swift; sourceTree = "<group>"; };
+		CFA985101CC26BA000B23C7D /* OpenTrunk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OpenTrunk.json; sourceTree = "<group>"; };
 		CFD2E7C11C8A13D60005E882 /* TeslaSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeslaSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +226,10 @@
 				CFA985011CC257C800B23C7D /* LockDoors.json */,
 				CFA985031CC2589000B23C7D /* SetTemperature.json */,
 				CFA985051CC2593400B23C7D /* StartAutoConditioning.json */,
+				CFA985071CC267A200B23C7D /* StopAutoConditioning.json */,
+				CFA985091CC2691500B23C7D /* SetSunRoof.json */,
+				CFA9850B1CC269B000B23C7D /* StartVehicle.json */,
+				CFA985101CC26BA000B23C7D /* OpenTrunk.json */,
 			);
 			name = Recorded;
 			sourceTree = "<group>";
@@ -293,6 +308,7 @@
 				CF01EA611C9EBA900064B2B5 /* VehicleState.swift */,
 				CF5D13A31CB41A3000744DCC /* CommandResponse.swift */,
 				CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */,
+				CFA9850D1CC26A2800B23C7D /* OpenTrunkOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,18 +411,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFA984F71CBD826B00B23C7D /* StopCharging.json in Resources */,
+				CFA9850C1CC269B000B23C7D /* StartVehicle.json in Resources */,
 				CFA984EA1CBD739400B23C7D /* OpenChargeDoor.json in Resources */,
 				CF26AA251C99CF9300090B20 /* Vehicles.json in Resources */,
 				CFA984EE1CBD758200B23C7D /* ChargeLimitMaxRange.json in Resources */,
 				CFA984F31CBD7CBC00B23C7D /* ChargeLimitPercentage.json in Resources */,
 				CFA984FC1CC256D100B23C7D /* FlashLights.json in Resources */,
+				CFA9850A1CC2691500B23C7D /* SetSunRoof.json in Resources */,
 				CFA984FE1CC2572C00B23C7D /* HonkHorn.json in Resources */,
 				CFA985001CC2578A00B23C7D /* UnlockDoors.json in Resources */,
 				CF26AA271C99D11700090B20 /* MobileAccess.json in Resources */,
 				CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */,
+				CFA985111CC26BA000B23C7D /* OpenTrunk.json in Resources */,
 				CFA985061CC2593400B23C7D /* StartAutoConditioning.json in Resources */,
 				CF26AA2D1C99D14D00090B20 /* DriveState.json in Resources */,
 				CFA985021CC257C800B23C7D /* LockDoors.json in Resources */,
+				CFA985081CC267A200B23C7D /* StopAutoConditioning.json in Resources */,
 				CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */,
 				CFA985041CC2589000B23C7D /* SetTemperature.json in Resources */,
 				CF26AA231C99CE8400090B20 /* Authentication.json in Resources */,
@@ -529,6 +549,7 @@
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CFD3BFD71C8CD8C0008315BF /* VehicleDetails.swift in Sources */,
 				CF22AC211C8AD16600D80559 /* Future+Extensions.swift in Sources */,
+				CFA9850E1CC26A2800B23C7D /* OpenTrunkOptions.swift in Sources */,
 				CF01EA641C9EBCA80064B2B5 /* VehicleState.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF22AC251C8AE61000D80559 /* Vehicle.swift in Sources */,
@@ -558,6 +579,7 @@
 				CFD2E7E91C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CF26AA1C1C9721CD00090B20 /* ClimateState.swift in Sources */,
 				CF22AC261C8AE61000D80559 /* Vehicle.swift in Sources */,
+				CFA9850F1CC26A2800B23C7D /* OpenTrunkOptions.swift in Sources */,
 				CFD950651C8A306C008397BD /* Authtentication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
