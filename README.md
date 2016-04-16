@@ -76,17 +76,17 @@ Options
 ============
 You can use the mock server by setting: `TeslaSwift.defaultInstance.useMockServer = true`
 
+You can enable debugging by setting: `TeslaSwift.defaultInstance.debuggingEnabled = true`
+
 Other Features
 ============
 After the authentication is done. The library manages itself the access token. 
 When the token expires the library will perform another authentication with your past credentials.
 
-TODO
+Development
 ============
-The library is still under development.
-
-The api is much bigger and it will take some time until i get to the 1.0 version.
-Library design might change. The Futures library and Alamonfire might change to other libraries or removed.
+The library design might change. The Futures library and Alamonfire might change to other libraries or removed.
+Not every API feature was included becasue some features are not yet discovered.
 
 Licence
 ============
