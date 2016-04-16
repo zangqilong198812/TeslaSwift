@@ -15,7 +15,8 @@ class TabController: UITabBarController {
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		service.useMockServer = true
+		service.useMockServer = false
+		service.debuggingEnabled = true
 		
 		if (!service.isAuthenticated) {
 			

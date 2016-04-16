@@ -31,7 +31,7 @@ extension Alamofire.Request {
 				case .Success(let value):
 					logDebug("Result: \(value)", debuggingEnabled: logging)
 				case .Failure(let error):
-					logDebug("Result: \(error as NSError)", debuggingEnabled: logging)
+					logDebug("Result error: \(error as NSError)", debuggingEnabled: logging)
 				}
 				
 		}

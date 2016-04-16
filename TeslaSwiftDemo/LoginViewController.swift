@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
 		
 		if let email = emailTextField.text,
 			let password = passwordTextField.text {
-				
+			
 				TeslaSwift.defaultInstance.authenticate(email, password: password).andThen { (result) -> Void in
 					
 					switch result {
