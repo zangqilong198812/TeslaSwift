@@ -442,4 +442,190 @@ class TeslaSwiftTests: XCTestCase {
 		
 		waitForExpectationsWithTimeout(5, handler: nil)
 	}
+	
+	func testCommandFlashLights() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("FlashLights", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .FlashLights).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .FlashLights)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test FlashLights")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
+	func testCommandHonkHorn() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("HonkHorn", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .HonkHorn).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .HonkHorn)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test HonkHorn")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
+	func testCommandUnlockDoors() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("UnlockDoors", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .UnlockDoors).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .UnlockDoors)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test UnlockDoors")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
+	func testCommandLockDoors() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("LockDoors", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .LockDoors).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .LockDoors)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test LockDoors")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
+	func testCommandSetTemperature() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("SetTemperature", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri("/api/1/vehicles/1234567890/command/set_temps"), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .SetTemperature(driverTemperature: 22.0, passangerTemperature: 23.0))
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test SetTemperature")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
+	
+	func testCommandStartAutoConditioning() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("StartAutoConditioning", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .StartAutoConditioning).path), builder: jsonData(data))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass").flatMap { (token) in
+			service.getVehicles()
+			}.flatMap { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .StartAutoConditioning)
+			}.andThen { (result) -> Void in
+				
+				switch result {
+				case .Success(let response):
+					XCTAssertEqual(response.result, false)
+					XCTAssertEqual(response.reason, "Test StartAutoConditioning")
+				case .Failure(let error):
+					print(error)
+					XCTFail((error as NSError).description)
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(5, handler: nil)
+	}
 }

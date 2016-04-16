@@ -11,62 +11,6 @@ import ObjectMapper
 import BrightFutures
 import Alamofire
 
-enum Endpoint {
-	
-	case Authentication
-	case Vehicles
-	case MobileAccess(vehicleID: Int)
-	case ChargeState(vehicleID: Int)
-	case ClimateState(vehicleID: Int)
-	case DriveState(vehicleID: Int)
-	case GuiSettings(vehicleID: Int)
-	case VehicleState(vehicleID: Int)
-	case Command(vehicleID: Int, command:VehicleCommand)
-}
-
-extension Endpoint {
-
-	var path:String {
-		switch self {
-		case .Authentication:
-			return "/oauth/token"
-		case .Vehicles:
-			return "/api/1/vehicles"
-		case .MobileAccess(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
-		case .ChargeState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/charge_state"
-		case .ClimateState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/climate_state"
-		case .DriveState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/drive_state"
-		case .GuiSettings(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
-		case .VehicleState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
-		case let .Command(vehicleID, command):
-			return "/api/1/vehicles/\(vehicleID)/\(command.path())"
-		}
-	}
-	
-	var method: Alamofire.Method {
-		switch self {
-		case .Authentication, .Command:
-			return .POST
-		case .Vehicles,MobileAccess,ChargeState,ClimateState,DriveState,.GuiSettings,.VehicleState:
-			return .GET
-		}
-	}
-	
-	func baseURL(useMockServer:Bool) -> String {
-		if useMockServer {
-			return "https://private-623898-modelsapi.apiary-mock.com"
-		} else {
-			return "https://owner-api.teslamotors.com"
-		}
-	}
-}
-
 
 public enum VehicleCommand {
 	case WakeUp
@@ -78,6 +22,12 @@ public enum VehicleCommand {
 	case ChargeLimitPercentage(limit:Int)
 	case StartCharging
 	case StopCharging
+	case FlashLights
+	case HonkHorn
+	case UnlockDoors
+	case LockDoors
+	case SetTemperature(driverTemperature:Double, passangerTemperature:Double)
+	case StartAutoConditioning
 	
 	func path() -> String {
 		switch self {
@@ -99,11 +49,21 @@ public enum VehicleCommand {
 			return  "command/charge_start"
 		case .StopCharging:
 			return "command/charge_stop"
+		case .FlashLights:
+			return "command/flash_lights"
+		case .HonkHorn:
+			return "command/honk_horn"
+		case .UnlockDoors:
+			return "command/door_unlock"
+		case .LockDoors:
+			return "command/door_lock"
+		case let .SetTemperature(driverTemperature, passangerTemperature):
+			return "command/set_temps?driver_temp=\(driverTemperature)&passenger_temp=\(passangerTemperature)"
+		case .StartAutoConditioning:
+			return "command/auto_conditioning_start"
 		}
 	}
 }
-
-
 
 
 public enum TeslaError:ErrorType {
@@ -111,9 +71,6 @@ public enum TeslaError:ErrorType {
 	case AuthenticationRequired
 	case InvalidOptionsForCommand
 }
-
-
-
 
 
 
