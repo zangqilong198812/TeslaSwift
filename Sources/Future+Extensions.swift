@@ -14,7 +14,7 @@ import AlamofireObjectMapper
 
 extension Alamofire.Request {
 	
-	func responseObjectFuture<T: Mappable>(keyPath: String?) -> Future<T,TeslaError> {
+	func responseObjectFuture<T: Mappable>(keyPath: String?, logging:Bool = false) -> Future<T,TeslaError> {
 		
 		let promise = Promise<T, TeslaError>()
 		
@@ -29,9 +29,9 @@ extension Alamofire.Request {
 			}.responseString { (response) -> Void in
 				switch(response.result) {
 				case .Success(let value):
-					print("Result: \(value)")
+					logDebug("Result: \(value)", debuggingEnabled: logging)
 				case .Failure(let error):
-					print("Result: \(error as NSError)")
+					logDebug("Result: \(error as NSError)", debuggingEnabled: logging)
 				}
 				
 		}
@@ -39,7 +39,7 @@ extension Alamofire.Request {
 		return promise.future
 	}
 	
-	func responseObjectFuture<T: Mappable>(keyPath: String?) -> Future<[T],TeslaError> {
+	func responseObjectFuture<T: Mappable>(keyPath: String?, logging:Bool = false) -> Future<[T],TeslaError> {
 		
 		let promise = Promise<[T], TeslaError>()
 		
@@ -55,16 +55,16 @@ extension Alamofire.Request {
 		}.responseString { (response) -> Void in
 			switch(response.result) {
 			case .Success(let value):
-				print("Result: \(value)")
+				logDebug("Result: \(value)", debuggingEnabled: logging)
 			case .Failure(let error):
-				print("Result: \(error as NSError)")
+				logDebug("Result: \(error as NSError)", debuggingEnabled: logging)
 			}
 		}
 		
 		return promise.future
 	}
 	
-	func responseObjectFuture() -> Future<AnyObject,TeslaError> {
+	func responseObjectFuture(logging:Bool = false) -> Future<AnyObject,TeslaError> {
 		
 		let promise = Promise<AnyObject, TeslaError>()
 		
@@ -80,9 +80,9 @@ extension Alamofire.Request {
 			}.responseString { (response) -> Void in
 				switch(response.result) {
 				case .Success(let value):
-					print("Result: \(value)")
+					logDebug("Result: \(value)", debuggingEnabled: logging)
 				case .Failure(let error):
-					print("Result: \(error as NSError)")
+					logDebug("Result: \(error as NSError)", debuggingEnabled: logging)
 				}
 		}
 		

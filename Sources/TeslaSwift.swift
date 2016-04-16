@@ -12,11 +12,11 @@ import BrightFutures
 import Alamofire
 
 public enum RoofState:String {
-	case Open = "open"
-	case Close = "close"
-	case Comfort = "comfort"
-	case Vent = "vent"
-	case Move = "move"
+	case Open		= "open"
+	case Close		= "close"
+	case Comfort	= "comfort"
+	case Vent		= "vent"
+	case Move		= "move"
 }
 
 public enum VehicleCommand {
@@ -84,7 +84,6 @@ public enum VehicleCommand {
 	}
 }
 
-
 public enum TeslaError:ErrorType {
 	case NetworkError(error:NSError)
 	case AuthenticationRequired
@@ -96,7 +95,8 @@ public enum TeslaError:ErrorType {
 public class TeslaSwift {
 	
 	public static let defaultInstance = TeslaSwift()
-	public var useMockServer = true
+	public var useMockServer = false
+	public var debuggingEnabled = false
 	
 	var token:AuthToken?
 	
@@ -248,15 +248,15 @@ extension TeslaSwift {
 	
 	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<T,TeslaError> {
 		
-		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath)
+		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath, logging: debuggingEnabled)
 	}
 	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<[T],TeslaError> {
 		
-		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath)
+		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath, logging: debuggingEnabled)
 	}
 	func request(endpoint:Endpoint, body:Mappable?) -> Future<AnyObject,TeslaError> {
 		
-		return prepareRequest(endpoint, body: body).responseObjectFuture()
+		return prepareRequest(endpoint, body: body).responseObjectFuture(debuggingEnabled)
 	}
 	
 	func prepareRequest(endpoint:Endpoint, body:Mappable?) -> Request {
@@ -275,12 +275,18 @@ extension TeslaSwift {
 		}
 		let alamonfireRequest = Alamofire.request(request)
 		
-		print("Request: \(alamonfireRequest)")
+		logDebug("Request: \(alamonfireRequest)", debuggingEnabled: debuggingEnabled)
 		if let body = body {
-			print("Request Body: \(body.toJSONString(true)!)")
+			logDebug("Request Body: \(body.toJSONString(true)!)", debuggingEnabled: debuggingEnabled)
 		}
 		
 		return alamonfireRequest
 	}
 	
+}
+
+func logDebug(format: String, debuggingEnabled: Bool) {
+	if debuggingEnabled {
+		NSLog(format)
+	}
 }
