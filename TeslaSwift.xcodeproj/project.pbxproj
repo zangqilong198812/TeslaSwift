@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9395728EB21CC315B0F1F262 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663732209E4E55CAD3A287C6 /* Pods.framework */; };
-		9AAFBE5B21CC8DB811C28A62 /* Pods_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C5AEB708C3C44C998EB4F29 /* Pods_TeslaSwiftTests.framework */; };
+		0C7ED84E15E6213553283EE1 /* Pods_TeslaSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */; };
+		63BA9BC7EF716D6FD491889B /* Pods_TeslaSwift_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */; };
 		CF01EA641C9EBCA80064B2B5 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF01EA611C9EBA900064B2B5 /* VehicleState.swift */; };
 		CF01EA651C9EBCA90064B2B5 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF01EA611C9EBA900064B2B5 /* VehicleState.swift */; };
 		CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF01EA661C9EC1950064B2B5 /* VehicleState.json */; };
@@ -74,6 +74,7 @@
 		CFD950651C8A306C008397BD /* Authtentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD950631C8A306C008397BD /* Authtentication.swift */; };
 		CFF60BB11CBD6C18004249CB /* ValetCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */; };
 		CFF60BB21CBD6C18004249CB /* ValetCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */; };
+		D686F138692556C238A811D0 /* Pods_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF831C9E3C5642B8EE0D30 /* Pods_TeslaSwiftTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,10 +88,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		364EAC25669357A170EA4BDA /* Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		4F4E32676B9AA496A9E76FC3 /* Pods-TeslaSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift.release.xcconfig"; sourceTree = "<group>"; };
+		507DE01A16E7BC28AE46813C /* Pods-TeslaSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		50BF831C9E3C5642B8EE0D30 /* Pods_TeslaSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		663732209E4E55CAD3A287C6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C5AEB708C3C44C998EB4F29 /* Pods_TeslaSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7F9E44B9CD2B872D38D4B48D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		B58FF58E7CA28A6BBAC8EC98 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		7714DD772753FEF8BB88D841 /* Pods-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
+		938941C74E9A0047BD27193D /* Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwift_TeslaSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF01EA611C9EBA900064B2B5 /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
 		CF01EA661C9EC1950064B2B5 /* VehicleState.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleState.json; sourceTree = "<group>"; };
 		CF22AC201C8AD16600D80559 /* Future+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Extensions.swift"; sourceTree = "<group>"; };
@@ -149,7 +156,6 @@
 		CFD950631C8A306C008397BD /* Authtentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authtentication.swift; sourceTree = "<group>"; };
 		CFD950661C8A44F4008397BD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		CFF60BB01CBD6C18004249CB /* ValetCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValetCommandOptions.swift; sourceTree = "<group>"; };
-		FA2F328B45A7B2B2337E8D8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9395728EB21CC315B0F1F262 /* Pods.framework in Frameworks */,
+				0C7ED84E15E6213553283EE1 /* Pods_TeslaSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,29 +171,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AAFBE5B21CC8DB811C28A62 /* Pods_TeslaSwiftTests.framework in Frameworks */,
+				D686F138692556C238A811D0 /* Pods_TeslaSwiftTests.framework in Frameworks */,
+				63BA9BC7EF716D6FD491889B /* Pods_TeslaSwift_TeslaSwiftTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5611378719AE7994A94686E1 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				FA2F328B45A7B2B2337E8D8F /* Pods.debug.xcconfig */,
-				7F9E44B9CD2B872D38D4B48D /* Pods.release.xcconfig */,
-				B58FF58E7CA28A6BBAC8EC98 /* Pods-TeslaSwiftTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		972A07A9A28D45E77B9699F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				CFD950661C8A44F4008397BD /* Pods.framework */,
 				663732209E4E55CAD3A287C6 /* Pods.framework */,
-				7C5AEB708C3C44C998EB4F29 /* Pods_TeslaSwiftTests.framework */,
+				BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */,
+				50BF831C9E3C5642B8EE0D30 /* Pods_TeslaSwiftTests.framework */,
+				9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -244,8 +243,8 @@
 				CFD2E7C31C8A13D60005E882 /* TeslaSwiftDemo */,
 				CFD2E7DA1C8A13D60005E882 /* TeslaSwiftTests */,
 				CFD2E7C21C8A13D60005E882 /* Products */,
-				5611378719AE7994A94686E1 /* Pods */,
 				972A07A9A28D45E77B9699F5 /* Frameworks */,
+				E355C424A11E760E0662C11D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -313,6 +312,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E355C424A11E760E0662C11D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				507DE01A16E7BC28AE46813C /* Pods-TeslaSwift.debug.xcconfig */,
+				4F4E32676B9AA496A9E76FC3 /* Pods-TeslaSwift.release.xcconfig */,
+				7714DD772753FEF8BB88D841 /* Pods-TeslaSwiftTests.debug.xcconfig */,
+				41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */,
+				938941C74E9A0047BD27193D /* Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig */,
+				364EAC25669357A170EA4BDA /* Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -320,12 +332,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFD2E7E01C8A13D60005E882 /* Build configuration list for PBXNativeTarget "TeslaSwift" */;
 			buildPhases = (
-				B213F20C0042FE3DE1ABC332 /* Check Pods Manifest.lock */,
+				2D6D0B1CE3ACD7348339F302 /* [CP] Check Pods Manifest.lock */,
 				CFD2E7BD1C8A13D60005E882 /* Sources */,
 				CFD2E7BE1C8A13D60005E882 /* Frameworks */,
 				CFD2E7BF1C8A13D60005E882 /* Resources */,
-				AB4B126F7F9DCEFAB222717B /* Embed Pods Frameworks */,
-				3BB1882964CB6E6D160841C4 /* Copy Pods Resources */,
+				75DC11B792E9EF3FD2D0A320 /* [CP] Embed Pods Frameworks */,
+				DA99B9F6CAE1580502B1F1D9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -340,12 +352,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFD2E7E31C8A13D60005E882 /* Build configuration list for PBXNativeTarget "TeslaSwiftTests" */;
 			buildPhases = (
-				97EC80FFC9BEFEDCFF89480D /* Check Pods Manifest.lock */,
+				4D96450F7514EF3E50A9AF64 /* [CP] Check Pods Manifest.lock */,
 				CFD2E7D31C8A13D60005E882 /* Sources */,
 				CFD2E7D41C8A13D60005E882 /* Frameworks */,
 				CFD2E7D51C8A13D60005E882 /* Resources */,
-				D659C12681FCAECFD92E97A2 /* Embed Pods Frameworks */,
-				73AB799B02A993B47C1E5FC6 /* Copy Pods Resources */,
+				8DDA809520A64DD5288FBA06 /* [CP] Embed Pods Frameworks */,
+				C43F80DB72D1FE9392386D4E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -443,44 +455,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3BB1882964CB6E6D160841C4 /* Copy Pods Resources */ = {
+		2D6D0B1CE3ACD7348339F302 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		73AB799B02A993B47C1E5FC6 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		97EC80FFC9BEFEDCFF89480D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,29 +470,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		AB4B126F7F9DCEFAB222717B /* Embed Pods Frameworks */ = {
+		4D96450F7514EF3E50A9AF64 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B213F20C0042FE3DE1ABC332 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -518,19 +485,64 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D659C12681FCAECFD92E97A2 /* Embed Pods Frameworks */ = {
+		75DC11B792E9EF3FD2D0A320 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8DDA809520A64DD5288FBA06 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C43F80DB72D1FE9392386D4E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA99B9F6CAE1580502B1F1D9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -697,7 +709,7 @@
 		};
 		CFD2E7E11C8A13D60005E882 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA2F328B45A7B2B2337E8D8F /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 507DE01A16E7BC28AE46813C /* Pods-TeslaSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/TeslaSwiftDemo/Info.plist";
@@ -710,7 +722,7 @@
 		};
 		CFD2E7E21C8A13D60005E882 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F9E44B9CD2B872D38D4B48D /* Pods.release.xcconfig */;
+			baseConfigurationReference = 4F4E32676B9AA496A9E76FC3 /* Pods-TeslaSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/TeslaSwiftDemo/Info.plist";
@@ -723,7 +735,7 @@
 		};
 		CFD2E7E41C8A13D60005E882 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA2F328B45A7B2B2337E8D8F /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 938941C74E9A0047BD27193D /* Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = TeslaSwiftTests/Info.plist;
@@ -735,7 +747,7 @@
 		};
 		CFD2E7E51C8A13D60005E882 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B58FF58E7CA28A6BBAC8EC98 /* Pods-TeslaSwiftTests.release.xcconfig */;
+			baseConfigurationReference = 364EAC25669357A170EA4BDA /* Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = TeslaSwiftTests/Info.plist;
