@@ -83,10 +83,13 @@ Other Features
 After the authentication is done. The library manages itself the access token. 
 When the token expires the library will perform another authentication with your past credentials.
 
-Development
+Roadmap
 ============
-The library design might change. The Futures library and Alamonfire might change to other libraries or removed.
-Not every API feature was included because some features are not yet discovered.
+2.0 
+Convert the library to PromiseKit
+Remove Alamofire
+2.x
+Add new API features
 
 Licence
 ============
