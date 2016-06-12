@@ -7,3 +7,5 @@ notifications:
   email: false
 before_install:
  - brew uninstall xctool && brew install --HEAD xctool
+ - rvm install ruby-2.2.2
+ - gem install cocoapods
