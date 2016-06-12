@@ -86,7 +86,7 @@ When the token expires the library will perform another authentication with your
 Development
 ============
 The library design might change. The Futures library and Alamonfire might change to other libraries or removed.
-Not every API feature was included becasue some features are not yet discovered.
+Not every API feature was included because some features are not yet discovered.
 
 Licence
 ============
