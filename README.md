@@ -88,6 +88,7 @@ Roadmap
 2.0 
 Convert the library to PromiseKit
 Remove Alamofire
+
 2.x
 Add new API features
 
