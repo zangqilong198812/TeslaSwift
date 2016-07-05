@@ -86,6 +86,7 @@ public enum VehicleCommand {
 public enum TeslaError:ErrorType {
 	case NetworkError(error:NSError)
 	case AuthenticationRequired
+	case AuthenticationFailed
 	case InvalidOptionsForCommand
 	case FailedToParseData
 }
@@ -139,6 +140,13 @@ extension TeslaSwift {
 			.thenInBackground { (result:AuthToken) -> AuthToken in
 				self.token = result
 				return result
+		}.recover { (error) -> AuthToken in
+
+			if (error as NSError).code == 401 {
+				throw TeslaError.AuthenticationFailed
+			} else {
+				throw error
+			}
 		}
 		
 	}
@@ -280,24 +288,35 @@ extension TeslaSwift {
 		let request:NSMutableURLRequest = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-			(data, respose, error) in
-			logDebug("Respose: \(respose)", debuggingEnabled: debugEnabled)
-			if let data = data {
-				do {
-					let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-					logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
-					if let mapped = Mapper<T>().map(object) {
-						fulfill(mapped)
+			(data, response, error) in
+			
+			logDebug("Respose: \(response)", debuggingEnabled: debugEnabled)
+			
+			guard error == nil else { reject(error!); return }
+			guard let httpResponse = response as? NSHTTPURLResponse else { reject(TeslaError.FailedToParseData); return }
+			
+			if case 200..<300 = httpResponse.statusCode {
+				
+				if let data = data {
+					do {
+						let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
+						if let mapped = Mapper<T>().map(object) {
+							fulfill(mapped)
+						}
 					}
-				}
-				catch {
+					catch {
+						reject(TeslaError.FailedToParseData)
+					}
+				} else {
 					reject(TeslaError.FailedToParseData)
 				}
-			} else if let error = error {
-				reject(error)
+				
 			} else {
-				reject(TeslaError.FailedToParseData)
+				reject(NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))
 			}
+			
+			
 		}
 		task.resume()
 		

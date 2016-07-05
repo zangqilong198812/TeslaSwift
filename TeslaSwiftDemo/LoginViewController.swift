@@ -26,7 +26,11 @@ class LoginViewController: UIViewController {
 				self.dismissViewControllerAnimated(true, completion: nil)
 				
 				}.error({ (error) in
-					self.messageLabel.text = "Error: \(error as NSError)"
+					if case TeslaError.AuthenticationFailed =  error {
+						self.messageLabel.text = "Authentication failed"
+					} else {
+						self.messageLabel.text = "Error: \(error as NSError)"
+					}
 				})
 		} else {
 			messageLabel.text = "Please add your credentials"

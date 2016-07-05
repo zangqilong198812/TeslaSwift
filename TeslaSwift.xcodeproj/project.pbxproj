@@ -13,6 +13,7 @@
 		CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF01EA661C9EC1950064B2B5 /* VehicleState.json */; };
 		CF1492AC1D1D4B030061088C /* GenericResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1492AB1D1D4B030061088C /* GenericResponse.swift */; };
 		CF1492AD1D1D4B330061088C /* GenericResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1492AB1D1D4B030061088C /* GenericResponse.swift */; };
+		CF1492AF1D2BF87A0061088C /* AuthenticationFailed.json in Resources */ = {isa = PBXBuildFile; fileRef = CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */; };
 		CF22AC251C8AE61000D80559 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF22AC241C8AE61000D80559 /* Vehicle.swift */; };
 		CF22AC261C8AE61000D80559 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF22AC241C8AE61000D80559 /* Vehicle.swift */; };
 		CF26AA181C9720D900090B20 /* ChargeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF26AA171C9720D900090B20 /* ChargeState.swift */; };
@@ -106,6 +107,7 @@
 		CF01EA611C9EBA900064B2B5 /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
 		CF01EA661C9EC1950064B2B5 /* VehicleState.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleState.json; sourceTree = "<group>"; };
 		CF1492AB1D1D4B030061088C /* GenericResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericResponse.swift; sourceTree = "<group>"; };
+		CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AuthenticationFailed.json; sourceTree = "<group>"; };
 		CF22AC201C8AD16600D80559 /* Future+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Extensions.swift"; sourceTree = "<group>"; };
 		CF22AC241C8AE61000D80559 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		CF26AA171C9720D900090B20 /* ChargeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeState.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				CF26AA221C99CE8400090B20 /* Authentication.json */,
+				CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */,
 				CF26AA241C99CF9300090B20 /* Vehicles.json */,
 				CF26AA261C99D11700090B20 /* MobileAccess.json */,
 				CF26AA281C99D12700090B20 /* ChargeState.json */,
@@ -457,6 +460,7 @@
 				CF26AA291C99D12700090B20 /* ChargeState.json in Resources */,
 				CFA984EC1CBD74B500B23C7D /* ChargeLimitStandard.json in Resources */,
 				CFA984F51CBD81C400B23C7D /* StartCharging.json in Resources */,
+				CF1492AF1D2BF87A0061088C /* AuthenticationFailed.json in Resources */,
 				CF37B81D1C9B40200000E894 /* GuiSettings.json in Resources */,
 				CFA984E81CBD730500B23C7D /* ResetValetPin.json in Resources */,
 				CF26AA2B1C99D13B00090B20 /* ClimateSettings.json in Resources */,

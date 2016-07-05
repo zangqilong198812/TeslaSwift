@@ -50,6 +50,35 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 	
+	func testAuthenticationFailed() {
+		
+		let path = NSBundle(forClass: self.dynamicType).pathForResource("AuthenticationFailed", ofType: "json")!
+		let data = NSData(contentsOfFile: path)!
+		stub(uri(Endpoint.Authentication.path), builder: jsonData(data, status: 401))
+		
+		let expection = expectationWithDescription("All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate("user", password: "pass")
+			.then { (response) -> Void in
+				
+				XCTFail("Authentication must fail")
+				expection.fulfill()
+			}.error { (error) in
+				if case TeslaError.AuthenticationFailed = error {
+					
+				} else {
+					XCTFail("Authentication must fail")
+				}
+				expection.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(2, handler: nil)
+		
+	}
+	
 	func testReuseToken() {
 		
 		let expection = expectationWithDescription("All Done")
