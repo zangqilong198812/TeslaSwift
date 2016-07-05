@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 enum Endpoint {
 	
@@ -47,12 +46,12 @@ extension Endpoint {
 		}
 	}
 	
-	var method: Alamofire.Method {
+	var method: String {
 		switch self {
 		case .Authentication, .Command:
-			return .POST
+			return "POST"
 		case .Vehicles,MobileAccess,ChargeState,ClimateState,DriveState,.GuiSettings,.VehicleState:
-			return .GET
+			return "GET"
 		}
 	}
 	

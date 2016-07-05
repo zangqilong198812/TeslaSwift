@@ -3,10 +3,9 @@ platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 
 use_frameworks!
-pod 'BrightFutures', '~> 4.beta'
-pod 'Alamofire', '~> 3.0'
-pod 'AlamofireObjectMapper', '~> 2.1'
 
+pod 'PromiseKit', '~> 3.0'
+pod 'ObjectMapper'
 
 target 'TeslaSwift' do
 end

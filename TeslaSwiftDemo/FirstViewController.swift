@@ -20,16 +20,16 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 		
 		tableView.estimatedRowHeight = 50.0
 		
-		TeslaSwift.defaultInstance.getVehicles().andThen { (results) -> Void in
+		TeslaSwift.defaultInstance.getVehicles()
+			.then {
+			(response) -> Void in
 			
-			switch results {
-			case .Success(let response):
-				self.data = response
-				self.tableView.reloadData()
-			case .Failure(_): break
-			}
+			self.data = response
+			self.tableView.reloadData()
+			
+			}.error { (error) in
+				//Process error
 		}
-		
 		
 	}
 	

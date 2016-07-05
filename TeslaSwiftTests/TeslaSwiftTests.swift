@@ -11,10 +11,10 @@ import XCTest
 import Mockingjay
 
 class TeslaSwiftTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+	
+	override func setUp() {
+		super.setUp()
+		// Put setup code here. This method is called before the invocation of each test method in the class.
 		
 		let path = NSBundle(forClass: self.dynamicType).pathForResource("Authentication", ofType: "json")!
 		let data = NSData(contentsOfFile: path)!
@@ -23,35 +23,32 @@ class TeslaSwiftTests: XCTestCase {
 		let path2 = NSBundle(forClass: self.dynamicType).pathForResource("Vehicles", ofType: "json")!
 		let data2 = NSData(contentsOfFile: path2)!
 		stub(uri(Endpoint.Vehicles.path), builder: jsonData(data2))
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testAuthenticate() {
+	}
+	
+	override func tearDown() {
+		// Put teardown code here. This method is called after the invocation of each test method in the class.
+		super.tearDown()
+	}
+	
+	func testAuthenticate() {
 		
 		let expection = expectationWithDescription("All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
-
-		service.authenticate("user", password: "pass").andThen { (result) -> Void in
-			
-			switch result {
-			case .Success(let response):
-				XCTAssertEqual(response.accessToken, "abc123-mock")
-				break
-			case .Failure(let error):
-				print(error)
-			}
-			expection.fulfill()
-		}
-
-		waitForExpectationsWithTimeout(5, handler: nil)
 		
-    }
+		service.authenticate("user", password: "pass")
+			.then { (response) -> Void in
+				
+				XCTAssertEqual(response.accessToken, "abc123-mock")
+				expection.fulfill()
+			}.error { (error) in
+				print(error)
+		}
+		
+		waitForExpectationsWithTimeout(2, handler: nil)
+		
+	}
 	
 	func testReuseToken() {
 		
@@ -60,26 +57,23 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").andThen {
-			(result) -> Void in
-			
-			service.checkToken().andThen { (result) -> Void in
+		service.authenticate("user", password: "pass")
+			.then {
+				(_) -> Void in
 				
-				switch result {
-				case .Success(let response):
+				service.checkToken().then { (response) -> Void in
+					
 					XCTAssertTrue(response.boolValue)
-				case .Failure(let error):
-					XCTFail("Token is not valid: \((error as NSError).description)")
+					expection.fulfill()
+					
+					}.error { (error) in
+						XCTFail("Token is not valid: \((error as NSError).description)")
 				}
 				
-				expection.fulfill()
-			}
-
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 		
-
 	}
 	
 	func testGetVehicles() {
@@ -89,28 +83,27 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").andThen {
-			(result) -> Void in
-			service.getVehicles().andThen {
-				(result) -> Void in
-				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response[0].displayName, "mockCar")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
+		service.authenticate("user", password: "pass")
+			.then {
+				(_) -> Void in
+				service.getVehicles()
+					.then {
+						(response) -> Void in
+						
+						XCTAssertEqual(response[0].displayName, "mockCar")
+						
+						expection.fulfill()
+						
+					}.error{ (error) in
+						print(error)
+						XCTFail((error as NSError).description)
 				}
-				
-				expection.fulfill()
-				
-			}
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 		
 	}
-
+	
 	func testGetVehicleState() {
 		
 		let path = NSBundle(forClass: self.dynamicType).pathForResource("MobileAccess", ofType: "json")!
@@ -137,28 +130,27 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.getVehicleStatus(vehicles[0])
-			}.andThen { (result) -> Void in
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.mobileAccess, false)
-					XCTAssertEqual(response.chargeState?.chargingState, .Complete)
-					XCTAssertEqual(response.chargeState?.batteryRange?.miles, 200.0)
-					XCTAssertEqual(response.climateState?.insideTemperature?.celsius,18.0)
-					XCTAssertEqual(response.driveState?.position?.course,10.0)
-					XCTAssertEqual(response.guiSettings?.distanceUnits,"km/hr")
-					XCTAssertEqual(response.vehicleState?.darkRims, true)
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+			}.then { (response) -> Void in
+				
+				XCTAssertEqual(response.mobileAccess, false)
+				XCTAssertEqual(response.chargeState?.chargingState, .Complete)
+				XCTAssertEqual(response.chargeState?.batteryRange?.miles, 200.0)
+				XCTAssertEqual(response.climateState?.insideTemperature?.celsius,18.0)
+				XCTAssertEqual(response.driveState?.position?.course,10.0)
+				XCTAssertEqual(response.guiSettings?.distanceUnits,"km/hr")
+				XCTAssertEqual(response.vehicleState?.darkRims, true)
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 		
 	}
 	
@@ -173,24 +165,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
-			service.sendCommandToVehicle(vehicles[0], command: .WakeUp)
-			}.andThen { (result) -> Void in
-		
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test wakeup")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+			}.then { (vehicles)  in
+				service.sendCommandToVehicle(vehicles[0], command: .WakeUp)
+			}.then { (response) -> Void in
+				
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test wakeup")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandValetMode() {
@@ -206,24 +196,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles) in
+			}.then { (vehicles) in
 				service.sendCommandToVehicle(vehicles[0], command: .ValetMode(options: options))
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test valet")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test valet")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandResetValetPin() {
@@ -237,24 +225,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .ResetValetPin)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test resetValet")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test resetValet")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandOpenChargePort() {
@@ -268,24 +254,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .OpenChargeDoor)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test open charge door")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test open charge door")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandChargeStandard() {
@@ -299,24 +283,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitStandard)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test charge standard")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test charge standard")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandChargeMaxRate() {
@@ -330,24 +312,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitMaxRange)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test charge max range")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test charge max range")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandChargePercentage() {
@@ -361,24 +341,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitPercentage(limit: 10))
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test charge percentage")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test charge percentage")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandStartCharging() {
@@ -392,24 +370,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .StartCharging)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test start charging")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test start charging")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandStopCharging() {
@@ -423,24 +399,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .StopCharging)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test stop charging")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test stop charging")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandFlashLights() {
@@ -454,24 +428,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .FlashLights)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test FlashLights")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test FlashLights")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandHonkHorn() {
@@ -485,24 +457,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .HonkHorn)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test HonkHorn")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test HonkHorn")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandUnlockDoors() {
@@ -516,24 +486,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .UnlockDoors)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test UnlockDoors")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test UnlockDoors")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandLockDoors() {
@@ -547,24 +515,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .LockDoors)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test LockDoors")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test LockDoors")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandSetTemperature() {
@@ -578,24 +544,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .SetTemperature(driverTemperature: 22.0, passangerTemperature: 23.0))
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test SetTemperature")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test SetTemperature")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandStartAutoConditioning() {
@@ -609,24 +573,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .StartAutoConditioning)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test StartAutoConditioning")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test StartAutoConditioning")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandStopAutoConditioning() {
@@ -640,24 +602,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .StopAutoConditioning)
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test StopAutoConditioning")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test StopAutoConditioning")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandSetSunRoof() {
@@ -671,24 +631,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .SetSunRoof(state: .Open, percentage: 20.0))
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test SetSunRoof")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test SetSunRoof")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandStartVehicle() {
@@ -702,24 +660,22 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles)  in
+			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .StartVehicle(password: "pass"))
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test StartVehicle")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test StartVehicle")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 	
 	func testCommandOpenTrunk() {
@@ -735,23 +691,21 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").flatMap { (token) in
+		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.flatMap { (vehicles) in
+			}.then { (vehicles) in
 				service.sendCommandToVehicle(vehicles[0], command: .OpenTrunk(options: options))
-			}.andThen { (result) -> Void in
+			}.then { (response) -> Void in
 				
-				switch result {
-				case .Success(let response):
-					XCTAssertEqual(response.result, false)
-					XCTAssertEqual(response.reason, "Test OpenTrunk")
-				case .Failure(let error):
-					print(error)
-					XCTFail((error as NSError).description)
-				}
+				XCTAssertEqual(response.result, false)
+				XCTAssertEqual(response.reason, "Test OpenTrunk")
+				
 				expection.fulfill()
+			}.error { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(5, handler: nil)
+		waitForExpectationsWithTimeout(2, handler: nil)
 	}
 }

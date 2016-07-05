@@ -20,16 +20,14 @@ class LoginViewController: UIViewController {
 		if let email = emailTextField.text,
 			let password = passwordTextField.text {
 			
-				TeslaSwift.defaultInstance.authenticate(email, password: password).andThen { (result) -> Void in
-					
-					switch result {
-					case .Success(_):
-						self.dismissViewControllerAnimated(true, completion: nil)
-					case .Failure(let error):
-						self.messageLabel.text = "Error: \(error as NSError)"
-					}
-					
-				}
+			TeslaSwift.defaultInstance.authenticate(email, password: password).then {
+				(token) -> Void in
+				
+				self.dismissViewControllerAnimated(true, completion: nil)
+				
+				}.error({ (error) in
+					self.messageLabel.text = "Error: \(error as NSError)"
+				})
 		} else {
 			messageLabel.text = "Please add your credentials"
 		}

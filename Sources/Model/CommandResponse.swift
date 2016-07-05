@@ -17,7 +17,7 @@ public class CommandResponse: Mappable {
 	required public init?(_ map: Map){ }
 	
 	public func mapping(map: Map) {
-		result	<- map["result"]
-		reason	<- map["reason"]
+		result	<- map["response.result"]
+		reason	<- map["response.reason"]
 	}
 }

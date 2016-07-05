@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C5CBCAA97E951CC882334464FBDF983D"
+               BlueprintIdentifier = "C8F54543305BD95F34FAB796C9CAAFCA"
                BuildableName = "ObjectMapper.framework"
                BlueprintName = "ObjectMapper"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -126,7 +126,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F745EF7FDAC81CADB2C522166C86DC47"
+               BlueprintIdentifier = "A5B9C88F6A1BAD5A8801FFDF1A942431"
                BuildableName = "Pods_TeslaSwiftTests.framework"
                BlueprintName = "Pods-TeslaSwiftTests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -166,7 +166,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">

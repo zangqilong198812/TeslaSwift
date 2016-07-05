@@ -8,8 +8,7 @@
 
 import Foundation
 import ObjectMapper
-import BrightFutures
-import Alamofire
+import PromiseKit
 
 public enum RoofState:String {
 	case Open		= "open"
@@ -88,6 +87,7 @@ public enum TeslaError:ErrorType {
 	case NetworkError(error:NSError)
 	case AuthenticationRequired
 	case InvalidOptionsForCommand
+	case FailedToParseData
 }
 
 
@@ -120,10 +120,10 @@ extension TeslaSwift {
 	- parameter email:      The email address.
 	- parameter password:   The password.
 	
-	- returns: A Future with the AuthToken.
+	- returns: A Promise with the AuthToken.
 	*/
 
-	public func authenticate(email:String, password:String) -> Future<AuthToken,TeslaError> {
+	public func authenticate(email:String, password:String) -> Promise<AuthToken> {
 		
 		self.email = email
 		self.password = password
@@ -136,8 +136,9 @@ extension TeslaSwift {
 		body.clientID = "e4a9949fcfa04068f59abb5a658f2bac0a3428e4652315490b659d5ab3f35a9e"
 		
 		return request(.Authentication, body: body)
-			.andThen { (result) -> Void in
-			self.token = result.value
+			.thenInBackground { (result:AuthToken) -> AuthToken in
+				self.token = result
+				return result
 		}
 		
 	}
@@ -145,12 +146,15 @@ extension TeslaSwift {
 	/**
 	Fetchs the list of your vehicles including not yet delivered ones
 	
-	- returns: A Future with an array of Vehicles.
+	- returns: A Promise with an array of Vehicles.
 	*/
-	public func getVehicles() -> Future<[Vehicle],TeslaError> {
+	public func getVehicles() -> Promise<[Vehicle]> {
 		
-		return checkAuthentication().flatMap { (token) -> Future<[Vehicle], TeslaError> in
-			self.request(.Vehicles, body: nil, keyPath: "response")
+		return checkAuthentication().thenInBackground { (token) -> Promise<[Vehicle]> in
+			self.request(.Vehicles, body: nil)
+				.thenInBackground { (data:GenericArrayResponse<Vehicle>) -> [Vehicle] in
+					data.response
+			}
 		}
 		
 	}
@@ -158,34 +162,55 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle status
 	
-	- returns: A Future with VehicleDetails object containing all the possible status information.
+	- returns: A Promise with VehicleDetails object containing all the possible status information.
 	*/
-	public func getVehicleStatus(vehicle:Vehicle) -> Future<VehicleDetails,TeslaError> {
+	public func getVehicleStatus(vehicle:Vehicle) -> Promise<VehicleDetails> {
 		
-		return checkAuthentication().flatMap {
-			(token) -> Future<(((((AnyObject,ChargeState),ClimateState),DriveState),GuiSettings),VehicleState), TeslaError> in
+		return checkAuthentication().thenInBackground {
+			(token) -> Promise<(Bool,ChargeState,ClimateState,DriveState,GuiSettings,VehicleState)> in
 			
 			let vehicleID = vehicle.vehicleID!
 			
-			return self.request(.MobileAccess(vehicleID: vehicleID),body: nil)
-				.zip(self.request(.ChargeState(vehicleID: vehicleID), body: nil, keyPath: "response"))
-				.zip(self.request(.ClimateState(vehicleID: vehicleID), body: nil, keyPath: "response"))
-				.zip(self.request(.DriveState(vehicleID: vehicleID), body: nil, keyPath: "response"))
-				.zip(self.request(.GuiSettings(vehicleID: vehicleID), body: nil, keyPath: "response"))
-				.zip(self.request(.VehicleState(vehicleID: vehicleID), body: nil, keyPath: "response"))
+			let p1 = self.request(.MobileAccess(vehicleID: vehicleID))
+				.thenInBackground { (data:GenericBoolResponse) -> Bool in
+					data.response
+				}
+			let p2 = self.request(.ChargeState(vehicleID: vehicleID))
+				.thenInBackground { (data:GenericResponse<ChargeState>) -> ChargeState in
+					data.response
+				}
+			let p3 = self.request(.ClimateState(vehicleID: vehicleID))
+				.thenInBackground { (data:GenericResponse<ClimateState>) -> ClimateState in
+					data.response
+				}
+			let p4 = self.request(.DriveState(vehicleID: vehicleID))
+				.thenInBackground { (data:GenericResponse<DriveState>) -> DriveState in
+					data.response
+				}
+			let p5 = self.request(.GuiSettings(vehicleID: vehicleID))
+				.thenInBackground { (data:GenericResponse<GuiSettings>) -> GuiSettings in
+					data.response
+				}
+			let p6 = self.request(.VehicleState(vehicleID: vehicleID))
+				.thenInBackground { (data:GenericResponse<VehicleState>) -> VehicleState in
+					data.response
+				}
 			
-			}.flatMap {
-				(result:((((mobileAccess:AnyObject, chargeState:ChargeState), climateState:ClimateState), driveState:DriveState), guiSettings:GuiSettings), vehicleState:VehicleState) -> Future<VehicleDetails, TeslaError> in
+			return when(p1.asVoid(), p2.asVoid(), p3.asVoid(), p4.asVoid(), p5.asVoid(), p6.asVoid()).thenInBackground {
+				return (p1.value!,p2.value!,p3.value!,p4.value!, p5.value!, p6.value!)
+			}
 			
-		
+			}.thenInBackground {
+				(mobileAccess:Bool, chargeState:ChargeState, climateState:ClimateState, driveState:DriveState, guiSettings:GuiSettings, vehicleState:VehicleState) -> Promise<VehicleDetails> in
+				
 				let vehicleDetails = VehicleDetails()
-				vehicleDetails.mobileAccess = (result.0.0.0.mobileAccess as! [String:Bool])["response"]
-				vehicleDetails.chargeState = result.0.0.0.chargeState
-				vehicleDetails.climateState = result.0.0.climateState
-				vehicleDetails.driveState = result.0.driveState
-				vehicleDetails.guiSettings = result.guiSettings
+				vehicleDetails.mobileAccess = mobileAccess
+				vehicleDetails.chargeState = chargeState
+				vehicleDetails.climateState = climateState
+				vehicleDetails.driveState = driveState
+				vehicleDetails.guiSettings = guiSettings
 				vehicleDetails.vehicleState = vehicleState
-				return Future<VehicleDetails,TeslaError>(value: vehicleDetails)
+				return Promise<VehicleDetails>(vehicleDetails)
 				
 		}
 		
@@ -197,9 +222,9 @@ extension TeslaSwift {
 	
 	- parameter vehicle: the vehicle that will receive the command
 	- parameter command: the command to send to the vehicle
-	- returns: A Future with the CommandResponse object containing the results of the command.
+	- returns: A Promise with the CommandResponse object containing the results of the command.
 	*/
-	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand) -> Future<CommandResponse,TeslaError> {
+	public func sendCommandToVehicle(vehicle:Vehicle, command:VehicleCommand) -> Promise<CommandResponse> {
 		
 		var body:Mappable?
 		
@@ -211,8 +236,9 @@ extension TeslaSwift {
 		default: break
 		}
 		
-		return checkAuthentication().flatMap { (token) -> Future<CommandResponse, TeslaError> in
-			self.request(.Command(vehicleID: vehicle.vehicleID!, command: command), body: body, keyPath: "response")
+		return checkAuthentication()
+			.thenInBackground { (token) -> Promise<CommandResponse> in
+			self.request(.Command(vehicleID: vehicle.vehicleID!, command: command), body: body)
 		}
 		
 	}
@@ -220,49 +246,72 @@ extension TeslaSwift {
 
 extension TeslaSwift {
 	
-	func checkToken() -> Future<Bool,TeslaError> {
+	func checkToken() -> Promise<Bool> {
 		
 		if let token = self.token {
-			return Future<Bool,TeslaError>(value: token.isValid)
+			return Promise<Bool>(token.isValid)
 		} else {
-			return Future<Bool,TeslaError>(value:false)
+			return Promise<Bool>(false)
 		}
 	}
 	
-	func checkAuthentication() -> Future<AuthToken,TeslaError> {
+	
+	func checkAuthentication() -> Promise<AuthToken> {
 		
-		return checkToken().flatMap { (value) -> Future<AuthToken, TeslaError> in
+		return checkToken().then { (value) -> Promise<AuthToken> in
 			
 			if (value) {
-				return Future<AuthToken, TeslaError>(value: self.token!)
+				return Promise<AuthToken>(self.token!)
 			} else {
 				if let email = self.email, password = self.password {
 					return self.authenticate(email, password: password)
 				} else {
-					return Future<AuthToken, TeslaError>(error: .AuthenticationRequired)
+					return Promise<AuthToken>(error: TeslaError.AuthenticationRequired)
 				}
 				
 			}
 		}
 	}
 	
-	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<T,TeslaError> {
+	func request<T:Mappable>(endpoint:Endpoint, body:Mappable? = nil) -> Promise<T> {
+		
+		let (promise,fulfill,reject) = Promise<T>.pendingPromise()
+		
+		let request:NSMutableURLRequest = prepareRequest(endpoint, body: body)
+		let debugEnabled = debuggingEnabled
+		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+			(data, respose, error) in
+			logDebug("Respose: \(respose)", debuggingEnabled: debugEnabled)
+			if let data = data {
+				do {
+					let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+					logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
+					if let mapped = Mapper<T>().map(object) {
+						fulfill(mapped)
+					}
+				}
+				catch {
+					reject(TeslaError.FailedToParseData)
+				}
+			} else if let error = error {
+				reject(error)
+			} else {
+				reject(TeslaError.FailedToParseData)
+			}
+		}
+		task.resume()
+		
+		return promise
+	}
+	/*func request<T:Mappable>(endpoint:Endpoint, body:Mappable?) -> Future<[T],TeslaError> {
 		
 		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath, logging: debuggingEnabled)
-	}
-	func request<T:Mappable>(endpoint:Endpoint, body:Mappable?, keyPath:String? = nil) -> Future<[T],TeslaError> {
-		
-		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath, logging: debuggingEnabled)
-	}
-	func request(endpoint:Endpoint, body:Mappable?) -> Future<AnyObject,TeslaError> {
-		
-		return prepareRequest(endpoint, body: body).responseObjectFuture(debuggingEnabled)
-	}
+	}*/
 	
-	func prepareRequest(endpoint:Endpoint, body:Mappable?) -> Request {
+	func prepareRequest(endpoint:Endpoint, body:Mappable?) -> NSMutableURLRequest {
 		
 		let request = NSMutableURLRequest(URL: NSURL(string: endpoint.baseURL(useMockServer).stringByAppendingString(endpoint.path))!)
-		request.HTTPMethod = endpoint.method.rawValue
+		request.HTTPMethod = endpoint.method
 		
 		if let token = self.token?.accessToken {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -273,14 +322,13 @@ extension TeslaSwift {
 			request.HTTPBody = try? NSJSONSerialization.dataWithJSONObject(jsonObject, options: [])
 			request.setValue("application/json", forHTTPHeaderField: "content-type")
 		}
-		let alamonfireRequest = Alamofire.request(request)
 		
-		logDebug("Request: \(alamonfireRequest)", debuggingEnabled: debuggingEnabled)
+		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
 		if let body = body {
 			logDebug("Request Body: \(body.toJSONString(true)!)", debuggingEnabled: debuggingEnabled)
 		}
 		
-		return alamonfireRequest
+		return request
 	}
 	
 }
