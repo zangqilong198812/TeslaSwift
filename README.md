@@ -33,18 +33,15 @@ Perform an authentication with your My Tesla credentials:
 ```swift 
 TeslaSwift.defaultInstance.authenticate(email, password: password)
 ```
-Use the future to check the success: 
+Use the promise to check the success: 
 ```swift 
-.andThen { (result) -> Void in
-					
-					switch result {
-					case .Success(_):
-						//LogedIn!
-					case .Failure(let error):
-						print("Error: \(error as NSError)")
-					}
-					
-				}
+.then { (result) -> Void in
+	
+	//LogedIn!
+	
+.error { (error) in 
+	print("Error: \(error as NSError)")			
+}
 ```
 
 
@@ -56,19 +53,15 @@ class ViewController {
 
   func showCars() {
 
-    TeslaSwift.defaultInstance.getVehicles().andThen { 
-      (results) -> Void in
+    TeslaSwift.defaultInstance.getVehicles()
+			.then { (response) -> Void in
 			
-			switch results {
-			case .Success(let response):
-				self.data = response
-				self.tableView.reloadData()
-			case .Failure(_): break
-			}
+			self.data = response
+			self.tableView.reloadData()
 			
-		}
-	
-  }
+			}.error { (error) in
+				//Process error
+   }
 }
 ```    
 
@@ -85,10 +78,6 @@ When the token expires the library will perform another authentication with your
 
 Roadmap
 ============
-2.0 
-Convert the library to PromiseKit
-Remove Alamofire
-
 2.x
 Add new API features and summon
 
