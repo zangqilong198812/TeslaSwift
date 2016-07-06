@@ -20,10 +20,7 @@ Pod::Spec.new do |s|
 
 	s.requires_arc = true
 
-	s.dependency "BrightFutures" , "~> 4.beta"
-	s.dependency "Alamofire", "~> 3.0"
-	s.dependency "AlamofireObjectMapper", "~> 2.1"
-	s.dependency 'Result', '~> 2.0'
+	s.dependency 'PromiseKit',  '~> 3.2'
 	s.dependency 'ObjectMapper', '~> 1.1'
 
 end
