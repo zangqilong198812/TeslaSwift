@@ -90,7 +90,7 @@ Convert the library to PromiseKit
 Remove Alamofire
 
 2.x
-Add new API features
+Add new API features and summon
 
 Licence
 ============
