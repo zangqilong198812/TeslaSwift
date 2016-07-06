@@ -4,7 +4,7 @@ platform :ios, '8.0'
 
 use_frameworks!
 
-pod 'PromiseKit', '~> 3.2'
+pod 'PromiseKit/CorePromise' , '~> 3.2'
 pod 'ObjectMapper'
 
 target 'TeslaSwift' do
