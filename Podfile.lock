@@ -13,7 +13,7 @@ PODS:
 DEPENDENCIES:
   - Mockingjay (from `https://github.com/kylef/Mockingjay.git`, branch `master`)
   - ObjectMapper
-  - PromiseKit/CorePromise (~> 3.2)
+  - PromiseKit/CorePromise (~> 3.2.0)
 
 EXTERNAL SOURCES:
   Mockingjay:
@@ -31,6 +31,6 @@ SPEC CHECKSUMS:
   PromiseKit: 1db024241265f428137a9f3c00ff9590740c4be6
   URITemplate: 398a48d6559e23b77bd41176b675b017ad1fc959
 
-PODFILE CHECKSUM: 57e6c9b6a282b95bac0acde4f9681c48b6d8319b
+PODFILE CHECKSUM: 3b8cfe3b44606b91f73e087186976ab8530bd808
 
 COCOAPODS: 1.0.1
