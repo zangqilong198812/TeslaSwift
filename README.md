@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
 [![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)]()
 # TeslaSwift
-Swift library to access the Tesla Model S API base on [Unofficial Tesla Model S API](http://docs.timdorr.apiary.io/#)
+Swift library to access the Tesla Model S API based on [Unofficial Tesla Model S API](http://docs.timdorr.apiary.io/#)
 
 Installation
 ============
