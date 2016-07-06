@@ -108,7 +108,6 @@
 		CF01EA661C9EC1950064B2B5 /* VehicleState.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleState.json; sourceTree = "<group>"; };
 		CF1492AB1D1D4B030061088C /* GenericResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericResponse.swift; sourceTree = "<group>"; };
 		CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AuthenticationFailed.json; sourceTree = "<group>"; };
-		CF22AC201C8AD16600D80559 /* Future+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Extensions.swift"; sourceTree = "<group>"; };
 		CF22AC241C8AE61000D80559 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		CF26AA171C9720D900090B20 /* ChargeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeState.swift; sourceTree = "<group>"; };
 		CF26AA1A1C9721CD00090B20 /* ClimateState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClimateState.swift; sourceTree = "<group>"; };
@@ -198,14 +197,6 @@
 				C41422821C25B682F122BE7C /* Pods_TeslaSwiftAll_TeslaSwiftTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CF22AC231C8ADB1800D80559 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				CF22AC201C8AD16600D80559 /* Future+Extensions.swift */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		CF26AA211C99CC3000090B20 /* Recorded */ = {
@@ -299,7 +290,6 @@
 				CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */,
 				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
 				CFD2E7EA1C8A14050005E882 /* Model */,
-				CF22AC231C8ADB1800D80559 /* Extensions */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
