@@ -12,15 +12,15 @@ import CoreLocation
 
 public class DriveState: Mappable {
 	
-	public var shiftState:String?
+	public var shiftState: String?
 	
-	public var speed:CLLocationSpeed?
-	public var latitude:CLLocationDegrees?
-	public var longitude:CLLocationDegrees?
-	public var heading:CLLocationDirection?
-	public var date:NSDate?
+	public var speed: CLLocationSpeed?
+	public var latitude: CLLocationDegrees?
+	public var longitude: CLLocationDegrees?
+	public var heading: CLLocationDirection?
+	public var date: NSDate?
 	
-	public var position:CLLocation? {
+	public var position: CLLocation? {
 		if let latitude = latitude,
 			let longitude = longitude,
 			let heading = heading,
@@ -36,7 +36,7 @@ public class DriveState: Mappable {
 		return nil
 	}
 	
-	required public init?(_ map: Map){
+	required public init?(_ map: Map) {
 		
 	}
 	
@@ -46,7 +46,7 @@ public class DriveState: Mappable {
 		latitude	<- map["latitude"]
 		longitude	<- map["longitude"]
 		heading		<- map["heading"]
-		date		<- (map["gps_as_of"],DateTransform())
+		date		<- (map["gps_as_of"], DateTransform())
 	}
 
 	

@@ -11,13 +11,13 @@ import ObjectMapper
 
 public class GuiSettings: Mappable {
 	
-	public var distanceUnits:String?
-	public var temperatureUnits:String?
-	public var chargeRateUnits:String?
-	public var time24Hours:Bool?
-	public var rangeDisplay:String?
+	public var distanceUnits: String?
+	public var temperatureUnits: String?
+	public var chargeRateUnits: String?
+	public var time24Hours: Bool?
+	public var rangeDisplay: String?
 	
-	required public init?(_ map: Map){ }
+	required public init?(_ map: Map) { }
 	
 	public func mapping(map: Map) {
 		distanceUnits		<- map["gui_distance_units"]

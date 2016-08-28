@@ -1,0 +1,14 @@
+disabled_rules: # rule identifiers to exclude from running
+  - force_cast
+  - trailing_whitespace
+  - operator_whitespace
+  - cyclomatic_complexity  
+included: # paths to include during linting. `--path` is ignored if present.
+  - Sources
+line_length: 200
+variable_name:
+  min_length: # only min_length
+    error: 3 # only error
+  excluded: # excluded via string array
+    - on
+    - id

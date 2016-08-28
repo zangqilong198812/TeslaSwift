@@ -23,7 +23,7 @@ enum Endpoint {
 
 extension Endpoint {
 	
-	var path:String {
+	var path: String {
 		switch self {
 		case .Authentication:
 			return "/oauth/token"
@@ -50,12 +50,12 @@ extension Endpoint {
 		switch self {
 		case .Authentication, .Command:
 			return "POST"
-		case .Vehicles,MobileAccess,ChargeState,ClimateState,DriveState,.GuiSettings,.VehicleState:
+		case .Vehicles, MobileAccess, ChargeState, ClimateState, DriveState, .GuiSettings, .VehicleState:
 			return "GET"
 		}
 	}
 	
-	func baseURL(useMockServer:Bool) -> String {
+	func baseURL(useMockServer: Bool) -> String {
 		if useMockServer {
 			return "https://private-623898-modelsapi.apiary-mock.com"
 		} else {

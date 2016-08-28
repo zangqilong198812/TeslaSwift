@@ -10,15 +10,15 @@ import Foundation
 import ObjectMapper
 
 
-public enum OpenTrunkOptions:String, Mappable {
+public enum OpenTrunkOptions: String, Mappable {
 	
 	case Rear = "rear"
 	
-	public init?(_ map: Map){
+	public init?(_ map: Map) {
 		self = .Rear
 	}
 	
 	public mutating func mapping(map: Map) {
-		self	<- (map["which_trunk"],EnumTransform())
+		self	<- (map["which_trunk"], EnumTransform())
 	}
 }

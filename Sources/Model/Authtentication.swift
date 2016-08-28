@@ -9,14 +9,14 @@
 import Foundation
 import ObjectMapper
 
-public class AuthToken:Mappable {
+public class AuthToken: Mappable {
 	
-	var accessToken:String?
-	var tokenType:String?
-	var createdAt:NSDate? = NSDate()
-	var expiresIn:NSTimeInterval?
+	var accessToken: String?
+	var tokenType: String?
+	var createdAt: NSDate? = NSDate()
+	var expiresIn: NSTimeInterval?
 	
-	public var isValid:Bool {
+	public var isValid: Bool {
 		if let createdAt = createdAt, expiresIn = expiresIn {
 			return -NSDate().timeIntervalSinceDate(createdAt) < expiresIn
 		} else {
@@ -25,9 +25,9 @@ public class AuthToken:Mappable {
 	}
 	
 	
-	//MARK: Mappable protocol
-	required public init?(_ map: Map){
-		if (map.JSONDictionary.count < 3 ) { return nil }
+	// MARK: Mappable protocol
+	required public init?(_ map: Map) {
+		if map.JSONDictionary.count < 3 { return nil }
 	}
 	
 	public func mapping(map: Map) {
@@ -40,16 +40,16 @@ public class AuthToken:Mappable {
 
 class AuthTokenRequest: Mappable {
 	
-	var grantType:String?
-	var clientID:String?
-	var clientSecret:String?
-	var email:String?
-	var password:String?
+	var grantType: String?
+	var clientID: String?
+	var clientSecret: String?
+	var email: String?
+	var password: String?
 	
 	init() { }
 	
-	//MARK: Mappable protocol
-	required init?(_ map: Map){
+	// MARK: Mappable protocol
+	required init?(_ map: Map) {
 		
 	}
 	

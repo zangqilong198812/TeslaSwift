@@ -11,26 +11,26 @@ import ObjectMapper
 
 public class VehicleState: Mappable {
 	
-	public var driverDoorOpen:Bool?
-	public var driverRearDoorOpen:Bool?
-	public var passangerDoorOpen:Bool?
-	public var passangerRearDoorOpen:Bool?
-	public var frontTrunkOpen:Bool?
-	public var rearTrunkOpen:Bool?
-	public var firmwareVersion:String?
-	public var locked:Bool?
-	public var sunRoofInstalled:Bool?
-	public var sunRoofState:String?
-	public var sunRoofPercentageOpen:Int? // null if not installed
-	public var darkRims:Bool?
-	public var wheelType:String?
-	public var hasSpoiler:Bool?
-	public var roofColor:String? // "None" for panoramic roof
-	public var perfConfig:String?
+	public var driverDoorOpen: Bool?
+	public var driverRearDoorOpen: Bool?
+	public var passangerDoorOpen: Bool?
+	public var passangerRearDoorOpen: Bool?
+	public var frontTrunkOpen: Bool?
+	public var rearTrunkOpen: Bool?
+	public var firmwareVersion: String?
+	public var locked: Bool?
+	public var sunRoofInstalled: Bool?
+	public var sunRoofState: String?
+	public var sunRoofPercentageOpen: Int? // null if not installed
+	public var darkRims: Bool?
+	public var wheelType: String?
+	public var hasSpoiler: Bool?
+	public var roofColor: String? // "None" for panoramic roof
+	public var perfConfig: String?
 	
 	
-	//MARK: Mappable protocol
-	required public init?(_ map: Map){
+	// MARK: Mappable protocol
+	required public init?(_ map: Map) {
 		
 	}
 	

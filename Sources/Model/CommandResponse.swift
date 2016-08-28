@@ -11,10 +11,10 @@ import ObjectMapper
 
 public class CommandResponse: Mappable {
 	
-	public var result:Bool?
-	public var reason:String?
+	public var result: Bool?
+	public var reason: String?
 	
-	required public init?(_ map: Map){ }
+	required public init?(_ map: Map) { }
 	
 	public func mapping(map: Map) {
 		result	<- map["response.result"]

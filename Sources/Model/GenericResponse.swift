@@ -11,10 +11,10 @@ import ObjectMapper
 
 public class GenericResponse<T:Mappable>: Mappable {
 	
-	public var response:T!
+	public var response: T!
 	
-	//MARK: Mappable protocol
-	required public init?(_ map: Map){
+	// MARK: Mappable protocol
+	required public init?(_ map: Map) {
 		if map["response"].currentValue == nil {
 			return nil
 		}
@@ -28,10 +28,10 @@ public class GenericResponse<T:Mappable>: Mappable {
 
 public class GenericArrayResponse<T:Mappable>: Mappable {
 	
-	public var response:[T]!
+	public var response: [T]!
 	
-	//MARK: Mappable protocol
-	required public init?(_ map: Map){
+	// MARK: Mappable protocol
+	required public init?(_ map: Map) {
 		if map["response"].currentValue == nil {
 			return nil
 		}
@@ -46,10 +46,10 @@ public class GenericArrayResponse<T:Mappable>: Mappable {
 
 public class GenericBoolResponse: Mappable {
 	
-	public var response:Bool!
+	public var response: Bool!
 	
-	//MARK: Mappable protocol
-	required public init?(_ map: Map){
+	// MARK: Mappable protocol
+	required public init?(_ map: Map) {
 		if map["response"].currentValue == nil {
 			return nil
 		}
@@ -60,4 +60,3 @@ public class GenericBoolResponse: Mappable {
 	}
 	
 }
-
