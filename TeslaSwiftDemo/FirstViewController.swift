@@ -15,7 +15,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 	var data:[Vehicle]?
 	
 
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
 		tableView.estimatedRowHeight = 50.0
@@ -27,21 +27,21 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 			self.data = response
 			self.tableView.reloadData()
 			
-			}.error { (error) in
+			}.catch { (error) in
 				//Process error
 		}
 		
 	}
 	
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return data?.count ?? 0
 	}
 	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
-		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
-		let vehicle = data![indexPath.row]
+		let vehicle = data![(indexPath as NSIndexPath).row]
 		
 		cell.textLabel?.text = vehicle.vin
 		cell.detailTextLabel?.text = vehicle.state

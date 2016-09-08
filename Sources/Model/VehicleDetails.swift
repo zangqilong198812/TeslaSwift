@@ -9,12 +9,12 @@
 import Foundation
 import ObjectMapper
 
-public class VehicleDetails {
+open class VehicleDetails {
 
-	public internal(set) var mobileAccess: Bool?
-	public internal(set) var chargeState: ChargeState?
-	public internal(set) var climateState: ClimateState?
-	public internal(set) var driveState: DriveState?
-	public internal(set) var guiSettings: GuiSettings?
-	public internal(set) var vehicleState: VehicleState?
+	open internal(set) var mobileAccess: Bool?
+	open internal(set) var chargeState: ChargeState?
+	open internal(set) var climateState: ClimateState?
+	open internal(set) var driveState: DriveState?
+	open internal(set) var guiSettings: GuiSettings?
+	open internal(set) var vehicleState: VehicleState?
 }

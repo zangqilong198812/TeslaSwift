@@ -18,7 +18,7 @@ public enum OpenTrunkOptions: String, Mappable {
 		self = .Rear
 	}
 	
-	public mutating func mapping(map: Map) {
+	public mutating func mapping(_ map: Map) {
 		self	<- (map["which_trunk"], EnumTransform())
 	}
 }

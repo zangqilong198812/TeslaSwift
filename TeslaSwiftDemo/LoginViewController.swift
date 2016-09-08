@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
 	
 	
 	@IBOutlet weak var messageLabel: UILabel!
-	@IBAction func loginAction(sender: AnyObject) {
+	@IBAction func loginAction(_ sender: AnyObject) {
 		
 		if let email = emailTextField.text,
 			let password = passwordTextField.text {
@@ -23,15 +23,15 @@ class LoginViewController: UIViewController {
 			TeslaSwift.defaultInstance.authenticate(email, password: password).then {
 				(token) -> Void in
 				
-				self.dismissViewControllerAnimated(true, completion: nil)
+				self.dismiss(animated: true, completion: nil)
 				
-				}.error({ (error) in
-					if case TeslaError.AuthenticationFailed =  error {
+				}.catch{ (error) in
+					if case TeslaError.authenticationFailed =  error {
 						self.messageLabel.text = "Authentication failed"
 					} else {
 						self.messageLabel.text = "Error: \(error as NSError)"
 					}
-				})
+				}
 		} else {
 			messageLabel.text = "Please add your credentials"
 		}

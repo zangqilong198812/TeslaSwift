@@ -9,24 +9,24 @@
 import Foundation
 import ObjectMapper
 
-public class Vehicle: Mappable {
+open class Vehicle: Mappable {
 	
-	public var color: String?
-	public var displayName: String?
-	public var id: Int?
-	public var optionCodes: String?
-	public var userID: Int?
-	public var vehicleID: Int?
-	public var vin: String?
-	public var tokens: [String]?
-	public var state: String?
+	open var color: String?
+	open var displayName: String?
+	open var id: Int?
+	open var optionCodes: String?
+	open var userID: Int?
+	open var vehicleID: Int?
+	open var vin: String?
+	open var tokens: [String]?
+	open var state: String?
 	
 	// MARK: Mappable protocol
 	required public init?(_ map: Map) {
 		
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(_ map: Map) {
 		color		<- map["color"]
 		displayName	<- map["display_name"]
 		id			<- map["id"]

@@ -10,52 +10,52 @@ import Foundation
 
 enum Endpoint {
 	
-	case Authentication
-	case Vehicles
-	case MobileAccess(vehicleID: Int)
-	case ChargeState(vehicleID: Int)
-	case ClimateState(vehicleID: Int)
-	case DriveState(vehicleID: Int)
-	case GuiSettings(vehicleID: Int)
-	case VehicleState(vehicleID: Int)
-	case Command(vehicleID: Int, command:VehicleCommand)
+	case authentication
+	case vehicles
+	case mobileAccess(vehicleID: Int)
+	case chargeState(vehicleID: Int)
+	case climateState(vehicleID: Int)
+	case driveState(vehicleID: Int)
+	case guiSettings(vehicleID: Int)
+	case vehicleState(vehicleID: Int)
+	case command(vehicleID: Int, command:VehicleCommand)
 }
 
 extension Endpoint {
 	
 	var path: String {
 		switch self {
-		case .Authentication:
+		case .authentication:
 			return "/oauth/token"
-		case .Vehicles:
+		case .vehicles:
 			return "/api/1/vehicles"
-		case .MobileAccess(let vehicleID):
+		case .mobileAccess(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
-		case .ChargeState(let vehicleID):
+		case .chargeState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/charge_state"
-		case .ClimateState(let vehicleID):
+		case .climateState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/climate_state"
-		case .DriveState(let vehicleID):
+		case .driveState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/drive_state"
-		case .GuiSettings(let vehicleID):
+		case .guiSettings(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
-		case .VehicleState(let vehicleID):
+		case .vehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
-		case let .Command(vehicleID, command):
+		case let .command(vehicleID, command):
 			return "/api/1/vehicles/\(vehicleID)/\(command.path())"
 		}
 	}
 	
 	var method: String {
 		switch self {
-		case .Authentication, .Command:
+		case .authentication, .command:
 			return "POST"
-		case .Vehicles, MobileAccess, ChargeState, ClimateState, DriveState, .GuiSettings, .VehicleState:
+		case .vehicles, .mobileAccess, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState:
 			return "GET"
 		}
 	}
 	
-	func baseURL(useMockServer: Bool) -> String {
+	func baseURL(_ useMockServer: Bool) -> String {
 		if useMockServer {
 			return "https://private-623898-modelsapi.apiary-mock.com"
 		} else {

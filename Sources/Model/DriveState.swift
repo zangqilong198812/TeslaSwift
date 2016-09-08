@@ -10,17 +10,17 @@ import Foundation
 import ObjectMapper
 import CoreLocation
 
-public class DriveState: Mappable {
+open class DriveState: Mappable {
 	
-	public var shiftState: String?
+	open var shiftState: String?
 	
-	public var speed: CLLocationSpeed?
-	public var latitude: CLLocationDegrees?
-	public var longitude: CLLocationDegrees?
-	public var heading: CLLocationDirection?
-	public var date: NSDate?
+	open var speed: CLLocationSpeed?
+	open var latitude: CLLocationDegrees?
+	open var longitude: CLLocationDegrees?
+	open var heading: CLLocationDirection?
+	open var date: Date?
 	
-	public var position: CLLocation? {
+	open var position: CLLocation? {
 		if let latitude = latitude,
 			let longitude = longitude,
 			let heading = heading,
@@ -40,7 +40,7 @@ public class DriveState: Mappable {
 		
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(_ map: Map) {
 		shiftState	<- map["shift_state"]
 		speed		<- map["speed"]
 		latitude	<- map["latitude"]

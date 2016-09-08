@@ -9,14 +9,14 @@
 import Foundation
 import ObjectMapper
 
-public class CommandResponse: Mappable {
+open class CommandResponse: Mappable {
 	
-	public var result: Bool?
-	public var reason: String?
+	open var result: Bool?
+	open var reason: String?
 	
 	required public init?(_ map: Map) { }
 	
-	public func mapping(map: Map) {
+	open func mapping(_ map: Map) {
 		result	<- map["response.result"]
 		reason	<- map["response.reason"]
 	}
