@@ -12,9 +12,8 @@ target 'TeslaSwift' do
 	target 'TeslaSwiftTests' do
 		
 		inherit! :complete
-		#pod 'Mockingjay' , :git => 'https://github.com/kylef/Mockingjay.git' , :branch => 'master'
-		pod 'OHHTTPStubs', :git => 'https://github.com/AliSoftware/OHHTTPStubs.git', :branch => 'xcode8-gm'
-		pod 'OHHTTPStubs/Swift', :git => 'https://github.com/AliSoftware/OHHTTPStubs.git', :branch => 'xcode8-gm'
+		pod 'OHHTTPStubs', :git => 'https://github.com/AliSoftware/OHHTTPStubs.git', :branch => 'swift-3.0'
+		pod 'OHHTTPStubs/Swift', :git => 'https://github.com/AliSoftware/OHHTTPStubs.git', :branch => 'swift-3.0'
 		
 	end
 end

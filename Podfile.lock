@@ -1,26 +1,26 @@
 PODS:
   - ObjectMapper (1.4.0)
-  - OHHTTPStubs (5.2.0):
-    - OHHTTPStubs/Default (= 5.2.0)
-  - OHHTTPStubs/Core (5.2.0)
-  - OHHTTPStubs/Default (5.2.0):
+  - OHHTTPStubs (5.2.1):
+    - OHHTTPStubs/Default (= 5.2.1)
+  - OHHTTPStubs/Core (5.2.1)
+  - OHHTTPStubs/Default (5.2.1):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.0):
+  - OHHTTPStubs/JSON (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.0):
+  - OHHTTPStubs/NSURLSession (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.0)
-  - OHHTTPStubs/Swift (5.2.0):
+  - OHHTTPStubs/OHPathHelpers (5.2.1)
+  - OHHTTPStubs/Swift (5.2.1):
     - OHHTTPStubs/Core
   - PromiseKit/CorePromise (4.0.0)
 
 DEPENDENCIES:
   - ObjectMapper (from `https://github.com/Hearst-DD/ObjectMapper.git`, branch `swift-3`)
-  - OHHTTPStubs (from `https://github.com/AliSoftware/OHHTTPStubs.git`, branch `xcode8-gm`)
-  - OHHTTPStubs/Swift (from `https://github.com/AliSoftware/OHHTTPStubs.git`, branch `xcode8-gm`)
+  - OHHTTPStubs (from `https://github.com/AliSoftware/OHHTTPStubs.git`, branch `swift-3.0`)
+  - OHHTTPStubs/Swift (from `https://github.com/AliSoftware/OHHTTPStubs.git`, branch `swift-3.0`)
   - PromiseKit/CorePromise (~> 4.0.0)
 
 EXTERNAL SOURCES:
@@ -28,7 +28,7 @@ EXTERNAL SOURCES:
     :branch: swift-3
     :git: https://github.com/Hearst-DD/ObjectMapper.git
   OHHTTPStubs:
-    :branch: xcode8-gm
+    :branch: swift-3.0
     :git: https://github.com/AliSoftware/OHHTTPStubs.git
 
 CHECKOUT OPTIONS:
@@ -36,14 +36,14 @@ CHECKOUT OPTIONS:
     :commit: 0ba8034e626f973fc8449081c0463a0de1940b3f
     :git: https://github.com/Hearst-DD/ObjectMapper.git
   OHHTTPStubs:
-    :commit: d8596d5a9cd429d32077bbf30845f4e7a4bca0f8
+    :commit: 624d51619bc88144015c2b275e761b359ae5ecb3
     :git: https://github.com/AliSoftware/OHHTTPStubs.git
 
 SPEC CHECKSUMS:
   ObjectMapper: a07ad0462c5adf014adc0f89ef04c29b626e855e
-  OHHTTPStubs: 29ae105797c3410112d10b217c8b7a55aab616b2
+  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
   PromiseKit: 97edc7fb2fb7d2c68c8e09d1f79b3ab7bcb6b06a
 
-PODFILE CHECKSUM: f742c9773e747bf3e596f67399fcbf21beee4504
+PODFILE CHECKSUM: 1fda4fdf4100dcd559ff7fcdd3faef81e5231e6a
 
 COCOAPODS: 1.1.0.beta.2
