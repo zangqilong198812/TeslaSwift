@@ -287,7 +287,7 @@ extension TeslaSwift {
 		
 		let request = prepareRequest(endpoint, body: body) as URLRequest
 		let debugEnabled = debuggingEnabled
-		let task = URLSession.shared.dataTask(with: request, completionHandler:  {
+		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
 			logDebug("Respose: \(response)", debuggingEnabled: debugEnabled)
