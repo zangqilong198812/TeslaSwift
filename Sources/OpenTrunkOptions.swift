@@ -14,11 +14,11 @@ public enum OpenTrunkOptions: String, Mappable {
 	
 	case Rear = "rear"
 	
-	public init?(_ map: Map) {
+	public init?(map: Map) {
 		self = .Rear
 	}
 	
-	public mutating func mapping(_ map: Map) {
+	public mutating func mapping(map: Map) {
 		self	<- (map["which_trunk"], EnumTransform())
 	}
 }

@@ -38,9 +38,9 @@ open class ClimateState: Mappable {
 	open var fanStatus: Int?
 	
 	
-	public required init?(_ map: Map) { }
+	public required init?(map: Map) { }
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		
 		let distanceTransform = TransformOf<Temperature, Double>(fromJSON: { Temperature(celsius: $0!) }, toJSON: {$0?.celsius})
 		

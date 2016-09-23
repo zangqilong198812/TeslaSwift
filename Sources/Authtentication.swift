@@ -26,11 +26,11 @@ open class AuthToken: Mappable {
 	
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
-		if map.JSONDictionary.count < 3 { return nil }
+	required public init?(map: Map) {
+		if map.JSON.count < 3 { return nil }
 	}
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		accessToken	<- map["access_token"]
 		tokenType	<- map["token_type"]
 		createdAt	<- (map["created_at"], DateTransform())
@@ -49,11 +49,11 @@ class AuthTokenRequest: Mappable {
 	init() { }
 	
 	// MARK: Mappable protocol
-	required init?(_ map: Map) {
+	required init?(map: Map) {
 		
 	}
 	
-	func mapping(_ map: Map) {
+	func mapping(map: Map) {
 		grantType		<- map["grant_type"]
 		clientID		<- map["client_id"]
 		clientSecret	<- map["client_secret"]

@@ -1,5 +1,5 @@
 PODS:
-  - ObjectMapper (1.4.0)
+  - ObjectMapper (2.0.0)
   - OHHTTPStubs (5.2.1):
     - OHHTTPStubs/Default (= 5.2.1)
   - OHHTTPStubs/Core (5.2.1)
@@ -15,35 +15,19 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (5.2.1)
   - OHHTTPStubs/Swift (5.2.1):
     - OHHTTPStubs/Core
-  - PromiseKit/CorePromise (4.0.0)
+  - PromiseKit/CorePromise (4.0.1)
 
 DEPENDENCIES:
-  - ObjectMapper (from `https://github.com/Hearst-DD/ObjectMapper.git`, branch `swift-3`)
-  - OHHTTPStubs (from `https://github.com/AliSoftware/OHHTTPStubs.git`, branch `swift-3.0`)
-  - OHHTTPStubs/Swift (from `https://github.com/AliSoftware/OHHTTPStubs.git`, branch `swift-3.0`)
+  - ObjectMapper (~> 2.0.0)
+  - OHHTTPStubs
+  - OHHTTPStubs/Swift
   - PromiseKit/CorePromise (~> 4.0.0)
 
-EXTERNAL SOURCES:
-  ObjectMapper:
-    :branch: swift-3
-    :git: https://github.com/Hearst-DD/ObjectMapper.git
-  OHHTTPStubs:
-    :branch: swift-3.0
-    :git: https://github.com/AliSoftware/OHHTTPStubs.git
-
-CHECKOUT OPTIONS:
-  ObjectMapper:
-    :commit: 0ba8034e626f973fc8449081c0463a0de1940b3f
-    :git: https://github.com/Hearst-DD/ObjectMapper.git
-  OHHTTPStubs:
-    :commit: 624d51619bc88144015c2b275e761b359ae5ecb3
-    :git: https://github.com/AliSoftware/OHHTTPStubs.git
-
 SPEC CHECKSUMS:
-  ObjectMapper: a07ad0462c5adf014adc0f89ef04c29b626e855e
+  ObjectMapper: aed2570edabbd3c9b26c939e1cabdb6558f933e0
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
-  PromiseKit: 97edc7fb2fb7d2c68c8e09d1f79b3ab7bcb6b06a
+  PromiseKit: ae9e7f97ee758e23f7b9c5e80380a2e78d6338c5
 
-PODFILE CHECKSUM: 1fda4fdf4100dcd559ff7fcdd3faef81e5231e6a
+PODFILE CHECKSUM: 7d49a8c03d571d1f0c80981ff1b6360f89db1828
 
-COCOAPODS: 1.1.0.beta.2
+COCOAPODS: 1.1.0.rc.2

@@ -301,7 +301,7 @@ extension TeslaSwift {
 					do {
 						let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
 						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
-						if let mapped = Mapper<T>().map(object) {
+						if let mapped = Mapper<T>().map(JSONObject: object) {
 							fulfill(mapped)
 						} else {
 							reject(TeslaError.failedToParseData)
@@ -345,7 +345,7 @@ extension TeslaSwift {
 		
 		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
 		if let body = body {
-			logDebug("Request Body: \(body.toJSONString(true)!)", debuggingEnabled: debuggingEnabled)
+			logDebug("Request Body: \(body.toJSONString(prettyPrint: true)!)", debuggingEnabled: debuggingEnabled)
 		}
 		
 		return request

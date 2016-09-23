@@ -36,11 +36,11 @@ open class DriveState: Mappable {
 		return nil
 	}
 	
-	required public init?(_ map: Map) {
+	required public init?(map: Map) {
 		
 	}
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		shiftState	<- map["shift_state"]
 		speed		<- map["speed"]
 		latitude	<- map["latitude"]

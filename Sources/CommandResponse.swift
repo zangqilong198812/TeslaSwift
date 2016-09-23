@@ -14,9 +14,9 @@ open class CommandResponse: Mappable {
 	open var result: Bool?
 	open var reason: String?
 	
-	required public init?(_ map: Map) { }
+	required public init?(map: Map) { }
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		result	<- map["response.result"]
 		reason	<- map["response.reason"]
 	}

@@ -22,11 +22,11 @@ open class Vehicle: Mappable {
 	open var state: String?
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
+	required public init?(map: Map) {
 		
 	}
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		color		<- map["color"]
 		displayName	<- map["display_name"]
 		id			<- map["id"]

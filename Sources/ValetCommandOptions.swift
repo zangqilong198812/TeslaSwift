@@ -19,9 +19,9 @@ open class ValetCommandOptions: Mappable {
 		password = pin
 	}
 	
-	required public init?(_ map: Map) { }
+	required public init?(map: Map) { }
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		on			<- map["on"]
 		password	<- map["password"]
 	}

@@ -101,9 +101,9 @@ open class ChargeState: Mappable {
 	open internal(set) var chargePortDoorOpen: Bool?
 	
 	
-	public required init?(_ map: Map) { }
+	public required init?(map: Map) { }
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		
 		let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
 		

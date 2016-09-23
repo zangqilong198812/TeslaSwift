@@ -17,9 +17,9 @@ open class GuiSettings: Mappable {
 	open var time24Hours: Bool?
 	open var rangeDisplay: String?
 	
-	required public init?(_ map: Map) { }
+	required public init?(map: Map) { }
 	
-	open func mapping(_ map: Map) {
+	open func mapping(map: Map) {
 		distanceUnits		<- map["gui_distance_units"]
 		temperatureUnits	<- map["gui_temperature_units"]
 		chargeRateUnits		<- map["gui_charge_rate_units"]
