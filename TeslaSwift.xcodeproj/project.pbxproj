@@ -199,7 +199,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CF0D2F181D95A49000E5A304 /* Model2 */ = {
+		CF0D2F181D95A49000E5A304 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				CF0D2F191D95A4A900E5A304 /* Authtentication.swift */,
@@ -215,7 +215,7 @@
 				CF0D2F231D95A4A900E5A304 /* VehicleDetails.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
 			);
-			name = Model2;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		CF26AA211C99CC3000090B20 /* Recorded */ = {
@@ -308,7 +308,7 @@
 			children = (
 				CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */,
 				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
-				CF0D2F181D95A49000E5A304 /* Model2 */,
+				CF0D2F181D95A49000E5A304 /* Model */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
