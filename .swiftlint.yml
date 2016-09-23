@@ -3,6 +3,8 @@ disabled_rules: # rule identifiers to exclude from running
   - trailing_whitespace
   - operator_whitespace
   - cyclomatic_complexity  
+  - conditional_binding_cascade
+  - variable_name
 included: # paths to include during linting. `--path` is ignored if present.
   - Sources
 line_length: 200
