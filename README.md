@@ -12,12 +12,12 @@ Copy `Sources` folder into your project
 
 ####CocoaPods
 ```ruby
-	pod 'TeslaSwift'
+	pod 'TeslaSwift', '~> 3.0.0'
 ```
 ####Swift Package Manager
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
 ```swift
-.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 1)
+.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 3)
 ```
 
 Note: The dependencies are not yet SPM ready!
