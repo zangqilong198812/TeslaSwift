@@ -9,5 +9,3 @@ before_install:
  - rvm install ruby-2.2.2
  - gem install cocoapods --pre
  - pod repo update --silent
-script:
- - xcodebuild -workspace 'TeslaSwift.xcworkspace'  -scheme 'TeslaSwift' -sdk iphonesimulator -destination 'name=iPhone SE' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO test
