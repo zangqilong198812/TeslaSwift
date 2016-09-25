@@ -78,7 +78,7 @@ When the token expires the library will perform another authentication with your
 
 Roadmap
 ============
-2.x
+3.x
 Add new API features and summon
 
 Licence
