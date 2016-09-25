@@ -8,31 +8,38 @@
 
 import XCTest
 @testable import TeslaSwift
-import Mockingjay
+import OHHTTPStubs
 
 class TeslaSwiftTests: XCTestCase {
+	
+	let headers = ["Content-Type" as NSObject :"application/json" as AnyObject]
 	
 	override func setUp() {
 		super.setUp()
 		// Put setup code here. This method is called before the invocation of each test method in the class.
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("Authentication", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Authentication.path), builder: jsonData(data))
+		let stubPath = OHPathForFile("Authentication.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.authentication.path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let path2 = NSBundle(forClass: self.dynamicType).pathForResource("Vehicles", ofType: "json")!
-		let data2 = NSData(contentsOfFile: path2)!
-		stub(uri(Endpoint.Vehicles.path), builder: jsonData(data2))
+		let path2 = OHPathForFile("Vehicles.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.vehicles.path)) {
+			_ in
+			return fixture(filePath: path2!, headers: self.headers)
+		}
 	}
 	
 	override func tearDown() {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		super.tearDown()
+		
 	}
 	
 	func testAuthenticate() {
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -42,21 +49,23 @@ class TeslaSwiftTests: XCTestCase {
 				
 				XCTAssertEqual(response.accessToken, "abc123-mock")
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
 	
 	func testAuthenticationFailed() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("AuthenticationFailed", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Authentication.path), builder: jsonData(data, status: 401))
+		let stubPath = OHPathForFile("AuthenticationFailed.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.authentication.path)) {
+			_ in
+			return fixture(filePath: stubPath!, status: 401, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -66,8 +75,8 @@ class TeslaSwiftTests: XCTestCase {
 				
 				XCTFail("Authentication must fail")
 				expection.fulfill()
-			}.error { (error) in
-				if case TeslaError.AuthenticationFailed = error {
+			}.catch { (error) in
+				if case TeslaError.authenticationFailed = error {
 					
 				} else {
 					XCTFail("Authentication must fail")
@@ -75,44 +84,44 @@ class TeslaSwiftTests: XCTestCase {
 				expection.fulfill()
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
 	
 	func testReuseToken() {
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass")
+		_ = service.authenticate("user", password: "pass")
 			.then {
 				(_) -> Void in
 				
 				service.checkToken().then { (response) -> Void in
 					
-					XCTAssertTrue(response.boolValue)
+					XCTAssertTrue(response)
 					expection.fulfill()
 					
-					}.error { (error) in
+					}.catch { (error) in
 						XCTFail("Token is not valid: \((error as NSError).description)")
 				}
 				
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
 	
 	func testGetVehicles() {
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass")
+		_ = service.authenticate("user", password: "pass")
 			.then {
 				(_) -> Void in
 				service.getVehicles()
@@ -123,38 +132,50 @@ class TeslaSwiftTests: XCTestCase {
 						
 						expection.fulfill()
 						
-					}.error{ (error) in
+					}.catch{ (error) in
 						print(error)
 						XCTFail((error as NSError).description)
 				}
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
 	
 	func testGetVehicleState() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("MobileAccess", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.MobileAccess(vehicleID: 1234567890).path), builder: jsonData(data))
-		let path2 = NSBundle(forClass: self.dynamicType).pathForResource("ChargeState", ofType: "json")!
-		let data2 = NSData(contentsOfFile: path2)!
-		stub(uri(Endpoint.ChargeState(vehicleID: 1234567890).path), builder: jsonData(data2))
-		let path3 = NSBundle(forClass: self.dynamicType).pathForResource("ClimateSettings", ofType: "json")!
-		let data3 = NSData(contentsOfFile: path3)!
-		stub(uri(Endpoint.ClimateState(vehicleID: 1234567890).path), builder: jsonData(data3))
-		let path4 = NSBundle(forClass: self.dynamicType).pathForResource("DriveState", ofType: "json")!
-		let data4 = NSData(contentsOfFile: path4)!
-		stub(uri(Endpoint.DriveState(vehicleID: 1234567890).path), builder: jsonData(data4))
-		let path5 = NSBundle(forClass: self.dynamicType).pathForResource("GuiSettings", ofType: "json")!
-		let data5 = NSData(contentsOfFile: path5)!
-		stub(uri(Endpoint.GuiSettings(vehicleID: 1234567890).path), builder: jsonData(data5))
-		let path6 = NSBundle(forClass: self.dynamicType).pathForResource("VehicleState", ofType: "json")!
-		let data6 = NSData(contentsOfFile: path6)!
-		stub(uri(Endpoint.VehicleState(vehicleID: 1234567890).path), builder: jsonData(data6))
+		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: 1234567890).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: 1234567890).path)) {
+			_ in
+			return fixture(filePath: stubPath2!, headers: self.headers)
+		}
+		let stubPath3 = OHPathForFile("ClimateSettings.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: 1234567890).path)) {
+			_ in
+			return fixture(filePath: stubPath3!, headers: self.headers)
+		}
+		let stubPath4 = OHPathForFile("DriveState.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: 1234567890).path)) {
+			_ in
+			return fixture(filePath: stubPath4!, headers: self.headers)
+		}
+		let stubPath5 = OHPathForFile("GuiSettings.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: 1234567890).path)) {
+			_ in
+			return fixture(filePath: stubPath5!, headers: self.headers)
+		}
+		let stubPath6 = OHPathForFile("VehicleState.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: 1234567890).path)) {
+			_ in
+			return fixture(filePath: stubPath6!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -174,22 +195,24 @@ class TeslaSwiftTests: XCTestCase {
 				XCTAssertEqual(response.vehicleState?.darkRims, true)
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
 	
 	func testCommandWakeUp() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("WakeUp", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .WakeUp).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("WakeUp.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .wakeUp).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -197,30 +220,32 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .WakeUp)
+				service.sendCommandToVehicle(vehicles[0], command: .wakeUp)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test wakeup")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandValetMode() {
 		
 		let options = ValetCommandOptions(valetActivated: true, pin: "1234")
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("SetValetMode", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ValetMode(options: options)).path), builder: jsonData(data))
-		
-		let expection = expectationWithDescription("All Done")
+		let stubPath = OHPathForFile("SetValetMode.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .valetMode(options: options)).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -228,28 +253,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles) in
-				service.sendCommandToVehicle(vehicles[0], command: .ValetMode(options: options))
+				service.sendCommandToVehicle(vehicles[0], command: .valetMode(options: options))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test valet")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandResetValetPin() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("ResetValetPin", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ResetValetPin).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("ResetValetPin.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .resetValetPin).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -257,28 +284,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .ResetValetPin)
+				service.sendCommandToVehicle(vehicles[0], command: .resetValetPin)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test resetValet")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandOpenChargePort() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("OpenChargeDoor", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .OpenChargeDoor).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("OpenChargeDoor.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .openChargeDoor).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -286,28 +315,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .OpenChargeDoor)
+				service.sendCommandToVehicle(vehicles[0], command: .openChargeDoor)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test open charge door")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandChargeStandard() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("ChargeLimitStandard", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ChargeLimitStandard).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("ChargeLimitStandard.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .chargeLimitStandard).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -315,28 +346,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitStandard)
+				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitStandard)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test charge standard")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandChargeMaxRate() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("ChargeLimitMaxRange", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .ChargeLimitMaxRange).path), builder: jsonData(data))
-		
-		let expection = expectationWithDescription("All Done")
+		let stubPath = OHPathForFile("ChargeLimitMaxRange.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .chargeLimitMaxRange).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -344,28 +377,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitMaxRange)
+				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitMaxRange)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test charge max range")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandChargePercentage() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("ChargeLimitPercentage", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri("/api/1/vehicles/1234567890/command/set_charge_limit"), builder: jsonData(data))
+		let stubPath = OHPathForFile("ChargeLimitPercentage.json", type(of: self))
+		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/set_charge_limit")) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -373,28 +408,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .ChargeLimitPercentage(limit: 10))
+				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitPercentage(limit: 10))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test charge percentage")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandStartCharging() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("StartCharging", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .StartCharging).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("StartCharging.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .startCharging).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -402,28 +439,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .StartCharging)
+				service.sendCommandToVehicle(vehicles[0], command: .startCharging)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test start charging")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandStopCharging() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("StopCharging", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .StopCharging).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("StopCharging.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .stopCharging).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -431,28 +470,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .StopCharging)
+				service.sendCommandToVehicle(vehicles[0], command: .stopCharging)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test stop charging")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandFlashLights() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("FlashLights", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .FlashLights).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("FlashLights.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .flashLights).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -460,28 +501,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .FlashLights)
+				service.sendCommandToVehicle(vehicles[0], command: .flashLights)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test FlashLights")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandHonkHorn() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("HonkHorn", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .HonkHorn).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("HonkHorn.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .honkHorn).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -489,28 +532,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .HonkHorn)
+				service.sendCommandToVehicle(vehicles[0], command: .honkHorn)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test HonkHorn")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandUnlockDoors() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("UnlockDoors", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .UnlockDoors).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("UnlockDoors.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .unlockDoors).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -518,28 +563,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .UnlockDoors)
+				service.sendCommandToVehicle(vehicles[0], command: .unlockDoors)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test UnlockDoors")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandLockDoors() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("LockDoors", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .LockDoors).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("LockDoors.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .lockDoors).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -547,28 +594,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .LockDoors)
+				service.sendCommandToVehicle(vehicles[0], command: .lockDoors)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test LockDoors")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandSetTemperature() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("SetTemperature", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri("/api/1/vehicles/1234567890/command/set_temps"), builder: jsonData(data))
+		let stubPath = OHPathForFile("SetTemperature.json", type(of: self))
+		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/set_temps")) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -576,28 +625,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .SetTemperature(driverTemperature: 22.0, passangerTemperature: 23.0))
+				service.sendCommandToVehicle(vehicles[0], command: .setTemperature(driverTemperature: 22.0, passangerTemperature: 23.0))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test SetTemperature")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandStartAutoConditioning() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("StartAutoConditioning", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .StartAutoConditioning).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("StartAutoConditioning.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .startAutoConditioning).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -605,28 +656,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .StartAutoConditioning)
+				service.sendCommandToVehicle(vehicles[0], command: .startAutoConditioning)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test StartAutoConditioning")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandStopAutoConditioning() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("StopAutoConditioning", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .StopAutoConditioning).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("StopAutoConditioning.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .stopAutoConditioning).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -634,28 +687,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .StopAutoConditioning)
+				service.sendCommandToVehicle(vehicles[0], command: .stopAutoConditioning)
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test StopAutoConditioning")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandSetSunRoof() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("SetSunRoof", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri("/api/1/vehicles/1234567890/command/sun_roof_control"), builder: jsonData(data))
+		let stubPath = OHPathForFile("SetSunRoof.json", type(of: self))
+		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/sun_roof_control")) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -663,28 +718,30 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .SetSunRoof(state: .Open, percentage: 20.0))
+				service.sendCommandToVehicle(vehicles[0], command: .setSunRoof(state: .Open, percentage: 20.0))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test SetSunRoof")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandStartVehicle() {
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("StartVehicle", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri("/api/1/vehicles/1234567890/command/remote_start_drive"), builder: jsonData(data))
+		let stubPath = OHPathForFile("StartVehicle.json", type(of: self))
+		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/remote_start_drive")) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -692,30 +749,32 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .StartVehicle(password: "pass"))
+				service.sendCommandToVehicle(vehicles[0], command: .startVehicle(password: "pass"))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test StartVehicle")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 	
 	func testCommandOpenTrunk() {
 		
 		let options = OpenTrunkOptions.Rear
 		
-		let path = NSBundle(forClass: self.dynamicType).pathForResource("OpenTrunk", ofType: "json")!
-		let data = NSData(contentsOfFile: path)!
-		stub(uri(Endpoint.Command(vehicleID: 1234567890, command: .OpenTrunk(options: options)).path), builder: jsonData(data))
+		let stubPath = OHPathForFile("OpenTrunk.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .openTrunk(options: options)).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
 		
-		let expection = expectationWithDescription("All Done")
+		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
 		service.useMockServer = true
@@ -723,18 +782,18 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles) in
-				service.sendCommandToVehicle(vehicles[0], command: .OpenTrunk(options: options))
+				service.sendCommandToVehicle(vehicles[0], command: .openTrunk(options: options))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test OpenTrunk")
 				
 				expection.fulfill()
-			}.error { (error) in
+			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
 		}
 		
-		waitForExpectationsWithTimeout(2, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 	}
 }

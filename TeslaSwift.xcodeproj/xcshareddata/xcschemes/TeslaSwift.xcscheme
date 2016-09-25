@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C8F54543305BD95F34FAB796C9CAAFCA"
+               BlueprintIdentifier = "C49518CEC1F3C4003F4CCDFD58AE4667"
                BuildableName = "ObjectMapper.framework"
                BlueprintName = "ObjectMapper"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -126,7 +126,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5B9C88F6A1BAD5A8801FFDF1A942431"
+               BlueprintIdentifier = "036B386C704DF920827BCA4B8FA871E2"
                BuildableName = "Pods_TeslaSwiftTests.framework"
                BlueprintName = "Pods-TeslaSwiftTests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">

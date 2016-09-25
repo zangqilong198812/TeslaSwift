@@ -9,10 +9,10 @@
 import Foundation
 import ObjectMapper
 
-public class ClimateState: Mappable {
+open class ClimateState: Mappable {
 	
 	public struct Temperature {
-		private var value: Double
+		fileprivate var value: Double
 		
 		public init(celsius: Double?) {
 			value = celsius ?? 0.0
@@ -25,22 +25,22 @@ public class ClimateState: Mappable {
 		public var fahrenheit: Double { return (value * 1.8) + 32.0 }
 	}
 	
-	public var insideTemperature: Temperature?
-	public var outsideTemperature: Temperature?
-	public var driverTemperatureSetting: Temperature?
-	public var passengerTemperatureSetting: Temperature?
-	public var isAutoConditioningOn: Bool?
-	public var isFrontDefrosterOn: Bool?
-	public var isRearDefrosterOn: Bool?
+	open var insideTemperature: Temperature?
+	open var outsideTemperature: Temperature?
+	open var driverTemperatureSetting: Temperature?
+	open var passengerTemperatureSetting: Temperature?
+	open var isAutoConditioningOn: Bool?
+	open var isFrontDefrosterOn: Bool?
+	open var isRearDefrosterOn: Bool?
 	/*
 	* Fan speed 0-6 or nil
 	*/
-	public var fanStatus: Int?
+	open var fanStatus: Int?
 	
 	
-	public required init?(_ map: Map) { }
+	public required init?(map: Map) { }
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		
 		let distanceTransform = TransformOf<Temperature, Double>(fromJSON: { Temperature(celsius: $0!) }, toJSON: {$0?.celsius})
 		

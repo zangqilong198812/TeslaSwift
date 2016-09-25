@@ -14,7 +14,7 @@ public enum OpenTrunkOptions: String, Mappable {
 	
 	case Rear = "rear"
 	
-	public init?(_ map: Map) {
+	public init?(map: Map) {
 		self = .Rear
 	}
 	

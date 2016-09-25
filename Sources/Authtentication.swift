@@ -9,16 +9,16 @@
 import Foundation
 import ObjectMapper
 
-public class AuthToken: Mappable {
+open class AuthToken: Mappable {
 	
 	var accessToken: String?
 	var tokenType: String?
-	var createdAt: NSDate? = NSDate()
-	var expiresIn: NSTimeInterval?
+	var createdAt: Date? = Date()
+	var expiresIn: TimeInterval?
 	
-	public var isValid: Bool {
-		if let createdAt = createdAt, expiresIn = expiresIn {
-			return -NSDate().timeIntervalSinceDate(createdAt) < expiresIn
+	open var isValid: Bool {
+		if let createdAt = createdAt, let expiresIn = expiresIn {
+			return -Date().timeIntervalSince(createdAt) < expiresIn
 		} else {
 			return false
 		}
@@ -26,15 +26,15 @@ public class AuthToken: Mappable {
 	
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
-		if map.JSONDictionary.count < 3 { return nil }
+	required public init?(map: Map) {
+		if map.JSON.count < 3 { return nil }
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		accessToken	<- map["access_token"]
 		tokenType	<- map["token_type"]
 		createdAt	<- (map["created_at"], DateTransform())
-		expiresIn	<- (map["expires_in"], TransformOf<NSTimeInterval, Int>(fromJSON: { NSTimeInterval($0! / 1000) }, toJSON: { Int($0!) * 1000 }))
+		expiresIn	<- (map["expires_in"], TransformOf<TimeInterval, Int>(fromJSON: { TimeInterval($0! / 1000) }, toJSON: { Int($0!) * 1000 }))
 	}
 }
 
@@ -49,7 +49,7 @@ class AuthTokenRequest: Mappable {
 	init() { }
 	
 	// MARK: Mappable protocol
-	required init?(_ map: Map) {
+	required init?(map: Map) {
 		
 	}
 	

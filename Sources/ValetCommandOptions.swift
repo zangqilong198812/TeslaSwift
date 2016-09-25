@@ -9,19 +9,19 @@
 import Foundation
 import ObjectMapper
 
-public class ValetCommandOptions: Mappable {
+open class ValetCommandOptions: Mappable {
 	
-	public var on: Bool = false
-	public var password: String?
+	open var on: Bool = false
+	open var password: String?
 	
 	init(valetActivated: Bool, pin: String?) {
 		on = valetActivated
 		password = pin
 	}
 	
-	required public init?(_ map: Map) { }
+	required public init?(map: Map) { }
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		on			<- map["on"]
 		password	<- map["password"]
 	}

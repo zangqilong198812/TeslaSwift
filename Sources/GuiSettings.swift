@@ -9,17 +9,17 @@
 import Foundation
 import ObjectMapper
 
-public class GuiSettings: Mappable {
+open class GuiSettings: Mappable {
 	
-	public var distanceUnits: String?
-	public var temperatureUnits: String?
-	public var chargeRateUnits: String?
-	public var time24Hours: Bool?
-	public var rangeDisplay: String?
+	open var distanceUnits: String?
+	open var temperatureUnits: String?
+	open var chargeRateUnits: String?
+	open var time24Hours: Bool?
+	open var rangeDisplay: String?
 	
-	required public init?(_ map: Map) { }
+	required public init?(map: Map) { }
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		distanceUnits		<- map["gui_distance_units"]
 		temperatureUnits	<- map["gui_temperature_units"]
 		chargeRateUnits		<- map["gui_charge_rate_units"]

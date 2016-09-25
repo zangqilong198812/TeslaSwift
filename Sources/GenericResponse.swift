@@ -9,53 +9,53 @@
 import Foundation
 import ObjectMapper
 
-public class GenericResponse<T:Mappable>: Mappable {
+open class GenericResponse<T:Mappable>: Mappable {
 	
-	public var response: T!
+	open var response: T!
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
+	required public init?(map: Map) {
 		if map["response"].currentValue == nil {
 			return nil
 		}
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		response	<- map["response"]
 	}
 	
 }
 
-public class GenericArrayResponse<T:Mappable>: Mappable {
+open class GenericArrayResponse<T:Mappable>: Mappable {
 	
-	public var response: [T]!
+	open var response: [T]!
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
+	required public init?(map: Map) {
 		if map["response"].currentValue == nil {
 			return nil
 		}
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		response	<- map["response"]
 	}
 	
 }
 
 
-public class GenericBoolResponse: Mappable {
+open class GenericBoolResponse: Mappable {
 	
-	public var response: Bool!
+	open var response: Bool!
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
+	required public init?(map: Map) {
 		if map["response"].currentValue == nil {
 			return nil
 		}
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		response	<- map["response"]
 	}
 	

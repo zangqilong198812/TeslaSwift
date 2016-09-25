@@ -9,32 +9,32 @@
 import Foundation
 import ObjectMapper
 
-public class VehicleState: Mappable {
+open class VehicleState: Mappable {
 	
-	public var driverDoorOpen: Bool?
-	public var driverRearDoorOpen: Bool?
-	public var passangerDoorOpen: Bool?
-	public var passangerRearDoorOpen: Bool?
-	public var frontTrunkOpen: Bool?
-	public var rearTrunkOpen: Bool?
-	public var firmwareVersion: String?
-	public var locked: Bool?
-	public var sunRoofInstalled: Bool?
-	public var sunRoofState: String?
-	public var sunRoofPercentageOpen: Int? // null if not installed
-	public var darkRims: Bool?
-	public var wheelType: String?
-	public var hasSpoiler: Bool?
-	public var roofColor: String? // "None" for panoramic roof
-	public var perfConfig: String?
+	open var driverDoorOpen: Bool?
+	open var driverRearDoorOpen: Bool?
+	open var passangerDoorOpen: Bool?
+	open var passangerRearDoorOpen: Bool?
+	open var frontTrunkOpen: Bool?
+	open var rearTrunkOpen: Bool?
+	open var firmwareVersion: String?
+	open var locked: Bool?
+	open var sunRoofInstalled: Bool?
+	open var sunRoofState: String?
+	open var sunRoofPercentageOpen: Int? // null if not installed
+	open var darkRims: Bool?
+	open var wheelType: String?
+	open var hasSpoiler: Bool?
+	open var roofColor: String? // "None" for panoramic roof
+	open var perfConfig: String?
 	
 	
 	// MARK: Mappable protocol
-	required public init?(_ map: Map) {
+	required public init?(map: Map) {
 		
 	}
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		driverDoorOpen			<- map["df"]
 		driverRearDoorOpen		<- map["dr"]
 		passangerDoorOpen		<- map["pf"]

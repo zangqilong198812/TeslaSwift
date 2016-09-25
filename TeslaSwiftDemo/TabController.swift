@@ -12,7 +12,7 @@ class TabController: UITabBarController {
 
 	let service = TeslaSwift.defaultInstance
 	
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
 		service.useMockServer = false
@@ -20,7 +20,7 @@ class TabController: UITabBarController {
 		
 		if (!service.isAuthenticated) {
 			
-			performSegueWithIdentifier("loginSegue", sender: self)
+			performSegue(withIdentifier: "loginSegue", sender: self)
 			
 		}
 	}

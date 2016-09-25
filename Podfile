@@ -2,15 +2,18 @@
 platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 
-use_frameworks!
-
-pod 'PromiseKit/CorePromise' , '~> 3.2.0'
-pod 'ObjectMapper'
-
 target 'TeslaSwift' do
-end
+	
+	use_frameworks!
 
-target 'TeslaSwiftTests' do
-	pod 'Mockingjay' , :git => 'https://github.com/kylef/Mockingjay.git' , :branch => 'master'
-end
+	pod 'PromiseKit/CorePromise' , '~> 4.0.0'
+	pod 'ObjectMapper' , '~> 2.0.0'
 
+	target 'TeslaSwiftTests' do
+		
+		inherit! :complete
+		pod 'OHHTTPStubs'
+		pod 'OHHTTPStubs/Swift'
+		
+	end
+end

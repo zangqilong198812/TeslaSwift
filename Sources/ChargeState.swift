@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-public class ChargeState: Mappable {
+open class ChargeState: Mappable {
 	
 	public enum ChargingState: String {
 		case Complete = "Complete"
@@ -18,7 +18,7 @@ public class ChargeState: Mappable {
 	}
 	
 	public struct Distance {
-		private var value: Double
+		fileprivate var value: Double
 		
 		public init(miles: Double?) {
 			value = miles ?? 0.0
@@ -34,76 +34,76 @@ public class ChargeState: Mappable {
 	/**
 	Current state of the charging
 	*/
-	public internal(set) var chargingState: ChargingState?
+	open internal(set) var chargingState: ChargingState?
 	/**
 	Charge to max rate or standard
 	*/
-	public internal(set) var chargeToMaxRange: Bool?
-	public internal(set) var maxRangeChargeCounter: Int?
+	open internal(set) var chargeToMaxRange: Bool?
+	open internal(set) var maxRangeChargeCounter: Int?
 	/**
 	Vehicle connected to supercharger?
 	*/
-	public internal(set) var fastChargerPresent: Bool?
+	open internal(set) var fastChargerPresent: Bool?
 	
 	/**
 	Rated Miles
 	*/
-	public internal(set) var batteryRange: Distance?
+	open internal(set) var batteryRange: Distance?
 	/**
 	Range estimated from recent driving
 	*/
-	public internal(set) var estimatedBatteryRange: Distance?
+	open internal(set) var estimatedBatteryRange: Distance?
 	/**
 	Ideal Miles
 	*/
-	public internal(set) var idealBatteryRange: Distance?
+	open internal(set) var idealBatteryRange: Distance?
 	/**
 	Percentage of the battery
 	*/
-	public internal(set) var batteryLevel: Int?
+	open internal(set) var batteryLevel: Int?
 	/**
 	Current flowing into the battery
 	*/
-	public internal(set) var batteryCurrent: Double?
+	open internal(set) var batteryCurrent: Double?
 	
-	public internal(set) var chargeStartingRange: Double?
-	public internal(set) var chargeStartingSOC: Double?
+	open internal(set) var chargeStartingRange: Double?
+	open internal(set) var chargeStartingSOC: Double?
 	
 	/**
 	Voltage. Only has value while charging
 	*/
-	public internal(set) var chargerVoltage: Int?
+	open internal(set) var chargerVoltage: Int?
 	/**
 	Max current allowed by charger and adapter
 	*/
-	public internal(set) var chargerPilotCurrent: Int?
+	open internal(set) var chargerPilotCurrent: Int?
 	/**
 	Current actually being drawn
 	*/
-	public internal(set) var chargerActualCurrent: Int?
+	open internal(set) var chargerActualCurrent: Int?
 	/**
 	KW of charger
 	*/
-	public internal(set) var chargerPower: Int?
+	open internal(set) var chargerPower: Int?
 	
 	
 	/**
 	Only valid while charging
 	*/
-	public internal(set) var timeToFullCharge: Int?
+	open internal(set) var timeToFullCharge: Int?
 	/**
 	miles/hour while charging or -1 if not charging
 	*/
-	public internal(set) var chargeRate: Double?
+	open internal(set) var chargeRate: Double?
 	/**
 	Vehicle charging por is open?
 	*/
-	public internal(set) var chargePortDoorOpen: Bool?
+	open internal(set) var chargePortDoorOpen: Bool?
 	
 	
-	public required init?(_ map: Map) { }
+	public required init?(map: Map) { }
 	
-	public func mapping(map: Map) {
+	open func mapping(map: Map) {
 		
 		let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
 		
