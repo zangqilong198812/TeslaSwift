@@ -246,7 +246,7 @@ extension TeslaSwift {
 		
 		return checkAuthentication()
 			.then(on: .global()) { (token) -> Promise<CommandResponse> in
-			self.request(.command(vehicleID: vehicle.vehicleID!, command: command), body: body)
+			self.request(.command(vehicleID: vehicle.id!, command: command), body: body)
 		}
 		
 	}
