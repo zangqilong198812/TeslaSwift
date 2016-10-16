@@ -207,7 +207,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandWakeUp() {
 		
 		let stubPath = OHPathForFile("WakeUp.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .wakeUp).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .wakeUp).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -240,7 +240,7 @@ class TeslaSwiftTests: XCTestCase {
 		let options = ValetCommandOptions(valetActivated: true, pin: "1234")
 		
 		let stubPath = OHPathForFile("SetValetMode.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .valetMode(options: options)).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .valetMode(options: options)).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -271,7 +271,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandResetValetPin() {
 		
 		let stubPath = OHPathForFile("ResetValetPin.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .resetValetPin).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .resetValetPin).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -302,7 +302,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandOpenChargePort() {
 		
 		let stubPath = OHPathForFile("OpenChargeDoor.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .openChargeDoor).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .openChargeDoor).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -333,7 +333,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandChargeStandard() {
 		
 		let stubPath = OHPathForFile("ChargeLimitStandard.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .chargeLimitStandard).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .chargeLimitStandard).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -364,7 +364,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandChargeMaxRate() {
 		
 		let stubPath = OHPathForFile("ChargeLimitMaxRange.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .chargeLimitMaxRange).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .chargeLimitMaxRange).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -395,7 +395,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandChargePercentage() {
 		
 		let stubPath = OHPathForFile("ChargeLimitPercentage.json", type(of: self))
-		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/set_charge_limit")) {
+		_ = stub(condition: isPath("/api/1/vehicles/321/command/set_charge_limit")) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -426,7 +426,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStartCharging() {
 		
 		let stubPath = OHPathForFile("StartCharging.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .startCharging).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .startCharging).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -457,7 +457,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStopCharging() {
 		
 		let stubPath = OHPathForFile("StopCharging.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .stopCharging).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .stopCharging).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -488,7 +488,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandFlashLights() {
 		
 		let stubPath = OHPathForFile("FlashLights.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .flashLights).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .flashLights).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -519,7 +519,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandHonkHorn() {
 		
 		let stubPath = OHPathForFile("HonkHorn.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .honkHorn).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .honkHorn).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -550,7 +550,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandUnlockDoors() {
 		
 		let stubPath = OHPathForFile("UnlockDoors.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .unlockDoors).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .unlockDoors).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -581,7 +581,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandLockDoors() {
 		
 		let stubPath = OHPathForFile("LockDoors.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .lockDoors).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .lockDoors).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -612,7 +612,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandSetTemperature() {
 		
 		let stubPath = OHPathForFile("SetTemperature.json", type(of: self))
-		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/set_temps")) {
+		_ = stub(condition: isPath("/api/1/vehicles/321/command/set_temps")) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -643,7 +643,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStartAutoConditioning() {
 		
 		let stubPath = OHPathForFile("StartAutoConditioning.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .startAutoConditioning).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .startAutoConditioning).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -674,7 +674,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStopAutoConditioning() {
 		
 		let stubPath = OHPathForFile("StopAutoConditioning.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .stopAutoConditioning).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .stopAutoConditioning).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -705,7 +705,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandSetSunRoof() {
 		
 		let stubPath = OHPathForFile("SetSunRoof.json", type(of: self))
-		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/sun_roof_control")) {
+		_ = stub(condition: isPath("/api/1/vehicles/321/command/sun_roof_control")) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -736,7 +736,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStartVehicle() {
 		
 		let stubPath = OHPathForFile("StartVehicle.json", type(of: self))
-		_ = stub(condition: isPath("/api/1/vehicles/1234567890/command/remote_start_drive")) {
+		_ = stub(condition: isPath("/api/1/vehicles/321/command/remote_start_drive")) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -769,7 +769,7 @@ class TeslaSwiftTests: XCTestCase {
 		let options = OpenTrunkOptions.Rear
 		
 		let stubPath = OHPathForFile("OpenTrunk.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 1234567890, command: .openTrunk(options: options)).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .openTrunk(options: options)).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
