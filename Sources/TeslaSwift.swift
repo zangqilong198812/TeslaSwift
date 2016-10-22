@@ -177,7 +177,7 @@ extension TeslaSwift {
 		return checkAuthentication().then(on: .global()) {
 			(token) -> Promise<(Bool, ChargeState, ClimateState, DriveState, GuiSettings, VehicleState)> in
 			
-			let vehicleID = vehicle.vehicleID!
+			let vehicleID = vehicle.id!
 			
 			let p1 = self.request(.mobileAccess(vehicleID: vehicleID))
 				.then(on: .global()) { (data: GenericBoolResponse) -> Bool in

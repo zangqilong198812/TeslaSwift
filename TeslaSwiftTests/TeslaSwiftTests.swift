@@ -145,32 +145,32 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleState() {
 		
 		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: 1234567890).path)) {
+		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: 321).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
 		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: 1234567890).path)) {
+		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: 321).path)) {
 			_ in
 			return fixture(filePath: stubPath2!, headers: self.headers)
 		}
 		let stubPath3 = OHPathForFile("ClimateSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: 1234567890).path)) {
+		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: 321).path)) {
 			_ in
 			return fixture(filePath: stubPath3!, headers: self.headers)
 		}
 		let stubPath4 = OHPathForFile("DriveState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: 1234567890).path)) {
+		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: 321).path)) {
 			_ in
 			return fixture(filePath: stubPath4!, headers: self.headers)
 		}
 		let stubPath5 = OHPathForFile("GuiSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: 1234567890).path)) {
+		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: 321).path)) {
 			_ in
 			return fixture(filePath: stubPath5!, headers: self.headers)
 		}
 		let stubPath6 = OHPathForFile("VehicleState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: 1234567890).path)) {
+		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: 321).path)) {
 			_ in
 			return fixture(filePath: stubPath6!, headers: self.headers)
 		}
