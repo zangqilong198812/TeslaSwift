@@ -39,7 +39,7 @@ Use the promise to check the success:
 	
 	//LogedIn!
 	
-.error { (error) in 
+.catch { (error) in 
 	print("Error: \(error as NSError)")			
 }
 ```
@@ -59,7 +59,7 @@ class ViewController {
 			self.data = response
 			self.tableView.reloadData()
 			
-			}.error { (error) in
+			}.catch { (error) in
 				//Process error
    }
 }
