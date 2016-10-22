@@ -39,7 +39,7 @@ Use the promise to check the success:
 	
 	//LogedIn!
 	
-.catch { (error) in 
+}.catch { (error) in 
 	print("Error: \(error as NSError)")			
 }
 ```
