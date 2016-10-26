@@ -50,7 +50,18 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 		return cell
 	}
 
-
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		super.prepare(for: segue, sender: sender)
+		
+		if segue.identifier == "toDetail" {
+			
+			if let indexPath = tableView.indexPathForSelectedRow {
+				let vc = segue.destination as! VehicleViewController
+				vc.vehicle = data![indexPath.row]
+			}
+			
+		}
+	}
 
 }
 
