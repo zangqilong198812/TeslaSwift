@@ -42,7 +42,16 @@ open class ClimateState: Mappable {
 	
 	open func mapping(map: Map) {
 		
-		let distanceTransform = TransformOf<Temperature, Double>(fromJSON: { Temperature(celsius: $0!) }, toJSON: {$0?.celsius})
+		let distanceTransform = TransformOf<Temperature, Double>(
+			fromJSON: {
+				if let temp = $0 {
+					return Temperature(celsius: temp)
+				} else {
+					return nil
+				}
+			},
+			toJSON: {$0?.celsius}
+		)
 		
 		insideTemperature			<- (map["inside_temp"], distanceTransform)
 		outsideTemperature			<- (map["outside_temp"], distanceTransform)

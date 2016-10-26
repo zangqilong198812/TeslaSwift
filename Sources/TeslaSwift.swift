@@ -174,8 +174,9 @@ extension TeslaSwift {
 	*/
 	public func getVehicleStatus(_ vehicle: Vehicle) -> Promise<VehicleDetails> {
 		
+		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<(Bool, ChargeState, ClimateState, DriveState, GuiSettings, VehicleState)> in
+			(token) -> Promise<(Bool?, ChargeState?, ClimateState?, DriveState?, GuiSettings?, VehicleState?)> in
 			
 			let vehicleID = vehicle.id!
 			
@@ -204,12 +205,12 @@ extension TeslaSwift {
 					data.response
 				}
 			
-			return when(fulfilled: p1.asVoid(), p2.asVoid(), p3.asVoid(), p4.asVoid(), p5.asVoid(), p6.asVoid()).then(on: .global()) {
-				return (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!, p6.value!)
+			return when(resolved: p1.asVoid(), p2.asVoid(), p3.asVoid(), p4.asVoid(), p5.asVoid(), p6.asVoid()).then(on: .global()) { _ in
+				return (p1.value, p2.value, p3.value, p4.value, p5.value, p6.value)
 			}
 			
 			}.then(on: .global()) {
-				(mobileAccess: Bool, chargeState: ChargeState, climateState: ClimateState, driveState: DriveState, guiSettings: GuiSettings, vehicleState: VehicleState) -> Promise<VehicleDetails> in
+				(mobileAccess: Bool?, chargeState: ChargeState?, climateState: ClimateState?, driveState: DriveState?, guiSettings: GuiSettings?, vehicleState: VehicleState?) -> Promise<VehicleDetails> in
 				
 				let vehicleDetails = VehicleDetails()
 				vehicleDetails.mobileAccess = mobileAccess
