@@ -20,8 +20,6 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 .Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 3)
 ```
 
-Note: The dependencies are not yet SPM ready!
-
 Usage
 ============
 Import the module
