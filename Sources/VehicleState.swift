@@ -41,7 +41,7 @@ open class VehicleState: Mappable {
 		passangerRearDoorOpen	<- map["pr"]
 		frontTrunkOpen			<- map["ft"]
 		rearTrunkOpen			<- map["rt"]
-		firmwareVersion			<- map["car_verson"]
+		firmwareVersion			<- map["car_version"]
 		locked					<- map["locked"]
 		sunRoofInstalled		<- map["sun_roof_installed"]
 		sunRoofState			<- map["sun_roof_state"]

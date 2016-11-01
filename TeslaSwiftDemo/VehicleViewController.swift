@@ -26,13 +26,17 @@ class VehicleViewController: UIViewController {
 	
 	@IBAction func getStats(_ sender: AnyObject) {
 		if let vehicle = vehicle {
-			_ = TeslaSwift.defaultInstance.getVehicleStatus(vehicle).then {
-				(details:VehicleDetails) -> Void in
+			_ = TeslaSwift.defaultInstance.getVehicleChargeState(vehicle).then {
+				(chargeState: ChargeState) -> Void in
 				
-				self.textView.text =
-					"Battery: \(details.chargeState?.batteryLevel)\n" +
-				"firmwareV: \(details.vehicleState?.firmwareVersion)"
+				self.textView.text = "Battery: \(chargeState.batteryLevel) %\n"
 				
+				}.then(on: .global()) {
+					return TeslaSwift.defaultInstance.getVehicleState(vehicle)
+				}.then {
+					(vehicleState: VehicleState) -> Void in
+					
+					self.textView.text = self.textView.text + "FW: \(vehicleState.firmwareVersion)\n"
 			}
 		}
 	}
