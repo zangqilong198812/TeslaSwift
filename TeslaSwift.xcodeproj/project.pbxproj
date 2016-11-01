@@ -380,7 +380,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Joao Nunes";
 				TargetAttributes = {
 					CFD2E7C01C8A13D60005E882 = {

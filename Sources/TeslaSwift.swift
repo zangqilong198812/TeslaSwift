@@ -225,6 +225,134 @@ extension TeslaSwift {
 		
 	}
 	
+	/**
+	Fetchs the vehicle mobile access state
+	
+	- returns: A Promise with mobile access state.
+	*/
+	public func getVehicleMobileAccessState(_ vehicle: Vehicle) -> Promise<Bool> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<GenericBoolResponse> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.mobileAccess(vehicleID: vehicleID))
+			
+			}.then(on: .global()) {
+				(data: GenericBoolResponse) -> Bool in
+				
+				data.response
+		}
+	}
+	
+	/**
+	Fetchs the vehicle charge state
+	
+	- returns: A Promise with charge state.
+	*/
+	public func getVehicleChargeState(_ vehicle: Vehicle) -> Promise<ChargeState> {
+		
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<GenericResponse<ChargeState>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.chargeState(vehicleID: vehicleID))
+			
+			}.then(on: .global()) {
+				(data: GenericResponse<ChargeState>) -> ChargeState in
+				
+				data.response
+			}
+	}
+	
+	/**
+	Fetchs the vehicle Climate state
+	
+	- returns: A Promise with Climate state.
+	*/
+	public func getVehicleClimateState(_ vehicle: Vehicle) -> Promise<ClimateState> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<GenericResponse<ClimateState>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.climateState(vehicleID: vehicleID))
+				
+			}.then(on: .global()) {
+				(data: GenericResponse<ClimateState>) -> ClimateState in
+				
+				data.response
+			}
+	}
+	
+	/**
+	Fetchs the vehicledrive state
+	
+	- returns: A Promise with drive state.
+	*/
+	public func getVehicleDriveState(_ vehicle: Vehicle) -> Promise<DriveState> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<GenericResponse<DriveState>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.driveState(vehicleID: vehicleID))
+				
+			}.then(on: .global()) {
+				(data: GenericResponse<DriveState>) -> DriveState in
+				
+					data.response
+			}
+	}
+	
+	/**
+	Fetchs the vehicle Gui Settings
+	
+	- returns: A Promise with Gui Settings.
+	*/
+	public func getVehicleGuiSettings(_ vehicle: Vehicle) -> Promise<GuiSettings> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<GenericResponse<GuiSettings>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.guiSettings(vehicleID: vehicleID))
+			
+			}.then(on: .global()) {
+				(data: GenericResponse<GuiSettings>) -> GuiSettings in
+				
+					data.response
+			}
+	}
+	
+	/**
+	Fetchs the vehicle state
+	
+	- returns: A Promise with vehicle state.
+	*/
+	public func getVehicleState(_ vehicle: Vehicle) -> Promise<VehicleState> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<GenericResponse<VehicleState>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.vehicleState(vehicleID: vehicleID))
+			
+			}.then(on: .global()) {
+				(data: GenericResponse<VehicleState>) -> VehicleState in
+				
+				data.response
+		}
+	}
+	
+
 	
 	/**
 	Sends a command to the vehicle
