@@ -29,6 +29,7 @@ open class ClimateState: Mappable {
 	open var outsideTemperature: Temperature?
 	open var driverTemperatureSetting: Temperature?
 	open var passengerTemperatureSetting: Temperature?
+    open var isClimateOn: Bool?
 	open var isAutoConditioningOn: Bool?
 	open var isFrontDefrosterOn: Bool?
 	open var isRearDefrosterOn: Bool?
@@ -36,6 +37,14 @@ open class ClimateState: Mappable {
 	* Fan speed 0-6 or nil
 	*/
 	open var fanStatus: Int?
+    
+    open var seatHeaterLeft: Int?
+    open var seatHeaterRight: Int?
+    open var seatHeaterRearLeft: Int?
+    open var seatHeaterRearCenter: Int?
+    open var seatHeaterRearRight: Int?
+    open var seatHeaterRearLeftBack: Int?
+    open var seatHeaterRearRightBack: Int?
 	
 	
 	public required init?(map: Map) { }
@@ -57,9 +66,18 @@ open class ClimateState: Mappable {
 		outsideTemperature			<- (map["outside_temp"], distanceTransform)
 		driverTemperatureSetting	<- (map["driver_temp_setting"], distanceTransform)
 		passengerTemperatureSetting <- (map["passenger_temp_setting"], distanceTransform)
+        isClimateOn                 <- map["is_climate_on"]
 		isAutoConditioningOn		<- map["is_auto_conditioning_on"]
 		isFrontDefrosterOn			<- map["is_front_defroster_on"]
 		isRearDefrosterOn			<- map["is_rear_defroster_on"]
 		fanStatus					<- map["fan_status"]
+        
+        seatHeaterLeft				<- map["seat_heater_left"]
+        seatHeaterRight				<- map["seat_heater_right"]
+        seatHeaterRearLeft			<- map["seat_heater_rear_left"]
+        seatHeaterRearCenter		<- map["seat_heater_rear_center"]
+        seatHeaterRearRight			<- map["seat_heater_rear_right"]
+        seatHeaterRearLeftBack		<- map["seat_heater_rear_left_back"]
+        seatHeaterRearRightBack		<- map["seat_heater_rear_right_back"]
 	}
 }
