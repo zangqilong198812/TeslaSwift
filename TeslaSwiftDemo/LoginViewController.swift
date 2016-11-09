@@ -20,12 +20,16 @@ class LoginViewController: UIViewController {
 		if let email = emailTextField.text,
 			let password = passwordTextField.text {
 			
+			UserDefaults.standard.set(email, forKey: "tesla.email")
+			UserDefaults.standard.set(password, forKey: "tesla.password")
+			UserDefaults.standard.synchronize()
+			
 			TeslaSwift.defaultInstance.authenticate(email, password: password).then {
 				(token) -> Void in
 				
 				self.dismiss(animated: true, completion: nil)
 				
-				}.catch{ (error) in
+				}.catch { (error) in
 					if case TeslaError.authenticationFailed =  error {
 						self.messageLabel.text = "Authentication failed"
 					} else {
@@ -41,7 +45,14 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+		
+		if let email = UserDefaults.standard.object(forKey: "tesla.email") as? String {
+			emailTextField.text = email
+		}
+		if let password = UserDefaults.standard.object(forKey: "tesla.password") as? String {
+			passwordTextField.text = password
+		}
+		
     }
 
 	
