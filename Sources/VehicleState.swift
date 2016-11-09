@@ -13,8 +13,8 @@ open class VehicleState: Mappable {
 	
 	open var driverDoorOpen: Bool?
 	open var driverRearDoorOpen: Bool?
-	open var passangerDoorOpen: Bool?
-	open var passangerRearDoorOpen: Bool?
+	open var passengerDoorOpen: Bool?
+	open var passengerRearDoorOpen: Bool?
 	open var frontTrunkOpen: Bool?
 	open var rearTrunkOpen: Bool?
 	open var firmwareVersion: String?
@@ -37,8 +37,8 @@ open class VehicleState: Mappable {
 	open func mapping(map: Map) {
 		driverDoorOpen			<- map["df"]
 		driverRearDoorOpen		<- map["dr"]
-		passangerDoorOpen		<- map["pf"]
-		passangerRearDoorOpen	<- map["pr"]
+		passengerDoorOpen		<- map["pf"]
+		passengerRearDoorOpen	<- map["pr"]
 		frontTrunkOpen			<- map["ft"]
 		rearTrunkOpen			<- map["rt"]
 		firmwareVersion			<- map["car_version"]
