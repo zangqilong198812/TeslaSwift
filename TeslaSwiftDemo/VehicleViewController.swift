@@ -24,6 +24,15 @@ class VehicleViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 	
+	@IBAction func getTemps(_ sender: Any) {
+		if let vehicle = vehicle {
+			_ = TeslaSwift.defaultInstance.getVehicleClimateState(vehicle).then {
+				(climateState: ClimateState) -> Void in
+				self.textView.text = "Inside temp: \(climateState.insideTemperature)\n"
+			}
+		}
+		
+	}
 	@IBAction func getStats(_ sender: AnyObject) {
 		if let vehicle = vehicle {
 			_ = TeslaSwift.defaultInstance.getVehicleChargeState(vehicle).then {
