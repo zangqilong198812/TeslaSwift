@@ -194,8 +194,8 @@ class TeslaSwiftTests: XCTestCase {
 				
 				XCTAssertEqual(response.mobileAccess, false)
 				XCTAssertEqual(response.chargeState?.chargingState, .Complete)
-				XCTAssertEqual(response.chargeState?.batteryRange?.miles, 200.0)
-				XCTAssertEqual(response.climateState?.insideTemperature?.celsius,18.0)
+				XCTAssertEqual(response.chargeState?.ratedBatteryRange?.miles, 200.0)
+				XCTAssertEqual(response.climateState?.insideTemperature,"18.0")
 				XCTAssertEqual(response.driveState?.position?.course,10.0)
 				XCTAssertEqual(response.guiSettings?.distanceUnits,"km/hr")
 				XCTAssertEqual(response.vehicleState?.darkRims, true)
@@ -262,7 +262,7 @@ class TeslaSwiftTests: XCTestCase {
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.chargingState, .Complete)
-				XCTAssertEqual(response.batteryRange?.miles, 200.0)
+				XCTAssertEqual(response.ratedBatteryRange?.miles, 200.0)
 				
 				expection.fulfill()
 			}.catch { (error) in
@@ -293,7 +293,7 @@ class TeslaSwiftTests: XCTestCase {
 				service.getVehicleClimateState(vehicles[0])
 			}.then { (response) -> Void in
 				
-				XCTAssertEqual(response.insideTemperature?.celsius,18.0)
+				XCTAssertEqual(response.insideTemperature,"18.0")
 				
 				expection.fulfill()
 			}.catch { (error) in
@@ -822,7 +822,7 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .setTemperature(driverTemperature: 22.0, passangerTemperature: 23.0))
+				service.sendCommandToVehicle(vehicles[0], command: .setTemperature(driverTemperature: 22.0, passengerTemperature: 23.0))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)

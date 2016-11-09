@@ -32,7 +32,7 @@ public enum VehicleCommand {
 	case honkHorn
 	case unlockDoors
 	case lockDoors
-	case setTemperature(driverTemperature:Double, passangerTemperature:Double)
+	case setTemperature(driverTemperature:Double, passengerTemperature:Double)
 	case startAutoConditioning
 	case stopAutoConditioning
 	case setSunRoof(state:RoofState, percentage:Double)
@@ -67,8 +67,8 @@ public enum VehicleCommand {
 			return "command/door_unlock"
 		case .lockDoors:
 			return "command/door_lock"
-		case let .setTemperature(driverTemperature, passangerTemperature):
-			return "command/set_temps?driver_temp=\(driverTemperature)&passenger_temp=\(passangerTemperature)"
+		case let .setTemperature(driverTemperature, passengerTemperature):
+			return "command/set_temps?driver_temp=\(driverTemperature)&passenger_temp=\(passengerTemperature)"
 		case .startAutoConditioning:
 			return "command/auto_conditioning_start"
 		case .stopAutoConditioning:
