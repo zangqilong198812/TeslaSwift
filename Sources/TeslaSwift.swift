@@ -20,7 +20,7 @@ public enum RoofState: String {
 
 public enum VehicleCommand {
 	case wakeUp
-	case valetMode(options:ValetCommandOptions)
+	case valetMode(valetActivated: Bool, pin: String?)
 	case resetValetPin
 	case openChargeDoor
 	case chargeLimitStandard
@@ -35,7 +35,7 @@ public enum VehicleCommand {
 	case setTemperature(driverTemperature:Double, passengerTemperature:Double)
 	case startAutoConditioning
 	case stopAutoConditioning
-	case setSunRoof(state:RoofState, percentage:Double)
+	case setSunRoof(state:RoofState, percentage:Int)
 	case startVehicle(password:String)
 	case openTrunk(options:OpenTrunkOptions)
 	
@@ -53,8 +53,8 @@ public enum VehicleCommand {
 			return "command/charge_standard"
 		case .chargeLimitMaxRange:
 			return "command/charge_max_range"
-		case let .chargeLimitPercentage(limit):
-			return  "command/set_charge_limit?percent=\(limit)"
+		case .chargeLimitPercentage:
+			return  "command/set_charge_limit"
 		case .startCharging:
 			return  "command/charge_start"
 		case .stopCharging:
@@ -67,16 +67,16 @@ public enum VehicleCommand {
 			return "command/door_unlock"
 		case .lockDoors:
 			return "command/door_lock"
-		case let .setTemperature(driverTemperature, passengerTemperature):
-			return "command/set_temps?driver_temp=\(driverTemperature)&passenger_temp=\(passengerTemperature)"
+		case .setTemperature:
+			return "command/set_temps"
 		case .startAutoConditioning:
 			return "command/auto_conditioning_start"
 		case .stopAutoConditioning:
 			return "command/auto_conditioning_stop"
-		case let .setSunRoof(state, percentage):
-			return "command/sun_roof_control?state=\(state.rawValue)&percent=\(percentage)"
-		case let .startVehicle(password):
-			return "command/remote_start_drive?password=\(password)"
+		case .setSunRoof:
+			return "command/sun_roof_control"
+		case .startVehicle:
+			return "command/remote_start_drive"
 		case .openTrunk:
 			return "command/trunk_open"
 		}
@@ -366,10 +366,18 @@ extension TeslaSwift {
 		var body: Mappable?
 		
 		switch command {
-		case let .valetMode(options):
-			body = options
+		case let .valetMode(valetActivated, pin):
+			body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
 		case let .openTrunk(options):
 			body = options
+		case let .chargeLimitPercentage(limit):
+			body = ChargeLimitPercentageCommandOptions(limit: limit)
+		case let .setTemperature(driverTemperature, passengerTemperature):
+			body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
+		case let .setSunRoof(state, percent):
+			body = SetSunRoofCommandOptions(state: state, percent: percent)
+		case let .startVehicle(password):
+			body = RemoteStartDriveCommandOptions(password: password)
 		default: break
 		}
 		

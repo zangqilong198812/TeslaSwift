@@ -433,11 +433,9 @@ class TeslaSwiftTests: XCTestCase {
 	}
 	
 	func testCommandValetMode() {
-		
-		let options = ValetCommandOptions(valetActivated: true, pin: "1234")
-		
+
 		let stubPath = OHPathForFile("SetValetMode.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .valetMode(options: options)).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .valetMode(valetActivated: true, pin: "1234")).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -450,7 +448,7 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles) in
-				service.sendCommandToVehicle(vehicles[0], command: .valetMode(options: options))
+				service.sendCommandToVehicle(vehicles[0], command: .valetMode(valetActivated: true, pin: "1234"))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
@@ -915,7 +913,7 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate("user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .setSunRoof(state: .Open, percentage: 20.0))
+				service.sendCommandToVehicle(vehicles[0], command: .setSunRoof(state: .Open, percentage: 20))
 			}.then { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
