@@ -158,11 +158,10 @@ extension TeslaSwift {
 	*/
 	public func getVehicles() -> Promise<[Vehicle]> {
 		
-		return checkAuthentication().then(on: .global()) { (token) -> Promise<[Vehicle]> in
+		return checkAuthentication().then(on: .global()) { _ in
 			self.request(.vehicles, body: nil)
-				.then(on: .global()) { (data: GenericArrayResponse<Vehicle>) -> [Vehicle] in
-					data.response
-			}
+			}.then(on: .global()) { (data: ArrayResponse<Vehicle>) -> [Vehicle] in
+				data.response
 		}
 		
 	}
@@ -181,27 +180,27 @@ extension TeslaSwift {
 			let vehicleID = vehicle.id!
 			
 			let p1 = self.request(.mobileAccess(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericBoolResponse) -> Bool in
+				.then(on: .global()) { (data: BoolResponse) -> Bool in
 					data.response
 				}
 			let p2 = self.request(.chargeState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<ChargeState>) -> ChargeState in
+				.then(on: .global()) { (data: Response<ChargeState>) -> ChargeState in
 					data.response
 				}
 			let p3 = self.request(.climateState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<ClimateState>) -> ClimateState in
+				.then(on: .global()) { (data: Response<ClimateState>) -> ClimateState in
 					data.response
 				}
 			let p4 = self.request(.driveState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<DriveState>) -> DriveState in
+				.then(on: .global()) { (data: Response<DriveState>) -> DriveState in
 					data.response
 				}
 			let p5 = self.request(.guiSettings(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<GuiSettings>) -> GuiSettings in
+				.then(on: .global()) { (data: Response<GuiSettings>) -> GuiSettings in
 					data.response
 				}
 			let p6 = self.request(.vehicleState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<VehicleState>) -> VehicleState in
+				.then(on: .global()) { (data: Response<VehicleState>) -> VehicleState in
 					data.response
 				}
 			
@@ -233,14 +232,14 @@ extension TeslaSwift {
 	public func getVehicleMobileAccessState(_ vehicle: Vehicle) -> Promise<Bool> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericBoolResponse> in
+			(token) -> Promise<BoolResponse> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.mobileAccess(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericBoolResponse) -> Bool in
+				(data: BoolResponse) -> Bool in
 				
 				data.response
 		}
@@ -255,14 +254,14 @@ extension TeslaSwift {
 		
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<ChargeState>> in
+			(token) -> Promise<Response<ChargeState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.chargeState(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericResponse<ChargeState>) -> ChargeState in
+				(data: Response<ChargeState>) -> ChargeState in
 				
 				data.response
 			}
@@ -276,14 +275,14 @@ extension TeslaSwift {
 	public func getVehicleClimateState(_ vehicle: Vehicle) -> Promise<ClimateState> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<ClimateState>> in
+			(token) -> Promise<Response<ClimateState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.climateState(vehicleID: vehicleID))
 				
 			}.then(on: .global()) {
-				(data: GenericResponse<ClimateState>) -> ClimateState in
+				(data: Response<ClimateState>) -> ClimateState in
 				
 				data.response
 			}
@@ -297,14 +296,14 @@ extension TeslaSwift {
 	public func getVehicleDriveState(_ vehicle: Vehicle) -> Promise<DriveState> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<DriveState>> in
+			(token) -> Promise<Response<DriveState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.driveState(vehicleID: vehicleID))
 				
 			}.then(on: .global()) {
-				(data: GenericResponse<DriveState>) -> DriveState in
+				(data: Response<DriveState>) -> DriveState in
 				
 					data.response
 			}
@@ -318,14 +317,14 @@ extension TeslaSwift {
 	public func getVehicleGuiSettings(_ vehicle: Vehicle) -> Promise<GuiSettings> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<GuiSettings>> in
+			(token) -> Promise<Response<GuiSettings>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.guiSettings(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericResponse<GuiSettings>) -> GuiSettings in
+				(data: Response<GuiSettings>) -> GuiSettings in
 				
 					data.response
 			}
@@ -339,14 +338,14 @@ extension TeslaSwift {
 	public func getVehicleState(_ vehicle: Vehicle) -> Promise<VehicleState> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<VehicleState>> in
+			(token) -> Promise<Response<VehicleState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.vehicleState(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericResponse<VehicleState>) -> VehicleState in
+				(data: Response<VehicleState>) -> VehicleState in
 				
 				data.response
 		}
