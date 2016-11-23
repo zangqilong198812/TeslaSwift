@@ -148,69 +148,6 @@ class TeslaSwiftTests: XCTestCase {
 	
 	// MARK: - Vehicle states -
 	
-	func testGetVehicleStatus() {
-		
-		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath!, headers: self.headers)
-		}
-		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath2!, headers: self.headers)
-		}
-		let stubPath3 = OHPathForFile("ClimateSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath3!, headers: self.headers)
-		}
-		let stubPath4 = OHPathForFile("DriveState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath4!, headers: self.headers)
-		}
-		let stubPath5 = OHPathForFile("GuiSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath5!, headers: self.headers)
-		}
-		let stubPath6 = OHPathForFile("VehicleState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath6!, headers: self.headers)
-		}
-		
-		let expection = expectation(description: "All Done")
-		
-		let service = TeslaSwift()
-		service.useMockServer = true
-		
-		service.authenticate("user", password: "pass").then { (token) in
-			service.getVehicles()
-			}.then { (vehicles)  in
-				service.getVehicleStatus(vehicles[0])
-			}.then { (response) -> Void in
-				
-				XCTAssertEqual(response.mobileAccess, false)
-				XCTAssertEqual(response.chargeState?.chargingState, .Complete)
-				XCTAssertEqual(response.chargeState?.ratedBatteryRange?.miles, 200.0)
-				XCTAssertEqual(response.climateState?.insideTemperature,"18.0")
-				XCTAssertEqual(response.driveState?.position?.course,10.0)
-				XCTAssertEqual(response.guiSettings?.distanceUnits,"km/hr")
-				XCTAssertEqual(response.vehicleState?.darkRims, true)
-				
-				expection.fulfill()
-			}.catch { (error) in
-				print(error)
-				XCTFail((error as NSError).description)
-		}
-		
-		waitForExpectations(timeout: 2, handler: nil)
-		
-	}
-	
-	
 	func testGetVehicleMobileState() {
 		
 		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))

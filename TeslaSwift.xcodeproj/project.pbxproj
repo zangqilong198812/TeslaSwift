@@ -30,8 +30,6 @@
 		CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */; };
 		CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F221D95A4A900E5A304 /* Vehicle.swift */; };
 		CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F221D95A4A900E5A304 /* Vehicle.swift */; };
-		CF0D2F391D95A4A900E5A304 /* VehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F231D95A4A900E5A304 /* VehicleDetails.swift */; };
-		CF0D2F3A1D95A4A900E5A304 /* VehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F231D95A4A900E5A304 /* VehicleDetails.swift */; };
 		CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F241D95A4A900E5A304 /* VehicleState.swift */; };
 		CF0D2F3C1D95A4A900E5A304 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F241D95A4A900E5A304 /* VehicleState.swift */; };
 		CF1492AF1D2BF87A0061088C /* AuthenticationFailed.json in Resources */ = {isa = PBXBuildFile; fileRef = CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */; };
@@ -119,7 +117,6 @@
 		CF0D2F201D95A4A900E5A304 /* OpenTrunkOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenTrunkOptions.swift; sourceTree = "<group>"; };
 		CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValetCommandOptions.swift; sourceTree = "<group>"; };
 		CF0D2F221D95A4A900E5A304 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
-		CF0D2F231D95A4A900E5A304 /* VehicleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetails.swift; sourceTree = "<group>"; };
 		CF0D2F241D95A4A900E5A304 /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
 		CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AuthenticationFailed.json; sourceTree = "<group>"; };
 		CF1BD5921DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeLimitPercentageCommandOptions.swift; sourceTree = "<group>"; };
@@ -230,7 +227,6 @@
 				CF1BD5981DD505EF00E4C493 /* SetSunRoofCommandOptions.swift */,
 				CF1BD59B1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift */,
 				CF0D2F221D95A4A900E5A304 /* Vehicle.swift */,
-				CF0D2F231D95A4A900E5A304 /* VehicleDetails.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
 			);
 			name = Model;
@@ -586,7 +582,6 @@
 				CF1BD5931DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */,
-				CF0D2F391D95A4A900E5A304 /* VehicleDetails.swift in Sources */,
 				CF0D2F271D95A4A900E5A304 /* ChargeState.swift in Sources */,
 				CF0D2F351D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */,
@@ -614,7 +609,6 @@
 				CF0D2F2E1D95A4A900E5A304 /* DriveState.swift in Sources */,
 				CF1BD59A1DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
 				CF1BD59D1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
-				CF0D2F3A1D95A4A900E5A304 /* VehicleDetails.swift in Sources */,
 				CF0D2F281D95A4A900E5A304 /* ChargeState.swift in Sources */,
 				CF1BD5941DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
 				CF0D2F2A1D95A4A900E5A304 /* ClimateState.swift in Sources */,
