@@ -401,10 +401,6 @@ extension TeslaSwift {
 		
 		return promise
 	}
-	/*func request<T:Mappable>(endpoint:Endpoint, body:Mappable?) -> Future<[T],TeslaError> {
-		
-		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath, logging: debuggingEnabled)
-	}*/
 	
 	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> NSMutableURLRequest {
 		
