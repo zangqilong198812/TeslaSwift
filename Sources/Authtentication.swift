@@ -46,7 +46,13 @@ class AuthTokenRequest: Mappable {
 	var email: String?
 	var password: String?
 	
-	init() { }
+	init(email: String, password: String, grantType: String, clientID: String, clientSecret: String) {
+		self.email = email
+		self.password = password
+		self.grantType = grantType
+		self.clientID = clientID
+		self.clientSecret = clientSecret
+	}
 	
 	// MARK: Mappable protocol
 	required init?(map: Map) {
