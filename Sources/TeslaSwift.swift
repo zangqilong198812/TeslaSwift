@@ -361,7 +361,7 @@ extension TeslaSwift {
 		
 		let (promise, fulfill, reject) = Promise<T>.pending()
 		
-		let request = prepareRequest(endpoint, body: body) as URLRequest
+		let request = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
 		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
@@ -400,9 +400,9 @@ extension TeslaSwift {
 		return promise
 	}
 	
-	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> NSMutableURLRequest {
-		
-		let request = NSMutableURLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
+	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> URLRequest {
+	
+		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
 		request.httpMethod = endpoint.method
 		
 		if let token = self.token?.accessToken {
