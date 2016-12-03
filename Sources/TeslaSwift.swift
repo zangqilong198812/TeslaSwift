@@ -140,13 +140,16 @@ extension TeslaSwift {
 				return result
 		}.recover { (error) -> AuthToken in
 
-			if (error as NSError).code == 401 {
-				throw TeslaError.authenticationFailed
+			if case let TeslaError.networkError(error: internalError) = error {
+				if internalError.code == 401 {
+					throw TeslaError.authenticationFailed
+				} else {
+					throw error
+				}
 			} else {
 				throw error
 			}
 		}
-		
 	}
 	
 	/**
@@ -373,16 +376,12 @@ extension TeslaSwift {
 			
 			if case 200..<300 = httpResponse.statusCode {
 				
-				if let data = data {
-					do {
-						let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
-						if let mapped = Mapper<T>().map(JSONObject: object) {
-							fulfill(mapped)
-						} else {
-							reject(TeslaError.failedToParseData)
-						}
-					} catch {
+				if let data = data,
+					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+					logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
+					if let mapped = Mapper<T>().map(JSONObject: object) {
+						fulfill(mapped)
+					} else {
 						reject(TeslaError.failedToParseData)
 					}
 				} else {
@@ -390,7 +389,7 @@ extension TeslaSwift {
 				}
 				
 			} else {
-				reject(NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))
+				reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
 			}
 			
 			
