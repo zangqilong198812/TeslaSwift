@@ -123,7 +123,7 @@ extension TeslaSwift {
 	- returns: A Promise with the AuthToken.
 	*/
 
-	public func authenticate(_ email: String, password: String) -> Promise<AuthToken> {
+	public func authenticate(email: String, password: String) -> Promise<AuthToken> {
 		
 		self.email = email
 		self.password = password
@@ -349,7 +349,7 @@ extension TeslaSwift {
 				return Promise<AuthToken>(value: self.token!)
 			} else {
 				if let email = self.email, let password = self.password {
-					return self.authenticate(email, password: password)
+					return self.authenticate(email: email, password: password)
 				} else {
 					return Promise<AuthToken>(error: TeslaError.authenticationRequired)
 				}
