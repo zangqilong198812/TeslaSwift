@@ -26,7 +26,7 @@ class VehicleViewController: UIViewController {
 	
 	@IBAction func getTemps(_ sender: Any) {
 		if let vehicle = vehicle {
-			_ = TeslaSwift.defaultInstance.getVehicleClimateState(vehicle).then {
+			_ = api.getVehicleClimateState(vehicle).then {
 				(climateState: ClimateState) -> Void in
 				self.textView.text = "Inside temp: \(climateState.insideTemperature)\n"
 			}
@@ -35,13 +35,13 @@ class VehicleViewController: UIViewController {
 	}
 	@IBAction func getStats(_ sender: AnyObject) {
 		if let vehicle = vehicle {
-			_ = TeslaSwift.defaultInstance.getVehicleChargeState(vehicle).then {
+			_ = api.getVehicleChargeState(vehicle).then {
 				(chargeState: ChargeState) -> Void in
 				
 				self.textView.text = "Battery: \(chargeState.batteryLevel) %\n"
 				
 				}.then(on: .global()) {
-					return TeslaSwift.defaultInstance.getVehicleState(vehicle)
+					return self.api.getVehicleState(vehicle)
 				}.then {
 					(vehicleState: VehicleState) -> Void in
 					
@@ -52,7 +52,7 @@ class VehicleViewController: UIViewController {
 	
 	@IBAction func command(_ sender: AnyObject) {
 		if let vehicle = vehicle {
-			_ = TeslaSwift.defaultInstance.sendCommandToVehicle(vehicle, command: .lockDoors).then {
+			_ = api.sendCommandToVehicle(vehicle, command: .lockDoors).then {
 				(response:CommandResponse) -> Void in
 				self.textView.text = (response.result! ? "true" : "false")
 				if let reason = response.reason {

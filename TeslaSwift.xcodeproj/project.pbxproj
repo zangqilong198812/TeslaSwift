@@ -32,6 +32,7 @@
 		CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F221D95A4A900E5A304 /* Vehicle.swift */; };
 		CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F241D95A4A900E5A304 /* VehicleState.swift */; };
 		CF0D2F3C1D95A4A900E5A304 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D2F241D95A4A900E5A304 /* VehicleState.swift */; };
+		CF14238D1DF360A500CB4D96 /* APIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF14238C1DF360A500CB4D96 /* APIViewController.swift */; };
 		CF1492AF1D2BF87A0061088C /* AuthenticationFailed.json in Resources */ = {isa = PBXBuildFile; fileRef = CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */; };
 		CF1BD5931DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BD5921DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift */; };
 		CF1BD5941DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BD5921DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift */; };
@@ -118,6 +119,7 @@
 		CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValetCommandOptions.swift; sourceTree = "<group>"; };
 		CF0D2F221D95A4A900E5A304 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		CF0D2F241D95A4A900E5A304 /* VehicleState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
+		CF14238C1DF360A500CB4D96 /* APIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIViewController.swift; sourceTree = "<group>"; };
 		CF1492AE1D2BF87A0061088C /* AuthenticationFailed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AuthenticationFailed.json; sourceTree = "<group>"; };
 		CF1BD5921DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeLimitPercentageCommandOptions.swift; sourceTree = "<group>"; };
 		CF1BD5951DD5051600E4C493 /* SetTemperatureCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetTemperatureCommandOptions.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */,
+				CF14238C1DF360A500CB4D96 /* APIViewController.swift */,
 				CF48FA981C8B08AC00B1DA93 /* TabController.swift */,
 				CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */,
 				CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */,
@@ -584,6 +587,7 @@
 				CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */,
 				CF0D2F271D95A4A900E5A304 /* ChargeState.swift in Sources */,
 				CF0D2F351D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
+				CF14238D1DF360A500CB4D96 /* APIViewController.swift in Sources */,
 				CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF0D2F2B1D95A4A900E5A304 /* CommandResponse.swift in Sources */,

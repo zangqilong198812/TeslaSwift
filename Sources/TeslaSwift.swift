@@ -95,7 +95,6 @@ public enum TeslaError: Error {
 
 open class TeslaSwift {
 	
-	open static let defaultInstance = TeslaSwift()
 	open var useMockServer = false
 	open var debuggingEnabled = false
 	

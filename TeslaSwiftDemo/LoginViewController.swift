@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
 	
 	
 	@IBOutlet weak var messageLabel: UILabel!
+	
 	@IBAction func loginAction(_ sender: AnyObject) {
 		
 		if let email = emailTextField.text,
@@ -24,7 +25,7 @@ class LoginViewController: UIViewController {
 			UserDefaults.standard.set(password, forKey: "tesla.password")
 			UserDefaults.standard.synchronize()
 			
-			TeslaSwift.defaultInstance.authenticate(email, password: password).then {
+			api.authenticate(email, password: password).then {
 				(token) -> Void in
 				
 				self.dismiss(animated: true, completion: nil)
