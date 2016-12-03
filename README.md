@@ -13,7 +13,7 @@ Copy `Sources` folder into your project
 
 ####CocoaPods
 ```ruby
-	pod 'TeslaSwift', '~> 3.0.0'
+	pod 'TeslaSwift', '~> 3.0'
 ```
 ####Swift Package Manager
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
@@ -30,7 +30,8 @@ Import the module
 
 Perform an authentication with your My Tesla credentials: 
 ```swift 
-TeslaSwift.defaultInstance.authenticate(email, password: password)
+let api = TeslaSwift()
+api.authenticate(email: email, password: password)
 ```
 Use the promise to check the success: 
 ```swift 
@@ -52,23 +53,23 @@ class ViewController {
 
   func showCars() {
 
-    TeslaSwift.defaultInstance.getVehicles()
-			.then { (response) -> Void in
+    api.getVehicles()
+		.then { (response) -> Void in
 			
 			self.data = response
 			self.tableView.reloadData()
 			
-			}.catch { (error) in
-				//Process error
+		}.catch { (error) in
+			//Process error
    }
 }
 ```    
 
 Options
 ============
-You can use the mock server by setting: `TeslaSwift.defaultInstance.useMockServer = true`
+You can use the mock server by setting: `api.useMockServer = true`
 
-You can enable debugging by setting: `TeslaSwift.defaultInstance.debuggingEnabled = true`
+You can enable debugging by setting: `api.debuggingEnabled = true`
 
 Other Features
 ============
