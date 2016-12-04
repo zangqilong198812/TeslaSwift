@@ -2,7 +2,7 @@
     "response": {
         "driver_temp_setting" : 24,
         "fan_status" : 0,
-        "inside_temp" : "18.0",
+        "inside_temp" : 18.0,
         "is_auto_conditioning_on" : 0,
         "is_climate_on" : 0,
         "is_front_defroster_on" : 3,
@@ -10,7 +10,7 @@
         "left_temp_direction" : 583,
         "max_avail_temp" : 28,
         "min_avail_temp" : 15,
-        "outside_temp" : "-1.5",
+        "outside_temp" : -1.5,
         "passenger_temp_setting" : 24,
         "right_temp_direction" : 583,
         "seat_heater_left" : 0,

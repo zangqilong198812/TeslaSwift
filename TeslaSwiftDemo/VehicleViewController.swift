@@ -28,7 +28,7 @@ class VehicleViewController: UIViewController {
 		if let vehicle = vehicle {
 			_ = api.getVehicleClimateState(vehicle).then {
 				(climateState: ClimateState) -> Void in
-				self.textView.text = "Inside temp: \(climateState.insideTemperature)\n"
+				self.textView.text = "Inside temp: \(climateState.insideTemperature?.celsius)\n"
 			}
 		}
 		

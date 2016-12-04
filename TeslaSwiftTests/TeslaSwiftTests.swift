@@ -230,7 +230,7 @@ class TeslaSwiftTests: XCTestCase {
 				service.getVehicleClimateState(vehicles[0])
 			}.then { (response) -> Void in
 				
-				XCTAssertEqual(response.insideTemperature,"18.0")
+				XCTAssertEqual(response.insideTemperature?.celsius,18.0)
 				
 				expection.fulfill()
 			}.catch { (error) in

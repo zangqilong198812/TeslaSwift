@@ -25,8 +25,8 @@ open class ClimateState: Mappable {
 		public var fahrenheit: Double { return (value * 1.8) + 32.0 }
 	}
 	
-	open var insideTemperature: String?
-	open var outsideTemperature: String?
+	open var insideTemperature: Temperature?
+	open var outsideTemperature: Temperature?
 	open var driverTemperatureSetting: Temperature?
 	open var passengerTemperatureSetting: Temperature?
     open var maxAvailableTemperature: Temperature?
@@ -70,8 +70,8 @@ open class ClimateState: Mappable {
 			toJSON: {$0?.celsius}
 		)
 		
-		insideTemperature			<- map["inside_temp"]
-		outsideTemperature			<- map["outside_temp"]
+		insideTemperature			<- (map["inside_temp"], temperatureTransform)
+		outsideTemperature			<- (map["outside_temp"], temperatureTransform)
 		driverTemperatureSetting	<- (map["driver_temp_setting"], temperatureTransform)
 		passengerTemperatureSetting <- (map["passenger_temp_setting"], temperatureTransform)
         maxAvailableTemperature     <- (map["max_avail_temp"], temperatureTransform)
