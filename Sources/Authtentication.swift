@@ -15,6 +15,7 @@ open class AuthToken: Mappable {
 	var tokenType: String?
 	var createdAt: Date? = Date()
 	var expiresIn: TimeInterval?
+	var refreshToken: String?
 	
 	open var isValid: Bool {
 		if let createdAt = createdAt, let expiresIn = expiresIn {
@@ -24,6 +25,9 @@ open class AuthToken: Mappable {
 		}
 	}
 	
+	public init(accessToken: String) {
+		self.accessToken = accessToken
+	}
 	
 	// MARK: Mappable protocol
 	required public init?(map: Map) {
@@ -34,7 +38,8 @@ open class AuthToken: Mappable {
 		accessToken	<- map["access_token"]
 		tokenType	<- map["token_type"]
 		createdAt	<- (map["created_at"], DateTransform())
-		expiresIn	<- (map["expires_in"], TransformOf<TimeInterval, Int>(fromJSON: { TimeInterval($0! / 1000) }, toJSON: { Int($0!) * 1000 }))
+		expiresIn	<- map["expires_in"]
+		refreshToken <- map["refresh_token"]
 	}
 }
 
