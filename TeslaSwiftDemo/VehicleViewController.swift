@@ -33,21 +33,46 @@ class VehicleViewController: UIViewController {
 		}
 		
 	}
-	@IBAction func getStats(_ sender: AnyObject) {
+	@IBAction func getChargeState(_ sender: AnyObject) {
 		if let vehicle = vehicle {
 			_ = api.getVehicleChargeState(vehicle).then {
 				(chargeState: ChargeState) -> Void in
 				
 				self.textView.text = "Battery: \(chargeState.batteryLevel) %\n"
 				
-				}.then(on: .global()) {
-					return self.api.getVehicleState(vehicle)
-				}.then {
-					(vehicleState: VehicleState) -> Void in
+				}
+		}
+	}
+	@IBAction func getVehicleState(_ sender: Any) {
+			if let vehicle = vehicle {
+				_ = self.api.getVehicleState(vehicle).then(execute: { (vehicleState: VehicleState) -> Void in
 					
 					self.textView.text = self.textView.text + "FW: \(vehicleState.firmwareVersion)\n"
+				})
+		}
+		
+	}
+	@IBAction func getDriveState(_ sender: Any) {
+		
+		if let vehicle = vehicle {
+			_ = api.getVehicleDriveState(vehicle).then {
+				(driveState: DriveState) -> Void in
+				
+				self.textView.text = "Location: \(driveState.position)"
+				
 			}
 		}
+		
+	}
+	@IBAction func getGUISettings(_ sender: Any) {
+		if let vehicle = vehicle {
+			_ = api.getVehicleGuiSettings(vehicle).then(execute: { (guiSettings: GuiSettings) -> Void in
+				self.textView.text = "Charge rate units: \(guiSettings.chargeRateUnits)"
+				
+				
+			})
+		}
+		
 	}
 	
 	@IBAction func command(_ sender: AnyObject) {

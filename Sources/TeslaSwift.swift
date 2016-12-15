@@ -415,6 +415,7 @@ extension TeslaSwift {
 		}
 		
 		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
+		logDebug("Request Headers: \(request.allHTTPHeaderFields)", debuggingEnabled: debuggingEnabled)
 		if let body = body {
 			logDebug("Request Body: \(body.toJSONString(prettyPrint: true)!)", debuggingEnabled: debuggingEnabled)
 		}

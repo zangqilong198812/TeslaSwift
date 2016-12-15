@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,18 +102,18 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGv-NT-M2M" id="N9i-Hr-k3f">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bbt-TU-HOi">
-                                                    <rect key="frame" x="15" y="12" width="32" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="31.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ulw-nk-We8">
-                                                    <rect key="frame" x="286" y="12" width="42" height="20"/>
+                                                    <rect key="frame" x="286.5" y="12" width="41.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -168,39 +168,67 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1iA-0c-01W">
-                                <rect key="frame" x="152" y="318.5" width="71" height="30"/>
+                                <rect key="frame" x="152" y="319" width="71" height="30"/>
                                 <state key="normal" title="Command"/>
                                 <connections>
                                     <action selector="command:" destination="hQa-7w-LXN" eventType="touchUpInside" id="ot1-Sv-VtE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V2I-wH-VVW">
-                                <rect key="frame" x="155.5" y="72" width="64" height="30"/>
-                                <state key="normal" title="Get Stats"/>
+                                <rect key="frame" x="16" y="72" width="119" height="30"/>
+                                <state key="normal" title="Get Charge State"/>
                                 <connections>
-                                    <action selector="getStats:" destination="hQa-7w-LXN" eventType="touchUpInside" id="bZc-YF-ChA"/>
+                                    <action selector="getChargeState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="0S2-Xz-nck"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDa-tz-cjg">
-                                <rect key="frame" x="151" y="118" width="72" height="30"/>
+                                <rect key="frame" x="151" y="72" width="72" height="30"/>
                                 <state key="normal" title="Get temps"/>
                                 <connections>
                                     <action selector="getTemps:" destination="hQa-7w-LXN" eventType="touchUpInside" id="IRa-o0-Lij"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xP4-ae-x7r">
+                                <rect key="frame" x="256" y="72" width="103" height="30"/>
+                                <state key="normal" title="Get drive State"/>
+                                <connections>
+                                    <action selector="getDriveState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="gc3-Eu-hBM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8v-jY-iJa">
+                                <rect key="frame" x="16" y="101" width="115" height="30"/>
+                                <state key="normal" title="Get GUI Settings"/>
+                                <connections>
+                                    <action selector="getGUISettings:" destination="hQa-7w-LXN" eventType="touchUpInside" id="Jty-TR-a0B"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7a-lS-cgG">
+                                <rect key="frame" x="143" y="101" width="115" height="30"/>
+                                <state key="normal" title="Get vehicle state"/>
+                                <connections>
+                                    <action selector="getVehicleState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="l7O-Ay-bFQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="g7a-lS-cgG" firstAttribute="baseline" secondItem="v8v-jY-iJa" secondAttribute="baseline" id="0r9-Cp-cZK"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="centerX" secondItem="zs8-Um-QL5" secondAttribute="centerX" id="1v9-CD-u7p"/>
+                            <constraint firstItem="qDa-tz-cjg" firstAttribute="trailing" secondItem="1iA-0c-01W" secondAttribute="trailing" id="53z-5N-2eV"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="trailing" secondItem="zs8-Um-QL5" secondAttribute="trailingMargin" id="580-EF-m7n"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="leading" secondItem="zs8-Um-QL5" secondAttribute="leadingMargin" id="6yK-w5-77i"/>
                             <constraint firstItem="ro4-ug-Nab" firstAttribute="top" secondItem="dL3-Y4-FTE" secondAttribute="bottom" constant="90" id="87g-in-Fax"/>
-                            <constraint firstItem="V2I-wH-VVW" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="8" id="F5G-ZP-jBC"/>
+                            <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="centerY" secondItem="zs8-Um-QL5" secondAttribute="centerY" id="HC4-Wz-f3B"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="26" id="Ifi-ov-SfX"/>
-                            <constraint firstItem="V2I-wH-VVW" firstAttribute="centerX" secondItem="zs8-Um-QL5" secondAttribute="centerX" id="O8t-f1-5Hw"/>
-                            <constraint firstItem="qDa-tz-cjg" firstAttribute="top" secondItem="V2I-wH-VVW" secondAttribute="bottom" constant="16" id="YLU-yp-hyK"/>
-                            <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="zs8-Um-QL5" secondAttribute="centerX" id="hTm-85-gvV"/>
+                            <constraint firstItem="V2I-wH-VVW" firstAttribute="leading" secondItem="dL3-Y4-FTE" secondAttribute="leading" id="YoO-4n-cSJ"/>
+                            <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="dL3-Y4-FTE" secondAttribute="centerX" id="Zkk-J1-41o"/>
+                            <constraint firstItem="V2I-wH-VVW" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="8" symbolic="YES" id="dCk-o2-SJo"/>
+                            <constraint firstItem="xP4-ae-x7r" firstAttribute="baseline" secondItem="qDa-tz-cjg" secondAttribute="baseline" id="ebx-82-gQY"/>
+                            <constraint firstItem="v8v-jY-iJa" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="leading" id="kcW-Yd-VGP"/>
+                            <constraint firstItem="v8v-jY-iJa" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="37" id="pww-bt-4nh"/>
+                            <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>
+                            <constraint firstItem="xP4-ae-x7r" firstAttribute="trailing" secondItem="dL3-Y4-FTE" secondAttribute="trailing" id="u7E-K6-cVx"/>
                         </constraints>
                     </view>
                     <connections>
