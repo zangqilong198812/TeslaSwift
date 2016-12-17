@@ -102,6 +102,8 @@ open class TeslaSwift {
 	
 	fileprivate var email: String?
 	fileprivate var password: String?
+	
+	public init() { }
 }
 
 extension TeslaSwift {
