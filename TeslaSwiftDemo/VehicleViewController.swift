@@ -39,9 +39,11 @@ class VehicleViewController: UIViewController {
 				(chargeState: ChargeState) -> Void in
 				
 				self.textView.text = "Battery: \(chargeState.batteryLevel!) %\n" +
-				"rate: \(chargeState.chargeRate!.kms) kms\n" +
+				"charge rate: \(chargeState.chargeRate!.kms) kms/h\n" +
 				"energy added: \(chargeState.chargeEnergyAdded!) kwh\n" +
-				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) kms\n"
+				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) kms\n" +
+				"power: \(chargeState.chargerPower!) KW\n" +
+				"\(chargeState.chargerVoltage!)V \(chargeState.chargerActualCurrent!)A\n"
 				
 				return ()
 				}
