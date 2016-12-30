@@ -23,6 +23,15 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 
 Usage
 ============
+Tesla server is not fully compatible with ATS so you need to add the following to your app Info.plist
+```XML
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+</dict>
+```
+
 Import the module
 ```swift
 	import TeslaSwift
