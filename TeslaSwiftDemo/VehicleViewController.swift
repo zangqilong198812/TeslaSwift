@@ -38,12 +38,13 @@ class VehicleViewController: UIViewController {
 			_ = api.getVehicleChargeState(vehicle).then {
 				(chargeState: ChargeState) -> Void in
 				
-				self.textView.text = "Battery: \(chargeState.batteryLevel!) %\n" +
-				"charge rate: \(chargeState.chargeRate!.kms) kms/h\n" +
-				"energy added: \(chargeState.chargeEnergyAdded!) kwh\n" +
-				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) kms\n" +
-				"power: \(chargeState.chargerPower!) KW\n" +
-				"\(chargeState.chargerVoltage!)V \(chargeState.chargerActualCurrent!)A\n"
+				self.textView.text = "Battery: \(chargeState.batteryLevel!) % (\(chargeState.idealBatteryRange!.kms) km)\n" +
+				"charge rate: \(chargeState.chargeRate!.kms) km/h\n" +
+				"energy added: \(chargeState.chargeEnergyAdded!) kWh\n" +
+				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) km\n" +
+				"power: \(chargeState.chargerPower!) kW\n" +
+				"\(chargeState.chargerVoltage!)V \(chargeState.chargerActualCurrent!)A\n" +
+				"charger max current: \(chargeState.chargerPilotCurrent)"
 				
 				return ()
 				}
