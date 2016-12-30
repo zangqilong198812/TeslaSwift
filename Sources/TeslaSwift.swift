@@ -162,7 +162,7 @@ extension TeslaSwift {
 	If the token is invalid a new authentication will be required
 	
 	*/
-	public func reuseToken(token: AuthToken) {
+	public func reuse(token: AuthToken) {
 		self.token = token
 	}
 	
