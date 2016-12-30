@@ -154,6 +154,28 @@ extension TeslaSwift {
 		}
 	}
 	
+	
+	/**
+	Use this method to reuse a previous authentication token
+	
+	This method is useful if your app wants to ask the user for credentials once and reuse the token skiping authentication
+	If the token is invalid a new authentication will be required
+	
+	*/
+	public func reuseToken(token: AuthToken) {
+		self.token = token
+	}
+	
+	/**
+	Removes all the information related to the previous authentication
+	
+	*/
+	public func logout() {
+		email = nil
+		password = nil
+		token = nil
+	}
+	
 	/**
 	Fetchs the list of your vehicles including not yet delivered ones
 	

@@ -12,9 +12,9 @@ import ObjectMapper
 open class ChargeState: Mappable {
 	
 	public enum ChargingState: String {
-		case Complete = "Complete"
-		case Charging = "Charging"
-		case Disconnected = "Disconnected"
+		case Complete
+		case Charging
+		case Disconnected
 	}
 	
 	public struct Distance {
