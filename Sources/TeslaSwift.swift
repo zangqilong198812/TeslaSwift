@@ -366,18 +366,26 @@ extension TeslaSwift {
 		}
 	}
 	
+	func cleanToken() -> Promise<Void> {
+		self.token = nil
+		return Promise<Void>(value: ())
+	}
 	
 	func checkAuthentication() -> Promise<AuthToken> {
 		
-		return checkToken().then { (value) -> Promise<AuthToken> in
+		return checkToken().then(on: .global()) { (value) -> Promise<AuthToken> in
 			
 			if value {
 				return Promise<AuthToken>(value: self.token!)
 			} else {
-				if let email = self.email, let password = self.password {
-					return self.authenticate(email: email, password: password)
-				} else {
-					return Promise<AuthToken>(error: TeslaError.authenticationRequired)
+				return self.cleanToken().then(on: .global()) {
+					_ -> Promise<AuthToken> in
+					
+					if let email = self.email, let password = self.password {
+						return self.authenticate(email: email, password: password)
+					} else {
+						throw TeslaError.authenticationRequired
+					}
 				}
 				
 			}

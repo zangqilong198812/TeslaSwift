@@ -90,6 +90,32 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 	
+	func testReuseFailedToken() {
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		_ = service.authenticate(email: "user", password: "pass")
+			.then {
+				(_) -> Void in
+				
+				service.checkToken().then { (response) -> Void in
+					
+					XCTAssertFalse(response)
+					expection.fulfill()
+					
+					}.catch { (error) in
+						XCTFail("Token is not valid: \((error as NSError).description)")
+				}
+				
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+		
+	}
+	
 	func testReuseToken() {
 		
 		let expection = expectation(description: "All Done")
@@ -100,6 +126,8 @@ class TeslaSwiftTests: XCTestCase {
 		_ = service.authenticate(email: "user", password: "pass")
 			.then {
 				(_) -> Void in
+				
+				service.token?.createdAt = Date()
 				
 				service.checkToken().then { (response) -> Void in
 					

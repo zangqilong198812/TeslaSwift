@@ -19,7 +19,7 @@ open class AuthToken: Mappable {
 	
 	open var isValid: Bool {
 		if let createdAt = createdAt, let expiresIn = expiresIn {
-			return -Date().timeIntervalSince(createdAt) < expiresIn
+			return -createdAt.timeIntervalSinceNow < expiresIn
 		} else {
 			return false
 		}
