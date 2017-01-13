@@ -15,6 +15,7 @@ open class ChargeState: Mappable {
 		case Complete
 		case Charging
 		case Disconnected
+		case Stopped
 	}
 	
 	public struct Distance {
@@ -124,7 +125,7 @@ open class ChargeState: Mappable {
 	open internal(set) var notEnoughPowerToHeat: Bool?
 	
 	open internal(set) var scheduledChargingPending: Bool?
-	open internal(set) var scheduledChargingStartTime: Date?
+	open internal(set) var scheduledChargingStartTime: TimeInterval?
 	
 	/**
 	Only valid while charging
