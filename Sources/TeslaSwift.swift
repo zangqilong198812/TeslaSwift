@@ -91,6 +91,7 @@ public enum TeslaError: Error {
 	case failedToParseData
 }
 
+let ErrorInfo = "ErrorInfo"
 
 
 open class TeslaSwift {
@@ -421,7 +422,18 @@ extension TeslaSwift {
 				}
 				
 			} else {
-				reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+				if let data = data,
+					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
+					if let mapped = Mapper<ErrorMessage>().map(JSONObject: object) {
+						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
+					} else {
+						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+					}
+					
+				} else {
+					reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+				}
 			}
 			
 			
