@@ -1,6 +1,6 @@
 [![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
-[![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)]()
+[![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)](https://github.com/jonasman/TeslaSwift)
 # TeslaSwift
 Swift library to access the Tesla Model S API based on [Unofficial Tesla Model S API](http://docs.timdorr.apiary.io/#)
 
