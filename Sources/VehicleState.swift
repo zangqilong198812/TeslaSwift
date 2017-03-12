@@ -73,6 +73,8 @@ open class VehicleState: Mappable {
 	
 	open var thirdRowSeats: String?
 	
+	open var timeStamp: Date?
+	
 	open var valetMode: Bool?
 	open var valetPinNeeded: Bool?
 	
@@ -147,6 +149,8 @@ open class VehicleState: Mappable {
 		sunRoofState			<- map["sun_roof_state"]
 		
 		thirdRowSeats			<- map["third_row_seats"]
+		
+		timeStamp				<- (map["timestamp"], TeslaTimeStampTransform())
 		
 		valetMode				<- map["valet_mode"]
 		valetPinNeeded			<- map["valet_pin_needed"]

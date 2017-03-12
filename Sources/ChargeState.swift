@@ -131,6 +131,7 @@ open class ChargeState: Mappable {
 	Only valid while charging
 	*/
 	open internal(set) var timeToFullCharge: Double?
+	open internal(set) var timeStamp: Date?
 	
 	open internal(set) var tripCharging: Bool?
 	
@@ -198,6 +199,8 @@ open class ChargeState: Mappable {
 		scheduledChargingStartTime	<- map["scheduled_charging_start_time"]
 		
 		timeToFullCharge            <- map["time_to_full_charge"]
+		
+		timeStamp					<- (map["timestamp"], TeslaTimeStampTransform())
 		
 		tripCharging				<- map["trip_charging"]
 		

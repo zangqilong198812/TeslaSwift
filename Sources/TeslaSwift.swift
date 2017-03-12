@@ -192,6 +192,21 @@ extension TeslaSwift {
 		
 	}
 	
+	public func getAllData(_ vehicle: Vehicle) -> Promise<VehicleExtended> {
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<Response<VehicleExtended>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.allStates(vehicleID: vehicleID))
+			
+			}.then(on: .global()) {
+				(data: Response<VehicleExtended>) -> VehicleExtended in
+				
+				data.response
+		}
+	}
+	
 	/**
 	Fetchs the vehicle mobile access state
 	

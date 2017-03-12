@@ -89,6 +89,16 @@ class VehicleViewController: UIViewController {
 		
 	}
 	
+	@IBAction func gettAll(_ sender: Any) {
+		if let vehicle = vehicle {
+			_ = api.getAllData(vehicle).then(execute: { (extendedVehicle: VehicleExtended) in
+				self.textView.text = "All data:\n" +
+				extendedVehicle.toJSONString()!
+			})
+		}
+		
+		
+	}
 	@IBAction func command(_ sender: AnyObject) {
 		if let vehicle = vehicle {
 			_ = api.sendCommandToVehicle(vehicle, command: .lockDoors).then {

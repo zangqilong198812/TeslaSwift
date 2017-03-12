@@ -63,6 +63,8 @@ open class ClimateState: Mappable {
 	
 	open var smartPreconditioning: Int?
 	
+	open var timeStamp: Date?
+	
 	public required init?(map: Map) { }
 	
 	open func mapping(map: Map) {
@@ -110,6 +112,8 @@ open class ClimateState: Mappable {
 		
 		
         smartPreconditioning		<- map["smart_preconditioning"]
+		
+		timeStamp					<- (map["timestamp"], TeslaTimeStampTransform())
         
 	}
 }

@@ -207,6 +207,41 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 	
+	func testGetAllStates() {
+		
+		let stubPath2 = OHPathForFile("AllStates.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.allStates(vehicleID: 321).path)) {
+			_ in
+			return fixture(filePath: stubPath2!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles)  in
+				service.getAllData(vehicles[0])
+			}.then { (response) -> Void in
+				
+				XCTAssertEqual(response.userId, 1234)
+				XCTAssertEqual(response.chargeState?.chargingState, .Disconnected)
+				XCTAssertEqual(response.vehicleConfig?.trimBadging, "85")
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+				expection.fulfill()
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+		
+	}
+	
+	
 	func testGetVehicleChargeState() {
 		
 		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
