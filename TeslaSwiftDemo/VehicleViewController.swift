@@ -29,7 +29,7 @@ class VehicleViewController: UIViewController {
 		if let vehicle = vehicle {
 			_ = api.getVehicleClimateState(vehicle).then {
 				(climateState: ClimateState) -> Void in
-				self.textView.text = "Inside temp: \(climateState.insideTemperature?.celsius)\n" +
+				self.textView.text = "Inside temp: \(String(describing: climateState.insideTemperature?.celsius))\n" +
 					climateState.toJSONString()!
 			}
 		}
@@ -46,7 +46,7 @@ class VehicleViewController: UIViewController {
 				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) km\n" +
 				"power: \(chargeState.chargerPower!) kW\n" +
 				"\(chargeState.chargerVoltage!)V \(chargeState.chargerActualCurrent!)A\n" +
-				"charger max current: \(chargeState.chargerPilotCurrent)\n\(chargeState.toJSONString()!)"
+				"charger max current: \(String(describing: chargeState.chargerPilotCurrent))\n\(chargeState.toJSONString()!)"
 				
 				return ()
 				}
@@ -56,7 +56,7 @@ class VehicleViewController: UIViewController {
 			if let vehicle = vehicle {
 				_ = self.api.getVehicleState(vehicle).then(execute: { (vehicleState: VehicleState) -> Void in
 					
-					self.textView.text = "FW: \(vehicleState.firmwareVersion)\n" +
+					self.textView.text = "FW: \(String(describing: vehicleState.firmwareVersion))\n" +
 					vehicleState.toJSONString()!
 
 				})
@@ -69,7 +69,7 @@ class VehicleViewController: UIViewController {
 			_ = api.getVehicleDriveState(vehicle).then {
 				(driveState: DriveState) -> Void in
 				
-				self.textView.text = "Location: \(driveState.position)\n" +
+				self.textView.text = "Location: \(String(describing: driveState.position))\n" +
 					driveState.toJSONString()!
 				
 			}
@@ -79,7 +79,7 @@ class VehicleViewController: UIViewController {
 	@IBAction func getGUISettings(_ sender: Any) {
 		if let vehicle = vehicle {
 			_ = api.getVehicleGuiSettings(vehicle).then(execute: { (guiSettings: GuiSettings) -> Void in
-				self.textView.text = "Charge rate units: \(guiSettings.chargeRateUnits)\n" +
+				self.textView.text = "Charge rate units: \(String(describing: guiSettings.chargeRateUnits))\n" +
 					guiSettings.toJSONString()!
 
 				

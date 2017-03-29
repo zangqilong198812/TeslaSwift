@@ -417,7 +417,7 @@ extension TeslaSwift {
 		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
-			logDebug("Respose: \(response)", debuggingEnabled: debugEnabled)
+			logDebug("Respose: \(String(describing: response))", debuggingEnabled: debugEnabled)
 			
 			guard error == nil else { reject(error!); return }
 			guard let httpResponse = response as? HTTPURLResponse else { reject(TeslaError.failedToParseData); return }
@@ -474,7 +474,7 @@ extension TeslaSwift {
 		}
 		
 		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
-		logDebug("Request Headers: \(request.allHTTPHeaderFields)", debuggingEnabled: debuggingEnabled)
+		logDebug("Request Headers: \(String(describing: request.allHTTPHeaderFields))", debuggingEnabled: debuggingEnabled)
 		if let body = body {
 			logDebug("Request Body: \(body.toJSONString(prettyPrint: true)!)", debuggingEnabled: debuggingEnabled)
 		}
