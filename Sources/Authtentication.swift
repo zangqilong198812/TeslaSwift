@@ -11,11 +11,11 @@ import ObjectMapper
 
 open class AuthToken: Mappable {
 	
-	var accessToken: String?
-	var tokenType: String?
-	var createdAt: Date? = Date()
-	var expiresIn: TimeInterval?
-	var refreshToken: String?
+	open var accessToken: String?
+	open var tokenType: String?
+	open var createdAt: Date? = Date()
+	open var expiresIn: TimeInterval?
+	open var refreshToken: String?
 	
 	open var isValid: Bool {
 		if let createdAt = createdAt, let expiresIn = expiresIn {
