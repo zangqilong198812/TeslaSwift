@@ -99,7 +99,7 @@ open class TeslaSwift {
 	open var useMockServer = false
 	open var debuggingEnabled = false
 	
-	var token: AuthToken?
+	open var token: AuthToken?
 	
 	fileprivate var email: String?
 	fileprivate var password: String?
