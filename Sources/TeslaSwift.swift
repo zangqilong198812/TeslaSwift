@@ -91,18 +91,20 @@ public enum TeslaError: Error {
 	case failedToParseData
 }
 
+let ErrorInfo = "ErrorInfo"
 
 
 open class TeslaSwift {
 	
-	open static let defaultInstance = TeslaSwift()
 	open var useMockServer = false
 	open var debuggingEnabled = false
 	
-	var token: AuthToken?
+	open var token: AuthToken?
 	
 	fileprivate var email: String?
 	fileprivate var password: String?
+	
+	public init() { }
 }
 
 extension TeslaSwift {
@@ -124,17 +126,16 @@ extension TeslaSwift {
 	- returns: A Promise with the AuthToken.
 	*/
 
-	public func authenticate(_ email: String, password: String) -> Promise<AuthToken> {
+	public func authenticate(email: String, password: String) -> Promise<AuthToken> {
 		
 		self.email = email
 		self.password = password
 
-		let body = AuthTokenRequest()
-		body.email = email
-		body.password = password
-		body.grantType = "password"
-		body.clientSecret = "c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9d220"
-		body.clientID = "e4a9949fcfa04068f59abb5a658f2bac0a3428e4652315490b659d5ab3f35a9e"
+		let body = AuthTokenRequest(email: email,
+		                            password: password,
+		                            grantType: "password",
+		                            clientID: "e4a9949fcfa04068f59abb5a658f2bac0a3428e4652315490b659d5ab3f35a9e",
+		                            clientSecret: "c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9d220")
 		
 		return request(.authentication, body: body)
 			.then(on: .global()) { (result: AuthToken) -> AuthToken in
@@ -142,13 +143,38 @@ extension TeslaSwift {
 				return result
 		}.recover { (error) -> AuthToken in
 
-			if (error as NSError).code == 401 {
-				throw TeslaError.authenticationFailed
+			if case let TeslaError.networkError(error: internalError) = error {
+				if internalError.code == 401 {
+					throw TeslaError.authenticationFailed
+				} else {
+					throw error
+				}
 			} else {
 				throw error
 			}
 		}
-		
+	}
+	
+	
+	/**
+	Use this method to reuse a previous authentication token
+	
+	This method is useful if your app wants to ask the user for credentials once and reuse the token skiping authentication
+	If the token is invalid a new authentication will be required
+	
+	*/
+	public func reuse(token: AuthToken) {
+		self.token = token
+	}
+	
+	/**
+	Removes all the information related to the previous authentication
+	
+	*/
+	public func logout() {
+		email = nil
+		password = nil
+		token = nil
 	}
 	
 	/**
@@ -158,71 +184,27 @@ extension TeslaSwift {
 	*/
 	public func getVehicles() -> Promise<[Vehicle]> {
 		
-		return checkAuthentication().then(on: .global()) { (token) -> Promise<[Vehicle]> in
+		return checkAuthentication().then(on: .global()) { _ in
 			self.request(.vehicles, body: nil)
-				.then(on: .global()) { (data: GenericArrayResponse<Vehicle>) -> [Vehicle] in
-					data.response
-			}
+			}.then(on: .global()) { (data: ArrayResponse<Vehicle>) -> [Vehicle] in
+				data.response
 		}
 		
 	}
 	
-	/**
-	Fetchs the vehicle status
-	
-	- returns: A Promise with VehicleDetails object containing all the possible status information.
-	*/
-	public func getVehicleStatus(_ vehicle: Vehicle) -> Promise<VehicleDetails> {
-		
-		
+	public func getAllData(_ vehicle: Vehicle) -> Promise<VehicleExtended> {
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<(Bool?, ChargeState?, ClimateState?, DriveState?, GuiSettings?, VehicleState?)> in
+			(token) -> Promise<Response<VehicleExtended>> in
 			
 			let vehicleID = vehicle.id!
 			
-			let p1 = self.request(.mobileAccess(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericBoolResponse) -> Bool in
-					data.response
-				}
-			let p2 = self.request(.chargeState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<ChargeState>) -> ChargeState in
-					data.response
-				}
-			let p3 = self.request(.climateState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<ClimateState>) -> ClimateState in
-					data.response
-				}
-			let p4 = self.request(.driveState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<DriveState>) -> DriveState in
-					data.response
-				}
-			let p5 = self.request(.guiSettings(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<GuiSettings>) -> GuiSettings in
-					data.response
-				}
-			let p6 = self.request(.vehicleState(vehicleID: vehicleID))
-				.then(on: .global()) { (data: GenericResponse<VehicleState>) -> VehicleState in
-					data.response
-				}
-			
-			return when(resolved: p1.asVoid(), p2.asVoid(), p3.asVoid(), p4.asVoid(), p5.asVoid(), p6.asVoid()).then(on: .global()) { _ in
-				return (p1.value, p2.value, p3.value, p4.value, p5.value, p6.value)
-			}
+			return self.request(.allStates(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(mobileAccess: Bool?, chargeState: ChargeState?, climateState: ClimateState?, driveState: DriveState?, guiSettings: GuiSettings?, vehicleState: VehicleState?) -> Promise<VehicleDetails> in
+				(data: Response<VehicleExtended>) -> VehicleExtended in
 				
-				let vehicleDetails = VehicleDetails()
-				vehicleDetails.mobileAccess = mobileAccess
-				vehicleDetails.chargeState = chargeState
-				vehicleDetails.climateState = climateState
-				vehicleDetails.driveState = driveState
-				vehicleDetails.guiSettings = guiSettings
-				vehicleDetails.vehicleState = vehicleState
-				return Promise<VehicleDetails>(value: vehicleDetails)
-				
+				data.response
 		}
-		
 	}
 	
 	/**
@@ -233,14 +215,14 @@ extension TeslaSwift {
 	public func getVehicleMobileAccessState(_ vehicle: Vehicle) -> Promise<Bool> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericBoolResponse> in
+			(token) -> Promise<BoolResponse> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.mobileAccess(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericBoolResponse) -> Bool in
+				(data: BoolResponse) -> Bool in
 				
 				data.response
 		}
@@ -255,14 +237,14 @@ extension TeslaSwift {
 		
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<ChargeState>> in
+			(token) -> Promise<Response<ChargeState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.chargeState(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericResponse<ChargeState>) -> ChargeState in
+				(data: Response<ChargeState>) -> ChargeState in
 				
 				data.response
 			}
@@ -276,14 +258,14 @@ extension TeslaSwift {
 	public func getVehicleClimateState(_ vehicle: Vehicle) -> Promise<ClimateState> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<ClimateState>> in
+			(token) -> Promise<Response<ClimateState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.climateState(vehicleID: vehicleID))
 				
 			}.then(on: .global()) {
-				(data: GenericResponse<ClimateState>) -> ClimateState in
+				(data: Response<ClimateState>) -> ClimateState in
 				
 				data.response
 			}
@@ -297,14 +279,14 @@ extension TeslaSwift {
 	public func getVehicleDriveState(_ vehicle: Vehicle) -> Promise<DriveState> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<DriveState>> in
+			(token) -> Promise<Response<DriveState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.driveState(vehicleID: vehicleID))
 				
 			}.then(on: .global()) {
-				(data: GenericResponse<DriveState>) -> DriveState in
+				(data: Response<DriveState>) -> DriveState in
 				
 					data.response
 			}
@@ -318,14 +300,14 @@ extension TeslaSwift {
 	public func getVehicleGuiSettings(_ vehicle: Vehicle) -> Promise<GuiSettings> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<GuiSettings>> in
+			(token) -> Promise<Response<GuiSettings>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.guiSettings(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericResponse<GuiSettings>) -> GuiSettings in
+				(data: Response<GuiSettings>) -> GuiSettings in
 				
 					data.response
 			}
@@ -339,14 +321,14 @@ extension TeslaSwift {
 	public func getVehicleState(_ vehicle: Vehicle) -> Promise<VehicleState> {
 		
 		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<GenericResponse<VehicleState>> in
+			(token) -> Promise<Response<VehicleState>> in
 			
 			let vehicleID = vehicle.id!
 			
 			return self.request(.vehicleState(vehicleID: vehicleID))
 			
 			}.then(on: .global()) {
-				(data: GenericResponse<VehicleState>) -> VehicleState in
+				(data: Response<VehicleState>) -> VehicleState in
 				
 				data.response
 		}
@@ -400,18 +382,26 @@ extension TeslaSwift {
 		}
 	}
 	
+	func cleanToken() -> Promise<Void> {
+		self.token = nil
+		return Promise<Void>(value: ())
+	}
 	
 	func checkAuthentication() -> Promise<AuthToken> {
 		
-		return checkToken().then { (value) -> Promise<AuthToken> in
+		return checkToken().then(on: .global()) { (value) -> Promise<AuthToken> in
 			
 			if value {
 				return Promise<AuthToken>(value: self.token!)
 			} else {
-				if let email = self.email, let password = self.password {
-					return self.authenticate(email, password: password)
-				} else {
-					return Promise<AuthToken>(error: TeslaError.authenticationRequired)
+				return self.cleanToken().then(on: .global()) {
+					_ -> Promise<AuthToken> in
+					
+					if let email = self.email, let password = self.password {
+						return self.authenticate(email: email, password: password)
+					} else {
+						throw TeslaError.authenticationRequired
+					}
 				}
 				
 			}
@@ -422,28 +412,24 @@ extension TeslaSwift {
 		
 		let (promise, fulfill, reject) = Promise<T>.pending()
 		
-		let request = prepareRequest(endpoint, body: body) as URLRequest
+		let request = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
 		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
-			logDebug("Respose: \(response)", debuggingEnabled: debugEnabled)
+			logDebug("Respose: \(String(describing: response))", debuggingEnabled: debugEnabled)
 			
 			guard error == nil else { reject(error!); return }
 			guard let httpResponse = response as? HTTPURLResponse else { reject(TeslaError.failedToParseData); return }
 			
 			if case 200..<300 = httpResponse.statusCode {
 				
-				if let data = data {
-					do {
-						let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
-						if let mapped = Mapper<T>().map(JSONObject: object) {
-							fulfill(mapped)
-						} else {
-							reject(TeslaError.failedToParseData)
-						}
-					} catch {
+				if let data = data,
+					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+					logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
+					if let mapped = Mapper<T>().map(JSONObject: object) {
+						fulfill(mapped)
+					} else {
 						reject(TeslaError.failedToParseData)
 					}
 				} else {
@@ -451,7 +437,18 @@ extension TeslaSwift {
 				}
 				
 			} else {
-				reject(NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))
+				if let data = data,
+					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
+					if let mapped = Mapper<ErrorMessage>().map(JSONObject: object) {
+						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
+					} else {
+						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+					}
+					
+				} else {
+					reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+				}
 			}
 			
 			
@@ -460,14 +457,10 @@ extension TeslaSwift {
 		
 		return promise
 	}
-	/*func request<T:Mappable>(endpoint:Endpoint, body:Mappable?) -> Future<[T],TeslaError> {
-		
-		return prepareRequest(endpoint, body: body).responseObjectFuture(keyPath, logging: debuggingEnabled)
-	}*/
 	
-	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> NSMutableURLRequest {
-		
-		let request = NSMutableURLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
+	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> URLRequest {
+	
+		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
 		request.httpMethod = endpoint.method
 		
 		if let token = self.token?.accessToken {
@@ -481,6 +474,7 @@ extension TeslaSwift {
 		}
 		
 		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
+		logDebug("Request Headers: \(String(describing: request.allHTTPHeaderFields))", debuggingEnabled: debuggingEnabled)
 		if let body = body {
 			logDebug("Request Body: \(body.toJSONString(prettyPrint: true)!)", debuggingEnabled: debuggingEnabled)
 		}

@@ -19,6 +19,8 @@ open class DriveState: Mappable {
 	open var longitude: CLLocationDegrees?
 	open var heading: CLLocationDirection?
 	open var date: Date?
+	open var timeStamp: Date?
+	
 	
 	open var position: CLLocation? {
 		if let latitude = latitude,
@@ -47,6 +49,7 @@ open class DriveState: Mappable {
 		longitude	<- map["longitude"]
 		heading		<- map["heading"]
 		date		<- (map["gps_as_of"], DateTransform())
+		timeStamp	<- (map["timestamp"], TeslaTimeStampTransform())
 	}
 
 	

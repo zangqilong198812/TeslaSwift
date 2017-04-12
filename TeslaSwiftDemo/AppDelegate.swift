@@ -7,15 +7,24 @@
 //
 
 import UIKit
+import ObjectMapper
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-
+	var api = TeslaSwift()
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
+		
+		api.useMockServer = false
+		api.debuggingEnabled = true
+		
+		if let obj = UserDefaults.standard.object(forKey: "tesla.token") as? [String: Any] {
+			api.token = Mapper<AuthToken>().map(JSON: obj)
+		}
+		
 		return true
 	}
 
@@ -27,6 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func applicationDidEnterBackground(_ application: UIApplication) {
 		// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
 		// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+		
+		UserDefaults.standard.set(api.token?.toJSON(), forKey: "tesla.token")
+		UserDefaults.standard.synchronize()
 	}
 
 	func applicationWillEnterForeground(_ application: UIApplication) {

@@ -10,15 +10,10 @@ import UIKit
 
 class TabController: UITabBarController {
 
-	let service = TeslaSwift.defaultInstance
-	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		service.useMockServer = false
-		service.debuggingEnabled = true
-		
-		if (!service.isAuthenticated) {
+		if (!api.isAuthenticated) {
 			
 			performSegue(withIdentifier: "loginSegue", sender: self)
 			

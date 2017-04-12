@@ -11,19 +11,23 @@ import ObjectMapper
 
 open class AuthToken: Mappable {
 	
-	var accessToken: String?
-	var tokenType: String?
-	var createdAt: Date? = Date()
-	var expiresIn: TimeInterval?
+	open var accessToken: String?
+	open var tokenType: String?
+	open var createdAt: Date? = Date()
+	open var expiresIn: TimeInterval?
+	open var refreshToken: String?
 	
 	open var isValid: Bool {
 		if let createdAt = createdAt, let expiresIn = expiresIn {
-			return -Date().timeIntervalSince(createdAt) < expiresIn
+			return -createdAt.timeIntervalSinceNow < expiresIn
 		} else {
 			return false
 		}
 	}
 	
+	public init(accessToken: String) {
+		self.accessToken = accessToken
+	}
 	
 	// MARK: Mappable protocol
 	required public init?(map: Map) {
@@ -34,7 +38,8 @@ open class AuthToken: Mappable {
 		accessToken	<- map["access_token"]
 		tokenType	<- map["token_type"]
 		createdAt	<- (map["created_at"], DateTransform())
-		expiresIn	<- (map["expires_in"], TransformOf<TimeInterval, Int>(fromJSON: { TimeInterval($0! / 1000) }, toJSON: { Int($0!) * 1000 }))
+		expiresIn	<- map["expires_in"]
+		refreshToken <- map["refresh_token"]
 	}
 }
 
@@ -46,7 +51,13 @@ class AuthTokenRequest: Mappable {
 	var email: String?
 	var password: String?
 	
-	init() { }
+	init(email: String, password: String, grantType: String, clientID: String, clientSecret: String) {
+		self.email = email
+		self.password = password
+		self.grantType = grantType
+		self.clientID = clientID
+		self.clientSecret = clientSecret
+	}
 	
 	// MARK: Mappable protocol
 	required init?(map: Map) {

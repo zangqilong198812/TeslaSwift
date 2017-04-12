@@ -20,7 +20,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 		
 		tableView.estimatedRowHeight = 50.0
 		
-		TeslaSwift.defaultInstance.getVehicles()
+		api.getVehicles()
 			.then {
 			(response) -> Void in
 			
@@ -43,8 +43,8 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 		
 		let vehicle = data![(indexPath as NSIndexPath).row]
 		
-		cell.textLabel?.text = vehicle.vin
-		cell.detailTextLabel?.text = vehicle.state
+		cell.textLabel?.text = vehicle.displayName
+		cell.detailTextLabel?.text = vehicle.vin
 		
 		
 		return cell

@@ -16,6 +16,7 @@ open class GuiSettings: Mappable {
 	open var chargeRateUnits: String?
 	open var time24Hours: Bool?
 	open var rangeDisplay: String?
+	open var timeStamp: Date?
 	
 	required public init?(map: Map) { }
 	
@@ -25,5 +26,6 @@ open class GuiSettings: Mappable {
 		chargeRateUnits		<- map["gui_charge_rate_units"]
 		time24Hours			<- map["gui_24_hour_time"]
 		rangeDisplay		<- map["gui_range_display"]
+		timeStamp			<- (map["timestamp"], TeslaTimeStampTransform())
 	}
 }

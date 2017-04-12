@@ -1,33 +1,33 @@
 PODS:
-  - ObjectMapper (2.0.0)
-  - OHHTTPStubs (5.2.1):
-    - OHHTTPStubs/Default (= 5.2.1)
-  - OHHTTPStubs/Core (5.2.1)
-  - OHHTTPStubs/Default (5.2.1):
+  - ObjectMapper (2.2.2)
+  - OHHTTPStubs (5.2.3):
+    - OHHTTPStubs/Default (= 5.2.3)
+  - OHHTTPStubs/Core (5.2.3)
+  - OHHTTPStubs/Default (5.2.3):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.1):
+  - OHHTTPStubs/JSON (5.2.3):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.1):
+  - OHHTTPStubs/NSURLSession (5.2.3):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.1)
-  - OHHTTPStubs/Swift (5.2.1):
+  - OHHTTPStubs/OHPathHelpers (5.2.3)
+  - OHHTTPStubs/Swift (5.2.3):
     - OHHTTPStubs/Core
-  - PromiseKit/CorePromise (4.0.1)
+  - PromiseKit/CorePromise (4.1.7)
 
 DEPENDENCIES:
-  - ObjectMapper (~> 2.0.0)
+  - ObjectMapper (~> 2.0)
   - OHHTTPStubs
   - OHHTTPStubs/Swift
-  - PromiseKit/CorePromise (~> 4.0.0)
+  - PromiseKit/CorePromise (~> 4.0)
 
 SPEC CHECKSUMS:
-  ObjectMapper: aed2570edabbd3c9b26c939e1cabdb6558f933e0
-  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
-  PromiseKit: ae9e7f97ee758e23f7b9c5e80380a2e78d6338c5
+  ObjectMapper: 9e385c2295bcc4e16eabbcfc85db801442bba545
+  OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
+  PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
 
-PODFILE CHECKSUM: 7d49a8c03d571d1f0c80981ff1b6360f89db1828
+PODFILE CHECKSUM: f9610958b96784011f2cff98870527dbc6fc3856
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.2.0

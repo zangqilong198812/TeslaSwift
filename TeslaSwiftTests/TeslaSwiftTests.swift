@@ -46,7 +46,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass")
+		service.authenticate(email: "user", password: "pass")
 			.then { (response) -> Void in
 				
 				XCTAssertEqual(response.accessToken, "abc123-mock")
@@ -72,7 +72,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass")
+		service.authenticate(email: "user", password: "pass")
 			.then { (response) -> Void in
 				
 				XCTFail("Authentication must fail")
@@ -90,6 +90,32 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 	
+	func testReuseFailedToken() {
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		_ = service.authenticate(email: "user", password: "pass")
+			.then {
+				(_) -> Void in
+				
+				service.checkToken().then { (response) -> Void in
+					
+					XCTAssertFalse(response)
+					expection.fulfill()
+					
+					}.catch { (error) in
+						XCTFail("Token is not valid: \((error as NSError).description)")
+				}
+				
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+		
+	}
+	
 	func testReuseToken() {
 		
 		let expection = expectation(description: "All Done")
@@ -97,9 +123,11 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		_ = service.authenticate("user", password: "pass")
+		_ = service.authenticate(email: "user", password: "pass")
 			.then {
 				(_) -> Void in
+				
+				service.token?.createdAt = Date()
 				
 				service.checkToken().then { (response) -> Void in
 					
@@ -125,7 +153,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		_ = service.authenticate("user", password: "pass")
+		_ = service.authenticate(email: "user", password: "pass")
 			.then {
 				(_) -> Void in
 				service.getVehicles()
@@ -148,69 +176,6 @@ class TeslaSwiftTests: XCTestCase {
 	
 	// MARK: - Vehicle states -
 	
-	func testGetVehicleStatus() {
-		
-		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath!, headers: self.headers)
-		}
-		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath2!, headers: self.headers)
-		}
-		let stubPath3 = OHPathForFile("ClimateSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath3!, headers: self.headers)
-		}
-		let stubPath4 = OHPathForFile("DriveState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath4!, headers: self.headers)
-		}
-		let stubPath5 = OHPathForFile("GuiSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath5!, headers: self.headers)
-		}
-		let stubPath6 = OHPathForFile("VehicleState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: 321).path)) {
-			_ in
-			return fixture(filePath: stubPath6!, headers: self.headers)
-		}
-		
-		let expection = expectation(description: "All Done")
-		
-		let service = TeslaSwift()
-		service.useMockServer = true
-		
-		service.authenticate("user", password: "pass").then { (token) in
-			service.getVehicles()
-			}.then { (vehicles)  in
-				service.getVehicleStatus(vehicles[0])
-			}.then { (response) -> Void in
-				
-				XCTAssertEqual(response.mobileAccess, false)
-				XCTAssertEqual(response.chargeState?.chargingState, .Complete)
-				XCTAssertEqual(response.chargeState?.ratedBatteryRange?.miles, 200.0)
-				XCTAssertEqual(response.climateState?.insideTemperature,"18.0")
-				XCTAssertEqual(response.driveState?.position?.course,10.0)
-				XCTAssertEqual(response.guiSettings?.distanceUnits,"km/hr")
-				XCTAssertEqual(response.vehicleState?.darkRims, true)
-				
-				expection.fulfill()
-			}.catch { (error) in
-				print(error)
-				XCTFail((error as NSError).description)
-		}
-		
-		waitForExpectations(timeout: 2, handler: nil)
-		
-	}
-	
-	
 	func testGetVehicleMobileState() {
 		
 		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
@@ -224,7 +189,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleMobileAccessState(vehicles[0])
@@ -242,6 +207,41 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 	
+	func testGetAllStates() {
+		
+		let stubPath2 = OHPathForFile("AllStates.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.allStates(vehicleID: 321).path)) {
+			_ in
+			return fixture(filePath: stubPath2!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles)  in
+				service.getAllData(vehicles[0])
+			}.then { (response) -> Void in
+				
+				XCTAssertEqual(response.userId, 1234)
+				XCTAssertEqual(response.chargeState?.chargingState, .Disconnected)
+				XCTAssertEqual(response.vehicleConfig?.trimBadging, "85")
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+				expection.fulfill()
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+		
+	}
+	
+	
 	func testGetVehicleChargeState() {
 		
 		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
@@ -255,7 +255,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleChargeState(vehicles[0])
@@ -287,13 +287,13 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleClimateState(vehicles[0])
 			}.then { (response) -> Void in
 				
-				XCTAssertEqual(response.insideTemperature,"18.0")
+				XCTAssertEqual(response.insideTemperature?.celsius,18.0)
 				
 				expection.fulfill()
 			}.catch { (error) in
@@ -318,7 +318,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleDriveState(vehicles[0])
@@ -349,7 +349,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleGuiSettings(vehicles[0])
@@ -380,7 +380,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleState(vehicles[0])
@@ -414,7 +414,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .wakeUp)
@@ -445,7 +445,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles) in
 				service.sendCommandToVehicle(vehicles[0], command: .valetMode(valetActivated: true, pin: "1234"))
@@ -476,7 +476,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .resetValetPin)
@@ -507,7 +507,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .openChargeDoor)
@@ -538,7 +538,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitStandard)
@@ -569,7 +569,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitMaxRange)
@@ -600,7 +600,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitPercentage(limit: 10))
@@ -631,7 +631,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .startCharging)
@@ -662,7 +662,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .stopCharging)
@@ -693,7 +693,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .flashLights)
@@ -724,7 +724,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .honkHorn)
@@ -755,7 +755,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .unlockDoors)
@@ -786,7 +786,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .lockDoors)
@@ -817,7 +817,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .setTemperature(driverTemperature: 22.0, passengerTemperature: 23.0))
@@ -848,7 +848,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .startAutoConditioning)
@@ -879,7 +879,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .stopAutoConditioning)
@@ -910,7 +910,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .setSunRoof(state: .Open, percentage: 20))
@@ -941,7 +941,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .startVehicle(password: "pass"))
@@ -974,7 +974,7 @@ class TeslaSwiftTests: XCTestCase {
 		let service = TeslaSwift()
 		service.useMockServer = true
 		
-		service.authenticate("user", password: "pass").then { (token) in
+		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles) in
 				service.sendCommandToVehicle(vehicles[0], command: .openTrunk(options: options))

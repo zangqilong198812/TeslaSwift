@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "3.1.2"
+	s.version      = "3.4.6"
 	s.summary      = "Swift library to access the Tesla Model S API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -9,7 +9,10 @@ Pod::Spec.new do |s|
 
 	s.author             = { "Joao Nunes" => "joao3001@hotmail.com" }
 	s.social_media_url   = "https://twitter.com/jonas2man"
-	s.platform     = :ios, "8.0"
+	s.ios.deployment_target = '8.0'
+	s.osx.deployment_target = '10.10'
+	s.watchos.deployment_target = '2.0'
+	s.tvos.deployment_target = '9.0'
 
 	s.source       = { :git => "https://github.com/jonasman/TeslaSwift.git", :tag => "#{s.version}" }
 
@@ -20,7 +23,7 @@ Pod::Spec.new do |s|
 
 	s.requires_arc = true
 
-	s.dependency 'PromiseKit/CorePromise',  '~> 4.0.0'
-	s.dependency 'ObjectMapper', '~> 2.0.0'
+	s.dependency 'PromiseKit/CorePromise',  '~> 4.0'
+	s.dependency 'ObjectMapper', '~> 2.0'
 
 end

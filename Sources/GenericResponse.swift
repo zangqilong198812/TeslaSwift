@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-open class GenericResponse<T:Mappable>: Mappable {
+open class Response<T:Mappable>: Mappable {
 	
 	open var response: T!
 	
@@ -26,7 +26,7 @@ open class GenericResponse<T:Mappable>: Mappable {
 	
 }
 
-open class GenericArrayResponse<T:Mappable>: Mappable {
+open class ArrayResponse<T:Mappable>: Mappable {
 	
 	open var response: [T]!
 	
@@ -44,7 +44,7 @@ open class GenericArrayResponse<T:Mappable>: Mappable {
 }
 
 
-open class GenericBoolResponse: Mappable {
+open class BoolResponse: Mappable {
 	
 	open var response: Bool!
 	

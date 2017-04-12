@@ -1,6 +1,6 @@
 [![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
-[![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)]()
+[![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)](https://github.com/jonasman/TeslaSwift)
 # TeslaSwift
 Swift library to access the Tesla Model S API based on [Unofficial Tesla Model S API](http://docs.timdorr.apiary.io/#)
 
@@ -13,7 +13,7 @@ Copy `Sources` folder into your project
 
 ####CocoaPods
 ```ruby
-	pod 'TeslaSwift', '~> 3.0.0'
+	pod 'TeslaSwift', '~> 3.0'
 ```
 ####Swift Package Manager
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
@@ -23,6 +23,15 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 
 Usage
 ============
+Tesla server is not fully compatible with ATS so you need to add the following to your app Info.plist
+```XML
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+</dict>
+```
+
 Import the module
 ```swift
 	import TeslaSwift
@@ -30,7 +39,8 @@ Import the module
 
 Perform an authentication with your My Tesla credentials: 
 ```swift 
-TeslaSwift.defaultInstance.authenticate(email, password: password)
+let api = TeslaSwift()
+api.authenticate(email: email, password: password)
 ```
 Use the promise to check the success: 
 ```swift 
@@ -52,23 +62,23 @@ class ViewController {
 
   func showCars() {
 
-    TeslaSwift.defaultInstance.getVehicles()
-			.then { (response) -> Void in
+    api.getVehicles()
+		.then { (response) -> Void in
 			
 			self.data = response
 			self.tableView.reloadData()
 			
-			}.catch { (error) in
-				//Process error
+		}.catch { (error) in
+			//Process error
    }
 }
 ```    
 
 Options
 ============
-You can use the mock server by setting: `TeslaSwift.defaultInstance.useMockServer = true`
+You can use the mock server by setting: `api.useMockServer = true`
 
-You can enable debugging by setting: `TeslaSwift.defaultInstance.debuggingEnabled = true`
+You can enable debugging by setting: `api.debuggingEnabled = true`
 
 Other Features
 ============
