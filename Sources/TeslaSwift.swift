@@ -9,6 +9,7 @@
 import Foundation
 import ObjectMapper
 import PromiseKit
+import SwiftWebSocket
 
 public enum RoofState: String {
 	case Open		= "open"
@@ -103,6 +104,7 @@ open class TeslaSwift {
 	
 	fileprivate var email: String?
 	fileprivate var password: String?
+    fileprivate var webSocket: WebSocket?
 	
 	public init() { }
 }
@@ -369,6 +371,51 @@ extension TeslaSwift {
 		}
 		
 	}
+    
+    
+    // MARK: Streaming API
+    
+    static let streamingBaseURL: String = "wss://streaming.vn.teslamotors.com"
+    static let streamParameters: [String] = ["speed", "odometer", "soc", "elevation", "est_heading", "est_lat", "est_lng", "power", "shift_state", "range"," est_range", "heading"]
+
+    
+    private func getStreamURLRequest(vehicle: Vehicle) -> URLRequest? {
+        let vehicleID: String = String(describing: vehicle.id)
+        let streamParametersString: String = TeslaSwift.streamParameters.joined(separator: ",")
+        let urlString = "\(TeslaSwift.streamingBaseURL)/stream/\(vehicleID)/?values=\(streamParametersString)"
+        if let url = URL(string: urlString) {
+        let request = NSMutableURLRequest(url: url)
+            if let token = self.token?.accessToken {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                return request as URLRequest
+            }
+        }
+        return nil
+    }
+    
+    /**
+     Streams vehicle data using a websocket
+     
+     - parameter vehicle: the vehicle that will receive the command
+     - parameter dataReceived: callback to receive the websocket data
+     */
+    public func openStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent) -> Void) {
+        guard let urlRequest: URLRequest = getStreamURLRequest(vehicle: vehicle) else {
+            return
+        }
+        webSocket = WebSocket(request: urlRequest)
+        webSocket?.open()
+        webSocket?.event.message = { data in
+            if let string = data as? String,
+                let mapped: StreamEvent = Mapper<StreamEvent>().map(JSONString: string) {
+                    dataReceived(mapped)
+            }
+        }
+    }
+    
+    public func closeStream() {
+        webSocket?.close()
+    }
 }
 
 extension TeslaSwift {
@@ -457,7 +504,7 @@ extension TeslaSwift {
 		
 		return promise
 	}
-	
+    
 	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> URLRequest {
 	
 		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
