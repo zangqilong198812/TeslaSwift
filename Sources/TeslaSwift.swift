@@ -337,8 +337,6 @@ extension TeslaSwift {
 		}
 	}
 	
-
-	
 	/**
 	Sends a command to the vehicle
 	
@@ -373,13 +371,11 @@ extension TeslaSwift {
 		
 	}
     
-    
     // MARK: Streaming API
     
     static let streamingBaseURL: String = "wss://streaming.vn.teslamotors.com"
-    static let streamParameters: [String] = ["speed", "odometer", "soc", "elevation", "est_heading", "est_lat", "est_lng", "power", "shift_state", "range","est_range", "heading"]
+    static let streamParameters: [String] = ["speed", "odometer", "soc", "elevation", "est_heading", "est_lat", "est_lng", "power", "shift_state", "range", "est_range", "heading"]
 
-    
     private func getStreamURLRequest(vehicle: Vehicle) -> URLRequest? {
         guard let vehicleID = vehicle.vehicleID else {
             return nil
