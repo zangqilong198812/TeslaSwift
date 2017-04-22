@@ -1,20 +1,20 @@
 PODS:
-  - ObjectMapper (2.2.2)
-  - OHHTTPStubs (5.2.3):
-    - OHHTTPStubs/Default (= 5.2.3)
-  - OHHTTPStubs/Core (5.2.3)
-  - OHHTTPStubs/Default (5.2.3):
+  - ObjectMapper (2.2.6)
+  - OHHTTPStubs (6.0.0):
+    - OHHTTPStubs/Default (= 6.0.0)
+  - OHHTTPStubs/Core (6.0.0)
+  - OHHTTPStubs/Default (6.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.3):
+  - OHHTTPStubs/JSON (6.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.3):
+  - OHHTTPStubs/NSURLSession (6.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.3)
-  - OHHTTPStubs/Swift (5.2.3):
-    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (6.0.0)
+  - OHHTTPStubs/Swift (6.0.0):
+    - OHHTTPStubs/Default
   - PromiseKit/CorePromise (4.1.7)
   - SwiftWebSocket (2.6.5)
 
@@ -23,14 +23,14 @@ DEPENDENCIES:
   - OHHTTPStubs
   - OHHTTPStubs/Swift
   - PromiseKit/CorePromise (~> 4.0)
-  - SwiftWebSocket
+  - SwiftWebSocket (~> 2.6.5)
 
 SPEC CHECKSUMS:
-  ObjectMapper: 9e385c2295bcc4e16eabbcfc85db801442bba545
-  OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
+  ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
+  OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
   PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
   SwiftWebSocket: 1ef8a0efb023544643bdf480c1ec4a62b204f293
 
-PODFILE CHECKSUM: 9e5e0b42cb127cb964b6fa5276e0806a0f4d09b6
+PODFILE CHECKSUM: ec3b247dca58e3011e65b0a4673427c32fbb4b9e
 
 COCOAPODS: 1.2.0
