@@ -16,6 +16,7 @@ PODS:
   - OHHTTPStubs/Swift (6.0.0):
     - OHHTTPStubs/Default
   - PromiseKit/CorePromise (4.1.7)
+  - Starscream (2.0.4)
   - SwiftWebSocket (2.6.5)
 
 DEPENDENCIES:
@@ -23,14 +24,16 @@ DEPENDENCIES:
   - OHHTTPStubs
   - OHHTTPStubs/Swift
   - PromiseKit/CorePromise (~> 4.0)
+  - Starscream (~> 2.0.3)
   - SwiftWebSocket (~> 2.6.5)
 
 SPEC CHECKSUMS:
   ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
   PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
+  Starscream: df5974ee928b157c8eda8af8de7c620276b7dfcc
   SwiftWebSocket: 1ef8a0efb023544643bdf480c1ec4a62b204f293
 
-PODFILE CHECKSUM: ec3b247dca58e3011e65b0a4673427c32fbb4b9e
+PODFILE CHECKSUM: 03cfe8ce526dc675d06814a24504911e626f7498
 
 COCOAPODS: 1.2.0

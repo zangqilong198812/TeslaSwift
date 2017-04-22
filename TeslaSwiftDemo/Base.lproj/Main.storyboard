@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -217,6 +217,13 @@
                                     <action selector="gettAll:" destination="hQa-7w-LXN" eventType="touchUpInside" id="VUo-KP-vxg"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLA-89-uZU">
+                                <rect key="frame" x="162.5" y="364" width="49" height="30"/>
+                                <state key="normal" title="Stream"/>
+                                <connections>
+                                    <action selector="stream:" destination="hQa-7w-LXN" eventType="touchUpInside" id="utT-ZP-W1V"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -226,6 +233,7 @@
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="trailing" secondItem="zs8-Um-QL5" secondAttribute="trailingMargin" id="580-EF-m7n"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="leading" secondItem="zs8-Um-QL5" secondAttribute="leadingMargin" id="6yK-w5-77i"/>
                             <constraint firstItem="ro4-ug-Nab" firstAttribute="top" secondItem="dL3-Y4-FTE" secondAttribute="bottom" constant="90" id="87g-in-Fax"/>
+                            <constraint firstItem="RLA-89-uZU" firstAttribute="centerX" secondItem="zs8-Um-QL5" secondAttribute="centerX" id="8eT-sw-b0G"/>
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="centerY" secondItem="zs8-Um-QL5" secondAttribute="centerY" id="HC4-Wz-f3B"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="26" id="Ifi-ov-SfX"/>
@@ -235,6 +243,7 @@
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="baseline" secondItem="qDa-tz-cjg" secondAttribute="baseline" id="ebx-82-gQY"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="leading" id="kcW-Yd-VGP"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="37" id="pww-bt-4nh"/>
+                            <constraint firstItem="RLA-89-uZU" firstAttribute="top" secondItem="1iA-0c-01W" secondAttribute="bottom" constant="15" id="sHU-Ws-8kG"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="trailing" secondItem="dL3-Y4-FTE" secondAttribute="trailing" id="u7E-K6-cVx"/>
                         </constraints>

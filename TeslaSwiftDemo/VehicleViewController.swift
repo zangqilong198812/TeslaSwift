@@ -111,5 +111,13 @@ class VehicleViewController: UIViewController {
 		}
 	}
     
+	@IBAction func stream(_ sender: Any) {
+		if let vehicle = vehicle {
+			api.openStream(vehicle: vehicle, dataReceived: {
+				(event: StreamEvent) in
+					print(event)
+			})
+		}
+	}
 
 }

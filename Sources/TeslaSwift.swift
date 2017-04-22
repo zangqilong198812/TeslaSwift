@@ -10,6 +10,7 @@ import Foundation
 import ObjectMapper
 import PromiseKit
 import SwiftWebSocket
+import Starscream
 
 public enum RoofState: String {
 	case Open		= "open"
@@ -102,9 +103,10 @@ open class TeslaSwift {
 	
 	open var token: AuthToken?
 	
-    fileprivate var email: String? = UserDefaults.standard.object(forKey: "TeslaSwift,email") as? String
+    fileprivate var email: String?
 	fileprivate var password: String?
-    fileprivate var webSocket: WebSocket?
+    fileprivate var webSocket: SwiftWebSocket.WebSocket?
+	fileprivate var starSocket: Starscream.WebSocket?
 	
 	public init() { }
 }
@@ -370,58 +372,6 @@ extension TeslaSwift {
 		}
 		
 	}
-    
-    // MARK: Streaming API
-    
-    static let streamingBaseURL: String = "wss://streaming.vn.teslamotors.com"
-    static let streamParameters: [String] = ["speed", "odometer", "soc", "elevation", "est_heading", "est_lat", "est_lng", "power", "shift_state", "range", "est_range", "heading"]
-
-    private func getStreamURLRequest(vehicle: Vehicle) -> URLRequest? {
-        guard let vehicleID = vehicle.vehicleID else {
-            return nil
-        }
-        let vehicleIDString: String = String(describing: vehicleID)
-        let streamParametersString: String = TeslaSwift.streamParameters.joined(separator: ",")
-        let urlString = "\(TeslaSwift.streamingBaseURL)/stream/\(vehicleIDString)/?values=\(streamParametersString)"
-        if let url = URL(string: urlString) {
-            var request = URLRequest(url: url)
-            if let token = self.token?.accessToken,
-                let email = self.email {
-                    let authString = String(format: "%@:%@", email, token)
-                    let authData = authString.data(using: String.Encoding.utf8)!
-                    let base64AuthString = authData.base64EncodedString()
-                    request.httpMethod = "GET"
-                    request.setValue(base64AuthString, forHTTPHeaderField: "Authorization")
-                    return request
-            }
-        }
-        return nil
-    }
-    
-    /**
-     Streams vehicle data using a websocket
-     
-     - parameter vehicle: the vehicle that will receive the command
-     - parameter dataReceived: callback to receive the websocket data
-     */
-    public func openStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent) -> Void) {
-        if let urlRequest: URLRequest = getStreamURLRequest(vehicle: vehicle) {
-            webSocket = WebSocket(request: urlRequest)
-            print("Open Websocket")
-            webSocket?.open()
-            webSocket?.event.message = { data in
-                print("data: \(data)")
-                if let string = data as? String,
-                    let mapped: StreamEvent = Mapper<StreamEvent>().map(JSONString: string) {
-                        dataReceived(mapped)
-                }
-            }
-        }
-    }
-    
-    public func closeStream() {
-        webSocket?.close()
-    }
 }
 
 extension TeslaSwift {
@@ -535,6 +485,94 @@ extension TeslaSwift {
 		return request
 	}
 	
+}
+
+// MARK: Streaming API
+extension TeslaSwift {
+	
+	/**
+	Streams vehicle data using a websocket
+	
+	- parameter vehicle: the vehicle that will receive the command
+	- parameter dataReceived: callback to receive the websocket data
+	*/
+	public func openStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent) -> Void) {
+		let endpoint = StreamEndpoint.stream(vehicleId: "\(vehicle.vehicleID!)", values: StreamParameters.all)
+		let urlRequest = prepareRequest(endpoint: endpoint, vehicle: vehicle)
+		webSocket = WebSocket(request: urlRequest)
+		
+		webSocket?.event.open = {
+			print("open")
+		}
+		webSocket?.event.error = { error in
+			print("error: \(error)")
+		}
+		webSocket?.event.close = { code, reason, clean in
+			print("close \(code) \(reason)")
+		}
+		webSocket?.event.message = { data in
+			print("data: \(data)")
+			if let string = data as? String,
+				let mapped: StreamEvent = Mapper<StreamEvent>().map(JSONString: string) {
+				dataReceived(mapped)
+			}
+		}
+		webSocket?.open()
+		
+		let url = URL(string: "https://streaming.vn.teslamotors.com/stream/\(vehicle.vehicleID!)/?values=speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading")!
+		
+		starSocket = Starscream.WebSocket(url: url)
+		
+		starSocket?.headers = urlRequest.allHTTPHeaderFields!
+		
+		starSocket?.onConnect = {
+			print("websocket is connected")
+		}
+		//websocketDidDisconnect
+		starSocket?.onDisconnect = { (error: NSError?) in
+			print("websocket is disconnected: \(String(describing: error?.localizedDescription))")
+		}
+		//websocketDidReceiveMessage
+		starSocket?.onText = { (text: String) in
+			print("got some text: \(text)")
+		}
+		//websocketDidReceiveData
+		starSocket?.onData = { (data: Data) in
+			print("got some data: \(data.count)")
+			let text = String(data: data, encoding: String.Encoding.utf8)
+			print(text ?? "")
+		}
+		starSocket?.onPong = { (data: Data?) in
+			print("got some pong data: \(String(describing: data?.count))")
+		}
+		//you could do onPong as well.
+		starSocket?.connect()
+	}
+	
+	public func closeStream() {
+		webSocket?.close()
+	}
+	
+	func prepareRequest(endpoint: StreamEndpoint, vehicle: Vehicle) -> URLRequest {
+		
+		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
+		request.httpMethod = "GET"
+		
+		if let vehicleToken = vehicle.tokens?.first,
+			let email = self.email {
+	
+			let authString = String(format: "%@:%@", email, vehicleToken)
+			let authData = authString.data(using: String.Encoding.utf8)!
+			let base64AuthString = "Basic " + authData.base64EncodedString()
+			request.setValue(base64AuthString, forHTTPHeaderField: "Authorization")
+			
+		}
+
+		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
+		logDebug("Request Headers: \(String(describing: request.allHTTPHeaderFields))", debuggingEnabled: debuggingEnabled)
+		
+		return request
+	}
 }
 
 func logDebug(_ format: String, debuggingEnabled: Bool) {

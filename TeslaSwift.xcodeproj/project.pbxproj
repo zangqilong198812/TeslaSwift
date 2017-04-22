@@ -108,6 +108,9 @@
 		CFD2E7D11C8A13D60005E882 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFD2E7CF1C8A13D60005E882 /* LaunchScreen.storyboard */; };
 		CFD2E7DC1C8A13D60005E882 /* TeslaSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7DB1C8A13D60005E882 /* TeslaSwiftTests.swift */; };
 		CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */; };
+		CFEAF1351EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */; };
+		CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */; };
+		CFEAF1371EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */; };
 		CFF001A61E755C4A00B8139B /* AllStates.json in Resources */ = {isa = PBXBuildFile; fileRef = CFF001A51E755C4A00B8139B /* AllStates.json */; };
 		CFF001A81E755CF800B8139B /* VehicleExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF001A71E755CF800B8139B /* VehicleExtended.swift */; };
 		CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF001A71E755CF800B8139B /* VehicleExtended.swift */; };
@@ -118,6 +121,8 @@
 		CFF001B01E7565DB00B8139B /* TeslaTimeStampTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF001AF1E7565DB00B8139B /* TeslaTimeStampTransform.swift */; };
 		CFF001B11E7565DB00B8139B /* TeslaTimeStampTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF001AF1E7565DB00B8139B /* TeslaTimeStampTransform.swift */; };
 		CFF001B21E7565DB00B8139B /* TeslaTimeStampTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF001AF1E7565DB00B8139B /* TeslaTimeStampTransform.swift */; };
+		CFF5CFFF1EABD1AB00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
+		CFF5D0001EABD1AD00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,6 +224,7 @@
 		CFD2E7DD1C8A13D60005E882 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeslaSwift.swift; sourceTree = "<group>"; };
 		CFD950661C8A44F4008397BD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
+		CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeslaStreamEndpoint.swift; sourceTree = "<group>"; };
 		CFF001A51E755C4A00B8139B /* AllStates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AllStates.json; sourceTree = "<group>"; };
 		CFF001A71E755CF800B8139B /* VehicleExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleExtended.swift; sourceTree = "<group>"; };
 		CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleConfig.swift; sourceTree = "<group>"; };
@@ -406,6 +412,7 @@
 			children = (
 				CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */,
 				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
+				CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */,
 				CF0D2F181D95A49000E5A304 /* Model */,
 			);
 			path = Sources;
@@ -746,6 +753,7 @@
 				CF2506981E4603CF00D0E08A /* Authtentication.swift in Sources */,
 				CF2506A61E4603CF00D0E08A /* VehicleState.swift in Sources */,
 				CF2506961E4603CF00D0E08A /* TeslaSwift.swift in Sources */,
+				CFF5D0001EABD1AD00655B81 /* StreamEvent.swift in Sources */,
 				CF2506A21E4603CF00D0E08A /* SetTemperatureCommandOptions.swift in Sources */,
 				CF25069A1E4603CF00D0E08A /* ClimateState.swift in Sources */,
 				CF25069E1E4603CF00D0E08A /* GuiSettings.swift in Sources */,
@@ -756,6 +764,7 @@
 				CF25068A1E46034800D0E08A /* AppDelegate.swift in Sources */,
 				CF2506A31E4603CF00D0E08A /* SetSunRoofCommandOptions.swift in Sources */,
 				CFF001AE1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
+				CFEAF1371EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF25069B1E4603CF00D0E08A /* CommandResponse.swift in Sources */,
 				CFF001AA1E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CFF001B21E7565DB00B8139B /* TeslaTimeStampTransform.swift in Sources */,
@@ -786,6 +795,7 @@
 				CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF0D2F2B1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
+				CFEAF1351EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CFF001B01E7565DB00B8139B /* TeslaTimeStampTransform.swift in Sources */,
 				CF0D2F291D95A4A900E5A304 /* ClimateState.swift in Sources */,
 				CF0D2F251D95A4A900E5A304 /* Authtentication.swift in Sources */,
@@ -811,6 +821,7 @@
 				CF1BD59A1DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
 				CF1BD59D1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CF0D2F281D95A4A900E5A304 /* ChargeState.swift in Sources */,
+				CFF5CFFF1EABD1AB00655B81 /* StreamEvent.swift in Sources */,
 				CF1BD5941DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
 				CF0D2F2A1D95A4A900E5A304 /* ClimateState.swift in Sources */,
 				CF0D2F341D95A4A900E5A304 /* OpenTrunkOptions.swift in Sources */,
@@ -821,6 +832,7 @@
 				CF0D2F321D95A4A900E5A304 /* GuiSettings.swift in Sources */,
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
+				CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CFF001B11E7565DB00B8139B /* TeslaTimeStampTransform.swift in Sources */,
