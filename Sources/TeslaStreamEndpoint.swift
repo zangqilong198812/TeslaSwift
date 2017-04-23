@@ -28,15 +28,21 @@ enum StreamParameters:String {
 
 enum StreamEndpoint {
 	
-	case stream(vehicleId: String, values: [StreamParameters])
+	case stream(email: String, vehicleToken: String, vehicleId: String, values: [StreamParameters])
 	
 }
 
 extension StreamEndpoint {
 	
+	var authentication: (email: String, vehicleToken: String) {
+		switch self {
+		case let .stream(email, vehicleToken, _, _):
+			return (email: email, vehicleToken: vehicleToken)
+		}
+	}
 	var path: String {
 		switch self {
-		case let .stream(vehicleId, values):
+		case let .stream(_, _, vehicleId, values):
 			let allValues = values.map({ $0.rawValue }).joined(separator: ",")
 			return "/stream/\(vehicleId)/?values=\(allValues)"
 		}
@@ -46,7 +52,8 @@ extension StreamEndpoint {
 		if useMockServer {
 			return "https://private-623898-modelsapi.apiary-mock.com"
 		} else {
-			return "wss://streaming.vn.teslamotors.com"
+			return "https://streaming.vn.teslamotors.com"
+			
 		}
 	}
 }

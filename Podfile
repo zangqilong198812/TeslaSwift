@@ -3,8 +3,7 @@ target 'TeslaSwift' do
 
 	pod 'PromiseKit/CorePromise' , '~> 4.0'
 	pod 'ObjectMapper' , '~> 2.0'
-    pod 'SwiftWebSocket', '~> 2.6.5'
-	pod 'Starscream', '~> 2.0.3'
+	pod 'IKEventSource' , '~> 2.0'
 
 	target 'TeslaSwiftTests' do
 		
