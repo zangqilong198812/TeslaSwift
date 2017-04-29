@@ -502,8 +502,7 @@ extension TeslaSwift {
 		
 		if reloadsVehicle {
 			
-			_ = reloadVehicle(vehicle: vehicle).then {
-				(freshVehicle) -> Void in
+			_ = reloadVehicle(vehicle: vehicle).then { (freshVehicle) -> Void in
 				self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
 			}
 			
@@ -514,13 +513,10 @@ extension TeslaSwift {
 	}
 	
 	func reloadVehicle(vehicle: Vehicle) -> Promise<Vehicle> {
-		return getVehicles().then {
-			(vehicles: [Vehicle]) -> Vehicle in
+		return getVehicles().then { (vehicles: [Vehicle]) -> Vehicle in
 			
-			for freshVehicle in vehicles {
-				if freshVehicle.vehicleID == vehicle.vehicleID {
+			for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
 					return freshVehicle
-				}
 			}
 			
 			return vehicle

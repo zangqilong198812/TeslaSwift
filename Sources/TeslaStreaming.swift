@@ -53,7 +53,7 @@ class TeslaStreaming {
 	}
 	
 	public func closeStream() {
-		self.httpStreaming.disconnect()
+		httpStreaming.disconnect()
 		logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
 	}
 

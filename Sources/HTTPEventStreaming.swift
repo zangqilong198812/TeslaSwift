@@ -20,9 +20,9 @@ class HTTPEventStreaming: NSObject {
 	var username: String?
 	var password: String?
 	
-	var openCallback: (() -> ())?
-	var callback: ((String) -> ())?
-	var errorCallback: ((Error?) -> ())?
+	var openCallback: (() -> Void)?
+	var callback: ((String) -> Void)?
+	var errorCallback: ((Error?) -> Void)?
 	
 	override init() {
 		configuration = URLSessionConfiguration.default
