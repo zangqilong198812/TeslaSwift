@@ -995,6 +995,13 @@ class TeslaSwiftTests: XCTestCase {
 	//MARK: - Streaming -
 	
     func testStreamVehicleInformation() {
+		
+		let stubPath = OHPathForFile("StreamingData.txt", type(of: self))
+		_ = stub(condition: pathStartsWith("/stream/1234567890")) {
+			_ in
+			return fixture(filePath: stubPath!, headers: [:])
+		}
+		
         let service = TeslaSwift()
         service.useMockServer = true
         let expection = expectation(description: "All Done")
@@ -1003,16 +1010,17 @@ class TeslaSwiftTests: XCTestCase {
                 service.getVehicles()
             }.then { (vehicles) in
 				service.openStream(vehicle: vehicles[0], dataReceived: {
-					(event: StreamEvent) in
-					print(event)
-					expection.fulfill()
+					(event: StreamEvent?, error: Error?) in
+					if event != nil {
+						XCTAssertEqual(event!.elevation,17)
+						expection.fulfill()
+					}
 				})
             }.catch { (error) in
-                print(error)
                 XCTFail((error as NSError).description)
         }
 		
-		waitForExpectations(timeout: 222, handler: nil)
+		waitForExpectations(timeout: 2, handler: nil)
 
     }
 }

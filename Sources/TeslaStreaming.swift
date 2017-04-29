@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import IKEventSource
 
 /*
  * Streaming class takes care of the different types of data streaming from Tesla servers
@@ -16,46 +15,46 @@ import IKEventSource
 class TeslaStreaming {
 	
 	var debuggingEnabled = false
-	var eventSource: EventSource!
+	var httpStreaming = HTTPEventStreaming()
 	
-	func openStream(endpoint: StreamEndpoint, dataReceived: @escaping (StreamEvent) -> Void) {
+	func openStream(endpoint: StreamEndpoint, dataReceived: @escaping (StreamEvent?, Error?) -> Void) {
 		
 		let authentication = endpoint.authentication
-		let basicAuth = EventSource.basicAuth(authentication.email, password: authentication.vehicleToken)
 		let url = endpoint.baseURL(false) + endpoint.path
 		
 		logDebug("Opening Stream to: \(url)", debuggingEnabled: debuggingEnabled)
 		
-		eventSource = EventSource(url: url, headers: ["Authorization": basicAuth])
-		
-		eventSource.onOpen {
-			// When opened
-			print("eventSource is open")
+		httpStreaming.openCallback = {
+			logDebug("Stream open", debuggingEnabled: self.debuggingEnabled)
 		}
 		
-		eventSource.onError { (error) in
-			// When errors
-			print("eventSource error: \(String(describing: error?.localizedDescription))")
+		httpStreaming.callback = {
+			data in
+			logDebug("Stream data: \(data)", debuggingEnabled: self.debuggingEnabled)
+			
+			let event = StreamEvent(values: data)
+			
+			DispatchQueue.main.async {
+				dataReceived(event, nil)
+			}
 		}
 		
-		eventSource.onMessage { (id, event, data) in
-			// Here you get an event without event name!
-			print("data: \(data)")
-			print("data: \(id)")
-			print("data: \(event)")
+		httpStreaming.errorCallback = {
+			(error: Error?) in
+			
+			logDebug("Stream error: \(String(describing: error))", debuggingEnabled: self.debuggingEnabled)
+			
+			DispatchQueue.main.async {
+				dataReceived(nil, error)
+			}
 		}
 		
-		eventSource.addEventListener("event-name") { (id, event, data) in
-			// Here you get an event 'event-name'
-			print("data: \(data)")
-			print("data: \(id)")
-			print("data: \(event)")
-		}
-		
+		httpStreaming.connect(url: URL(string: url)!, username: authentication.email, password: authentication.vehicleToken)
 	}
 	
 	public func closeStream() {
-		eventSource?.close()
+		self.httpStreaming.disconnect()
+		logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
 	}
 
 }

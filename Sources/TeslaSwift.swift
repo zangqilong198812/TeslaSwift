@@ -9,7 +9,6 @@
 import Foundation
 import ObjectMapper
 import PromiseKit
-import IKEventSource
 
 public enum RoofState: String {
 	case Open		= "open"
@@ -108,7 +107,7 @@ open class TeslaSwift {
 	
     fileprivate var email: String?
 	fileprivate var password: String?
-	fileprivate var streaming = TeslaStreaming()
+	lazy fileprivate var streaming = TeslaStreaming()
 	
 	public init() { }
 }
@@ -499,7 +498,7 @@ extension TeslaSwift {
 	- parameter reloadsVehicle: if you have a cached vehicle, the token might be expired, this forces a vehicle token reload
 	- parameter dataReceived: callback to receive the websocket data
 	*/
-	public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping (StreamEvent) -> Void) {
+	public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
 		
 		if reloadsVehicle {
 			
@@ -528,16 +527,18 @@ extension TeslaSwift {
 		}
 	}
 	
-	func startStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent) -> Void) {
+	func startStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent?, Error?) -> Void) {
 		guard let email = email,
 			let vehicleToken = vehicle.tokens?.first else { return }
 		
-		let endpoint = StreamEndpoint.stream(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)", values: StreamParameters.all)
+		let endpoint = StreamEndpoint.stream(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
 		
 		streaming.openStream(endpoint: endpoint, dataReceived: dataReceived)
 	}
 
-	
+	/**
+	Stops the stream
+	*/
 	public func closeStream() {
 		streaming.closeStream()
 	}

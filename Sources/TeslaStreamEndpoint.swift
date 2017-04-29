@@ -8,43 +8,23 @@
 
 import Foundation
 
-enum StreamParameters:String {
-	
-	case speed
-	case odometer
-	case soc
-	case elevation
-	case estimatedHeading = "est_heading"
-	case estimatedLatitude = "est_lat"
-	case estimatedLongitude = "est_lng"
-	case power
-	case shiftState = "shift_state"
-	case range
-	case estimatedRange = "est_range"
-	case heading
-	
-	static var all: [StreamParameters] = [.speed, .odometer, .soc, .elevation, .estimatedHeading, .estimatedLatitude, .estimatedLongitude, .power, .shiftState, .range, .estimatedRange, .heading]
-}
-
 enum StreamEndpoint {
 	
-	case stream(email: String, vehicleToken: String, vehicleId: String, values: [StreamParameters])
-	
+	case stream(email: String, vehicleToken: String, vehicleId: String)
 }
 
 extension StreamEndpoint {
 	
 	var authentication: (email: String, vehicleToken: String) {
 		switch self {
-		case let .stream(email, vehicleToken, _, _):
+		case let .stream(email, vehicleToken, _):
 			return (email: email, vehicleToken: vehicleToken)
 		}
 	}
 	var path: String {
 		switch self {
-		case let .stream(_, _, vehicleId, values):
-			let allValues = values.map({ $0.rawValue }).joined(separator: ",")
-			return "/stream/\(vehicleId)/?values=\(allValues)"
+		case let .stream(_, _, vehicleId):
+			return "/stream/\(vehicleId)/?values=speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading"
 		}
 	}
 	

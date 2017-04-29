@@ -3,11 +3,9 @@ target 'TeslaSwift' do
 
 	pod 'PromiseKit/CorePromise' , '~> 4.0'
 	pod 'ObjectMapper' , '~> 2.0'
-	pod 'IKEventSource' , '~> 2.0'
 
 	target 'TeslaSwiftTests' do
 		
-		inherit! :complete
 		pod 'OHHTTPStubs'
 		pod 'OHHTTPStubs/Swift'
 		

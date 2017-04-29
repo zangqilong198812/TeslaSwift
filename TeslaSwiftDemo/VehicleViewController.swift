@@ -13,6 +13,7 @@ class VehicleViewController: UIViewController {
 
 	@IBOutlet weak var textView: UITextView!
 	var vehicle: Vehicle?
+	var streaming = false
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,12 +113,23 @@ class VehicleViewController: UIViewController {
 	}
     
 	@IBAction func stream(_ sender: Any) {
-		if let vehicle = vehicle {
-			api.openStream(vehicle: vehicle, dataReceived: {
-				(event: StreamEvent) in
-					print(event)
-			})
+		self.textView.text = ""
+		if !streaming {
+			if let vehicle = vehicle {
+				api.openStream(vehicle: vehicle, dataReceived: {
+					(event: StreamEvent?, error: Error?) in
+					if let error = error {
+						self.textView.text = error.localizedDescription
+					} else {
+						self.textView.text = "event: \(String(describing: event?.odometer?.kms))"
+					}
+				})
+			}
+		} else {
+			api.closeStream()
 		}
+		
+		streaming = !streaming
 	}
 
 }

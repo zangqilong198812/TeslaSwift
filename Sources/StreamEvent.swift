@@ -10,7 +10,7 @@ import Foundation
 import ObjectMapper
 import CoreLocation
 
-open class StreamEvent: Mappable {
+open class StreamEvent {
 	
 	public struct Distance {
 		fileprivate var value: Double
@@ -28,7 +28,7 @@ open class StreamEvent: Mappable {
 	
     open var timestamp: Date?
     open var speed: CLLocationSpeed?
-    open var odometer: Double?
+    open var odometer: Distance?
     open var soc: Int?
     open var elevation: Int?
     open var estLat: CLLocationDegrees?
@@ -55,26 +55,35 @@ open class StreamEvent: Mappable {
 		}
 		return nil
 	}
-    
-    // MARK: Mappable protocol
-    
-    required public init?(map: Map) { }
-    
-    open func mapping(map: Map) {
+	
+	init(values: String) {
+		// timeStamp,speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading
 		
-		let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
+		let separatedValues = values.components(separatedBy: ",")
 		
-        timestamp	<- (map["timestamp"], TeslaTimeStampTransform())
-        odometer	<- map["odometer"]
-        soc         <- map["soc"]
-        elevation	<- map["elevation"]
-        estLat      <- map["est_lat"]
-        estLng		<- map["est_lng"]
-        power       <- map["power"]
-        shiftState	<- map["shift_state"]
-        range       <- (map["range"], distanceTransform)
-        estRange	<- (map["est_range"], distanceTransform)
-        estHeading	<- map["est_heading"]
-        heading     <- map["heading"]
-    }
+		guard separatedValues.count > 11 else { return }
+		
+		if let timeValue = Int(separatedValues[0]) {
+			timestamp = Date(timeIntervalSince1970: TimeInterval(timeValue/1000))
+		}
+		speed = CLLocationSpeed(separatedValues[1])
+		if let value = Double(separatedValues[2]) {
+			odometer = Distance(miles: value)
+		}
+		soc = Int(separatedValues[3])
+		elevation = Int(separatedValues[4])
+		estHeading = CLLocationDirection(separatedValues[5])
+		estLat = CLLocationDegrees(separatedValues[6])
+		estLng = CLLocationDegrees(separatedValues[7])
+		power = Int(separatedValues[8])
+		shiftState = separatedValues[9]
+		if let value = Double(separatedValues[10]) {
+			range = Distance(miles: value)
+		}
+		if let value = Double(separatedValues[11]) {
+			estRange = Distance(miles: value)
+		}
+		heading = CLLocationDirection(separatedValues[12])
+	}
+
 }
