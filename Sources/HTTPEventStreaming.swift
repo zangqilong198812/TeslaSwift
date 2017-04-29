@@ -10,7 +10,7 @@ import Foundation
 
 class HTTPEventStreaming: NSObject {
 	
-	var retryTime = 3000
+	var retryTime: Double = 3000
 	
 	var configuration: URLSessionConfiguration
 	var task: URLSessionDataTask?
@@ -98,8 +98,8 @@ extension HTTPEventStreaming: URLSessionDataDelegate {
 	open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
 		
 		if error == nil || (error as NSError?)?.code != -999 {
-			let nanoseconds = Double(retryTime) / 1000.0 * Double(NSEC_PER_SEC)
-			let delayTime = DispatchTime.now() + Double(Int64(nanoseconds)) / Double(NSEC_PER_SEC)
+			let seconds = retryTime / 1000.0
+			let delayTime = DispatchTime.now() + seconds
 			DispatchQueue.main.asyncAfter(deadline: delayTime) {
 				if let url = self.url, let username = self.username, let password = self.password {
 					self.connect(url: url, username: username, password: password)
