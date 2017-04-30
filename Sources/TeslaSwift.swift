@@ -103,9 +103,9 @@ open class TeslaSwift {
 		}
 	}
 	
-	open var token: AuthToken?
+	open fileprivate(set) var token: AuthToken?
 	
-    fileprivate var email: String?
+    open fileprivate(set) var email: String?
 	fileprivate var password: String?
 	lazy fileprivate var streaming = TeslaStreaming()
 	
@@ -169,8 +169,9 @@ extension TeslaSwift {
 	If the token is invalid a new authentication will be required
 	
 	*/
-	public func reuse(token: AuthToken) {
+	public func reuse(token: AuthToken, email: String? = nil) {
 		self.token = token
+		self.email = email
 	}
 	
 	/**
@@ -516,7 +517,7 @@ extension TeslaSwift {
 		return getVehicles().then { (vehicles: [Vehicle]) -> Vehicle in
 			
 			for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
-					return freshVehicle
+				return freshVehicle
 			}
 			
 			return vehicle

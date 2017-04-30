@@ -87,3 +87,9 @@ open class StreamEvent {
 	}
 
 }
+
+extension StreamEvent: CustomStringConvertible {
+	public var description: String {
+		return "speed: \(String(describing: speed)), odo: \(String(describing: odometer)), soc: \(String(describing: soc)), elevation: \(String(describing: elevation)), power: \(String(describing: power)), shift: \(String(describing: shiftState)), range: \(String(describing: range?.kms)), heading: \(String(describing: heading))"
+	}
+}

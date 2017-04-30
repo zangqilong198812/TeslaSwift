@@ -113,15 +113,15 @@ class VehicleViewController: UIViewController {
 	}
     
 	@IBAction func stream(_ sender: Any) {
-		self.textView.text = ""
 		if !streaming {
 			if let vehicle = vehicle {
+				self.textView.text = ""
 				api.openStream(vehicle: vehicle, dataReceived: {
 					(event: StreamEvent?, error: Error?) in
 					if let error = error {
 						self.textView.text = error.localizedDescription
 					} else {
-						self.textView.text = "event: \(String(describing: event?.odometer?.kms))"
+						self.textView.text = "\(self.textView.text)\nevent: \(String(describing: event))"
 					}
 				})
 			}
