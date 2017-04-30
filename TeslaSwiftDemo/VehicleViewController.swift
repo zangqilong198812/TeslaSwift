@@ -121,7 +121,7 @@ class VehicleViewController: UIViewController {
 					if let error = error {
 						self.textView.text = error.localizedDescription
 					} else {
-						self.textView.text = "\(self.textView.text)\nevent: \(String(describing: event))"
+						self.textView.text = "\(self.textView.text ?? "")\nevent: \(event?.description ?? "")"
 					}
 				})
 			}

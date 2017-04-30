@@ -90,6 +90,6 @@ open class StreamEvent {
 
 extension StreamEvent: CustomStringConvertible {
 	public var description: String {
-		return "speed: \(String(describing: speed)), odo: \(String(describing: odometer)), soc: \(String(describing: soc)), elevation: \(String(describing: elevation)), power: \(String(describing: power)), shift: \(String(describing: shiftState)), range: \(String(describing: range?.kms)), heading: \(String(describing: heading))"
+		return "speed: \(speed ?? -1), odo: \(odometer?.kms ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.kms ?? -1), estRange: \(estRange?.kms ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1)"
 	}
 }
