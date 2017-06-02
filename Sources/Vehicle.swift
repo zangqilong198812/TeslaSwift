@@ -16,7 +16,7 @@ open class Vehicle: Mappable {
 	open var calendarEnabled: Bool?
 	open var color: String?
 	open var displayName: String?
-	open var id: Int?
+	open var id: String?
 	open var idS: String?
 	open var inService: Bool?
 	open var notificationsEnabled: Bool?
@@ -38,7 +38,7 @@ open class Vehicle: Mappable {
 		calendarEnabled			<- map["calendar_enabled"]
 		color					<- map["color"]
 		displayName				<- map["display_name"]
-		id						<- map["id"]
+		id						<- map["id_s"]
 		idS						<- map["id_s"]
 		inService				<- map["in_service"]
 		notificationsEnabled	<- map["notifications_enabled"]

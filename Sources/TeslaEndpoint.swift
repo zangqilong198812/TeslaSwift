@@ -12,14 +12,14 @@ enum Endpoint {
 	
 	case authentication
 	case vehicles
-	case mobileAccess(vehicleID: Int)
-	case allStates(vehicleID: Int)
-	case chargeState(vehicleID: Int)
-	case climateState(vehicleID: Int)
-	case driveState(vehicleID: Int)
-	case guiSettings(vehicleID: Int)
-	case vehicleState(vehicleID: Int)
-	case command(vehicleID: Int, command:VehicleCommand)
+	case mobileAccess(vehicleID: String)
+	case allStates(vehicleID: String)
+	case chargeState(vehicleID: String)
+	case climateState(vehicleID: String)
+	case driveState(vehicleID: String)
+	case guiSettings(vehicleID: String)
+	case vehicleState(vehicleID: String)
+	case command(vehicleID: String, command:VehicleCommand)
 }
 
 extension Endpoint {
