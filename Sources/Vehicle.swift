@@ -33,12 +33,26 @@ open class Vehicle: Mappable {
 	}
 	
 	open func mapping(map: Map) {
+		let idTransform = TransformOf<String, Int>(fromJSON: {
+			if let value = $0 {
+				return "\(value)"
+			} else {
+				return nil
+			}
+		}, toJSON: {
+			if let value = $0 {
+				return Int(value)
+			} else {
+				return nil
+			}
+		})
+		
 		backseatToken			<- map["backseat_token"]
 		backseatTokenUpdatedAt	<- map["backseat_token_updated_at"]
 		calendarEnabled			<- map["calendar_enabled"]
 		color					<- map["color"]
 		displayName				<- map["display_name"]
-		id						<- map["id_s"]
+		id						<- (map["id"], idTransform)
 		idS						<- map["id_s"]
 		inService				<- map["in_service"]
 		notificationsEnabled	<- map["notifications_enabled"]
