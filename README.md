@@ -7,15 +7,15 @@ Swift library to access the Tesla Model S API based on [Unofficial Tesla Model S
 Installation
 ============
 
-####Manual
+#### Manual
 
 Copy `Sources` folder into your project
 
-####CocoaPods
+#### CocoaPods
 ```ruby
 	pod 'TeslaSwift', '~> 3.0'
 ```
-####Swift Package Manager
+#### Swift Package Manager
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
 ```swift
 .Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 3)
@@ -23,7 +23,7 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 
 Usage
 ============
-Tesla server is not fully compatible with ATS so you need to add the following to your app Info.plist
+Tesla's server is not fully compatible with ATS so you need to add the following to your app Info.plist
 ```XML
 <key>NSAppTransportSecurity</key>
 <dict>
@@ -34,7 +34,7 @@ Tesla server is not fully compatible with ATS so you need to add the following t
 
 Import the module
 ```swift
-	import TeslaSwift
+import TeslaSwift
 ```
 
 Perform an authentication with your My Tesla credentials: 
@@ -70,6 +70,29 @@ class ViewController {
 			
 		}.catch { (error) in
 			//Process error
+   }
+}
+```    
+Streaming
+===========
+```swift
+class ViewController {
+
+  func showStream() {
+
+    api.openStream(vehicle: myVehicle, dataReceived: {
+					(event: StreamEvent?, error: Error?) in
+					
+					if event != nil {
+						self.data.append(event)
+						self.tableView.reloadData()
+					} else {
+						//Process error
+					}
+				})
+				
+	// After some events...
+	api.closeStream()
    }
 }
 ```    
