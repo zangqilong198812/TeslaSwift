@@ -20,7 +20,7 @@ class TeslaStreaming {
 	func openStream(endpoint: StreamEndpoint, dataReceived: @escaping (StreamEvent?, Error?) -> Void) {
 		
 		let authentication = endpoint.authentication
-		let url = endpoint.baseURL(false) + endpoint.path
+		let url = endpoint.baseURL() + endpoint.path
 		
 		logDebug("Opening Stream to: \(url)", debuggingEnabled: debuggingEnabled)
 		

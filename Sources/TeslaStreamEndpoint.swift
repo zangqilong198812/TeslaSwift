@@ -28,12 +28,7 @@ extension StreamEndpoint {
 		}
 	}
 	
-	func baseURL(_ useMockServer: Bool) -> String {
-		if useMockServer {
-			return "https://private-623898-modelsapi.apiary-mock.com"
-		} else {
-			return "https://streaming.vn.teslamotors.com"
-			
-		}
+	func baseURL() -> String {
+		return "https://streaming.vn.teslamotors.com"
 	}
 }
