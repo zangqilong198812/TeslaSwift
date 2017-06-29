@@ -52,7 +52,7 @@ class TeslaStreaming {
 		httpStreaming.connect(url: URL(string: url)!, username: authentication.email, password: authentication.vehicleToken)
 	}
 	
-	public func closeStream() {
+	func closeStream() {
 		httpStreaming.disconnect()
 		logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
 	}

@@ -80,7 +80,7 @@ class HTTPEventStreaming: NSObject {
 
 extension HTTPEventStreaming: URLSessionDataDelegate {
 	
-	open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+	func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
 		
 		if let stringData = String(data: data, encoding: String.Encoding.utf8) {
 			for string in stringData.components(separatedBy: "\r\n").dropLast() {
@@ -89,13 +89,13 @@ extension HTTPEventStreaming: URLSessionDataDelegate {
 		}
 	}
 	
-	open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+	func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
 		completionHandler(URLSession.ResponseDisposition.allow)
 		
 		openCallback?()
 	}
 	
-	open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+	func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
 		
 		if error == nil || (error as NSError?)?.code != -999 {
 			let seconds = retryTime / 1000.0
