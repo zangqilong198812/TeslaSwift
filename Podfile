@@ -6,7 +6,6 @@ target 'TeslaSwift' do
 
 	target 'TeslaSwiftTests' do
 		
-		inherit! :complete
 		pod 'OHHTTPStubs'
 		pod 'OHHTTPStubs/Swift'
 		

@@ -21,8 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		api.useMockServer = false
 		api.debuggingEnabled = true
 		
-		if let obj = UserDefaults.standard.object(forKey: "tesla.token") as? [String: Any] {
-			api.token = Mapper<AuthToken>().map(JSON: obj)
+		if let obj = UserDefaults.standard.object(forKey: "tesla.token") as? [String: Any],
+			let token = Mapper<AuthToken>().map(JSON: obj),
+			let email = UserDefaults.standard.object(forKey: "tesla.email") as? String {
+			api.reuse(token: token, email: email)
 		}
 		
 		return true
@@ -38,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 		
 		UserDefaults.standard.set(api.token?.toJSON(), forKey: "tesla.token")
+		UserDefaults.standard.set(api.email, forKey: "tesla.email")
 		UserDefaults.standard.synchronize()
 	}
 
