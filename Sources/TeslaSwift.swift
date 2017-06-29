@@ -169,6 +169,8 @@ extension TeslaSwift {
 	This method is useful if your app wants to ask the user for credentials once and reuse the token skiping authentication
 	If the token is invalid a new authentication will be required
 	
+	- parameter token:      The previous token
+	- parameter email:      Email is required for streaming
 	*/
 	public func reuse(token: AuthToken, email: String? = nil) {
 		self.token = token
