@@ -89,6 +89,7 @@ public enum TeslaError: Error {
 	case authenticationFailed
 	case invalidOptionsForCommand
 	case failedToParseData
+	case streamingMissingEmailOrVehicleToken
 }
 
 let ErrorInfo = "ErrorInfo"
@@ -97,12 +98,17 @@ let ErrorInfo = "ErrorInfo"
 open class TeslaSwift {
 	
 	open var useMockServer = false
-	open var debuggingEnabled = false
+	open var debuggingEnabled = false {
+		didSet {
+			streaming.debuggingEnabled = debuggingEnabled
+		}
+	}
 	
-	open var token: AuthToken?
+	open fileprivate(set) var token: AuthToken?
 	
-	fileprivate var email: String?
+    open fileprivate(set) var email: String?
 	fileprivate var password: String?
+	lazy fileprivate var streaming = TeslaStreaming()
 	
 	public init() { }
 }
@@ -129,6 +135,7 @@ extension TeslaSwift {
 	public func authenticate(email: String, password: String) -> Promise<AuthToken> {
 		
 		self.email = email
+        UserDefaults.standard.set(email, forKey: "TeslaSwift.email")
 		self.password = password
 
 		let body = AuthTokenRequest(email: email,
@@ -162,9 +169,12 @@ extension TeslaSwift {
 	This method is useful if your app wants to ask the user for credentials once and reuse the token skiping authentication
 	If the token is invalid a new authentication will be required
 	
+	- parameter token:      The previous token
+	- parameter email:      Email is required for streaming
 	*/
-	public func reuse(token: AuthToken) {
+	public func reuse(token: AuthToken, email: String? = nil) {
 		self.token = token
+		self.email = email
 	}
 	
 	/**
@@ -334,8 +344,6 @@ extension TeslaSwift {
 		}
 	}
 	
-
-	
 	/**
 	Sends a command to the vehicle
 	
@@ -457,7 +465,7 @@ extension TeslaSwift {
 		
 		return promise
 	}
-	
+    
 	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> URLRequest {
 	
 		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
@@ -480,6 +488,64 @@ extension TeslaSwift {
 		}
 		
 		return request
+	}
+	
+}
+
+// MARK: Streaming API
+extension TeslaSwift {
+	
+	/**
+	Streams vehicle data
+	
+	- parameter vehicle: the vehicle that will receive the command
+	- parameter reloadsVehicle: if you have a cached vehicle, the token might be expired, this forces a vehicle token reload
+	- parameter dataReceived: callback to receive the websocket data
+	*/
+	public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
+		
+		if reloadsVehicle {
+			
+			_ = reloadVehicle(vehicle: vehicle).then { (freshVehicle) -> Void in
+				self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
+			}.catch { (error) in
+				dataReceived((event: nil, error: error))
+			}
+			
+		} else {
+			startStream(vehicle: vehicle, dataReceived: dataReceived)
+		}
+	
+	}
+	
+	func reloadVehicle(vehicle: Vehicle) -> Promise<Vehicle> {
+		return getVehicles().then { (vehicles: [Vehicle]) -> Vehicle in
+			
+			for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
+				return freshVehicle
+			}
+			
+			return vehicle
+		}
+	}
+	
+	func startStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent?, Error?) -> Void) {
+		guard let email = email,
+			let vehicleToken = vehicle.tokens?.first else {
+				dataReceived(nil, TeslaError.streamingMissingEmailOrVehicleToken)
+				return
+		}
+		
+		let endpoint = StreamEndpoint.stream(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
+		
+		streaming.openStream(endpoint: endpoint, dataReceived: dataReceived)
+	}
+
+	/**
+	Stops the stream
+	*/
+	public func closeStream() {
+		streaming.closeStream()
 	}
 	
 }

@@ -179,7 +179,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleMobileState() {
 		
 		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.mobileAccess(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -210,7 +210,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetAllStates() {
 		
 		let stubPath2 = OHPathForFile("AllStates.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.allStates(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.allStates(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath2!, headers: self.headers)
 		}
@@ -245,7 +245,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleChargeState() {
 		
 		let stubPath2 = OHPathForFile("ChargeState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.chargeState(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath2!, headers: self.headers)
 		}
@@ -277,7 +277,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleClimateSettings() {
 		
 		let stubPath3 = OHPathForFile("ClimateSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.climateState(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath3!, headers: self.headers)
 		}
@@ -308,7 +308,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleDriveState() {
 		
 		let stubPath4 = OHPathForFile("DriveState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.driveState(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath4!, headers: self.headers)
 		}
@@ -339,7 +339,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleGuiSettings() {
 		
 		let stubPath5 = OHPathForFile("GuiSettings.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.guiSettings(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath5!, headers: self.headers)
 		}
@@ -370,7 +370,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testGetVehicleState() {
 		
 		let stubPath6 = OHPathForFile("VehicleState.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: 321).path)) {
+		_ = stub(condition: isPath(Endpoint.vehicleState(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath6!, headers: self.headers)
 		}
@@ -404,7 +404,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandWakeUp() {
 		
 		let stubPath = OHPathForFile("WakeUp.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .wakeUp).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .wakeUp).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -435,7 +435,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandValetMode() {
 
 		let stubPath = OHPathForFile("SetValetMode.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .valetMode(valetActivated: true, pin: "1234")).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .valetMode(valetActivated: true, pin: "1234")).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -466,7 +466,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandResetValetPin() {
 		
 		let stubPath = OHPathForFile("ResetValetPin.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .resetValetPin).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .resetValetPin).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -497,7 +497,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandOpenChargePort() {
 		
 		let stubPath = OHPathForFile("OpenChargeDoor.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .openChargeDoor).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .openChargeDoor).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -528,7 +528,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandChargeStandard() {
 		
 		let stubPath = OHPathForFile("ChargeLimitStandard.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .chargeLimitStandard).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .chargeLimitStandard).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -559,7 +559,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandChargeMaxRate() {
 		
 		let stubPath = OHPathForFile("ChargeLimitMaxRange.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .chargeLimitMaxRange).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .chargeLimitMaxRange).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -621,7 +621,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStartCharging() {
 		
 		let stubPath = OHPathForFile("StartCharging.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .startCharging).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .startCharging).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -652,7 +652,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStopCharging() {
 		
 		let stubPath = OHPathForFile("StopCharging.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .stopCharging).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .stopCharging).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -683,7 +683,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandFlashLights() {
 		
 		let stubPath = OHPathForFile("FlashLights.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .flashLights).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .flashLights).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -714,7 +714,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandHonkHorn() {
 		
 		let stubPath = OHPathForFile("HonkHorn.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .honkHorn).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .honkHorn).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -745,7 +745,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandUnlockDoors() {
 		
 		let stubPath = OHPathForFile("UnlockDoors.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .unlockDoors).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .unlockDoors).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -776,7 +776,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandLockDoors() {
 		
 		let stubPath = OHPathForFile("LockDoors.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .lockDoors).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .lockDoors).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -838,7 +838,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStartAutoConditioning() {
 		
 		let stubPath = OHPathForFile("StartAutoConditioning.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .startAutoConditioning).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .startAutoConditioning).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -869,7 +869,7 @@ class TeslaSwiftTests: XCTestCase {
 	func testCommandStopAutoConditioning() {
 		
 		let stubPath = OHPathForFile("StopAutoConditioning.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .stopAutoConditioning).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .stopAutoConditioning).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -964,7 +964,7 @@ class TeslaSwiftTests: XCTestCase {
 		let options = OpenTrunkOptions.Rear
 		
 		let stubPath = OHPathForFile("OpenTrunk.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: 321, command: .openTrunk(options: options)).path)) {
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .openTrunk(options: options)).path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -991,4 +991,36 @@ class TeslaSwiftTests: XCTestCase {
 		
 		waitForExpectations(timeout: 2, handler: nil)
 	}
+	
+	//MARK: - Streaming -
+	
+    func testStreamVehicleInformation() {
+		
+		let stubPath = OHPathForFile("StreamingData.txt", type(of: self))
+		_ = stub(condition: pathStartsWith("/stream/1234567890")) {
+			_ in
+			return fixture(filePath: stubPath!, headers: [:])
+		}
+		
+        let service = TeslaSwift()
+        service.useMockServer = true
+        let expection = expectation(description: "All Done")
+        
+        service.authenticate(email: "user", password: "pass").then { (token) in
+                service.getVehicles()
+            }.then { (vehicles) in
+				service.openStream(vehicle: vehicles[0], dataReceived: {
+					(event: StreamEvent?, error: Error?) in
+					if event != nil {
+						XCTAssertEqual(event!.elevation,17)
+						expection.fulfill()
+					}
+				})
+            }.catch { (error) in
+                XCTFail((error as NSError).description)
+        }
+		
+		waitForExpectations(timeout: 2, handler: nil)
+
+    }
 }
