@@ -529,10 +529,10 @@ extension TeslaSwift {
 		}
 	}
 	
-	func startStream(vehicle: Vehicle, dataReceived: @escaping (StreamEvent?, Error?) -> Void) {
+	func startStream(vehicle: Vehicle, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
 		guard let email = email,
 			let vehicleToken = vehicle.tokens?.first else {
-				dataReceived(nil, TeslaError.streamingMissingEmailOrVehicleToken)
+				dataReceived((nil, TeslaError.streamingMissingEmailOrVehicleToken))
 				return
 		}
 		

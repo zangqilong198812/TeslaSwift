@@ -1,8 +1,8 @@
 target 'TeslaSwift' do
 	use_frameworks!
 
-	pod 'PromiseKit/CorePromise' , '~> 4.0'
-	pod 'ObjectMapper' , '~> 2.0'
+	pod 'PromiseKit/CorePromise' , '~> 4.4'
+	pod 'ObjectMapper' , '~> 2.2'
 
 	target 'TeslaSwiftTests' do
 		
@@ -15,6 +15,6 @@ end
 target 'TeslaSwiftMac' do
 	use_frameworks!
 	
-	pod 'PromiseKit/CorePromise' , '~> 4.0'
-	pod 'ObjectMapper' , '~> 2.0'
+	pod 'PromiseKit/CorePromise' , '~> 4.4'
+	pod 'ObjectMapper' , '~> 2.2'
 end

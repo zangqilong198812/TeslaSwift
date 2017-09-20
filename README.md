@@ -1,4 +1,4 @@
-[![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
 [![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)](https://github.com/jonasman/TeslaSwift)
 # TeslaSwift
@@ -111,6 +111,7 @@ When the token expires the library will perform another authentication with your
 Roadmap
 ============
 3.x
+Remove ObjectMapper
 Add new API features and summon
 
 Licence

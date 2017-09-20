@@ -17,7 +17,7 @@ class TeslaStreaming {
 	var debuggingEnabled = false
 	var httpStreaming = HTTPEventStreaming()
 	
-	func openStream(endpoint: StreamEndpoint, dataReceived: @escaping (StreamEvent?, Error?) -> Void) {
+	func openStream(endpoint: StreamEndpoint, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
 		
 		let authentication = endpoint.authentication
 		let url = endpoint.baseURL() + endpoint.path
@@ -35,7 +35,7 @@ class TeslaStreaming {
 			let event = StreamEvent(values: data)
 			
 			DispatchQueue.main.async {
-				dataReceived(event, nil)
+				dataReceived((event, nil))
 			}
 		}
 		
@@ -45,7 +45,7 @@ class TeslaStreaming {
 			logDebug("Stream error: \(String(describing: error))", debuggingEnabled: self.debuggingEnabled)
 			
 			DispatchQueue.main.async {
-				dataReceived(nil, error)
+				dataReceived((nil, error))
 			}
 		}
 		
