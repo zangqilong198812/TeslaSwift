@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import ObjectMapper
 import CoreLocation
 
-open class DriveState: Mappable {
+open class DriveState: Codable {
 	
 	open var shiftState: String?
 	
@@ -38,18 +37,14 @@ open class DriveState: Mappable {
 		return nil
 	}
 	
-	required public init?(map: Map) {
-		
-	}
-	
-	open func mapping(map: Map) {
-		shiftState	<- map["shift_state"]
-		speed		<- map["speed"]
-		latitude	<- map["latitude"]
-		longitude	<- map["longitude"]
-		heading		<- map["heading"]
-		date		<- (map["gps_as_of"], DateTransform())
-		timeStamp	<- (map["timestamp"], TeslaTimeStampTransform())
+	enum CodingKeys: String, CodingKey {
+		case shiftState	 = "shift_state"
+		case speed		 = "speed"
+		case latitude	 = "latitude"
+		case longitude	 = "longitude"
+		case heading		 = "heading"
+		case date		= "gps_as_of"//, DateTransform())
+		case timeStamp	= "timestamp"//, TeslaTimeStampTransform())
 	}
 
 	

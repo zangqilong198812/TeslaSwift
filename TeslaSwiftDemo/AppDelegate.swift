@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ObjectMapper
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		api.debuggingEnabled = true
 		
 		if let obj = UserDefaults.standard.object(forKey: "tesla.token") as? [String: Any],
-			let token = Mapper<AuthToken>().map(JSON: obj),
+			let data = try? JSONSerialization.data(withJSONObject: obj, options: []),
+			let token = try? defaultDecoder.decode(AuthToken.self, from: data),
 			let email = UserDefaults.standard.object(forKey: "tesla.email") as? String {
 			api.reuse(token: token, email: email)
 		}
@@ -39,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
 		// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 		
-		UserDefaults.standard.set(api.token?.toJSON(), forKey: "tesla.token")
+		UserDefaults.standard.set(api.token?.jsonObject, forKey: "tesla.token")
 		UserDefaults.standard.set(api.email, forKey: "tesla.email")
 		UserDefaults.standard.synchronize()
 	}

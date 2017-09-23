@@ -7,18 +7,15 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class RemoteStartDriveCommandOptions: Mappable {
+open class RemoteStartDriveCommandOptions: Encodable {
 
 	open var password: String?
 	init(password: String) {
 		self.password = password
 	}
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		password		<- map["password"]
+	enum CodingKeys: String, CodingKey {
+		case password		 = "password"
 	}
 }

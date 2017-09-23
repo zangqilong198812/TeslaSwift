@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import ObjectMapper
 import PromiseKit
+import os.log
 
-public enum RoofState: String {
+public enum RoofState: String, Codable {
 	case Open		= "open"
 	case Close		= "close"
 	case Comfort	= "comfort"
@@ -93,7 +93,7 @@ public enum TeslaError: Error {
 }
 
 let ErrorInfo = "ErrorInfo"
-
+private var nullBody = ""
 
 open class TeslaSwift {
 	
@@ -114,7 +114,6 @@ open class TeslaSwift {
 }
 
 extension TeslaSwift {
-	
 	
 	public var isAuthenticated: Bool {
 		return token != nil
@@ -195,26 +194,30 @@ extension TeslaSwift {
 	public func getVehicles() -> Promise<[Vehicle]> {
 		
 		return checkAuthentication().then(on: .global()) { _ in
-			self.request(.vehicles, body: nil)
-			}.then(on: .global()) { (data: ArrayResponse<Vehicle>) -> [Vehicle] in
-				data.response
+			return self.request(.vehicles, body: nullBody)
+			}.then(on: .global()) {
+				(data: ArrayResponse<Vehicle>) -> [Vehicle] in
+				return data.response
 		}
 		
 	}
 	
 	public func getAllData(_ vehicle: Vehicle) -> Promise<VehicleExtended> {
-		return checkAuthentication().then(on: .global()) {
+		let promise = checkAuthentication()
+		let first = promise.then(on: .global()) {
 			(token) -> Promise<Response<VehicleExtended>> in
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.allStates(vehicleID: vehicleID))
+			return self.request(.allStates(vehicleID: vehicleID), body: nullBody)
 			
-			}.then(on: .global()) {
+		}
+		let second = first.then(on: .global()) {
 				(data: Response<VehicleExtended>) -> VehicleExtended in
 				
-				data.response
+				return data.response
 		}
+		return second
 	}
 	
 	/**
@@ -229,7 +232,7 @@ extension TeslaSwift {
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.mobileAccess(vehicleID: vehicleID))
+			return self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody)
 			
 			}.then(on: .global()) {
 				(data: BoolResponse) -> Bool in
@@ -251,7 +254,7 @@ extension TeslaSwift {
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.chargeState(vehicleID: vehicleID))
+			return self.request(.chargeState(vehicleID: vehicleID), body: nullBody)
 			
 			}.then(on: .global()) {
 				(data: Response<ChargeState>) -> ChargeState in
@@ -272,7 +275,7 @@ extension TeslaSwift {
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.climateState(vehicleID: vehicleID))
+			return self.request(.climateState(vehicleID: vehicleID), body: nullBody)
 				
 			}.then(on: .global()) {
 				(data: Response<ClimateState>) -> ClimateState in
@@ -293,7 +296,7 @@ extension TeslaSwift {
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.driveState(vehicleID: vehicleID))
+			return self.request(.driveState(vehicleID: vehicleID), body: nullBody)
 				
 			}.then(on: .global()) {
 				(data: Response<DriveState>) -> DriveState in
@@ -314,7 +317,7 @@ extension TeslaSwift {
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.guiSettings(vehicleID: vehicleID))
+			return self.request(.guiSettings(vehicleID: vehicleID), body: nullBody)
 			
 			}.then(on: .global()) {
 				(data: Response<GuiSettings>) -> GuiSettings in
@@ -335,7 +338,7 @@ extension TeslaSwift {
 			
 			let vehicleID = vehicle.id!
 			
-			return self.request(.vehicleState(vehicleID: vehicleID))
+			return self.request(.vehicleState(vehicleID: vehicleID), body: nullBody)
 			
 			}.then(on: .global()) {
 				(data: Response<VehicleState>) -> VehicleState in
@@ -353,7 +356,7 @@ extension TeslaSwift {
 	*/
 	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand) -> Promise<CommandResponse> {
 		
-		var body: Mappable?
+		var body: Encodable?
 		
 		switch command {
 		case let .valetMode(valetActivated, pin):
@@ -416,11 +419,18 @@ extension TeslaSwift {
 		}
 	}
 	
-	func request<T: Mappable>(_ endpoint: Endpoint, body: Mappable? = nil) -> Promise<T> {
+	func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType? = nil) -> Promise<ReturnType> {
 		
-		let (promise, fulfill, reject) = Promise<T>.pending()
+		let (promise, fulfill, reject) = Promise<ReturnType>.pending()
 		
-		let request = prepareRequest(endpoint, body: body)
+		var bodyToUse: BodyType?
+		if let body = body as? String, body == nullBody {
+			bodyToUse = nil
+		} else {
+			bodyToUse = body
+		}
+		
+		let request = prepareRequest(endpoint, body: bodyToUse)
 		let debugEnabled = debuggingEnabled
 		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
@@ -432,15 +442,16 @@ extension TeslaSwift {
 			
 			if case 200..<300 = httpResponse.statusCode {
 				
-				if let data = data,
-					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-					logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
-					if let mapped = Mapper<T>().map(JSONObject: object) {
+				do {
+					if let data = data {
+						let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
+						
+						let mapped = try defaultDecoder.decode(ReturnType.self, from: data)
 						fulfill(mapped)
-					} else {
-						reject(TeslaError.failedToParseData)
 					}
-				} else {
+				} catch {
+					logDebug("error: \(error)", debuggingEnabled: debugEnabled)
 					reject(TeslaError.failedToParseData)
 				}
 				
@@ -448,7 +459,7 @@ extension TeslaSwift {
 				if let data = data,
 					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
 					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
-					if let mapped = Mapper<ErrorMessage>().map(JSONObject: object) {
+					if let mapped = try? defaultDecoder.decode(ErrorMessage.self, from: data) {
 						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
 						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
@@ -466,7 +477,7 @@ extension TeslaSwift {
 		return promise
 	}
     
-	func prepareRequest(_ endpoint: Endpoint, body: Mappable?) -> URLRequest {
+	func prepareRequest<T: Encodable>(_ endpoint: Endpoint, body: T?) -> URLRequest {
 	
 		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
 		request.httpMethod = endpoint.method
@@ -476,15 +487,15 @@ extension TeslaSwift {
 		}
 		
 		if let body = body {
-			let jsonObject = body.toJSON()
-			request.httpBody = try? JSONSerialization.data(withJSONObject: jsonObject, options: [])
+			request.httpBody = try? defaultEncoder.encode(body)
 			request.setValue("application/json", forHTTPHeaderField: "content-type")
 		}
 		
 		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
 		logDebug("Request Headers: \(String(describing: request.allHTTPHeaderFields))", debuggingEnabled: debuggingEnabled)
-		if let body = body {
-			logDebug("Request Body: \(body.toJSONString(prettyPrint: true)!)", debuggingEnabled: debuggingEnabled)
+		if let body = body,
+			let jsonString = body.jsonString  {
+			logDebug("Request Body: \(jsonString)", debuggingEnabled: debuggingEnabled)
 		}
 		
 		return request
@@ -552,6 +563,19 @@ extension TeslaSwift {
 
 func logDebug(_ format: String, debuggingEnabled: Bool) {
 	if debuggingEnabled {
-		NSLog(format)
+		print(format)
 	}
 }
+
+let defaultEncoder: JSONEncoder = {
+	let encoder = JSONEncoder()
+	encoder.outputFormatting = .prettyPrinted
+	//encoder.dateEncodingStrategy = .
+	return encoder
+}()
+
+let defaultDecoder: JSONDecoder = {
+	let decoder = JSONDecoder()
+	//decoder.dateDecodingStrategy
+	return decoder
+}()

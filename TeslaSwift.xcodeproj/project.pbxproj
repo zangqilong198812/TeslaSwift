@@ -97,6 +97,9 @@
 		CFA9850A1CC2691500B23C7D /* SetSunRoof.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985091CC2691500B23C7D /* SetSunRoof.json */; };
 		CFA9850C1CC269B000B23C7D /* StartVehicle.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA9850B1CC269B000B23C7D /* StartVehicle.json */; };
 		CFA985111CC26BA000B23C7D /* OpenTrunk.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA985101CC26BA000B23C7D /* OpenTrunk.json */; };
+		CFAE278F1F76644300D28079 /* Codable+JSONString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE278E1F76644300D28079 /* Codable+JSONString.swift */; };
+		CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE278E1F76644300D28079 /* Codable+JSONString.swift */; };
+		CFAE27911F76644400D28079 /* Codable+JSONString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE278E1F76644300D28079 /* Codable+JSONString.swift */; };
 		CFB5D7B71E66088F003EA1EF /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */; };
 		CFB5D7B81E66088F003EA1EF /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */; };
 		CFC819A41DBBA2EA00A8E47B /* VehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC819A31DBBA2EA00A8E47B /* VehicleViewController.swift */; };
@@ -220,6 +223,7 @@
 		CFA985091CC2691500B23C7D /* SetSunRoof.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetSunRoof.json; sourceTree = "<group>"; };
 		CFA9850B1CC269B000B23C7D /* StartVehicle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartVehicle.json; sourceTree = "<group>"; };
 		CFA985101CC26BA000B23C7D /* OpenTrunk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OpenTrunk.json; sourceTree = "<group>"; };
+		CFAE278E1F76644300D28079 /* Codable+JSONString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+JSONString.swift"; sourceTree = "<group>"; };
 		CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		CFC819A31DBBA2EA00A8E47B /* VehicleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleViewController.swift; sourceTree = "<group>"; };
 		CFD2E7C11C8A13D60005E882 /* TeslaSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeslaSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -317,6 +321,7 @@
 				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
+				CFAE278E1F76644300D28079 /* Codable+JSONString.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -816,6 +821,7 @@
 				CF25068A1E46034800D0E08A /* AppDelegate.swift in Sources */,
 				CF2506A31E4603CF00D0E08A /* SetSunRoofCommandOptions.swift in Sources */,
 				CFF001AE1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
+				CFAE27911F76644400D28079 /* Codable+JSONString.swift in Sources */,
 				CFEAF1371EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF25069B1E4603CF00D0E08A /* CommandResponse.swift in Sources */,
 				CFF001AA1E755CF800B8139B /* VehicleExtended.swift in Sources */,
@@ -858,6 +864,7 @@
 				CFEAF13D1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
 				CFF001AC1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CF0D2F2D1D95A4A900E5A304 /* DriveState.swift in Sources */,
+				CFAE278F1F76644300D28079 /* Codable+JSONString.swift in Sources */,
 				CF0D2F331D95A4A900E5A304 /* OpenTrunkOptions.swift in Sources */,
 				CF1BD59C1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */,
@@ -890,6 +897,7 @@
 				CF0D2F321D95A4A900E5A304 /* GuiSettings.swift in Sources */,
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
+				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
 				CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,

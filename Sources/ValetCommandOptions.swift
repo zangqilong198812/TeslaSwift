@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class ValetCommandOptions: Mappable {
+open class ValetCommandOptions: Codable {
 	
 	open var on: Bool = false
 	open var password: String?
@@ -19,10 +18,8 @@ open class ValetCommandOptions: Mappable {
 		password = pin
 	}
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		on			<- map["on"]
-		password	<- map["password"]
+	enum CodingKeys: String, CodingKey {
+		case on			 = "on"
+		case password	 = "password"
 	}
 }

@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class ClimateState: Mappable {
+open class ClimateState: Codable {
 	
-	public struct Temperature {
+	public struct Temperature: Codable {
 		fileprivate var value: Double
 		
 		public init(celsius: Double?) {
@@ -65,10 +64,8 @@ open class ClimateState: Mappable {
 	
 	open var timeStamp: Date?
 	
-	public required init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		
+	enum CodingKeys: String, CodingKey {
+		/*
 		let temperatureTransform = TransformOf<Temperature, Double>(
 			fromJSON: {
 				if let temp = $0 {
@@ -78,42 +75,42 @@ open class ClimateState: Mappable {
 				}
 			},
 			toJSON: {$0?.celsius}
-		)
+		)*/
 		
-		driverTemperatureSetting	<- (map["driver_temp_setting"], temperatureTransform)
-		fanStatus					<- map["fan_status"]
+		case driverTemperatureSetting	= "driver_temp_setting"//, temperatureTransform)
+		case fanStatus					 = "fan_status"
 		
-		insideTemperature			<- (map["inside_temp"], temperatureTransform)
+		case insideTemperature			= "inside_temp"//, temperatureTransform)
 		
-		isAutoConditioningOn		<- map["is_auto_conditioning_on"]
-		isClimateOn                 <- map["is_climate_on"]
-		isFrontDefrosterOn			<- map["is_front_defroster_on"]
-		isRearDefrosterOn			<- map["is_rear_defroster_on"]
+		case isAutoConditioningOn		 = "is_auto_conditioning_on"
+		case isClimateOn                  = "is_climate_on"
+		case isFrontDefrosterOn			 = "is_front_defroster_on"
+		case isRearDefrosterOn			 = "is_rear_defroster_on"
 		
-		leftTemperatureDirection	<- map["left_temp_direction"]
+		case leftTemperatureDirection	 = "left_temp_direction"
 		
-		maxAvailableTemperature     <- (map["max_avail_temp"], temperatureTransform)
-		minAvailableTemperature     <- (map["min_avail_temp"], temperatureTransform)
+		case maxAvailableTemperature     = "max_avail_temp"//, temperatureTransform)
+		case minAvailableTemperature     = "min_avail_temp"//, temperatureTransform)
 		
-		outsideTemperature			<- (map["outside_temp"], temperatureTransform)
+		case outsideTemperature			= "outside_temp"//, temperatureTransform)
 		
-		passengerTemperatureSetting <- (map["passenger_temp_setting"], temperatureTransform)
+		case passengerTemperatureSetting = "passenger_temp_setting"//, temperatureTransform)
 		
-		rightTemperatureDirection	<- map["right_temp_direction"]
-		
-		
-        seatHeaterLeft				<- map["seat_heater_left"]
-		seatHeaterRearCenter		<- map["seat_heater_rear_center"]
-		seatHeaterRearLeft			<- map["seat_heater_rear_left"]
-		seatHeaterRearLeftBack		<- map["seat_heater_rear_left_back"]
-		seatHeaterRearRight			<- map["seat_heater_rear_right"]
-		seatHeaterRearRightBack		<- map["seat_heater_rear_right_back"]
-		seatHeaterRight				<- map["seat_heater_right"]
+		case rightTemperatureDirection	 = "right_temp_direction"
 		
 		
-        smartPreconditioning		<- map["smart_preconditioning"]
+        case seatHeaterLeft				 = "seat_heater_left"
+		case seatHeaterRearCenter		 = "seat_heater_rear_center"
+		case seatHeaterRearLeft			 = "seat_heater_rear_left"
+		case seatHeaterRearLeftBack		 = "seat_heater_rear_left_back"
+		case seatHeaterRearRight			 = "seat_heater_rear_right"
+		case seatHeaterRearRightBack		 = "seat_heater_rear_right_back"
+		case seatHeaterRight				 = "seat_heater_right"
 		
-		timeStamp					<- (map["timestamp"], TeslaTimeStampTransform())
+		
+        case smartPreconditioning		 = "smart_preconditioning"
+		
+		case timeStamp					= "timestamp"//, TeslaTimeStampTransform())
         
 	}
 }

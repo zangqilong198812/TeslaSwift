@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
+/*
 class TeslaTimeStampTransform: DateTransform {
 	
 	open override func transformFromJSON(_ value: Any?) -> Date? {
@@ -30,3 +30,4 @@ class TeslaTimeStampTransform: DateTransform {
 		return nil
 	}
 }
+*/

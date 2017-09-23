@@ -7,18 +7,14 @@
 //
 
 import Foundation
-import ObjectMapper
 
-
-public enum OpenTrunkOptions: String, Mappable {
+public enum OpenTrunkOptions: String, Codable {
 	
 	case Rear = "rear"
 	
-	public init?(map: Map) {
-		self = .Rear
-	}
-	
-	public mutating func mapping(map: Map) {
-		self	<- (map["which_trunk"], EnumTransform())
+	enum CodingKeys: String, CodingKey {
+		typealias RawValue = String
+		
+		case Rear	= "which_trunk"
 	}
 }

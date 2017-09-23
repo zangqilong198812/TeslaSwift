@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class VehicleState: Mappable {
+open class VehicleState: Codable {
 	
 	open var apiVersion: Int?
 	
@@ -22,7 +21,11 @@ open class VehicleState: Mappable {
 	open var carType: String?
 	open var firmwareVersion: String?
 	
-	open var centerDisplayState: Bool?
+	open var centerDisplayState: Bool? {
+		guard let centerDisplayStateInt = centerDisplayStateInt else { return nil }
+		return centerDisplayStateInt > 0
+	}
+	private var centerDisplayStateInt: Int?
 	
 	open var darkRims: Bool?
 	
@@ -82,82 +85,78 @@ open class VehicleState: Mappable {
 	
 	open var wheelType: String?
 	
+	// MARK: Codable protocol
 	
-	// MARK: Mappable protocol
-	required public init?(map: Map) {
+	enum CodingKeys: String, CodingKey {
+		case apiVersion				 = "api_version"
 		
-	}
-	
-	open func mapping(map: Map) {
-		apiVersion				<- map["api_version"]
+		case autoparkState			 = "autopark_state"
+		case autoparkStateV2			 = "autopark_state_v2"
+		case autoparkStyle			 = "autopark_style"
 		
-		autoparkState			<- map["autopark_state"]
-		autoparkStateV2			<- map["autopark_state_v2"]
-		autoparkStyle			<- map["autopark_style"]
+		case calendarSupported		 = "calendar_supported"
 		
-		calendarSupported		<- map["calendar_supported"]
+		case carType					 = "car_type"
+		case firmwareVersion			 = "car_version"
 		
-		carType					<- map["car_type"]
-		firmwareVersion			<- map["car_version"]
+		case centerDisplayStateInt		 = "center_display_state"
 		
-		centerDisplayState		<- map["center_display_state"]
+		case darkRims				 = "dark_rims"
 		
-		darkRims				<- map["dark_rims"]
+		case driverDoorOpen			 = "df"
+		case driverRearDoorOpen		 = "dr"
 		
-		driverDoorOpen			<- map["df"]
-		driverRearDoorOpen		<- map["dr"]
+		case exteriorColor			 = "exterior_color"
 		
-		exteriorColor			<- map["exterior_color"]
+		case frontTrunkOpen			 = "ft"
 		
-		frontTrunkOpen			<- map["ft"]
+		case hasSpoiler				 = "has_spoiler"
 		
-		hasSpoiler				<- map["has_spoiler"]
+		case homelinkNearby			 = "homelink_nearby"
 		
-		homelinkNearby			<- map["homelink_nearby"]
+		case lastAutoparkError		 = "last_autopark_error"
 		
-		lastAutoparkError		<- map["last_autopark_error"]
+		case locked					 = "locked"
 		
-		locked					<- map["locked"]
+		case notificationsSupported	 = "notifications_supported"
 		
-		notificationsSupported	<- map["notifications_supported"]
+		case odometer				 = "odometer"
 		
-		odometer				<- map["odometer"]
+		case parsedCalendarSupported	 = "parsed_calendar_supported"
+		case perfConfig				 = "perf_config"
 		
-		parsedCalendarSupported	<- map["parsed_calendar_supported"]
-		perfConfig				<- map["perf_config"]
+		case passengerDoorOpen		 = "pf"
+		case passengerRearDoorOpen	 = "pr"
 		
-		passengerDoorOpen		<- map["pf"]
-		passengerRearDoorOpen	<- map["pr"]
+		case rearSeatHeaters			 = "rear_seat_heaters"
+		case rearSeatType			 = "rear_seat_type"
 		
-		rearSeatHeaters			<- map["rear_seat_heaters"]
-		rearSeatType			<- map["rear_seat_type"]
+		case remoteStart				 = "remote_start"
+		case remoteStartSupported	 = "remote_start_supported"
 		
-		remoteStart				<- map["remote_start"]
-		remoteStartSupported	<- map["remote_start_supported"]
+		case rhd						 = "rhd"
+		case roofColor				 = "roof_color"
 		
-		rhd						<- map["rhd"]
-		roofColor				<- map["roof_color"]
+		case rearTrunkOpen			 = "rt"
 		
-		rearTrunkOpen			<- map["rt"]
+		case seatType				 = "seat_type"
 		
-		seatType				<- map["seat_type"]
+		case spoilerType				 = "spoiler_type"
 		
-		spoilerType				<- map["spoiler_type"]
+		case sunRoofInstalled		 = "sun_roof_installed"
+		case sunRoofPercentageOpen	 = "sun_roof_percent_open"
+		case sunRoofState			 = "sun_roof_state"
 		
-		sunRoofInstalled		<- map["sun_roof_installed"]
-		sunRoofPercentageOpen	<- map["sun_roof_percent_open"]
-		sunRoofState			<- map["sun_roof_state"]
+		case thirdRowSeats			 = "third_row_seats"
 		
-		thirdRowSeats			<- map["third_row_seats"]
+		case timeStamp				= "timestamp"//, TeslaTimeStampTransform())
 		
-		timeStamp				<- (map["timestamp"], TeslaTimeStampTransform())
+		case valetMode				 = "valet_mode"
+		case valetPinNeeded			 = "valet_pin_needed"
 		
-		valetMode				<- map["valet_mode"]
-		valetPinNeeded			<- map["valet_pin_needed"]
+		case vehicleName				 = "vehicle_name"
 		
-		vehicleName				<- map["vehicle_name"]
-		
-		wheelType				<- map["wheel_type"]
+		case wheelType				 = "wheel_type"
 		
 	}
 }

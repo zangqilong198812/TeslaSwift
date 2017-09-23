@@ -6,7 +6,7 @@
 //
 //
 
-public struct Distance {
+public struct Distance: Codable {
     fileprivate var value: Double
     
     public init(miles: Double?) {

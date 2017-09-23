@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class SetTemperatureCommandOptions: Mappable {
+open class SetTemperatureCommandOptions: Encodable {
 
 	open var driverTemp: Double?
 	open var passengerTemp: Double?
@@ -18,10 +17,8 @@ open class SetTemperatureCommandOptions: Mappable {
 		passengerTemp = passengerTemperature
 	}
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		driverTemp		<- map["driver_temp"]
-		passengerTemp	<- map["passenger_temp"]
+	enum CodingKeys: String, CodingKey {
+		case driverTemp		 = "driver_temp"
+		case passengerTemp	 = "passenger_temp"
 	}
 }

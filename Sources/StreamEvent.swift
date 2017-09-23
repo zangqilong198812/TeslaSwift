@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ObjectMapper
+
 import CoreLocation
 
 open class StreamEvent {

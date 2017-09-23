@@ -7,17 +7,14 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class CommandResponse: Mappable {
+open class CommandResponse: Codable {
 	
 	open var result: Bool?
 	open var reason: String?
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		result	<- map["response.result"]
-		reason	<- map["response.reason"]
+	enum CodingKeys: String, CodingKey {
+		case result	 = "response.result"
+		case reason	 = "response.reason"
 	}
 }

@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Helvetica.ttc">
+            <string>Helvetica</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Login-->
         <scene sceneID="RLU-GX-AlX">
@@ -40,7 +45,7 @@
                                 </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BW1-mo-rTp">
-                                <rect key="frame" x="-4" y="0.0" width="383" height="44"/>
+                                <rect key="frame" x="-4" y="20" width="383" height="44"/>
                                 <items>
                                     <navigationItem title="Login" id="1op-O4-lHF"/>
                                 </items>
@@ -209,9 +214,8 @@
                                     <action selector="getVehicleState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="l7O-Ay-bFQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySF-V2-hJS">
-                                <rect key="frame" x="266" y="101" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySF-V2-hJS">
+                                <rect key="frame" x="266" y="101" width="30" height="30"/>
                                 <state key="normal" title="all"/>
                                 <connections>
                                     <action selector="gettAll:" destination="hQa-7w-LXN" eventType="touchUpInside" id="VUo-KP-vxg"/>
@@ -229,6 +233,7 @@
                         <constraints>
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="baseline" secondItem="v8v-jY-iJa" secondAttribute="baseline" id="0r9-Cp-cZK"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="centerX" secondItem="zs8-Um-QL5" secondAttribute="centerX" id="1v9-CD-u7p"/>
+                            <constraint firstItem="ySF-V2-hJS" firstAttribute="bottom" secondItem="g7a-lS-cgG" secondAttribute="bottom" id="53v-Cu-BO2"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="trailing" secondItem="1iA-0c-01W" secondAttribute="trailing" id="53z-5N-2eV"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="trailing" secondItem="zs8-Um-QL5" secondAttribute="trailingMargin" id="580-EF-m7n"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="leading" secondItem="zs8-Um-QL5" secondAttribute="leadingMargin" id="6yK-w5-77i"/>
@@ -237,6 +242,7 @@
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="centerY" secondItem="zs8-Um-QL5" secondAttribute="centerY" id="HC4-Wz-f3B"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="26" id="Ifi-ov-SfX"/>
+                            <constraint firstItem="ySF-V2-hJS" firstAttribute="top" secondItem="xP4-ae-x7r" secondAttribute="bottom" constant="-1" id="XDi-tN-cHx"/>
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="leading" secondItem="dL3-Y4-FTE" secondAttribute="leading" id="YoO-4n-cSJ"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="dL3-Y4-FTE" secondAttribute="centerX" id="Zkk-J1-41o"/>
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="top" secondItem="MQS-lV-j8t" secondAttribute="bottom" constant="8" symbolic="YES" id="dCk-o2-SJo"/>
@@ -246,6 +252,7 @@
                             <constraint firstItem="RLA-89-uZU" firstAttribute="top" secondItem="1iA-0c-01W" secondAttribute="bottom" constant="15" id="sHU-Ws-8kG"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="trailing" secondItem="dL3-Y4-FTE" secondAttribute="trailing" id="u7E-K6-cVx"/>
+                            <constraint firstItem="ySF-V2-hJS" firstAttribute="leading" secondItem="g7a-lS-cgG" secondAttribute="trailing" constant="8" id="zKE-0q-Uzy"/>
                         </constraints>
                     </view>
                     <connections>
@@ -323,7 +330,6 @@
                     <tabBarItem key="tabBarItem" title="Vehicles" image="first" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0F0-t0-hZd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

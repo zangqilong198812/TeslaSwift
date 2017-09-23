@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class VehicleConfig: Mappable {
+open class VehicleConfig: Codable {
 	
 	open var carSpecialType: String?
 	open var carType: String?
@@ -18,6 +17,7 @@ open class VehicleConfig: Mappable {
 	open var hasLudicoursMode: Bool?
 	open var motorizedChargePort: Bool?
 	open var perfConfig: String?
+	open var plg: Int?
 	open var rearSeatHeaters: Bool?
 	open var rearSeatType: Int?
 	open var rhd: Bool?
@@ -30,30 +30,27 @@ open class VehicleConfig: Mappable {
 	open var trimBadging: String?
 	open var wheelType: String?
 
-	required public init?(map: Map) {
+	enum CodingKeys: String, CodingKey {
 		
-	}
-	
-	open func mapping(map: Map) {
-		
-		carSpecialType		<- map["car_special_type"]
-		carType				<- map["car_type"]
-		euVehicle			<- map["eu_vehicle"]
-		exteriorColor		<- map["exterior_color"]
-		hasLudicoursMode	<- map["has_ludicrous_mode"]
-		motorizedChargePort <- map["motorized_charge_port"]
-		perfConfig			<- map["perf_config"]
-		rearSeatHeaters		<- map["rear_seat_heaters"]
-		rearSeatType		<- map["rear_seat_type"]
-		rhd					<- map["rhd"]
-		roofColor			<- map["roof_color"]
-		seatType			<- map["seat_type"]
-		spoilerType			<- map["spoiler_type"]
-		sunRoofInstalled	<- map["sun_roof_installed"]
-		thirdRowSeats		<- map["third_row_seats"]
-		timeStamp			<- (map["timestamp"], TeslaTimeStampTransform())
-		trimBadging			<- map["trim_badging"]
-		wheelType			<- map["wheel_type"]
+		case carSpecialType		 = "car_special_type"
+		case carType				 = "car_type"
+		case euVehicle			 = "eu_vehicle"
+		case exteriorColor		 = "exterior_color"
+		case hasLudicoursMode	 = "has_ludicrous_mode"
+		case motorizedChargePort  = "motorized_charge_port"
+		case perfConfig			 = "perf_config"
+		case plg				= "plg"
+		case rearSeatHeaters		 = "rear_seat_heaters"
+		case rearSeatType		 = "rear_seat_type"
+		case rhd					 = "rhd"
+		case roofColor			 = "roof_color"
+		case seatType			 = "seat_type"
+		case spoilerType			 = "spoiler_type"
+		case sunRoofInstalled	 = "sun_roof_installed"
+		case thirdRowSeats		 = "third_row_seats"
+		case timeStamp			= "timestamp"//, TeslaTimeStampTransform())
+		case trimBadging			 = "trim_badging"
+		case wheelType			 = "wheel_type"
 	}
 	
 }

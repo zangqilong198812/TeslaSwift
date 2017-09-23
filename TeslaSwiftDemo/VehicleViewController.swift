@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ObjectMapper
+
 
 class VehicleViewController: UIViewController {
 
@@ -31,7 +31,7 @@ class VehicleViewController: UIViewController {
 			_ = api.getVehicleClimateState(vehicle).then {
 				(climateState: ClimateState) -> Void in
 				self.textView.text = "Inside temp: \(String(describing: climateState.insideTemperature?.celsius))\n" +
-					climateState.toJSONString()!
+					climateState.jsonString!
 			}
 		}
 		
@@ -47,7 +47,7 @@ class VehicleViewController: UIViewController {
 				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) km\n" +
 				"power: \(chargeState.chargerPower!) kW\n" +
 				"\(chargeState.chargerVoltage!)V \(chargeState.chargerActualCurrent!)A\n" +
-				"charger max current: \(String(describing: chargeState.chargerPilotCurrent))\n\(chargeState.toJSONString()!)"
+				"charger max current: \(String(describing: chargeState.chargerPilotCurrent))\n\(chargeState.jsonString!)"
 				
 				return ()
 				}
@@ -58,7 +58,7 @@ class VehicleViewController: UIViewController {
 				_ = self.api.getVehicleState(vehicle).then(execute: { (vehicleState: VehicleState) -> Void in
 					
 					self.textView.text = "FW: \(String(describing: vehicleState.firmwareVersion))\n" +
-					vehicleState.toJSONString()!
+					vehicleState.jsonString!
 
 				})
 		}
@@ -71,7 +71,7 @@ class VehicleViewController: UIViewController {
 				(driveState: DriveState) -> Void in
 				
 				self.textView.text = "Location: \(String(describing: driveState.position))\n" +
-					driveState.toJSONString()!
+					driveState.jsonString!
 				
 			}
 		}
@@ -81,7 +81,7 @@ class VehicleViewController: UIViewController {
 		if let vehicle = vehicle {
 			_ = api.getVehicleGuiSettings(vehicle).then(execute: { (guiSettings: GuiSettings) -> Void in
 				self.textView.text = "Charge rate units: \(String(describing: guiSettings.chargeRateUnits))\n" +
-					guiSettings.toJSONString()!
+					guiSettings.jsonString!
 
 				
 				
@@ -94,7 +94,7 @@ class VehicleViewController: UIViewController {
 		if let vehicle = vehicle {
 			_ = api.getAllData(vehicle).then(execute: { (extendedVehicle: VehicleExtended) in
 				self.textView.text = "All data:\n" +
-				extendedVehicle.toJSONString()!
+				extendedVehicle.jsonString!
 			})
 		}
 		
