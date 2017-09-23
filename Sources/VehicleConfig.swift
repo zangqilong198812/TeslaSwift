@@ -18,6 +18,7 @@ open class VehicleConfig: Mappable {
 	open var hasLudicoursMode: Bool?
 	open var motorizedChargePort: Bool?
 	open var perfConfig: String?
+	open var plg: Int?
 	open var rearSeatHeaters: Bool?
 	open var rearSeatType: Int?
 	open var rhd: Bool?
@@ -43,6 +44,7 @@ open class VehicleConfig: Mappable {
 		hasLudicoursMode	<- map["has_ludicrous_mode"]
 		motorizedChargePort <- map["motorized_charge_port"]
 		perfConfig			<- map["perf_config"]
+		plg					<- map["plg"]
 		rearSeatHeaters		<- map["rear_seat_heaters"]
 		rearSeatType		<- map["rear_seat_type"]
 		rhd					<- map["rhd"]

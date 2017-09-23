@@ -552,6 +552,6 @@ extension TeslaSwift {
 
 func logDebug(_ format: String, debuggingEnabled: Bool) {
 	if debuggingEnabled {
-		NSLog(format)
+		print(format)
 	}
 }
