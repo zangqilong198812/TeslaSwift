@@ -19,7 +19,7 @@ open class Response<T: Decodable>: Decodable {
 	// MARK: Codable protocol
 	
 	enum CodingKeys: String, CodingKey {
-		case response = "response"
+		case response
 	}
 	
 }
@@ -31,7 +31,7 @@ open class ArrayResponse<T: Decodable>: Decodable {
 	// MARK: Codable protocol
 	
 	enum CodingKeys: String, CodingKey {
-		case response = "response"
+		case response
 	}
 	
 }

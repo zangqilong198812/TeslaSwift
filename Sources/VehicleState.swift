@@ -22,11 +22,8 @@ open class VehicleState: Codable {
 	open var carType: String?
 	open var firmwareVersion: String?
 	
-	open var centerDisplayState: Bool? {
-		guard let centerDisplayStateInt = centerDisplayStateInt else { return nil }
-		return centerDisplayStateInt > 0
-	}
-	private var centerDisplayStateInt: Int?
+	private var centerDisplayStateBool: Int?
+	open var centerDisplayState: Bool? { return centerDisplayStateBool == 1 }
 	
 	private var darkRimsBool: Int?
 	open var darkRims: Bool? { return darkRimsBool == 1 }
@@ -118,7 +115,7 @@ open class VehicleState: Codable {
 		case carType					 = "car_type"
 		case firmwareVersion			 = "car_version"
 		
-		case centerDisplayStateInt		 = "center_display_state"
+		case centerDisplayStateBool		 = "center_display_state"
 		
 		case darkRimsBool				 = "dark_rims"
 		
