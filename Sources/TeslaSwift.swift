@@ -356,7 +356,7 @@ extension TeslaSwift {
 	*/
 	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand) -> Promise<CommandResponse> {
 		
-		var body: Encodable?
+		var body: Encodable? = nullBody
 		
 		switch command {
 		case let .valetMode(valetActivated, pin):
@@ -477,7 +477,7 @@ extension TeslaSwift {
 		return promise
 	}
     
-	func prepareRequest<T: Encodable>(_ endpoint: Endpoint, body: T?) -> URLRequest {
+	func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType?) -> URLRequest {
 	
 		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
 		request.httpMethod = endpoint.method
@@ -570,12 +570,12 @@ func logDebug(_ format: String, debuggingEnabled: Bool) {
 let defaultEncoder: JSONEncoder = {
 	let encoder = JSONEncoder()
 	encoder.outputFormatting = .prettyPrinted
-	//encoder.dateEncodingStrategy = .
+	encoder.dateEncodingStrategy = .secondsSince1970
 	return encoder
 }()
 
 let defaultDecoder: JSONDecoder = {
 	let decoder = JSONDecoder()
-	//decoder.dateDecodingStrategy
+	decoder.dateDecodingStrategy = .secondsSince1970
 	return decoder
 }()

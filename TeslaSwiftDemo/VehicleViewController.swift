@@ -21,11 +21,6 @@ class VehicleViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-	
 	@IBAction func getTemps(_ sender: Any) {
 		if let vehicle = vehicle {
 			_ = api.getVehicleClimateState(vehicle).then {
@@ -45,8 +40,8 @@ class VehicleViewController: UIViewController {
 				"charge rate: \(chargeState.chargeRate!.kms) km/h\n" +
 				"energy added: \(chargeState.chargeEnergyAdded!) kWh\n" +
 				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) km\n" +
-				"power: \(chargeState.chargerPower!) kW\n" +
-				"\(chargeState.chargerVoltage!)V \(chargeState.chargerActualCurrent!)A\n" +
+				"power: \(chargeState.chargerPower ?? 0) kW\n" +
+				"\(chargeState.chargerVoltage ?? 0)V \(chargeState.chargerActualCurrent!)A\n" +
 				"charger max current: \(String(describing: chargeState.chargerPilotCurrent))\n\(chargeState.jsonString!)"
 				
 				return ()

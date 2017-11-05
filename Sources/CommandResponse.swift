@@ -10,11 +10,16 @@ import Foundation
 
 open class CommandResponse: Codable {
 	
-	open var result: Bool?
-	open var reason: String?
+	private struct Response: Codable {
+		var result: Int?
+		var reason: String?
+	}
+	private var response: Response
+	
+	open var result: Bool? { return response.result == 1 }
+	open var reason: String? { return response.reason }
 	
 	enum CodingKeys: String, CodingKey {
-		case result	 = "response.result"
-		case reason	 = "response.reason"
+		case response
 	}
 }

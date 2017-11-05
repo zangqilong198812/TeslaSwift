@@ -33,8 +33,6 @@ open class VehicleExtended: Vehicle {
 	required public init(from decoder: Decoder) throws {
 		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		let superdecoder = try container.superDecoder()
-		try super.init(from: superdecoder)
 		userId = try container.decode(Int?.self, forKey: .userId)
 		chargeState = try container.decode(ChargeState?.self, forKey: .chargeState)
 		climateState = try container.decode(ClimateState?.self, forKey: .climateState)
@@ -42,9 +40,10 @@ open class VehicleExtended: Vehicle {
 		guiSettings = try container.decode(GuiSettings?.self, forKey: .guiSettings)
 		vehicleConfig = try container.decode(VehicleConfig?.self, forKey: .vehicleConfig)
 		vehicleState = try container.decode(VehicleState?.self, forKey: .vehicleState)
+		try super.init(from: decoder)
 	}
 	
-	public override func encode(to encoder: Encoder) throws {
+	override open func encode(to encoder: Encoder) throws {
 		
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(userId, forKey: .userId)

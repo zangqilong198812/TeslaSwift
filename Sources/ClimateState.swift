@@ -20,6 +20,22 @@ open class ClimateState: Codable {
 			value = (fahrenheit - 32.0) / 1.8
 		}
 		
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.singleValueContainer()
+			if let tempValue = try container.decode(Double?.self) {
+				value = tempValue
+			} else {
+				value = 0.0
+			}
+		}
+		
+		public func encode(to encoder: Encoder) throws {
+			
+			var container = encoder.singleValueContainer()
+			try container.encode(value)
+			
+		}
+		
 		public var celsius: Double { return value }
 		public var fahrenheit: Double { return (value * 1.8) + 32.0 }
 	}
@@ -62,7 +78,7 @@ open class ClimateState: Codable {
 	
 	open var smartPreconditioning: Int?
 	
-	open var timeStamp: Date?
+	open var timeStamp: TimeInterval?
 	
 	enum CodingKeys: String, CodingKey {
 		/*

@@ -15,7 +15,7 @@ open class GuiSettings: Codable {
 	open var chargeRateUnits: String?
 	open var time24Hours: Bool?
 	open var rangeDisplay: String?
-	open var timeStamp: Date?
+	open var timeStamp: TimeInterval?
 	
 	
 	enum CodingKeys: String, CodingKey {

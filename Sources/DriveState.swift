@@ -18,7 +18,8 @@ open class DriveState: Codable {
 	open var longitude: CLLocationDegrees?
 	open var heading: CLLocationDirection?
 	open var date: Date?
-	open var timeStamp: Date?
+	open var timeStamp: TimeInterval?
+	open var power: Int?
 	
 	
 	open var position: CLLocation? {
@@ -42,6 +43,7 @@ open class DriveState: Codable {
 		case speed		 = "speed"
 		case latitude	 = "latitude"
 		case longitude	 = "longitude"
+		case power
 		case heading		 = "heading"
 		case date		= "gps_as_of"//, DateTransform())
 		case timeStamp	= "timestamp"//, TeslaTimeStampTransform())

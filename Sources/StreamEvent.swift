@@ -12,7 +12,7 @@ import CoreLocation
 
 open class StreamEvent {
 	
-    open var timestamp: Date?
+    open var timestamp: TimeInterval?
     open var speed: CLLocationSpeed?
     open var odometer: Distance?
     open var soc: Int?
@@ -30,13 +30,13 @@ open class StreamEvent {
 		if let latitude = estLat,
 			let longitude = estLng,
 			let heading = heading,
-			let date = timestamp {
+			let timestamp = timestamp {
 			let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
 			return CLLocation(coordinate: coordinate,
 			                  altitude: 0.0, horizontalAccuracy: 0.0, verticalAccuracy: 0.0,
 			                  course: heading,
 			                  speed: speed ?? 0,
-			                  timestamp: date)
+			                  timestamp: Date(timeIntervalSince1970: timestamp/1000))
 			
 		}
 		return nil
@@ -49,8 +49,9 @@ open class StreamEvent {
 		
 		guard separatedValues.count > 11 else { return }
 		
-		if let timeValue = Int(separatedValues[0]) {
-			timestamp = Date(timeIntervalSince1970: TimeInterval(timeValue/1000))
+		if let timeValue = Double(separatedValues[0]) {
+			timestamp = timeValue
+				//Date(timeIntervalSince1970: TimeInterval(timeValue/1000))
 		}
 		speed = CLLocationSpeed(separatedValues[1])
 		if let value = Double(separatedValues[2]) {
