@@ -20,120 +20,133 @@ open class ChargeState: Codable {
 	/**
 	Current flowing into the battery
 	*/
-	open internal(set) var batteryCurrent: Double?
-	open internal(set) var batteryHeaterOn: Bool?
+	open var batteryCurrent: Double?
+	private var batteryHeaterOnBool: Int?
+	open var batteryHeaterOn: Bool? { return batteryHeaterOnBool == 1 }
 	/**
 	Percentage of the battery
 	*/
-	open internal(set) var batteryLevel: Int?
+	open var batteryLevel: Int?
 	/**
 	Rated Miles
 	*/
-	open internal(set) var ratedBatteryRange: Distance?
-	open internal(set) var chargeCurrentRequest: Int?
-	open internal(set) var chargeCurrentRequestMax: Int?
-	open internal(set) var chargeEnableRequest: Bool?
-	open internal(set) var chargeEnergyAdded: Double?
+	open var ratedBatteryRange: Distance?
+	open var chargeCurrentRequest: Int?
+	open var chargeCurrentRequestMax: Int?
+	private var chargeEnableRequestBool: Int?
+	open var chargeEnableRequest: Bool? { return chargeEnableRequestBool == 1 }
+	open var chargeEnergyAdded: Double?
 	
-	open internal(set) var chargeLimitSOC: Int?
-	open internal(set) var chargeLimitSOCMax: Int?
-	open internal(set) var chargeLimitSOCMin: Int?
-	open internal(set) var chargeLimitSOCStandard: Int?
+	open var chargeLimitSOC: Int?
+	open var chargeLimitSOCMax: Int?
+	open var chargeLimitSOCMin: Int?
+	open var chargeLimitSOCStandard: Int?
 	
 	
-	open internal(set) var chargeDistanceAddedIdeal: Distance?
-	open internal(set) var chargeDistanceAddedRated: Distance?
+	open var chargeDistanceAddedIdeal: Distance?
+	open var chargeDistanceAddedRated: Distance?
 	
 	/**
 	Vehicle charging port is open?
 	*/
-	open internal(set) var chargePortDoorOpen: Bool?
-	open internal(set) var chargePortLatch: String?
+	private var chargePortDoorOpenBool: Int?
+	open var chargePortDoorOpen: Bool? { return chargePortDoorOpenBool == 1 }
+	open var chargePortLatch: String?
 	
 	/**
 	miles/hour while charging or 0 if not charging
 	*/
-	open internal(set) var chargeRate: Distance?
+	open var chargeRate: Distance?
 	/**
 	Charge to max rate or standard
 	*/
-	open internal(set) var chargeToMaxRange: Bool?
+	private var chargeToMaxRangeBool: Int?
+	open var chargeToMaxRange: Bool? { return chargeToMaxRangeBool == 1 }
 	
 	/**
 	Current actually being drawn
 	*/
-	open internal(set) var chargerActualCurrent: Int?
-	open internal(set) var chargerPhases: Int?
+	open var chargerActualCurrent: Int?
+	open var chargerPhases: Int?
 	/**
 	Max current allowed by charger and adapter
 	*/
-	open internal(set) var chargerPilotCurrent: Int?
+	open var chargerPilotCurrent: Int?
 	/**
 	KW of charger
 	*/
-	open internal(set) var chargerPower: Int?
+	open var chargerPower: Int?
 	/**
 	Voltage. Only has value while charging
 	*/
-	open internal(set) var chargerVoltage: Int?
+	open var chargerVoltage: Int?
 	
 	/**
 	Current state of the charging
 	*/
-	open internal(set) var chargingState: ChargingState?
+	open var chargingState: ChargingState?
 	
 	/**
 	Range estimated from recent driving
 	*/
-	open internal(set) var estimatedBatteryRange: Distance?
+	open var estimatedBatteryRange: Distance?
 	
-	open internal(set) var euVehicle: Bool?
+	private var euVehicleBool: Int?
+	open var euVehicle: Bool? { return euVehicleBool == 1 }
 	
 	/**
 	Vehicle connected to supercharger?
 	*/
-	open internal(set) var fastChargerPresent: Bool?
-	open internal(set) var fastChargerType: String?
+	private var fastChargerPresentBool: Int?
+	open var fastChargerPresent: Bool? { return fastChargerPresentBool == 1 }
+	open var fastChargerType: String?
 	
 	/**
 	Ideal Miles
 	*/
-	open internal(set) var idealBatteryRange: Distance?
+	open var idealBatteryRange: Distance?
 	
-	open internal(set) var managedChargingActive: Bool?
-	open internal(set) var managedChargingStartTime: Date?
-	open internal(set) var managedChargingUserCanceled: Bool?
+	private var managedChargingActiveBool: Int?
+	open var managedChargingActive: Bool? { return managedChargingActiveBool == 1 }
+	open var managedChargingStartTime: Date?
+	private var managedChargingUserCanceledBool: Int?
+	open var managedChargingUserCanceled: Bool? { return managedChargingUserCanceledBool == 1 }
 	
-	open internal(set) var maxRangeChargeCounter: Int?
+	open var maxRangeChargeCounter: Int?
 	
-	open internal(set) var motorizedChargePort: Bool?
-	open internal(set) var notEnoughPowerToHeat: Bool?
+	private var motorizedChargePortBool: Int?
+	open var motorizedChargePort: Bool? { return motorizedChargePortBool == 1 }
+	private var notEnoughPowerToHeatBool: Int?
+	open var notEnoughPowerToHeat: Bool? { return notEnoughPowerToHeatBool == 1 }
 	
-	open internal(set) var scheduledChargingPending: Bool?
-	open internal(set) var scheduledChargingStartTime: TimeInterval?
+	private var scheduledChargingPendingBool: Int?
+	open var scheduledChargingPending: Bool? { return scheduledChargingPendingBool == 1 }
+	open var scheduledChargingStartTime: TimeInterval?
 	
 	/**
 	Only valid while charging
 	*/
-	open internal(set) var timeToFullCharge: Double?
-	open internal(set) var timeStamp: Date?
+	open var timeToFullCharge: Double?
+	open var timeStamp: Date?
 	
-	open internal(set) var tripCharging: Bool?
+	private var tripChargingBool: Int?
+	open var tripCharging: Bool? { return tripChargingBool == 1 }
 	
-	open internal(set) var usableBatteryLevel: Int?
-	open internal(set) var userChargeEnableRequest: Bool?
+	open var usableBatteryLevel: Int?
+	private var userChargeEnableRequestBool: Int?
+	open var userChargeEnableRequest: Bool? { return userChargeEnableRequestBool == 1 }
 	
 	enum CodingKeys: String, CodingKey {
 		
 		//let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
 		
 		case batteryCurrent               = "battery_current"
-		case batteryHeaterOn				 = "battery_heater_on"
+		case batteryHeaterOnBool				 = "battery_heater_on"
 		case batteryLevel                 = "battery_level"
 		case ratedBatteryRange           = "battery_range"//, distanceTransform)
 		case chargeCurrentRequest		 = "charge_current_request"
 		case chargeCurrentRequestMax		 = "charge_current_request_max"
-		case chargeEnableRequest			 = "charge_enable_request"
+		case chargeEnableRequestBool			 = "charge_enable_request"
 		case chargeEnergyAdded            = "charge_energy_added"
 		
 		case chargeLimitSOC               = "charge_limit_soc"
@@ -144,11 +157,11 @@ open class ChargeState: Codable {
 		case chargeDistanceAddedIdeal    = "charge_miles_added_ideal"//, distanceTransform)
 		case chargeDistanceAddedRated    = "charge_miles_added_rated"//, distanceTransform)
 		
-		case chargePortDoorOpen           = "charge_port_door_open"
+		case chargePortDoorOpenBool           = "charge_port_door_open"
 		case chargePortLatch				 = "charge_port_latch"
 		
 		case chargeRate                  = "charge_rate"//, distanceTransform)
-		case chargeToMaxRange             = "charge_to_max_range"
+		case chargeToMaxRangeBool             = "charge_to_max_range"
 		
 		case chargerActualCurrent         = "charger_actual_current"
 		case chargerPhases				 = "charger_phases"
@@ -160,34 +173,34 @@ open class ChargeState: Codable {
 		
 		case estimatedBatteryRange      = "est_battery_range"//, distanceTransform)
 		
-		case euVehicle					 = "eu_vehicle"
+		case euVehicleBool					 = "eu_vehicle"
 		
-		case fastChargerPresent           = "fast_charger_present"
+		case fastChargerPresentBool           = "fast_charger_present"
 		case fastChargerType				 = "fast_charger_type"
 		
 		case idealBatteryRange          = "ideal_battery_range"//, distanceTransform)
 		
-		case managedChargingActive		 = "managed_charging_active"
+		case managedChargingActiveBool		 = "managed_charging_active"
 		case managedChargingStartTime	 = "managed_charging_start_time"
-		case managedChargingUserCanceled	 = "managed_charging_user_canceled"
+		case managedChargingUserCanceledBool	 = "managed_charging_user_canceled"
 		
 		case maxRangeChargeCounter        = "max_range_charge_counter"
 		
-		case motorizedChargePort			 = "motorized_charge_port"
+		case motorizedChargePortBool			 = "motorized_charge_port"
 		
-		case notEnoughPowerToHeat		 = "not_enough_power_to_heat"
+		case notEnoughPowerToHeatBool		 = "not_enough_power_to_heat"
 		
-		case scheduledChargingPending	 = "scheduled_charging_pending"
+		case scheduledChargingPendingBool	 = "scheduled_charging_pending"
 		case scheduledChargingStartTime	 = "scheduled_charging_start_time"
 		
 		case timeToFullCharge             = "time_to_full_charge"
 		
 		case timeStamp					= "timestamp"//, TeslaTimeStampTransform())
 		
-		case tripCharging				 = "trip_charging"
+		case tripChargingBool				 = "trip_charging"
 		
 		case usableBatteryLevel			 = "usable_battery_level"
 		
-		case userChargeEnableRequest		 = "user_charge_enable_request"
+		case userChargeEnableRequestBool		 = "user_charge_enable_request"
 	}
 }

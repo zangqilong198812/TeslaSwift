@@ -13,7 +13,15 @@
 							"x",
 							"x"
 							],
-				 "state": "online"
+				 "state": "online",
+				 "backseat_token": "111",
+				 "backseat_token_updated_at": 1488311472,
+				 "calendar_enabled": true,
+				 "id_s": "321",
+				 "in_service": true,
+				 "notifications_enabled": true,
+				 "remote_start_enabled": true
+				 
 				 }
 				 ],
 	"count": 1

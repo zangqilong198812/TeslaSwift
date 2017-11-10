@@ -8,9 +8,9 @@
 
 import Foundation
 
-open class CommandResponse: Codable {
+open class CommandResponse: Decodable {
 	
-	private struct Response: Codable {
+	private struct Response: Decodable {
 		var result: Int?
 		var reason: String?
 	}
@@ -18,6 +18,10 @@ open class CommandResponse: Codable {
 	
 	open var result: Bool? { return response.result == 1 }
 	open var reason: String? { return response.reason }
+	
+	init() {
+		response = Response()
+	}
 	
 	enum CodingKeys: String, CodingKey {
 		case response

@@ -51,7 +51,6 @@ open class StreamEvent {
 		
 		if let timeValue = Double(separatedValues[0]) {
 			timestamp = timeValue
-				//Date(timeIntervalSince1970: TimeInterval(timeValue/1000))
 		}
 		speed = CLLocationSpeed(separatedValues[1])
 		if let value = Double(separatedValues[2]) {

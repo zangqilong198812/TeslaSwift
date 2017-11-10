@@ -48,10 +48,14 @@ open class ClimateState: Codable {
 	
 	open var insideTemperature: Temperature?
 	
-	open var isAutoConditioningOn: Bool?
-	open var isClimateOn: Bool?
-	open var isFrontDefrosterOn: Bool?
-	open var isRearDefrosterOn: Bool?
+	private var isAutoConditioningOnBool: Int?
+	open var isAutoConditioningOn: Bool? { return isAutoConditioningOnBool == 1 }
+	private var isClimateOnBool: Int?
+	open var isClimateOn: Bool? { return isClimateOnBool == 1 }
+	private var isFrontDefrosterOnBool: Int?
+	open var isFrontDefrosterOn: Bool? { return isFrontDefrosterOnBool == 1 }
+	private var isRearDefrosterOnBool: Int?
+	open var isRearDefrosterOn: Bool? { return isRearDefrosterOnBool == 1 }
 	
 	open var leftTemperatureDirection: Int?
 	
@@ -98,10 +102,10 @@ open class ClimateState: Codable {
 		
 		case insideTemperature			= "inside_temp"//, temperatureTransform)
 		
-		case isAutoConditioningOn		 = "is_auto_conditioning_on"
-		case isClimateOn                  = "is_climate_on"
-		case isFrontDefrosterOn			 = "is_front_defroster_on"
-		case isRearDefrosterOn			 = "is_rear_defroster_on"
+		case isAutoConditioningOnBool		 = "is_auto_conditioning_on"
+		case isClimateOnBool                  = "is_climate_on"
+		case isFrontDefrosterOnBool			 = "is_front_defroster_on"
+		case isRearDefrosterOnBool			 = "is_rear_defroster_on"
 		
 		case leftTemperatureDirection	 = "left_temp_direction"
 		
