@@ -133,6 +133,7 @@
 		CFF048041F72EE16006B52F7 /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF048011F72EDC6006B52F7 /* Distance.swift */; };
 		CFF048061F72F115006B52F7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CFF048051F72F115006B52F7 /* README.md */; };
 		CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF06D021FB639B8003320E3 /* StreamViewController.swift */; };
+		CFF06D051FB63CF9003320E3 /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = CFF06D041FB63CF9003320E3 /* Podfile.lock */; };
 		CFF5CFFF1EABD1AB00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 		CFF5D0001EABD1AD00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 /* End PBXBuildFile section */
@@ -247,6 +248,7 @@
 		CFF048011F72EDC6006B52F7 /* Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distance.swift; sourceTree = "<group>"; };
 		CFF048051F72F115006B52F7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CFF06D021FB639B8003320E3 /* StreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
+		CFF06D041FB63CF9003320E3 /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		E6CE3C92808A0629E156F4D1 /* Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -378,6 +380,7 @@
 			children = (
 				CFF048051F72F115006B52F7 /* README.md */,
 				CF30F95B1C8A2BC20067D3D9 /* Podfile */,
+				CFF06D041FB63CF9003320E3 /* Podfile.lock */,
 				CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */,
 				CFA037A31C8A160600FA2423 /* Package.swift */,
 				CFD2E7E61C8A13E20005E882 /* Sources */,
@@ -582,6 +585,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF06D051FB63CF9003320E3 /* Podfile.lock in Resources */,
 				CF48FA971C8B039F00B1DA93 /* TeslaSwift.podspec in Resources */,
 				CFD2E7D11C8A13D60005E882 /* LaunchScreen.storyboard in Resources */,
 				CFF048061F72F115006B52F7 /* README.md in Resources */,
