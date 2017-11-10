@@ -216,7 +216,7 @@
                                 <rect key="frame" x="112" y="126" width="49" height="30"/>
                                 <state key="normal" title="Stream"/>
                                 <connections>
-                                    <action selector="stream:" destination="hQa-7w-LXN" eventType="touchUpInside" id="utT-ZP-W1V"/>
+                                    <segue destination="Tzz-ec-DsJ" kind="show" identifier="toStream" id="orP-Rk-jxS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -254,6 +254,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d0y-XU-pZf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2572" y="-321.58920539730138"/>
+        </scene>
+        <!--Stream View Controller-->
+        <scene sceneID="ghy-PD-2uV">
+            <objects>
+                <viewController id="Tzz-ec-DsJ" customClass="StreamViewController" customModule="TeslaSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kse-2m-Aff">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mk9-9O-c5U">
+                                <rect key="frame" x="6" y="104" width="34" height="30"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="stream:" destination="Tzz-ec-DsJ" eventType="touchUpInside" id="FC6-3d-xHI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUQ-Fk-f1m">
+                                <rect key="frame" x="61" y="104" width="32" height="30"/>
+                                <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stopStream:" destination="Tzz-ec-DsJ" eventType="touchUpInside" id="ehN-zl-rJ6"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qbG-r5-Xtw">
+                                <rect key="frame" x="5" y="139" width="365" height="474"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="wUQ-Fk-f1m" firstAttribute="top" secondItem="YkB-UW-mth" secondAttribute="top" constant="40" id="EqS-Gw-Q2D"/>
+                            <constraint firstItem="qbG-r5-Xtw" firstAttribute="top" secondItem="Mk9-9O-c5U" secondAttribute="bottom" constant="5" id="Gts-04-kyo"/>
+                            <constraint firstItem="Mk9-9O-c5U" firstAttribute="top" secondItem="YkB-UW-mth" secondAttribute="top" constant="40" id="Hr6-fc-ngH"/>
+                            <constraint firstItem="YkB-UW-mth" firstAttribute="bottom" secondItem="qbG-r5-Xtw" secondAttribute="bottom" constant="5" id="JgW-a4-Rq6"/>
+                            <constraint firstItem="Mk9-9O-c5U" firstAttribute="leading" secondItem="YkB-UW-mth" secondAttribute="leading" constant="6" id="kFR-pq-LgY"/>
+                            <constraint firstItem="qbG-r5-Xtw" firstAttribute="leading" secondItem="YkB-UW-mth" secondAttribute="leading" constant="5" id="kb2-AU-LSE"/>
+                            <constraint firstItem="YkB-UW-mth" firstAttribute="trailing" secondItem="qbG-r5-Xtw" secondAttribute="trailing" constant="5" id="oYf-5e-SsC"/>
+                            <constraint firstItem="wUQ-Fk-f1m" firstAttribute="leading" secondItem="Mk9-9O-c5U" secondAttribute="trailing" constant="21" id="yNJ-Yg-fUU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="YkB-UW-mth"/>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="qbG-r5-Xtw" id="mo2-WV-PlM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dIn-fo-HfS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3471" y="-322"/>
         </scene>
         <!--Second-->
         <scene sceneID="wg7-f3-ORb">

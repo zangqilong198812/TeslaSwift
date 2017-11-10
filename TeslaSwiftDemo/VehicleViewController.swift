@@ -13,7 +13,6 @@ class VehicleViewController: UIViewController {
 
 	@IBOutlet weak var textView: UITextView!
 	var vehicle: Vehicle?
-	var streaming = false
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,25 +105,17 @@ class VehicleViewController: UIViewController {
 			}
 		}
 	}
-    
-	@IBAction func stream(_ sender: Any) {
-		if !streaming {
-			if let vehicle = vehicle {
-				self.textView.text = ""
-				api.openStream(vehicle: vehicle, dataReceived: {
-					(event: StreamEvent?, error: Error?) in
-					if let error = error {
-						self.textView.text = error.localizedDescription
-					} else {
-						self.textView.text = "\(self.textView.text ?? "")\nevent: \(event?.description ?? "")"
-					}
-				})
-			}
-		} else {
-			api.closeStream()
-		}
+	
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		super.prepare(for: segue, sender: sender)
 		
-		streaming = !streaming
+		if segue.identifier == "toStream" {
+			
+			let vc = segue.destination as! StreamViewController
+			vc.vehicle = self.vehicle
+		}
 	}
+
 
 }

@@ -132,6 +132,7 @@
 		CFF048031F72EE15006B52F7 /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF048011F72EDC6006B52F7 /* Distance.swift */; };
 		CFF048041F72EE16006B52F7 /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF048011F72EDC6006B52F7 /* Distance.swift */; };
 		CFF048061F72F115006B52F7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CFF048051F72F115006B52F7 /* README.md */; };
+		CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF06D021FB639B8003320E3 /* StreamViewController.swift */; };
 		CFF5CFFF1EABD1AB00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 		CFF5D0001EABD1AD00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 /* End PBXBuildFile section */
@@ -245,6 +246,7 @@
 		CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleConfig.swift; sourceTree = "<group>"; };
 		CFF048011F72EDC6006B52F7 /* Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distance.swift; sourceTree = "<group>"; };
 		CFF048051F72F115006B52F7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CFF06D021FB639B8003320E3 /* StreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
 		E6CE3C92808A0629E156F4D1 /* Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -409,6 +411,7 @@
 				CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */,
 				CFC819A31DBBA2EA00A8E47B /* VehicleViewController.swift */,
 				CFD2E7CA1C8A13D60005E882 /* Main.storyboard */,
+				CFF06D021FB639B8003320E3 /* StreamViewController.swift */,
 				CFD2E7CD1C8A13D60005E882 /* Assets.xcassets */,
 				CFD2E7CF1C8A13D60005E882 /* LaunchScreen.storyboard */,
 				CFD2E7D21C8A13D60005E882 /* Info.plist */,
@@ -855,6 +858,7 @@
 				CF0D2F331D95A4A900E5A304 /* OpenTrunkOptions.swift in Sources */,
 				CF1BD59C1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */,
+				CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */,
 				CFEAF1411EB505D40003FA6E /* HTTPEventStreaming.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
