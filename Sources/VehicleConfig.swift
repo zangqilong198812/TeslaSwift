@@ -38,7 +38,6 @@ open class VehicleConfig: Codable {
 
 	enum CodingKeys: String, CodingKey {
 		
-<<<<<<< HEAD
 		case carSpecialType		 = "car_special_type"
 		case carType				 = "car_type"
 		case euVehicleBool			 = "eu_vehicle"
@@ -58,31 +57,6 @@ open class VehicleConfig: Codable {
 		case timeStamp			= "timestamp"//, TeslaTimeStampTransform())
 		case trimBadging			 = "trim_badging"
 		case wheelType			 = "wheel_type"
-=======
-	}
-	
-	open func mapping(map: Map) {
-		
-		carSpecialType		<- map["car_special_type"]
-		carType				<- map["car_type"]
-		euVehicle			<- map["eu_vehicle"]
-		exteriorColor		<- map["exterior_color"]
-		hasLudicoursMode	<- map["has_ludicrous_mode"]
-		motorizedChargePort <- map["motorized_charge_port"]
-		perfConfig			<- map["perf_config"]
-		plg					<- map["plg"]
-		rearSeatHeaters		<- map["rear_seat_heaters"]
-		rearSeatType		<- map["rear_seat_type"]
-		rhd					<- map["rhd"]
-		roofColor			<- map["roof_color"]
-		seatType			<- map["seat_type"]
-		spoilerType			<- map["spoiler_type"]
-		sunRoofInstalled	<- map["sun_roof_installed"]
-		thirdRowSeats		<- map["third_row_seats"]
-		timeStamp			<- (map["timestamp"], TeslaTimeStampTransform())
-		trimBadging			<- map["trim_badging"]
-		wheelType			<- map["wheel_type"]
->>>>>>> master
 	}
 	
 }
