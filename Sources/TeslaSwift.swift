@@ -484,15 +484,16 @@ extension TeslaSwift {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 		}
 		
-		if let body = body as? String, body != nullBody {
+		if let body = body as? String, body == nullBody {
+		} else {
 			request.httpBody = try? defaultEncoder.encode(body)
 			request.setValue("application/json", forHTTPHeaderField: "content-type")
 		}
 		
 		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
 		logDebug("Request Headers: \(String(describing: request.allHTTPHeaderFields))", debuggingEnabled: debuggingEnabled)
-		if let body = body as? String, body != nullBody,
-			let jsonString = body.jsonString  {
+		if let body = body as? String, body != nullBody {
+		} else if let jsonString = body.jsonString {
 			logDebug("Request Body: \(jsonString)", debuggingEnabled: debuggingEnabled)
 		}
 		
