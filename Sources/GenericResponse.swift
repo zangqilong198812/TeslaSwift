@@ -7,56 +7,48 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class Response<T:Mappable>: Mappable {
+open class Response<T: Decodable>: Decodable {
 	
-	open var response: T!
+	open var response: T
 	
-	// MARK: Mappable protocol
-	required public init?(map: Map) {
-		if map["response"].currentValue == nil {
-			return nil
-		}
+	public init(response: T) {
+		self.response = response
 	}
 	
-	open func mapping(map: Map) {
-		response	<- map["response"]
+	// MARK: Codable protocol
+	
+	enum CodingKeys: String, CodingKey {
+		case response
 	}
 	
 }
 
-open class ArrayResponse<T:Mappable>: Mappable {
+open class ArrayResponse<T: Decodable>: Decodable {
 	
-	open var response: [T]!
+	open var response: [T] = []
 	
-	// MARK: Mappable protocol
-	required public init?(map: Map) {
-		if map["response"].currentValue == nil {
-			return nil
-		}
-	}
+	// MARK: Codable protocol
 	
-	open func mapping(map: Map) {
-		response	<- map["response"]
+	enum CodingKeys: String, CodingKey {
+		case response
 	}
 	
 }
 
 
-open class BoolResponse: Mappable {
+open class BoolResponse: Decodable {
 	
-	open var response: Bool!
+	open var response: Bool
 	
-	// MARK: Mappable protocol
-	required public init?(map: Map) {
-		if map["response"].currentValue == nil {
-			return nil
-		}
+	public init(response: Bool) {
+		self.response = response
 	}
 	
-	open func mapping(map: Map) {
-		response	<- map["response"]
+	// MARK: Codable protocol
+	
+	enum CodingKeys: String, CodingKey {
+		case response = "response"
 	}
 	
 }

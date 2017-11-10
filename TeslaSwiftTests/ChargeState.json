@@ -17,6 +17,7 @@
 		"charger_power": 0,
 		"time_to_full_charge": null,
 		"charge_rate": -1,
-		"charge_port_door_open": true
+		"charge_port_door_open": true,
+		"battery_heater_on": 1
 	}
 }

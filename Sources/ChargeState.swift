@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class ChargeState: Mappable {
+open class ChargeState: Codable {
 	
-	public enum ChargingState: String {
+	public enum ChargingState: String, Codable {
 		case Complete
 		case Charging
 		case Disconnected
@@ -21,177 +20,187 @@ open class ChargeState: Mappable {
 	/**
 	Current flowing into the battery
 	*/
-	open internal(set) var batteryCurrent: Double?
-	open internal(set) var batteryHeaterOn: Bool?
+	open var batteryCurrent: Double?
+	private var batteryHeaterOnBool: Int?
+	open var batteryHeaterOn: Bool? { return batteryHeaterOnBool == 1 }
 	/**
 	Percentage of the battery
 	*/
-	open internal(set) var batteryLevel: Int?
+	open var batteryLevel: Int?
 	/**
 	Rated Miles
 	*/
-	open internal(set) var ratedBatteryRange: Distance?
-	open internal(set) var chargeCurrentRequest: Int?
-	open internal(set) var chargeCurrentRequestMax: Int?
-	open internal(set) var chargeEnableRequest: Bool?
-	open internal(set) var chargeEnergyAdded: Double?
+	open var ratedBatteryRange: Distance?
+	open var chargeCurrentRequest: Int?
+	open var chargeCurrentRequestMax: Int?
+	private var chargeEnableRequestBool: Int?
+	open var chargeEnableRequest: Bool? { return chargeEnableRequestBool == 1 }
+	open var chargeEnergyAdded: Double?
 	
-	open internal(set) var chargeLimitSOC: Int?
-	open internal(set) var chargeLimitSOCMax: Int?
-	open internal(set) var chargeLimitSOCMin: Int?
-	open internal(set) var chargeLimitSOCStandard: Int?
+	open var chargeLimitSOC: Int?
+	open var chargeLimitSOCMax: Int?
+	open var chargeLimitSOCMin: Int?
+	open var chargeLimitSOCStandard: Int?
 	
 	
-	open internal(set) var chargeDistanceAddedIdeal: Distance?
-	open internal(set) var chargeDistanceAddedRated: Distance?
+	open var chargeDistanceAddedIdeal: Distance?
+	open var chargeDistanceAddedRated: Distance?
 	
 	/**
 	Vehicle charging port is open?
 	*/
-	open internal(set) var chargePortDoorOpen: Bool?
-	open internal(set) var chargePortLatch: String?
+	private var chargePortDoorOpenBool: Int?
+	open var chargePortDoorOpen: Bool? { return chargePortDoorOpenBool == 1 }
+	open var chargePortLatch: String?
 	
 	/**
 	miles/hour while charging or 0 if not charging
 	*/
-	open internal(set) var chargeRate: Distance?
+	open var chargeRate: Distance?
 	/**
 	Charge to max rate or standard
 	*/
-	open internal(set) var chargeToMaxRange: Bool?
+	private var chargeToMaxRangeBool: Int?
+	open var chargeToMaxRange: Bool? { return chargeToMaxRangeBool == 1 }
 	
 	/**
 	Current actually being drawn
 	*/
-	open internal(set) var chargerActualCurrent: Int?
-	open internal(set) var chargerPhases: Int?
+	open var chargerActualCurrent: Int?
+	open var chargerPhases: Int?
 	/**
 	Max current allowed by charger and adapter
 	*/
-	open internal(set) var chargerPilotCurrent: Int?
+	open var chargerPilotCurrent: Int?
 	/**
 	KW of charger
 	*/
-	open internal(set) var chargerPower: Int?
+	open var chargerPower: Int?
 	/**
 	Voltage. Only has value while charging
 	*/
-	open internal(set) var chargerVoltage: Int?
+	open var chargerVoltage: Int?
 	
 	/**
 	Current state of the charging
 	*/
-	open internal(set) var chargingState: ChargingState?
+	open var chargingState: ChargingState?
 	
 	/**
 	Range estimated from recent driving
 	*/
-	open internal(set) var estimatedBatteryRange: Distance?
+	open var estimatedBatteryRange: Distance?
 	
-	open internal(set) var euVehicle: Bool?
+	private var euVehicleBool: Int?
+	open var euVehicle: Bool? { return euVehicleBool == 1 }
 	
 	/**
 	Vehicle connected to supercharger?
 	*/
-	open internal(set) var fastChargerPresent: Bool?
-	open internal(set) var fastChargerType: String?
+	private var fastChargerPresentBool: Int?
+	open var fastChargerPresent: Bool? { return fastChargerPresentBool == 1 }
+	open var fastChargerType: String?
 	
 	/**
 	Ideal Miles
 	*/
-	open internal(set) var idealBatteryRange: Distance?
+	open var idealBatteryRange: Distance?
 	
-	open internal(set) var managedChargingActive: Bool?
-	open internal(set) var managedChargingStartTime: Date?
-	open internal(set) var managedChargingUserCanceled: Bool?
+	private var managedChargingActiveBool: Int?
+	open var managedChargingActive: Bool? { return managedChargingActiveBool == 1 }
+	open var managedChargingStartTime: Date?
+	private var managedChargingUserCanceledBool: Int?
+	open var managedChargingUserCanceled: Bool? { return managedChargingUserCanceledBool == 1 }
 	
-	open internal(set) var maxRangeChargeCounter: Int?
+	open var maxRangeChargeCounter: Int?
 	
-	open internal(set) var motorizedChargePort: Bool?
-	open internal(set) var notEnoughPowerToHeat: Bool?
+	private var motorizedChargePortBool: Int?
+	open var motorizedChargePort: Bool? { return motorizedChargePortBool == 1 }
+	private var notEnoughPowerToHeatBool: Int?
+	open var notEnoughPowerToHeat: Bool? { return notEnoughPowerToHeatBool == 1 }
 	
-	open internal(set) var scheduledChargingPending: Bool?
-	open internal(set) var scheduledChargingStartTime: TimeInterval?
+	private var scheduledChargingPendingBool: Int?
+	open var scheduledChargingPending: Bool? { return scheduledChargingPendingBool == 1 }
+	open var scheduledChargingStartTime: TimeInterval?
 	
 	/**
 	Only valid while charging
 	*/
-	open internal(set) var timeToFullCharge: Double?
-	open internal(set) var timeStamp: Date?
+	open var timeToFullCharge: Double?
+	open var timeStamp: Date?
 	
-	open internal(set) var tripCharging: Bool?
+	private var tripChargingBool: Int?
+	open var tripCharging: Bool? { return tripChargingBool == 1 }
 	
-	open internal(set) var usableBatteryLevel: Int?
-	open internal(set) var userChargeEnableRequest: Bool?
+	open var usableBatteryLevel: Int?
+	private var userChargeEnableRequestBool: Int?
+	open var userChargeEnableRequest: Bool? { return userChargeEnableRequestBool == 1 }
 	
-	
-	public required init?(map: Map) { }
-	
-	open func mapping(map: Map) {
+	enum CodingKeys: String, CodingKey {
 		
-		let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
+		//let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
 		
-		batteryCurrent              <- map["battery_current"]
-		batteryHeaterOn				<- map["battery_heater_on"]
-		batteryLevel                <- map["battery_level"]
-		ratedBatteryRange           <- (map["battery_range"], distanceTransform)
-		chargeCurrentRequest		<- map["charge_current_request"]
-		chargeCurrentRequestMax		<- map["charge_current_request_max"]
-		chargeEnableRequest			<- map["charge_enable_request"]
-		chargeEnergyAdded           <- map["charge_energy_added"]
+		case batteryCurrent               = "battery_current"
+		case batteryHeaterOnBool				 = "battery_heater_on"
+		case batteryLevel                 = "battery_level"
+		case ratedBatteryRange           = "battery_range"//, distanceTransform)
+		case chargeCurrentRequest		 = "charge_current_request"
+		case chargeCurrentRequestMax		 = "charge_current_request_max"
+		case chargeEnableRequestBool			 = "charge_enable_request"
+		case chargeEnergyAdded            = "charge_energy_added"
 		
-		chargeLimitSOC              <- map["charge_limit_soc"]
-		chargeLimitSOCMax           <- map["charge_limit_soc_max"]
-		chargeLimitSOCMin           <- map["charge_limit_soc_min"]
-		chargeLimitSOCStandard      <- map["charge_limit_soc_std"]
+		case chargeLimitSOC               = "charge_limit_soc"
+		case chargeLimitSOCMax            = "charge_limit_soc_max"
+		case chargeLimitSOCMin            = "charge_limit_soc_min"
+		case chargeLimitSOCStandard       = "charge_limit_soc_std"
 		
-		chargeDistanceAddedIdeal    <- (map["charge_miles_added_ideal"], distanceTransform)
-		chargeDistanceAddedRated    <- (map["charge_miles_added_rated"], distanceTransform)
+		case chargeDistanceAddedIdeal    = "charge_miles_added_ideal"//, distanceTransform)
+		case chargeDistanceAddedRated    = "charge_miles_added_rated"//, distanceTransform)
 		
-		chargePortDoorOpen          <- map["charge_port_door_open"]
-		chargePortLatch				<- map["charge_port_latch"]
+		case chargePortDoorOpenBool           = "charge_port_door_open"
+		case chargePortLatch				 = "charge_port_latch"
 		
-		chargeRate                  <- (map["charge_rate"], distanceTransform)
-		chargeToMaxRange            <- map["charge_to_max_range"]
+		case chargeRate                  = "charge_rate"//, distanceTransform)
+		case chargeToMaxRangeBool             = "charge_to_max_range"
 		
-		chargerActualCurrent        <- map["charger_actual_current"]
-		chargerPhases				<- map["charger_phases"]
-		chargerPilotCurrent         <- map["charger_pilot_current"]
-		chargerPower                <- map["charger_power"]
-		chargerVoltage              <- map["charger_voltage"]
+		case chargerActualCurrent         = "charger_actual_current"
+		case chargerPhases				 = "charger_phases"
+		case chargerPilotCurrent          = "charger_pilot_current"
+		case chargerPower                 = "charger_power"
+		case chargerVoltage               = "charger_voltage"
 		
-		chargingState               <- map["charging_state"]
+		case chargingState                = "charging_state"
 		
-		estimatedBatteryRange       <- (map["est_battery_range"], distanceTransform)
+		case estimatedBatteryRange      = "est_battery_range"//, distanceTransform)
 		
-		euVehicle					<- map["eu_vehicle"]
+		case euVehicleBool					 = "eu_vehicle"
 		
-		fastChargerPresent          <- map["fast_charger_present"]
-		fastChargerType				<- map["fast_charger_type"]
+		case fastChargerPresentBool           = "fast_charger_present"
+		case fastChargerType				 = "fast_charger_type"
 		
-		idealBatteryRange           <- (map["ideal_battery_range"], distanceTransform)
+		case idealBatteryRange          = "ideal_battery_range"//, distanceTransform)
 		
-		managedChargingActive		<- map["managed_charging_active"]
-		managedChargingStartTime	<- map["managed_charging_start_time"]
-		managedChargingUserCanceled	<- map["managed_charging_user_canceled"]
+		case managedChargingActiveBool		 = "managed_charging_active"
+		case managedChargingStartTime	 = "managed_charging_start_time"
+		case managedChargingUserCanceledBool	 = "managed_charging_user_canceled"
 		
-		maxRangeChargeCounter       <- map["max_range_charge_counter"]
+		case maxRangeChargeCounter        = "max_range_charge_counter"
 		
-		motorizedChargePort			<- map["motorized_charge_port"]
+		case motorizedChargePortBool			 = "motorized_charge_port"
 		
-		notEnoughPowerToHeat		<- map["not_enough_power_to_heat"]
+		case notEnoughPowerToHeatBool		 = "not_enough_power_to_heat"
 		
-		scheduledChargingPending	<- map["scheduled_charging_pending"]
-		scheduledChargingStartTime	<- map["scheduled_charging_start_time"]
+		case scheduledChargingPendingBool	 = "scheduled_charging_pending"
+		case scheduledChargingStartTime	 = "scheduled_charging_start_time"
 		
-		timeToFullCharge            <- map["time_to_full_charge"]
+		case timeToFullCharge             = "time_to_full_charge"
 		
-		timeStamp					<- (map["timestamp"], TeslaTimeStampTransform())
+		case timeStamp					= "timestamp"//, TeslaTimeStampTransform())
 		
-		tripCharging				<- map["trip_charging"]
+		case tripChargingBool				 = "trip_charging"
 		
-		usableBatteryLevel			<- map["usable_battery_level"]
+		case usableBatteryLevel			 = "usable_battery_level"
 		
-		userChargeEnableRequest		<- map["user_charge_enable_request"]
+		case userChargeEnableRequestBool		 = "user_charge_enable_request"
 	}
 }

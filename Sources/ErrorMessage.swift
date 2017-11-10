@@ -7,17 +7,14 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class ErrorMessage: Mappable {
+open class ErrorMessage: Codable {
 	
 	open var error: String?
 	open var description: String?
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		error		<- map["error"]
-		description	<- map["error_description"]
+	enum CodingKeys: String, CodingKey {
+		case error		 = "error"
+		case description = "error_description"
 	}
 }

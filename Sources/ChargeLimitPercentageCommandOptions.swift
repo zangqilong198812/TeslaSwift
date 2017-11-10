@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class ChargeLimitPercentageCommandOptions: Mappable {
+open class ChargeLimitPercentageCommandOptions: Encodable {
 	
 	open var percent: Int?
 	
@@ -17,9 +16,7 @@ open class ChargeLimitPercentageCommandOptions: Mappable {
 		percent = limit
 	}
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		percent	<- map["percent"]
+	enum CodingKeys: String, CodingKey {
+		case percent	 = "percent"
 	}
 }

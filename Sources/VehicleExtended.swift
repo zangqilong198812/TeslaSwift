@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ObjectMapper
 
 open class VehicleExtended: Vehicle {
 
@@ -20,16 +19,43 @@ open class VehicleExtended: Vehicle {
 	open var vehicleState: VehicleState?
 	
 	
-	open override func mapping(map: Map) {
-		super.mapping(map: map)
+	private enum CodingKeys: String, CodingKey {
 		
-		userId			<- map["user_id"]
-		chargeState		<- map["charge_state"]
-		climateState	<- map["climate_state"]
-		driveState		<- map["drive_state"]
-		guiSettings		<- map["gui_settings"]
-		vehicleConfig	<- map["vehicle_config"]
-		vehicleState	<- map["vehicle_state"]
+		case userId			 = "user_id"
+		case chargeState		 = "charge_state"
+		case climateState	 = "climate_state"
+		case driveState		 = "drive_state"
+		case guiSettings		 = "gui_settings"
+		case vehicleConfig	 = "vehicle_config"
+		case vehicleState	 = "vehicle_state"
+	}
+	
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		userId = try container.decode(Int?.self, forKey: .userId)
+		chargeState = try container.decode(ChargeState?.self, forKey: .chargeState)
+		climateState = try container.decode(ClimateState?.self, forKey: .climateState)
+		driveState = try container.decode(DriveState?.self, forKey: .driveState)
+		guiSettings = try container.decode(GuiSettings?.self, forKey: .guiSettings)
+		vehicleConfig = try container.decode(VehicleConfig?.self, forKey: .vehicleConfig)
+		vehicleState = try container.decode(VehicleState?.self, forKey: .vehicleState)
+		try super.init(from: decoder)
+	}
+	
+	override open func encode(to encoder: Encoder) throws {
+		
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(userId, forKey: .userId)
+		try container.encode(chargeState, forKey: .chargeState)
+		try container.encode(climateState, forKey: .climateState)
+		try container.encode(driveState, forKey: .driveState)
+		try container.encode(guiSettings, forKey: .guiSettings)
+		try container.encode(vehicleConfig, forKey: .vehicleConfig)
+		try container.encode(vehicleState, forKey: .vehicleState)
+		
+		let superdecoder = container.superEncoder()
+		try super.encode(to: superdecoder)
 	}
 	
 }

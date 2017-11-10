@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class AuthToken: Mappable {
+open class AuthToken: Codable {
 	
 	open var accessToken: String?
 	open var tokenType: String?
@@ -29,21 +28,18 @@ open class AuthToken: Mappable {
 		self.accessToken = accessToken
 	}
 	
-	// MARK: Mappable protocol
-	required public init?(map: Map) {
-		if map.JSON.count < 3 { return nil }
-	}
+	// MARK: Codable protocol
 	
-	open func mapping(map: Map) {
-		accessToken	<- map["access_token"]
-		tokenType	<- map["token_type"]
-		createdAt	<- (map["created_at"], DateTransform())
-		expiresIn	<- map["expires_in"]
-		refreshToken <- map["refresh_token"]
+	enum CodingKeys: String, CodingKey {
+		case accessToken = "access_token"
+		case tokenType = "token_type"
+		case createdAt = "created_at" //, DateTransform())
+		case expiresIn = "expires_in"
+		case refreshToken  = "refresh_token"
 	}
 }
 
-class AuthTokenRequest: Mappable {
+class AuthTokenRequest: Encodable {
 	
 	var grantType: String?
 	var clientID: String?
@@ -59,16 +55,15 @@ class AuthTokenRequest: Mappable {
 		self.clientSecret = clientSecret
 	}
 	
-	// MARK: Mappable protocol
-	required init?(map: Map) {
-		
-	}
+	// MARK: Codable protocol
 	
-	func mapping(map: Map) {
-		grantType		<- map["grant_type"]
-		clientID		<- map["client_id"]
-		clientSecret	<- map["client_secret"]
-		email			<- map["email"]
-		password		<- map["password"]
+	enum CodingKeys: String, CodingKey {
+		typealias RawValue = String
+		
+		case grantType = "grant_type"
+		case clientID = "client_id"
+		case clientSecret = "client_secret"
+		case email = "email"
+		case password = "password"
 	}
 }

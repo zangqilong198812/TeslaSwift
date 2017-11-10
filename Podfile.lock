@@ -1,5 +1,4 @@
 PODS:
-  - ObjectMapper (3.0.0)
   - OHHTTPStubs (6.0.0):
     - OHHTTPStubs/Default (= 6.0.0)
   - OHHTTPStubs/Core (6.0.0)
@@ -18,16 +17,14 @@ PODS:
   - PromiseKit/CorePromise (4.4.0)
 
 DEPENDENCIES:
-  - ObjectMapper (~> 3.0)
   - OHHTTPStubs
   - OHHTTPStubs/Swift
   - PromiseKit/CorePromise (~> 4.4)
 
 SPEC CHECKSUMS:
-  ObjectMapper: 92230db59bf8f341a5c3a3cf0b9fbdde3cf0d87f
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
   PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
 
-PODFILE CHECKSUM: 09c407e26ca13b4a9df0d56ed121cd81b340dd97
+PODFILE CHECKSUM: 01e7d5b7888435f77205a70cd1c0202a8bd27795
 
 COCOAPODS: 1.3.1

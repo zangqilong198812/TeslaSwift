@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "3.6.1"
+	s.version      = "4.0.0"
 	s.summary      = "Swift library to access the Tesla Model S API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -24,6 +24,5 @@ Pod::Spec.new do |s|
 	s.requires_arc = true
 
 	s.dependency 'PromiseKit/CorePromise',  '~> 4.4'
-	s.dependency 'ObjectMapper', '~> 3.0'
 
 end

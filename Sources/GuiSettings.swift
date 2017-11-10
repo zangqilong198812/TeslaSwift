@@ -7,25 +7,24 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class GuiSettings: Mappable {
+open class GuiSettings: Codable {
 	
 	open var distanceUnits: String?
 	open var temperatureUnits: String?
 	open var chargeRateUnits: String?
-	open var time24Hours: Bool?
+	open var time24HoursBool: Int?
+	open var time24Hours: Bool? { return time24HoursBool == 1 }
 	open var rangeDisplay: String?
-	open var timeStamp: Date?
+	open var timeStamp: TimeInterval?
 	
-	required public init?(map: Map) { }
 	
-	open func mapping(map: Map) {
-		distanceUnits		<- map["gui_distance_units"]
-		temperatureUnits	<- map["gui_temperature_units"]
-		chargeRateUnits		<- map["gui_charge_rate_units"]
-		time24Hours			<- map["gui_24_hour_time"]
-		rangeDisplay		<- map["gui_range_display"]
-		timeStamp			<- (map["timestamp"], TeslaTimeStampTransform())
+	enum CodingKeys: String, CodingKey {
+		case distanceUnits		 = "gui_distance_units"
+		case temperatureUnits	 = "gui_temperature_units"
+		case chargeRateUnits		 = "gui_charge_rate_units"
+		case time24HoursBool			 = "gui_24_hour_time"
+		case rangeDisplay		 = "gui_range_display"
+		case timeStamp			= "timestamp"//, TeslaTimeStampTransform())
 	}
 }

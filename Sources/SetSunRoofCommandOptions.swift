@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-open class SetSunRoofCommandOptions: Mappable {
+open class SetSunRoofCommandOptions: Encodable {
 
 	open var state: RoofState?
 	open var percent: Int?
@@ -18,10 +17,8 @@ open class SetSunRoofCommandOptions: Mappable {
 		self.percent = percent
 	}
 	
-	required public init?(map: Map) { }
-	
-	open func mapping(map: Map) {
-		state		<- (map["state"],EnumTransform())
-		percent		<- map["percent"]
+	enum CodingKeys: String, CodingKey {
+		case state		= "state"
+		case percent		 = "percent"
 	}
 }
