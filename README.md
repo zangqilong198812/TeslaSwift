@@ -111,8 +111,28 @@ When the token expires the library will perform another authentication with your
 Roadmap
 ============
 3.x
-Remove ObjectMapper
+
 Add new API features and summon
+
+Referral
+============
+If you want to buy a Tesla or signup for the mailing list using my referral as a "thank you" for this library here it is:
+http://ts.la/joao290
+
+Apps using this library
+============
+Key for Tesla (https://itunes.apple.com/us/app/key-for-tesla/id1202595802?mt=8)
+
+Camper for Tesla (https://itunes.apple.com/us/app/camper-for-tesla/id1227483065?mt=8)
+
+Power for Tesla (https://itunes.apple.com/us/app/power-for-tesla/id1194710823?mt=8)
+
+Plus - for Tesla Model S & X (https://itunes.apple.com/us/app/plus-for-tesla-model-s-x/id1187829197?mt=8)
+
+Nikola for Tesla (https://itunes.apple.com/us/app/nikola-for-tesla/id1244489779?mt=8)
+
+
+Missing your app? open a PR or issue
 
 Licence
 ============
