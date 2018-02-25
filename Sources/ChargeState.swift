@@ -86,6 +86,8 @@ open class ChargeState: Codable {
 	*/
 	open var chargingState: ChargingState?
 	
+	open var connChargeCable: String?
+	
 	/**
 	Range estimated from recent driving
 	*/
@@ -94,6 +96,7 @@ open class ChargeState: Codable {
 	private var euVehicleBool: Int?
 	open var euVehicle: Bool? { return euVehicleBool == 1 }
 	
+	open var fastChargerBrand: String?
 	/**
 	Vehicle connected to supercharger?
 	*/
@@ -171,10 +174,13 @@ open class ChargeState: Codable {
 		
 		case chargingState                = "charging_state"
 		
+		case connChargeCable				= "conn_charge_cable"
+		
 		case estimatedBatteryRange      = "est_battery_range"//, distanceTransform)
 		
 		case euVehicleBool					 = "eu_vehicle"
 		
+		case fastChargerBrand			= "fast_charger_brand"
 		case fastChargerPresentBool           = "fast_charger_present"
 		case fastChargerType				 = "fast_charger_type"
 		
