@@ -10,19 +10,19 @@ import Foundation
 
 import CoreLocation
 
-open class StreamEvent {
+open class StreamEvent: Codable {
 	
     open var timestamp: TimeInterval?
-    open var speed: CLLocationSpeed?
-    open var odometer: Distance?
+    open var speed: CLLocationSpeed? // mph
+    open var odometer: Distance? // miles
     open var soc: Int?
-    open var elevation: Int?
+    open var elevation: Int? // feet
     open var estLat: CLLocationDegrees?
     open var estLng: CLLocationDegrees?
-    open var power: Int?
+    open var power: Int? // kW
     open var shiftState: String?
-    open var range: Distance?
-    open var estRange: Distance?
+    open var range: Distance? // miles
+    open var estRange: Distance? // miles
     open var estHeading: CLLocationDirection?
     open var heading: CLLocationDirection?
 	
@@ -71,11 +71,88 @@ open class StreamEvent {
 		}
 		heading = CLLocationDirection(separatedValues[12])
 	}
+	
+	open var originalValues: String {
+		var resultString = ""
+		if let timestamp = timestamp {
+			resultString.append("\(timestamp)")
+		}
+		resultString.append(",")
+		if let speed = speed {
+			resultString.append("\(speed)")
+		}
+		resultString.append(",")
+		if let odometer = odometer {
+			resultString.append("\(odometer.miles)")
+		}
+		resultString.append(",")
+		if let soc = soc {
+			resultString.append("\(soc)")
+		}
+		resultString.append(",")
+		if let elevation = elevation {
+			resultString.append("\(elevation)")
+		}
+		resultString.append(",")
+		if let estHeading = estHeading {
+			resultString.append("\(estHeading)")
+		}
+		resultString.append(",")
+		if let estLat = estLat {
+			resultString.append("\(estLat)")
+		}
+		resultString.append(",")
+		if let estLng = estLng {
+			resultString.append("\(estLng)")
+		}
+		resultString.append(",")
+		if let power = power {
+			resultString.append("\(power)")
+		}
+		resultString.append(",")
+		if let shiftState = shiftState {
+			resultString.append("\(shiftState)")
+		}
+		resultString.append(",")
+		if let range = range {
+			resultString.append("\(range.miles)")
+		}
+		resultString.append(",")
+		if let estRange = estRange {
+			resultString.append("\(estRange.miles)")
+		}
+		resultString.append(",")
+		if let heading = heading {
+			resultString.append("\(heading)")
+		}
+
+		return resultString
+	}
+    
+    enum CodingKeys: String, CodingKey {
+        case timestamp
+        case speed
+        case odometer
+        case soc
+        case elevation
+        case estLat
+        case estLng
+        case power
+        case shiftState
+        case range
+        case estRange
+        case estHeading
+        case heading
+    }
 
 }
 
 extension StreamEvent: CustomStringConvertible {
 	public var description: String {
-		return "speed: \(speed ?? -1), odo: \(odometer?.kms ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.kms ?? -1), estRange: \(estRange?.kms ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1)"
+		return "speed: \(speed ?? -1), odo: \(odometer?.miles ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.miles ?? -1), estRange: \(estRange?.miles ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
+	}
+	
+	public var descriptionKm: String {
+		return "speed: \(speed ?? -1), odo: \(odometer?.km ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.km ?? -1), estRange: \(estRange?.km ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
 	}
 }

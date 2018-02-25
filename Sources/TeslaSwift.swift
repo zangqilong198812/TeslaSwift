@@ -445,7 +445,7 @@ extension TeslaSwift {
 						let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
 						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
 						
-						let mapped = try defaultDecoder.decode(ReturnType.self, from: data)
+						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
 						fulfill(mapped)
 					}
 				} catch {
@@ -457,7 +457,7 @@ extension TeslaSwift {
 				if let data = data,
 					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
 					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
-					if let mapped = try? defaultDecoder.decode(ErrorMessage.self, from: data) {
+					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
 						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
 						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
@@ -486,7 +486,7 @@ extension TeslaSwift {
 		
 		if let body = body as? String, body == nullBody {
 		} else {
-			request.httpBody = try? defaultEncoder.encode(body)
+			request.httpBody = try? teslaJSONEncoder.encode(body)
 			request.setValue("application/json", forHTTPHeaderField: "content-type")
 		}
 		
@@ -566,14 +566,14 @@ func logDebug(_ format: String, debuggingEnabled: Bool) {
 	}
 }
 
-let defaultEncoder: JSONEncoder = {
+public let teslaJSONEncoder: JSONEncoder = {
 	let encoder = JSONEncoder()
 	encoder.outputFormatting = .prettyPrinted
 	encoder.dateEncodingStrategy = .secondsSince1970
 	return encoder
 }()
 
-let defaultDecoder: JSONDecoder = {
+public let teslaJSONDecoder: JSONDecoder = {
 	let decoder = JSONDecoder()
 	decoder.dateDecodingStrategy = .secondsSince1970
 	return decoder

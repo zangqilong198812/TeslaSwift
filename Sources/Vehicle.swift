@@ -98,6 +98,7 @@ open class Vehicle: Codable {
 	public func encode(to encoder: Encoder) throws {
 		
 		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(backseatToken, forKey: .backseatToken)
 		try container.encode(backseatTokenUpdatedAt, forKey: .backseatTokenUpdatedAt)
 		try container.encode(calendarEnabledBool, forKey: .calendarEnabledBool)
 		try container.encode(color, forKey: .color)

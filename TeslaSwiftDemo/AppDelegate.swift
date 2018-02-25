@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		if let obj = UserDefaults.standard.object(forKey: "tesla.token") as? [String: Any],
 			let data = try? JSONSerialization.data(withJSONObject: obj, options: []),
-			let token = try? defaultDecoder.decode(AuthToken.self, from: data),
+			let token = try? teslaJSONDecoder.decode(AuthToken.self, from: data),
 			let email = UserDefaults.standard.object(forKey: "tesla.email") as? String {
 			api.reuse(token: token, email: email)
 		}

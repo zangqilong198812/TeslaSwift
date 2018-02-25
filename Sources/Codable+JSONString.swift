@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Encodable {
+public extension Encodable {
 	
 	var jsonString: String? {
 		let encoder = JSONEncoder()
