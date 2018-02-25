@@ -10,6 +10,12 @@ import Foundation
 
 open class ClimateState: Codable {
 	
+	private var batteryHeaterBool: Int?
+	open var batteryHeater: Bool? { return batteryHeaterBool == 1 }
+	
+	private var batteryHeaterNoPowerBool: Int?
+	open var batteryHeaterNoPower: Bool? { return batteryHeaterNoPowerBool == 1 }
+	
 	public struct Temperature: Codable {
 		fileprivate var value: Double
 		
@@ -57,6 +63,9 @@ open class ClimateState: Codable {
 	private var isRearDefrosterOnBool: Int?
 	open var isRearDefrosterOn: Bool? { return isRearDefrosterOnBool == 1 }
 	
+	private var isPreconditioningBool: Int?
+	open var isPreconditioning: Bool? { return isPreconditioningBool == 1 }
+	
 	open var leftTemperatureDirection: Int?
 	
 	open var maxAvailableTemperature: Temperature?
@@ -97,6 +106,9 @@ open class ClimateState: Codable {
 			toJSON: {$0?.celsius}
 		)*/
 		
+		case batteryHeaterBool   = "battery_heater"
+		case batteryHeaterNoPowerBool = "battery_heater_no_power"
+		
 		case driverTemperatureSetting	= "driver_temp_setting"//, temperatureTransform)
 		case fanStatus					 = "fan_status"
 		
@@ -106,6 +118,8 @@ open class ClimateState: Codable {
 		case isClimateOnBool                  = "is_climate_on"
 		case isFrontDefrosterOnBool			 = "is_front_defroster_on"
 		case isRearDefrosterOnBool			 = "is_rear_defroster_on"
+		
+		case isPreconditioningBool		= "is_preconditioning"
 		
 		case leftTemperatureDirection	 = "left_temp_direction"
 		
