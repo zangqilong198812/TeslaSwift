@@ -153,6 +153,6 @@ extension StreamEvent: CustomStringConvertible {
 	}
 	
 	public var descriptionKm: String {
-		return "speed: \(speed ?? -1), odo: \(odometer?.km ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.km ?? -1), estRange: \(estRange?.km ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
+		return "speed: \(speed ?? -1), odo: \(odometer?.kms ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.kms ?? -1), estRange: \(estRange?.kms ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
 	}
 }

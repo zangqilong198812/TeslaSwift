@@ -36,7 +36,7 @@ class StreamViewController: UIViewController {
 					if let error = error {
 						self.textView.text = error.localizedDescription
 					} else {
-						self.textView.text = "\(self.textView.text ?? "")\nevent:\n \(event?.description ?? "")"
+						self.textView.text = "\(self.textView.text ?? "")\nevent:\n \(event?.descriptionKm ?? "")"
 					}
 				})
 			}
