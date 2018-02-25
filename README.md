@@ -13,12 +13,12 @@ Copy `Sources` folder into your project
 
 #### CocoaPods
 ```ruby
-	pod 'TeslaSwift', '~> 3.0'
+	pod 'TeslaSwift', '~> 4.0'
 ```
 #### Swift Package Manager
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
 ```swift
-.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 3)
+.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 4)
 ```
 
 Usage
@@ -110,7 +110,7 @@ When the token expires the library will perform another authentication with your
 
 Roadmap
 ============
-3.x
+4.x
 
 Add new API features and summon
 
