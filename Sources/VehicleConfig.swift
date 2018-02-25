@@ -10,8 +10,11 @@ import Foundation
 
 open class VehicleConfig: Codable {
 	
+	private var canActuateTrunksBool: Int?
+	open var canActuateTrunks: Bool? { return canActuateTrunksBool == 1 }
 	open var carSpecialType: String?
 	open var carType: String?
+	open var chargePortType: String?
 	private var euVehicleBool: Int?
 	open var euVehicle: Bool? { return euVehicleBool == 1 }
 	open var exteriorColor: String?
@@ -38,8 +41,10 @@ open class VehicleConfig: Codable {
 
 	enum CodingKeys: String, CodingKey {
 		
+		case canActuateTrunksBool	= "can_actuate_trunks"
 		case carSpecialType		 = "car_special_type"
 		case carType				 = "car_type"
+		case chargePortType			= "charge_port_type"
 		case euVehicleBool			 = "eu_vehicle"
 		case exteriorColor		 = "exterior_color"
 		case hasLudicoursModeBool	 = "has_ludicrous_mode"
@@ -54,7 +59,7 @@ open class VehicleConfig: Codable {
 		case spoilerType			 = "spoiler_type"
 		case sunRoofInstalledBool	 = "sun_roof_installed"
 		case thirdRowSeats		 = "third_row_seats"
-		case timeStamp			= "timestamp"//, TeslaTimeStampTransform())
+		case timeStamp			= "timestamp"
 		case trimBadging			 = "trim_badging"
 		case wheelType			 = "wheel_type"
 	}
