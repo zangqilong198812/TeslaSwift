@@ -23,3 +23,9 @@ public extension Encodable {
 	}
 }
 
+public extension String {
+	public func decodeJSON<T: Decodable>() -> T? {
+		guard let data = self.data(using: String.Encoding.utf8) else { return nil }
+		return try? teslaJSONDecoder.decode(T.self, from: data)
+	}
+}
