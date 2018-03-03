@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "4.1.1"
+	s.version      = "4.1.2"
 	s.summary      = "Swift library to access the Tesla Model S API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
 	s.osx.deployment_target = '10.10'
 	s.watchos.deployment_target = '2.0'
 	s.tvos.deployment_target = '9.0'
+	s.swift_version = '4.0'
 
 	s.source       = { :git => "https://github.com/jonasman/TeslaSwift.git", :tag => "#{s.version}" }
 
