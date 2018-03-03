@@ -97,6 +97,14 @@ class ViewController {
 }
 ```    
 
+Encoder e Decoder
+============
+
+If you need a json Encoder and Decoder the library provides both already configured to be used with Tesla's json formats
+```swift
+public let teslaJSONEncoder: JSONEncoder
+public let teslaJSONDecoder: JSONDecoder
+```  
 Options
 ============
 You can use the mock server by setting: `api.useMockServer = true`
