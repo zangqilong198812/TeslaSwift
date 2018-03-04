@@ -23,10 +23,10 @@ open class Vehicle: Codable {
 		}
 		set {
 			guard let newValue = newValue else { idInt = nil; return }
-			idInt = Int(newValue)
+			idInt = Double(newValue)
 		}
 	}
-	open var idInt: Int?
+	open var idInt: Double?
 	open var idS: String?
 	private var inServiceBool: Int?
 	open var inService: Bool? { return inServiceBool == 1 }
@@ -83,7 +83,7 @@ open class Vehicle: Codable {
 		calendarEnabledBool = try container.decode(Int?.self, forKey: .calendarEnabledBool)
 		color = try container.decode(String?.self, forKey: .color)
 		displayName = try container.decode(String?.self, forKey: .displayName)
-		idInt = try container.decode(Int?.self, forKey: .idInt)
+		idInt = try container.decode(Double?.self, forKey: .idInt)
 		idS = try container.decode(String?.self, forKey: .idS)
 		inServiceBool = try container.decode(Int?.self, forKey: .inServiceBool)
 		notificationsEnabledBool = try container.decode(Int?.self, forKey: .notificationsEnabledBool)

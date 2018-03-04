@@ -11,8 +11,7 @@ import Foundation
 public extension Encodable {
 	
 	var jsonString: String? {
-		let encoder = JSONEncoder()
-		encoder.outputFormatting = .prettyPrinted
+		let encoder = teslaJSONEncoder
 		guard let data = try? encoder.encode(self) else { return nil }
 		return String(data: data, encoding: String.Encoding.utf8)
 	}
