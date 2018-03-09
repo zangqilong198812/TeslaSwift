@@ -387,7 +387,7 @@ class TeslaSwiftTests: XCTestCase {
 				service.getVehicleState(vehicles[0])
 			}.then { (response) -> Void in
 			
-				XCTAssertEqual(response.darkRims, true)
+				XCTAssertEqual(response.locked, true)
 				
 				expection.fulfill()
 			}.catch { (error) in
