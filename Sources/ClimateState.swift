@@ -17,33 +17,34 @@ open class ClimateState: Codable {
 	open var batteryHeaterNoPower: Bool? { return batteryHeaterNoPowerBool == 1 }
 	
 	public struct Temperature: Codable {
-		fileprivate var value: Double
+		fileprivate var value: Measurement<UnitTemperature>
 		
 		public init(celsius: Double?) {
-			value = celsius ?? 0.0
+			let tempValue = celsius ?? 0.0
+			value = Measurement<UnitTemperature>(value: tempValue, unit: .celsius)
 		}
 		public init(fahrenheit: Double) {
-			value = (fahrenheit - 32.0) / 1.8
+			value = Measurement<UnitTemperature>(value: fahrenheit, unit: .fahrenheit)
 		}
 		
 		public init(from decoder: Decoder) throws {
 			let container = try decoder.singleValueContainer()
 			if let tempValue = try container.decode(Double?.self) {
-				value = tempValue
+				value = Measurement<UnitTemperature>(value: tempValue, unit: .celsius)
 			} else {
-				value = 0.0
+				value = Measurement<UnitTemperature>(value: 0, unit: .celsius)
 			}
 		}
 		
 		public func encode(to encoder: Encoder) throws {
 			
 			var container = encoder.singleValueContainer()
-			try container.encode(value)
+			try container.encode(value.converted(to: .celsius).value)
 			
 		}
 		
-		public var celsius: Double { return value }
-		public var fahrenheit: Double { return (value * 1.8) + 32.0 }
+		public var celsius: Double { return value.converted(to: .celsius).value }
+		public var fahrenheit: Double { return value.converted(to: .fahrenheit).value }
 	}
 	
 	open var driverTemperatureSetting: Temperature?
