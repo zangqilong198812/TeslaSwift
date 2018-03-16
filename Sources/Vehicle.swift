@@ -62,7 +62,7 @@ open class Vehicle: Codable {
 		case calendarEnabledBool			 = "calendar_enabled"
 		case color					 = "color"
 		case displayName				 = "display_name"
-		case idInt						= "id"//, idTransform)
+		case idInt						= "id"
 		case idS						 = "id_s"
 		case inServiceBool				 = "in_service"
 		case notificationsEnabledBool	 = "notifications_enabled"
