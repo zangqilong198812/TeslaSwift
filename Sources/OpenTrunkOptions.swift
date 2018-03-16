@@ -11,6 +11,7 @@ import Foundation
 public enum OpenTrunkOptions: String, Codable {
 	
 	case Rear = "rear"
+	case Front = "front"
 	
 	enum CodingKeys: String, CodingKey {
 		typealias RawValue = String
