@@ -17,10 +17,6 @@ open class ChargeState: Codable {
 		case Stopped
 	}
 	
-	/**
-	Current flowing into the battery
-	*/
-	open var batteryCurrent: Double?
 	private var batteryHeaterOnBool: Int?
 	open var batteryHeaterOn: Bool? { return batteryHeaterOnBool == 1 }
 	/**
@@ -117,8 +113,6 @@ open class ChargeState: Codable {
 	
 	open var maxRangeChargeCounter: Int?
 	
-	private var motorizedChargePortBool: Int?
-	open var motorizedChargePort: Bool? { return motorizedChargePortBool == 1 }
 	private var notEnoughPowerToHeatBool: Int?
 	open var notEnoughPowerToHeat: Bool? { return notEnoughPowerToHeatBool == 1 }
 	
@@ -141,9 +135,6 @@ open class ChargeState: Codable {
 	
 	enum CodingKeys: String, CodingKey {
 		
-		//let distanceTransform = TransformOf<Distance, Double>(fromJSON: { Distance(miles: $0!) }, toJSON: {$0?.miles})
-		
-		case batteryCurrent               = "battery_current"
 		case batteryHeaterOnBool				 = "battery_heater_on"
 		case batteryLevel                 = "battery_level"
 		case ratedBatteryRange           = "battery_range"//, distanceTransform)
@@ -157,13 +148,13 @@ open class ChargeState: Codable {
 		case chargeLimitSOCMin            = "charge_limit_soc_min"
 		case chargeLimitSOCStandard       = "charge_limit_soc_std"
 		
-		case chargeDistanceAddedIdeal    = "charge_miles_added_ideal"//, distanceTransform)
-		case chargeDistanceAddedRated    = "charge_miles_added_rated"//, distanceTransform)
+		case chargeDistanceAddedIdeal    = "charge_miles_added_ideal"
+		case chargeDistanceAddedRated    = "charge_miles_added_rated"
 		
 		case chargePortDoorOpenBool           = "charge_port_door_open"
 		case chargePortLatch				 = "charge_port_latch"
 		
-		case chargeRate                  = "charge_rate"//, distanceTransform)
+		case chargeRate                  = "charge_rate"
 		case chargeToMaxRangeBool             = "charge_to_max_range"
 		
 		case chargerActualCurrent         = "charger_actual_current"
@@ -191,8 +182,6 @@ open class ChargeState: Codable {
 		case managedChargingUserCanceledBool	 = "managed_charging_user_canceled"
 		
 		case maxRangeChargeCounter        = "max_range_charge_counter"
-		
-		case motorizedChargePortBool			 = "motorized_charge_port"
 		
 		case notEnoughPowerToHeatBool		 = "not_enough_power_to_heat"
 		
