@@ -89,30 +89,23 @@ open class ClimateState: Codable {
 	open var seatHeaterRearRightBack: Int?
 	open var seatHeaterRight: Int?
 	
+	open var sideMirrorHeaters: Int?
+	open var steeringWheelHeater: Int?
+	open var wiperBladeHeater: Int?
+	
 	open var smartPreconditioning: Int?
 	
 	open var timeStamp: TimeInterval?
 	
 	enum CodingKeys: String, CodingKey {
-		/*
-		let temperatureTransform = TransformOf<Temperature, Double>(
-			fromJSON: {
-				if let temp = $0 {
-					return Temperature(celsius: temp)
-				} else {
-					return nil
-				}
-			},
-			toJSON: {$0?.celsius}
-		)*/
 		
 		case batteryHeaterBool   = "battery_heater"
 		case batteryHeaterNoPowerBool = "battery_heater_no_power"
 		
-		case driverTemperatureSetting	= "driver_temp_setting"//, temperatureTransform)
+		case driverTemperatureSetting	= "driver_temp_setting"
 		case fanStatus					 = "fan_status"
 		
-		case insideTemperature			= "inside_temp"//, temperatureTransform)
+		case insideTemperature			= "inside_temp"
 		
 		case isAutoConditioningOnBool		 = "is_auto_conditioning_on"
 		case isClimateOnBool                  = "is_climate_on"
@@ -123,12 +116,12 @@ open class ClimateState: Codable {
 		
 		case leftTemperatureDirection	 = "left_temp_direction"
 		
-		case maxAvailableTemperature     = "max_avail_temp"//, temperatureTransform)
-		case minAvailableTemperature     = "min_avail_temp"//, temperatureTransform)
+		case maxAvailableTemperature     = "max_avail_temp"
+		case minAvailableTemperature     = "min_avail_temp"
 		
-		case outsideTemperature			= "outside_temp"//, temperatureTransform)
+		case outsideTemperature			= "outside_temp"
 		
-		case passengerTemperatureSetting = "passenger_temp_setting"//, temperatureTransform)
+		case passengerTemperatureSetting = "passenger_temp_setting"
 		
 		case rightTemperatureDirection	 = "right_temp_direction"
 		
@@ -141,10 +134,13 @@ open class ClimateState: Codable {
 		case seatHeaterRearRightBack		 = "seat_heater_rear_right_back"
 		case seatHeaterRight				 = "seat_heater_right"
 		
+		case sideMirrorHeaters				= "side_mirror_heaters"
+		case steeringWheelHeater			= "steering_wheel_heater"
+		case wiperBladeHeater				= "wiper_blade_heater"
 		
         case smartPreconditioning		 = "smart_preconditioning"
 		
-		case timeStamp					= "timestamp"//, TeslaTimeStampTransform())
+		case timeStamp					= "timestamp"
         
 	}
 }
