@@ -25,6 +25,6 @@ open class GuiSettings: Codable {
 		case chargeRateUnits		 = "gui_charge_rate_units"
 		case time24HoursBool			 = "gui_24_hour_time"
 		case rangeDisplay		 = "gui_range_display"
-		case timeStamp			= "timestamp"//, TeslaTimeStampTransform())
+		case timeStamp			= "timestamp"
 	}
 }
