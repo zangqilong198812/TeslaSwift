@@ -13,7 +13,7 @@ Copy `Sources` folder into your project
 
 #### CocoaPods
 ```ruby
-	pod 'TeslaSwift', '~> 4.0'
+	pod 'TeslaSwift', '~> 4'
 ```
 #### Swift Package Manager
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
