@@ -14,7 +14,7 @@ end
 
 target 'TeslaSwiftMac' do
 	use_frameworks!
-	platform :osx, '10.10'
+	platform :osx, '10.12'
 	
 	pod 'PromiseKit/CorePromise' , '~> 6'
 end
