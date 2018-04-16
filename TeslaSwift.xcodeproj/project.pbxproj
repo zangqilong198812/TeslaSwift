@@ -472,7 +472,6 @@
 				CF2506841E46034800D0E08A /* Frameworks */,
 				CF2506851E46034800D0E08A /* Resources */,
 				41FCBF3545C0D11BB6B282D9 /* [CP] Embed Pods Frameworks */,
-				10D0C4B42719DF7999FF606F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -492,7 +491,6 @@
 				CFD2E7BE1C8A13D60005E882 /* Frameworks */,
 				CFD2E7BF1C8A13D60005E882 /* Resources */,
 				75DC11B792E9EF3FD2D0A320 /* [CP] Embed Pods Frameworks */,
-				DA99B9F6CAE1580502B1F1D9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -512,7 +510,6 @@
 				CFD2E7D41C8A13D60005E882 /* Frameworks */,
 				CFD2E7D51C8A13D60005E882 /* Resources */,
 				8DDA809520A64DD5288FBA06 /* [CP] Embed Pods Frameworks */,
-				C43F80DB72D1FE9392386D4E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -531,7 +528,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Joao Nunes";
 				TargetAttributes = {
 					CF2506861E46034800D0E08A = {
@@ -634,21 +631,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		10D0C4B42719DF7999FF606F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D6D0B1CE3ACD7348339F302 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -739,36 +721,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C43F80DB72D1FE9392386D4E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DA99B9F6CAE1580502B1F1D9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6D804E2E76F43BE14128984 /* [CP] Check Pods Manifest.lock */ = {
@@ -992,12 +944,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1044,12 +998,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

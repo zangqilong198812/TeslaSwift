@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
 			UserDefaults.standard.set(password, forKey: "tesla.password")
 			UserDefaults.standard.synchronize()
 			
-			api.authenticate(email: email, password: password).then {
+			api.authenticate(email: email, password: password).done {
 				(token) -> Void in
 				
 				self.dismiss(animated: true, completion: nil)

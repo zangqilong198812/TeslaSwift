@@ -21,7 +21,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
 		tableView.estimatedRowHeight = 50.0
 		
 		api.getVehicles()
-			.then {
+			.done {
 			(response) -> Void in
 			
 			self.data = response

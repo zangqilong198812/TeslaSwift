@@ -144,10 +144,10 @@ extension TeslaSwift {
 		                            clientSecret: "c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9d220")
 		
 		return request(.authentication, body: body)
-			.then(on: .global()) { (result: AuthToken) -> AuthToken in
+			.map(on: .global()) { (result: AuthToken) -> AuthToken in
 				self.token = result
 				return result
-		}.recover { (error) -> AuthToken in
+			}.recover { (error) -> Guarantee<AuthToken> in
 
 			if case let TeslaError.networkError(error: internalError) = error {
 				if internalError.code == 401 {
@@ -195,7 +195,7 @@ extension TeslaSwift {
 		
 		return checkAuthentication().then(on: .global()) { _ in
 			return self.request(.vehicles, body: nullBody)
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: ArrayResponse<Vehicle>) -> [Vehicle] in
 				return data.response
 		}
@@ -212,7 +212,7 @@ extension TeslaSwift {
 			return self.request(.allStates(vehicleID: vehicleID), body: nullBody)
 			
 		}
-		let second = first.then(on: .global()) {
+		let second = first.map(on: .global()) {
 				(data: Response<VehicleExtended>) -> VehicleExtended in
 				
 				return data.response
@@ -234,7 +234,7 @@ extension TeslaSwift {
 			
 			return self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody)
 			
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: BoolResponse) -> Bool in
 				
 				data.response
@@ -256,7 +256,7 @@ extension TeslaSwift {
 			
 			return self.request(.chargeState(vehicleID: vehicleID), body: nullBody)
 			
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: Response<ChargeState>) -> ChargeState in
 				
 				data.response
@@ -277,7 +277,7 @@ extension TeslaSwift {
 			
 			return self.request(.climateState(vehicleID: vehicleID), body: nullBody)
 				
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: Response<ClimateState>) -> ClimateState in
 				
 				data.response
@@ -298,7 +298,7 @@ extension TeslaSwift {
 			
 			return self.request(.driveState(vehicleID: vehicleID), body: nullBody)
 				
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: Response<DriveState>) -> DriveState in
 				
 					data.response
@@ -319,7 +319,7 @@ extension TeslaSwift {
 			
 			return self.request(.guiSettings(vehicleID: vehicleID), body: nullBody)
 			
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: Response<GuiSettings>) -> GuiSettings in
 				
 					data.response
@@ -340,7 +340,7 @@ extension TeslaSwift {
 			
 			return self.request(.vehicleState(vehicleID: vehicleID), body: nullBody)
 			
-			}.then(on: .global()) {
+			}.map(on: .global()) {
 				(data: Response<VehicleState>) -> VehicleState in
 				
 				data.response
@@ -392,15 +392,15 @@ extension TeslaSwift {
 	func checkToken() -> Promise<Bool> {
 		
 		if let token = self.token {
-			return Promise<Bool>(value: token.isValid)
+			return .value(token.isValid)
 		} else {
-			return Promise<Bool>(value: false)
+			return .value(false)
 		}
 	}
 	
 	func cleanToken() -> Promise<Void> {
 		self.token = nil
-		return Promise<Void>(value: ())
+		return .value(())
 	}
 	
 	func checkAuthentication() -> Promise<AuthToken> {
@@ -408,7 +408,7 @@ extension TeslaSwift {
 		return checkToken().then(on: .global()) { (value) -> Promise<AuthToken> in
 			
 			if value {
-				return Promise<AuthToken>(value: self.token!)
+				return .value(self.token!)
 			} else {
 				return self.cleanToken().then(on: .global()) {
 					_ -> Promise<AuthToken> in
@@ -426,7 +426,7 @@ extension TeslaSwift {
 	
 	func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> Promise<ReturnType> {
 		
-		let (promise, fulfill, reject) = Promise<ReturnType>.pending()
+		let (promise, seal) = Promise<ReturnType>.pending()
 		
 		let request = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
@@ -435,8 +435,8 @@ extension TeslaSwift {
 			
 			logDebug("Respose: \(String(describing: response))", debuggingEnabled: debugEnabled)
 			
-			guard error == nil else { reject(error!); return }
-			guard let httpResponse = response as? HTTPURLResponse else { reject(TeslaError.failedToParseData); return }
+			guard error == nil else { seal.reject(error!); return }
+			guard let httpResponse = response as? HTTPURLResponse else { seal.reject(TeslaError.failedToParseData); return }
 			
 			if case 200..<300 = httpResponse.statusCode {
 				
@@ -446,11 +446,11 @@ extension TeslaSwift {
 						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
 						
 						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
-						fulfill(mapped)
+						seal.fulfill(mapped)
 					}
 				} catch {
 					logDebug("error: \(error)", debuggingEnabled: debugEnabled)
-					reject(TeslaError.failedToParseData)
+					seal.reject(TeslaError.failedToParseData)
 				}
 				
 			} else {
@@ -458,13 +458,13 @@ extension TeslaSwift {
 					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
 					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
 					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
-						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
+						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
-						reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
 					}
 					
 				} else {
-					reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+					seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
 				}
 			}
 			
@@ -516,7 +516,7 @@ extension TeslaSwift {
 		
 		if reloadsVehicle {
 			
-			_ = reloadVehicle(vehicle: vehicle).then { (freshVehicle) -> Void in
+			reloadVehicle(vehicle: vehicle).done { (freshVehicle) -> Void in
 				self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
 			}.catch { (error) in
 				dataReceived((event: nil, error: error))
@@ -529,7 +529,7 @@ extension TeslaSwift {
 	}
 	
 	func reloadVehicle(vehicle: Vehicle) -> Promise<Vehicle> {
-		return getVehicles().then { (vehicles: [Vehicle]) -> Vehicle in
+		return getVehicles().map { (vehicles: [Vehicle]) -> Vehicle in
 			
 			for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
 				return freshVehicle
