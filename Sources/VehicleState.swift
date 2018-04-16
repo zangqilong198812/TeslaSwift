@@ -16,8 +16,7 @@ open class VehicleState: Codable {
 	open var autoparkStateV2: String?
 	open var autoparkStyle: String?
 	
-	private var calendarSupportedBool: Int?
-	open var calendarSupported: Bool? { return calendarSupportedBool == 1 }
+	open var calendarSupported: Bool?
 	
 	open var firmwareVersion: String?
 	
@@ -32,31 +31,25 @@ open class VehicleState: Codable {
 	private var frontTrunkOpenBool: Int?
 	open var frontTrunkOpen: Bool? { return frontTrunkOpenBool == 1 }
 	
-	private var homelinkNearbyBool: Int?
-	open var homelinkNearby: Bool? { return homelinkNearbyBool == 1 }
+	open var homelinkNearby: Bool?
 	
 	open var lastAutoparkError: String?
 	
-	private var lockedBool: Int?
-	open var locked: Bool? { return lockedBool == 1 }
+	open var locked: Bool?
 	
-	private var notificationsSupportedBool: Int?
-	open var notificationsSupported: Bool? { return notificationsSupportedBool == 1 }
+	open var notificationsSupported: Bool?
 	
 	open var odometer: Double?
 	
-	private var parsedCalendarSupportedBool: Int?
-	open var parsedCalendarSupported: Bool? { return parsedCalendarSupportedBool == 1 }
+	open var parsedCalendarSupported: Bool?
 	
 	private var passengerDoorOpenBool: Int?
 	open var passengerDoorOpen: Bool? { return passengerDoorOpenBool == 1 }
 	private var passengerRearDoorOpenBool: Int?
 	open var passengerRearDoorOpen: Bool? { return passengerRearDoorOpenBool == 1 }
 	
-	private var remoteStartBool: Int?
-	open var remoteStart: Bool? { return remoteStartBool == 1 }
-	private var remoteStartSupportedBool: Int?
-	open var remoteStartSupported: Bool? { return remoteStartSupportedBool == 1 }
+	open var remoteStart: Bool?
+	open var remoteStartSupported: Bool?
 	
 	private var rearTrunkOpenBool: Int?
 	open var rearTrunkOpen: Bool? { return rearTrunkOpenBool == 1 }
@@ -66,10 +59,8 @@ open class VehicleState: Codable {
 	
 	open var timeStamp: TimeInterval?
 	
-	private var valetModeBool: Int?
-	open var valetMode: Bool? { return valetModeBool == 1 }
-	private var valetPinNeededBool: Int?
-	open var valetPinNeeded: Bool? { return valetPinNeededBool == 1 }
+	open var valetMode: Bool?
+	open var valetPinNeeded: Bool?
 	
 	open var vehicleName: String?
 	
@@ -79,12 +70,12 @@ open class VehicleState: Codable {
 		case apiVersion				 = "api_version"
 		
 		case autoparkState			 = "autopark_state"
-		case autoparkStateV2			 = "autopark_state_v2"
+		case autoparkStateV2		 = "autopark_state_v2"
 		case autoparkStyle			 = "autopark_style"
 		
-		case calendarSupportedBool		 = "calendar_supported"
+		case calendarSupported		 = "calendar_supported"
 		
-		case firmwareVersion			 = "car_version"
+		case firmwareVersion		 = "car_version"
 		
 		case centerDisplayStateBool		 = "center_display_state"
 		
@@ -92,23 +83,23 @@ open class VehicleState: Codable {
 		case driverRearDoorOpenBool		 = "dr"
 		case frontTrunkOpenBool			 = "ft"
 		
-		case homelinkNearbyBool			 = "homelink_nearby"
+		case homelinkNearby			 = "homelink_nearby"
 		
 		case lastAutoparkError		 = "last_autopark_error"
 		
-		case lockedBool					 = "locked"
+		case locked					 = "locked"
 		
-		case notificationsSupportedBool	 = "notifications_supported"
+		case notificationsSupported	 = "notifications_supported"
 		
 		case odometer				 = "odometer"
 		
-		case parsedCalendarSupportedBool	 = "parsed_calendar_supported"
+		case parsedCalendarSupported = "parsed_calendar_supported"
 		
 		case passengerDoorOpenBool		 = "pf"
 		case passengerRearDoorOpenBool	 = "pr"
 		
-		case remoteStartBool				 = "remote_start"
-		case remoteStartSupportedBool	 = "remote_start_supported"
+		case remoteStart			 = "remote_start"
+		case remoteStartSupported	 = "remote_start_supported"
 		
 		case rearTrunkOpenBool			 = "rt"
 		
@@ -117,9 +108,9 @@ open class VehicleState: Codable {
 		
 		case timeStamp				= "timestamp"//, TeslaTimeStampTransform())
 		
-		case valetModeBool				 = "valet_mode"
-		case valetPinNeededBool			 = "valet_pin_needed"
+		case valetMode				 = "valet_mode"
+		case valetPinNeeded			 = "valet_pin_needed"
 		
-		case vehicleName				 = "vehicle_name"
+		case vehicleName			 = "vehicle_name"
 	}
 }

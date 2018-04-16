@@ -40,7 +40,7 @@ class VehicleViewController: UIViewController {
 				"energy added: \(chargeState.chargeEnergyAdded!) kWh\n" +
 				"distance added (ideal): \(chargeState.chargeDistanceAddedIdeal!.kms) km\n" +
 				"power: \(chargeState.chargerPower ?? 0) kW\n" +
-				"\(chargeState.chargerVoltage ?? 0)V \(chargeState.chargerActualCurrent!)A\n" +
+				"\(chargeState.chargerVoltage ?? 0)V \(chargeState.chargerActualCurrent ?? 0)A\n" +
 				"charger max current: \(String(describing: chargeState.chargerPilotCurrent))\n\(chargeState.jsonString!)"
 				
 				}

@@ -10,11 +10,9 @@ import Foundation
 
 open class ClimateState: Codable {
 	
-	private var batteryHeaterBool: Int?
-	open var batteryHeater: Bool? { return batteryHeaterBool == 1 }
+	open var batteryHeater: Bool?
 	
-	private var batteryHeaterNoPowerBool: Int?
-	open var batteryHeaterNoPower: Bool? { return batteryHeaterNoPowerBool == 1 }
+	open var batteryHeaterNoPower: Bool?
 	
 	public struct Temperature: Codable {
 		fileprivate var value: Measurement<UnitTemperature>
@@ -55,17 +53,12 @@ open class ClimateState: Codable {
 	
 	open var insideTemperature: Temperature?
 	
-	private var isAutoConditioningOnBool: Int?
-	open var isAutoConditioningOn: Bool? { return isAutoConditioningOnBool == 1 }
-	private var isClimateOnBool: Int?
-	open var isClimateOn: Bool? { return isClimateOnBool == 1 }
-	private var isFrontDefrosterOnBool: Int?
-	open var isFrontDefrosterOn: Bool? { return isFrontDefrosterOnBool == 1 }
-	private var isRearDefrosterOnBool: Int?
-	open var isRearDefrosterOn: Bool? { return isRearDefrosterOnBool == 1 }
+	open var isAutoConditioningOn: Bool?
+	open var isClimateOn: Bool?
+	open var isFrontDefrosterOn: Bool?
+	open var isRearDefrosterOn: Bool?
 	
-	private var isPreconditioningBool: Int?
-	open var isPreconditioning: Bool? { return isPreconditioningBool == 1 }
+	open var isPreconditioning: Bool?
 	
 	open var leftTemperatureDirection: Int?
 	
@@ -82,38 +75,38 @@ open class ClimateState: Codable {
 	open var rightTemperatureDirection: Int?
 	
 	
-    open var seatHeaterLeft: Int?
-	open var seatHeaterRearCenter: Int?
-	open var seatHeaterRearLeft: Int?
+    open var seatHeaterLeft: Bool?
+	open var seatHeaterRearCenter: Bool?
+	open var seatHeaterRearLeft: Bool?
 	open var seatHeaterRearLeftBack: Int?
-	open var seatHeaterRearRight: Int?
+	open var seatHeaterRearRight: Bool?
 	open var seatHeaterRearRightBack: Int?
-	open var seatHeaterRight: Int?
+	open var seatHeaterRight: Bool?
 	
-	open var sideMirrorHeaters: Int?
-	open var steeringWheelHeater: Int?
-	open var wiperBladeHeater: Int?
+	open var sideMirrorHeaters: Bool?
+	open var steeringWheelHeater: Bool?
+	open var wiperBladeHeater: Bool?
 	
-	open var smartPreconditioning: Int?
+	open var smartPreconditioning: Bool?
 	
 	open var timeStamp: TimeInterval?
 	
 	enum CodingKeys: String, CodingKey {
 		
-		case batteryHeaterBool   = "battery_heater"
-		case batteryHeaterNoPowerBool = "battery_heater_no_power"
+		case batteryHeater   = "battery_heater"
+		case batteryHeaterNoPower = "battery_heater_no_power"
 		
 		case driverTemperatureSetting	= "driver_temp_setting"
 		case fanStatus					 = "fan_status"
 		
 		case insideTemperature			= "inside_temp"
 		
-		case isAutoConditioningOnBool		 = "is_auto_conditioning_on"
-		case isClimateOnBool                  = "is_climate_on"
-		case isFrontDefrosterOnBool			 = "is_front_defroster_on"
-		case isRearDefrosterOnBool			 = "is_rear_defroster_on"
+		case isAutoConditioningOn		 = "is_auto_conditioning_on"
+		case isClimateOn	             = "is_climate_on"
+		case isFrontDefrosterOn			 = "is_front_defroster_on"
+		case isRearDefrosterOn			 = "is_rear_defroster_on"
 		
-		case isPreconditioningBool		= "is_preconditioning"
+		case isPreconditioning		= "is_preconditioning"
 		
 		case leftTemperatureDirection	 = "left_temp_direction"
 		

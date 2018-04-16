@@ -442,8 +442,8 @@ extension TeslaSwift {
 				
 				do {
 					if let data = data {
-						let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-						logDebug("Respose Body: \(object)", debuggingEnabled: debugEnabled)
+						let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+						logDebug("Respose Body: \(objectString)\n", debuggingEnabled: debugEnabled)
 						
 						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
 						seal.fulfill(mapped)

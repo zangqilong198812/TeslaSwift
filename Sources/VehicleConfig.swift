@@ -10,30 +10,24 @@ import Foundation
 
 open class VehicleConfig: Codable {
 	
-	private var canActuateTrunksBool: Int?
-	open var canActuateTrunks: Bool? { return canActuateTrunksBool == 1 }
+	open var canActuateTrunks: Bool?
 	open var carSpecialType: String?
 	open var carType: String?
 	open var chargePortType: String?
-	private var euVehicleBool: Int?
-	open var euVehicle: Bool? { return euVehicleBool == 1 }
+	open var euVehicle: Bool?
 	open var exteriorColor: String?
-	private var hasLudicoursModeBool: Int?
-	open var hasLudicoursMode: Bool? { return hasLudicoursModeBool == 1 }
-	private var motorizedChargePortBool: Int?
-	open var motorizedChargePort: Bool? { return motorizedChargePortBool == 1 }
+	open var hasLudicoursMode: Bool?
+	open var motorizedChargePort: Bool?
 	open var perfConfig: String?
-	open var plg: Int?
+	open var plg: Bool?
 	private var rearSeatHeatersBool: Int?
 	open var rearSeatHeaters: Bool? { return rearSeatHeatersBool == 1 }
 	open var rearSeatType: Int?
-	private var rhdBool: Int?
-	open var rhd: Bool? { return rhdBool == 1 }
+	open var rhd: Bool?
 	open var roofColor: String? // "None" for panoramic roof
 	open var seatType: Int?
 	open var spoilerType: String?
-	private var sunRoofInstalledBool: Int?
-	open var sunRoofInstalled: Bool? { return sunRoofInstalledBool == 1 }
+	open var sunRoofInstalled: Int?
 	open var thirdRowSeats: String?
 	open var timeStamp: TimeInterval?
 	open var trimBadging: String?
@@ -41,23 +35,23 @@ open class VehicleConfig: Codable {
 
 	enum CodingKeys: String, CodingKey {
 		
-		case canActuateTrunksBool	= "can_actuate_trunks"
+		case canActuateTrunks	= "can_actuate_trunks"
 		case carSpecialType		 = "car_special_type"
 		case carType				 = "car_type"
 		case chargePortType			= "charge_port_type"
-		case euVehicleBool			 = "eu_vehicle"
+		case euVehicle			 = "eu_vehicle"
 		case exteriorColor		 = "exterior_color"
-		case hasLudicoursModeBool	 = "has_ludicrous_mode"
-		case motorizedChargePortBool  = "motorized_charge_port"
+		case hasLudicoursMode	 = "has_ludicrous_mode"
+		case motorizedChargePort  = "motorized_charge_port"
 		case perfConfig			 = "perf_config"
 		case plg				= "plg"
 		case rearSeatHeatersBool		 = "rear_seat_heaters"
 		case rearSeatType		 = "rear_seat_type"
-		case rhdBool					 = "rhd"
+		case rhd					 = "rhd"
 		case roofColor			 = "roof_color"
 		case seatType			 = "seat_type"
 		case spoilerType			 = "spoiler_type"
-		case sunRoofInstalledBool	 = "sun_roof_installed"
+		case sunRoofInstalled	 = "sun_roof_installed"
 		case thirdRowSeats		 = "third_row_seats"
 		case timeStamp			= "timestamp"
 		case trimBadging			 = "trim_badging"
