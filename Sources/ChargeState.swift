@@ -17,8 +17,7 @@ open class ChargeState: Codable {
 		case Stopped
 	}
 	
-	private var batteryHeaterOnBool: Int?
-	open var batteryHeaterOn: Bool? { return batteryHeaterOnBool == 1 }
+	open var batteryHeaterOn: Bool?
 	/**
 	Percentage of the battery
 	*/
@@ -29,8 +28,7 @@ open class ChargeState: Codable {
 	open var ratedBatteryRange: Distance?
 	open var chargeCurrentRequest: Int?
 	open var chargeCurrentRequestMax: Int?
-	private var chargeEnableRequestBool: Int?
-	open var chargeEnableRequest: Bool? { return chargeEnableRequestBool == 1 }
+	open var chargeEnableRequest: Bool?
 	open var chargeEnergyAdded: Double?
 	
 	open var chargeLimitSOC: Int?
@@ -45,8 +43,7 @@ open class ChargeState: Codable {
 	/**
 	Vehicle charging port is open?
 	*/
-	private var chargePortDoorOpenBool: Int?
-	open var chargePortDoorOpen: Bool? { return chargePortDoorOpenBool == 1 }
+	open var chargePortDoorOpen: Bool?
 	open var chargePortLatch: String?
 	
 	/**
@@ -56,8 +53,7 @@ open class ChargeState: Codable {
 	/**
 	Charge to max rate or standard
 	*/
-	private var chargeToMaxRangeBool: Int?
-	open var chargeToMaxRange: Bool? { return chargeToMaxRangeBool == 1 }
+	open var chargeToMaxRange: Bool?
 	
 	/**
 	Current actually being drawn
@@ -89,35 +85,28 @@ open class ChargeState: Codable {
 	*/
 	open var estimatedBatteryRange: Distance?
 	
-	private var euVehicleBool: Int?
-	open var euVehicle: Bool? { return euVehicleBool == 1 }
+	open var euVehicle: Bool?
 	
 	open var fastChargerBrand: String?
 	/**
 	Vehicle connected to supercharger?
 	*/
-	private var fastChargerPresentBool: Int?
-	open var fastChargerPresent: Bool? { return fastChargerPresentBool == 1 }
+	open var fastChargerPresent: Bool?
 	open var fastChargerType: String?
 	
 	/**
 	Ideal Miles
 	*/
 	open var idealBatteryRange: Distance?
-	
-	private var managedChargingActiveBool: Int?
-	open var managedChargingActive: Bool? { return managedChargingActiveBool == 1 }
+	open var managedChargingActive: Bool?
 	open var managedChargingStartTime: Date?
-	private var managedChargingUserCanceledBool: Int?
-	open var managedChargingUserCanceled: Bool? { return managedChargingUserCanceledBool == 1 }
+	open var managedChargingUserCanceled: Bool?
 	
 	open var maxRangeChargeCounter: Int?
 	
-	private var notEnoughPowerToHeatBool: Int?
-	open var notEnoughPowerToHeat: Bool? { return notEnoughPowerToHeatBool == 1 }
+	open var notEnoughPowerToHeat: Bool?
 	
-	private var scheduledChargingPendingBool: Int?
-	open var scheduledChargingPending: Bool? { return scheduledChargingPendingBool == 1 }
+	open var scheduledChargingPending: Bool?
 	open var scheduledChargingStartTime: TimeInterval?
 	
 	/**
@@ -126,21 +115,19 @@ open class ChargeState: Codable {
 	open var timeToFullCharge: Double?
 	open var timeStamp: Date?
 	
-	private var tripChargingBool: Int?
-	open var tripCharging: Bool? { return tripChargingBool == 1 }
+	open var tripCharging: Bool?
 	
 	open var usableBatteryLevel: Int?
-	private var userChargeEnableRequestBool: Int?
-	open var userChargeEnableRequest: Bool? { return userChargeEnableRequestBool == 1 }
+	open var userChargeEnableRequest: Bool?
 	
 	enum CodingKeys: String, CodingKey {
 		
-		case batteryHeaterOnBool				 = "battery_heater_on"
+		case batteryHeaterOn				 = "battery_heater_on"
 		case batteryLevel                 = "battery_level"
 		case ratedBatteryRange           = "battery_range"//, distanceTransform)
 		case chargeCurrentRequest		 = "charge_current_request"
 		case chargeCurrentRequestMax		 = "charge_current_request_max"
-		case chargeEnableRequestBool			 = "charge_enable_request"
+		case chargeEnableRequest			 = "charge_enable_request"
 		case chargeEnergyAdded            = "charge_energy_added"
 		
 		case chargeLimitSOC               = "charge_limit_soc"
@@ -151,11 +138,11 @@ open class ChargeState: Codable {
 		case chargeDistanceAddedIdeal    = "charge_miles_added_ideal"
 		case chargeDistanceAddedRated    = "charge_miles_added_rated"
 		
-		case chargePortDoorOpenBool           = "charge_port_door_open"
+		case chargePortDoorOpen           = "charge_port_door_open"
 		case chargePortLatch				 = "charge_port_latch"
 		
 		case chargeRate                  = "charge_rate"
-		case chargeToMaxRangeBool             = "charge_to_max_range"
+		case chargeToMaxRange             = "charge_to_max_range"
 		
 		case chargerActualCurrent         = "charger_actual_current"
 		case chargerPhases				 = "charger_phases"
@@ -169,33 +156,33 @@ open class ChargeState: Codable {
 		
 		case estimatedBatteryRange      = "est_battery_range"//, distanceTransform)
 		
-		case euVehicleBool					 = "eu_vehicle"
+		case euVehicle					 = "eu_vehicle"
 		
 		case fastChargerBrand			= "fast_charger_brand"
-		case fastChargerPresentBool           = "fast_charger_present"
+		case fastChargerPresent           = "fast_charger_present"
 		case fastChargerType				 = "fast_charger_type"
 		
 		case idealBatteryRange          = "ideal_battery_range"//, distanceTransform)
 		
-		case managedChargingActiveBool		 = "managed_charging_active"
+		case managedChargingActive		 = "managed_charging_active"
 		case managedChargingStartTime	 = "managed_charging_start_time"
-		case managedChargingUserCanceledBool	 = "managed_charging_user_canceled"
+		case managedChargingUserCanceled	 = "managed_charging_user_canceled"
 		
 		case maxRangeChargeCounter        = "max_range_charge_counter"
 		
-		case notEnoughPowerToHeatBool		 = "not_enough_power_to_heat"
+		case notEnoughPowerToHeat		 = "not_enough_power_to_heat"
 		
-		case scheduledChargingPendingBool	 = "scheduled_charging_pending"
+		case scheduledChargingPending	 = "scheduled_charging_pending"
 		case scheduledChargingStartTime	 = "scheduled_charging_start_time"
 		
 		case timeToFullCharge             = "time_to_full_charge"
 		
 		case timeStamp					= "timestamp"//, TeslaTimeStampTransform())
 		
-		case tripChargingBool				 = "trip_charging"
+		case tripCharging				 = "trip_charging"
 		
 		case usableBatteryLevel			 = "usable_battery_level"
 		
-		case userChargeEnableRequestBool		 = "user_charge_enable_request"
+		case userChargeEnableRequest		 = "user_charge_enable_request"
 	}
 }
