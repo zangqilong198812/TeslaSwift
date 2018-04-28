@@ -11,12 +11,12 @@ import Foundation
 open class CommandResponse: Decodable {
 	
 	private struct Response: Decodable {
-		var result: Int?
+		var result: Bool?
 		var reason: String?
 	}
 	private var response: Response
 	
-	open var result: Bool? { return response.result == 1 }
+	open var result: Bool? { return response.result }
 	open var reason: String? { return response.reason }
 	
 	init() {
