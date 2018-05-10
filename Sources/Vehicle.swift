@@ -37,19 +37,6 @@ open class Vehicle: Codable {
 	// MARK: Codable protocol
 	
 	private enum CodingKeys: String, CodingKey {
-	/*	let idTransform = TransformOf<String, Int>(fromJSON: {
-			if let value = $0 {
-				return "\(value)"
-			} else {
-				return nil
-			}
-		}, toJSON: {
-			if let value = $0 {
-				return Int(value)
-			} else {
-				return nil
-			}
-		})*/
 		
 		case backseatToken			 = "backseat_token"
 		case backseatTokenUpdatedAt	 = "backseat_token_updated_at"
