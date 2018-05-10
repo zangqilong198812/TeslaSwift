@@ -28,9 +28,7 @@ open class Vehicle: Codable {
 	open var idInt: Int64?
 	open var idS: String?
 	open var inService: Bool?
-	open var notificationsEnabled: Bool?
 	open var optionCodes: String?
-	open var remoteStartEnabled: Bool?
 	open var state: String?
 	open var tokens: [String]?
 	open var vehicleID: Int?
@@ -61,9 +59,7 @@ open class Vehicle: Codable {
 		case idInt						= "id"
 		case idS						 = "id_s"
 		case inService				 = "in_service"
-		case notificationsEnabled	 = "notifications_enabled"
 		case optionCodes				 = "option_codes"
-		case remoteStartEnabled		 = "remote_start_enabled"
 		case state					 = "state"
 		case tokens					 = "tokens"
 		case vehicleID				 = "vehicle_id"
@@ -82,9 +78,7 @@ open class Vehicle: Codable {
 		idInt = try container.decode(Int64?.self, forKey: .idInt)
 		idS = try container.decode(String?.self, forKey: .idS)
 		inService = try container.decode(Bool?.self, forKey: .inService)
-		notificationsEnabled = try container.decode(Bool?.self, forKey: .notificationsEnabled)
 		optionCodes = try container.decode(String?.self, forKey: .optionCodes)
-		remoteStartEnabled = try container.decode(Bool?.self, forKey: .remoteStartEnabled)
 		state = try container.decode(String?.self, forKey: .state)
 		tokens = try container.decode([String]?.self, forKey: .tokens)
 		vehicleID = try container.decode(Int?.self, forKey: .vehicleID)
@@ -102,9 +96,7 @@ open class Vehicle: Codable {
 		try container.encode(idInt, forKey: .idInt)
 		try container.encode(idS, forKey: .idS)
 		try container.encode(inService, forKey: .inService)
-		try container.encode(notificationsEnabled, forKey: .notificationsEnabled)
 		try container.encode(optionCodes, forKey: .optionCodes)
-		try container.encode(remoteStartEnabled, forKey: .remoteStartEnabled)
 		try container.encode(state, forKey: .state)
 		try container.encode(tokens, forKey: .tokens)
 		try container.encode(vehicleID, forKey: .vehicleID)
