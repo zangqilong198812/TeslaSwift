@@ -433,10 +433,21 @@ extension TeslaSwift {
 		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
-			logDebug("Respose: \(String(describing: response))", debuggingEnabled: debugEnabled)
 			
 			guard error == nil else { seal.reject(error!); return }
 			guard let httpResponse = response as? HTTPURLResponse else { seal.reject(TeslaError.failedToParseData); return }
+			
+			var responseString = "RESPONSE: \(String(describing: httpResponse.url))"
+			responseString += "\nStatusCode: \(httpResponse.statusCode)"
+			if let headers = request.allHTTPHeaderFields {
+				responseString += "\nHeaders: [\n"
+				headers.forEach {(key: String, value: String) in
+					responseString += "\"\(key)\": \"\(value)\"\n"
+				}
+				responseString += "]"
+			}
+			
+			logDebug(responseString, debuggingEnabled: debugEnabled)
 			
 			if case 200..<300 = httpResponse.statusCode {
 				
@@ -464,7 +475,13 @@ extension TeslaSwift {
 					}
 					
 				} else {
-					seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
+						if wwwauthenticate.contains("invalid_token") {
+							seal.reject(TeslaError.authenticationFailed)
+						}
+					} else {
+						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+					}
 				}
 			}
 			
@@ -490,8 +507,16 @@ extension TeslaSwift {
 			request.setValue("application/json", forHTTPHeaderField: "content-type")
 		}
 		
-		logDebug("Request: \(request)", debuggingEnabled: debuggingEnabled)
-		logDebug("Request Headers: \(String(describing: request.allHTTPHeaderFields))", debuggingEnabled: debuggingEnabled)
+		logDebug("REQUEST: \(request)", debuggingEnabled: debuggingEnabled)
+		if let headers = request.allHTTPHeaderFields {
+			var headersString = "Request Headers: [\n"
+			headers.forEach {(key: String, value: String) in
+				headersString += "\"\(key)\": \"\(value)\"\n"
+			}
+			headersString += "]\n"
+			logDebug(headersString, debuggingEnabled: debuggingEnabled)
+		}
+		
 		if let body = body as? String, body != nullBody {
 		} else if let jsonString = body.jsonString {
 			logDebug("Request Body: \(jsonString)", debuggingEnabled: debuggingEnabled)
