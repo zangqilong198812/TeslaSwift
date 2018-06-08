@@ -437,7 +437,7 @@ extension TeslaSwift {
 			guard error == nil else { seal.reject(error!); return }
 			guard let httpResponse = response as? HTTPURLResponse else { seal.reject(TeslaError.failedToParseData); return }
 			
-			var responseString = "RESPONSE: \(String(describing: httpResponse.url))"
+			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
 			responseString += "\nStatusCode: \(httpResponse.statusCode)"
 			if let headers = request.allHTTPHeaderFields {
 				responseString += "\nHeaders: [\n"
@@ -507,13 +507,13 @@ extension TeslaSwift {
 			request.setValue("application/json", forHTTPHeaderField: "content-type")
 		}
 		
-		logDebug("REQUEST: \(request)", debuggingEnabled: debuggingEnabled)
+		logDebug("\nREQUEST: \(request)", debuggingEnabled: debuggingEnabled)
 		if let headers = request.allHTTPHeaderFields {
 			var headersString = "Request Headers: [\n"
 			headers.forEach {(key: String, value: String) in
 				headersString += "\"\(key)\": \"\(value)\"\n"
 			}
-			headersString += "]\n"
+			headersString += "]"
 			logDebug(headersString, debuggingEnabled: debuggingEnabled)
 		}
 		
