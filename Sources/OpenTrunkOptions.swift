@@ -10,12 +10,12 @@ import Foundation
 
 public enum OpenTrunkOptions: String, Codable {
 	
-	case Rear = "rear"
-	case Front = "front"
+	case rear = "rear"
+	case front = "front"
 	
 	enum CodingKeys: String, CodingKey {
 		typealias RawValue = String
 		
-		case Rear	= "which_trunk"
+		case rear	= "which_trunk"
 	}
 }
