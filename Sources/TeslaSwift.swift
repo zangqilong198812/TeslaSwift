@@ -11,11 +11,8 @@ import PromiseKit
 import os.log
 
 public enum RoofState: String, Codable {
-	case Open		= "open"
-	case Close		= "close"
-	case Comfort	= "comfort"
-	case Vent		= "vent"
-	case Move		= "move"
+	case close
+	case vent
 }
 
 public enum VehicleCommand {
@@ -35,7 +32,7 @@ public enum VehicleCommand {
 	case setTemperature(driverTemperature:Double, passengerTemperature:Double)
 	case startAutoConditioning
 	case stopAutoConditioning
-	case setSunRoof(state:RoofState, percentage:Int)
+	case setSunRoof(state:RoofState, percentage:Int?)
 	case startVehicle(password:String)
 	case openTrunk(options:OpenTrunkOptions)
 	
