@@ -75,7 +75,7 @@ public enum VehicleCommand {
 		case .startVehicle:
 			return "command/remote_start_drive"
 		case .openTrunk:
-			return "command/trunk_open"
+			return "command/actuate_trunk"
 		}
 	}
 }
@@ -462,9 +462,11 @@ extension TeslaSwift {
 				}
 				
 			} else {
-				if let data = data,
-					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
+				if let data = data {
+					
+					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+					logDebug("Respose Body Error: \(objectString)\n", debuggingEnabled: debugEnabled)
+					
 					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
@@ -505,6 +507,7 @@ extension TeslaSwift {
 		}
 		
 		logDebug("\nREQUEST: \(request)", debuggingEnabled: debuggingEnabled)
+		logDebug("METHOD: \(endpoint.method)", debuggingEnabled: debuggingEnabled)
 		if let headers = request.allHTTPHeaderFields {
 			var headersString = "Request Headers: [\n"
 			headers.forEach {(key: String, value: String) in
