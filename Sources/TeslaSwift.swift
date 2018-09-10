@@ -435,9 +435,9 @@ extension TeslaSwift {
 			guard let httpResponse = response as? HTTPURLResponse else { seal.reject(TeslaError.failedToParseData); return }
 			
 			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
-			responseString += "\nStatusCode: \(httpResponse.statusCode)"
+			responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
 			if let headers = request.allHTTPHeaderFields {
-				responseString += "\nHeaders: [\n"
+				responseString += "\nHEADERS: [\n"
 				headers.forEach {(key: String, value: String) in
 					responseString += "\"\(key)\": \"\(value)\"\n"
 				}
@@ -451,13 +451,13 @@ extension TeslaSwift {
 				do {
 					if let data = data {
 						let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-						logDebug("Respose Body: \(objectString)\n", debuggingEnabled: debugEnabled)
+						logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
 						
 						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
 						seal.fulfill(mapped)
 					}
 				} catch {
-					logDebug("error: \(error)", debuggingEnabled: debugEnabled)
+					logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
 					seal.reject(TeslaError.failedToParseData)
 				}
 				
@@ -465,7 +465,7 @@ extension TeslaSwift {
 				if let data = data {
 					
 					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-					logDebug("Respose Body Error: \(objectString)\n", debuggingEnabled: debugEnabled)
+					logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
 					
 					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
@@ -509,7 +509,7 @@ extension TeslaSwift {
 		logDebug("\nREQUEST: \(request)", debuggingEnabled: debuggingEnabled)
 		logDebug("METHOD: \(endpoint.method)", debuggingEnabled: debuggingEnabled)
 		if let headers = request.allHTTPHeaderFields {
-			var headersString = "Request Headers: [\n"
+			var headersString = "REQUEST HEADERS: [\n"
 			headers.forEach {(key: String, value: String) in
 				headersString += "\"\(key)\": \"\(value)\"\n"
 			}
@@ -519,7 +519,7 @@ extension TeslaSwift {
 		
 		if let body = body as? String, body != nullBody {
 		} else if let jsonString = body.jsonString {
-			logDebug("Request Body: \(jsonString)", debuggingEnabled: debuggingEnabled)
+			logDebug("REQUEST BODY: \(jsonString)", debuggingEnabled: debuggingEnabled)
 		}
 		
 		return request
