@@ -490,11 +490,13 @@ extension TeslaSwift {
 		
 		return promise
 	}
-	
+
 	func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
 	
 		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
 		request.httpMethod = endpoint.method
+		
+		request.setValue("TeslaSwift", forHTTPHeaderField: "User-Agent")
 		
 		if let token = self.token?.accessToken {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
