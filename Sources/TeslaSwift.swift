@@ -436,7 +436,7 @@ extension TeslaSwift {
 			
 			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
 			responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
-			if let headers = request.allHTTPHeaderFields {
+			if let headers = httpResponse.allHeaderFields as? [String: String] {
 				responseString += "\nHEADERS: [\n"
 				headers.forEach {(key: String, value: String) in
 					responseString += "\"\(key)\": \"\(value)\"\n"
