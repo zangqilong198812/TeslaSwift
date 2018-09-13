@@ -51,8 +51,14 @@ open class VehicleState: Codable {
 	open var remoteStart: Bool?
 	open var remoteStartSupported: Bool?
 	
-	private var rearTrunkOpenBool: Int?
-	open var rearTrunkOpen: Bool? { return rearTrunkOpenBool == 1 }
+	private var rearTrunkOpenInt: Int?
+	open var rearTrunkOpen: Bool? {
+		if let rearTrunkOpenInt = rearTrunkOpenInt {
+			return rearTrunkOpenInt > 0
+		} else {
+			return false
+		}
+	}
 	
 	open var sunRoofPercentageOpen: Int? // null if not installed
 	open var sunRoofState: String?
@@ -101,7 +107,7 @@ open class VehicleState: Codable {
 		case remoteStart			 = "remote_start"
 		case remoteStartSupported	 = "remote_start_supported"
 		
-		case rearTrunkOpenBool			 = "rt"
+		case rearTrunkOpenInt			 = "rt"
 		
 		case sunRoofPercentageOpen	 = "sun_roof_percent_open"
 		case sunRoofState			 = "sun_roof_state"

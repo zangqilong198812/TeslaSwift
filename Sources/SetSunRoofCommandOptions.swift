@@ -10,15 +10,11 @@ import Foundation
 
 open class SetSunRoofCommandOptions: Encodable {
 
-	open var state: RoofState?
+	open var state: RoofState
 	open var percent: Int?
-	init(state: RoofState, percent: Int) {
+	init(state: RoofState, percent: Int?) {
 		self.state = state
 		self.percent = percent
 	}
 	
-	enum CodingKeys: String, CodingKey {
-		case state		= "state"
-		case percent		 = "percent"
-	}
 }

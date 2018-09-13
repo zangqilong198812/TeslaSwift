@@ -11,11 +11,8 @@ import PromiseKit
 import os.log
 
 public enum RoofState: String, Codable {
-	case Open		= "open"
-	case Close		= "close"
-	case Comfort	= "comfort"
-	case Vent		= "vent"
-	case Move		= "move"
+	case close
+	case vent
 }
 
 public enum VehicleCommand {
@@ -35,7 +32,7 @@ public enum VehicleCommand {
 	case setTemperature(driverTemperature:Double, passengerTemperature:Double)
 	case startAutoConditioning
 	case stopAutoConditioning
-	case setSunRoof(state:RoofState, percentage:Int)
+	case setSunRoof(state:RoofState, percentage:Int?)
 	case startVehicle(password:String)
 	case openTrunk(options:OpenTrunkOptions)
 	
@@ -78,7 +75,7 @@ public enum VehicleCommand {
 		case .startVehicle:
 			return "command/remote_start_drive"
 		case .openTrunk:
-			return "command/trunk_open"
+			return "command/actuate_trunk"
 		}
 	}
 }
@@ -438,9 +435,9 @@ extension TeslaSwift {
 			guard let httpResponse = response as? HTTPURLResponse else { seal.reject(TeslaError.failedToParseData); return }
 			
 			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
-			responseString += "\nStatusCode: \(httpResponse.statusCode)"
-			if let headers = request.allHTTPHeaderFields {
-				responseString += "\nHeaders: [\n"
+			responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
+			if let headers = httpResponse.allHeaderFields as? [String: String] {
+				responseString += "\nHEADERS: [\n"
 				headers.forEach {(key: String, value: String) in
 					responseString += "\"\(key)\": \"\(value)\"\n"
 				}
@@ -454,20 +451,22 @@ extension TeslaSwift {
 				do {
 					if let data = data {
 						let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-						logDebug("Respose Body: \(objectString)\n", debuggingEnabled: debugEnabled)
+						logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
 						
 						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
 						seal.fulfill(mapped)
 					}
 				} catch {
-					logDebug("error: \(error)", debuggingEnabled: debugEnabled)
+					logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
 					seal.reject(TeslaError.failedToParseData)
 				}
 				
 			} else {
-				if let data = data,
-					let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-					logDebug("Respose Body Error: \(object)", debuggingEnabled: debugEnabled)
+				if let data = data {
+					
+					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+					logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
+					
 					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
@@ -491,11 +490,13 @@ extension TeslaSwift {
 		
 		return promise
 	}
-	
+
 	func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
 	
 		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
 		request.httpMethod = endpoint.method
+		
+		request.setValue("TeslaSwift", forHTTPHeaderField: "User-Agent")
 		
 		if let token = self.token?.accessToken {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -508,8 +509,9 @@ extension TeslaSwift {
 		}
 		
 		logDebug("\nREQUEST: \(request)", debuggingEnabled: debuggingEnabled)
+		logDebug("METHOD: \(endpoint.method)", debuggingEnabled: debuggingEnabled)
 		if let headers = request.allHTTPHeaderFields {
-			var headersString = "Request Headers: [\n"
+			var headersString = "REQUEST HEADERS: [\n"
 			headers.forEach {(key: String, value: String) in
 				headersString += "\"\(key)\": \"\(value)\"\n"
 			}
@@ -519,7 +521,7 @@ extension TeslaSwift {
 		
 		if let body = body as? String, body != nullBody {
 		} else if let jsonString = body.jsonString {
-			logDebug("Request Body: \(jsonString)", debuggingEnabled: debuggingEnabled)
+			logDebug("REQUEST BODY: \(jsonString)", debuggingEnabled: debuggingEnabled)
 		}
 		
 		return request
