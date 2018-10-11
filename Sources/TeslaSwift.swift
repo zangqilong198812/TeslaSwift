@@ -35,6 +35,13 @@ public enum VehicleCommand {
 	case setSunRoof(state:RoofState, percentage:Int?)
 	case startVehicle(password:String)
 	case openTrunk(options:OpenTrunkOptions)
+	case togglePlayback
+    	case nextTrack
+    	case previousTrack
+    	case nextFavorite
+    	case previousFavorite
+    	case volumeUp
+    	case volumeDown
 	
 	func path() -> String {
 		switch self {
@@ -76,6 +83,20 @@ public enum VehicleCommand {
 			return "command/remote_start_drive"
 		case .openTrunk:
 			return "command/actuate_trunk"
+		case .togglePlayback:
+		    	return "command/media_toggle_playback"
+		case .nextTrack:
+		    	return "command/media_next_track"
+		case .previousTrack:
+		    	return "command/media_prev_track"
+		case .nextFavorite:
+		    	return "command/media_next_fav"
+		case .previousFavorite:
+		    	return "command/media_prev_fav"
+		case .volumeUp:
+		    	return "command/media_volume_up"
+		case .volumeDown:
+		    	return "command/media_volume_down"
 		}
 	}
 }
@@ -172,6 +193,28 @@ extension TeslaSwift {
 		self.token = token
 		self.email = email
 	}
+	
+	/**
+     	Revokes the stored token. Endpoint always returns true.
+
+     	- returns: A Promise with the token revoke state.
+     	*/
+
+    	public func revoke() -> Promise<Bool> {
+
+		return checkAuthentication().then(on: .global()) {
+	    		(token) -> Promise<BoolResponse> in
+
+	    		let body = ["token" : self.token?.accessToken!]
+
+	    		return self.request(.revoke, body: body)
+
+	    	}.map(on: .global()) {
+			(data: BoolResponse) -> Bool in
+
+			data.response
+		}	
+    	}
 	
 	/**
 	Removes all the information related to the previous authentication

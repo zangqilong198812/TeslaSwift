@@ -11,6 +11,7 @@ import Foundation
 enum Endpoint {
 	
 	case authentication
+	case revoke
 	case vehicles
 	case mobileAccess(vehicleID: String)
 	case allStates(vehicleID: String)
@@ -28,6 +29,8 @@ extension Endpoint {
 		switch self {
 		case .authentication:
 			return "/oauth/token"
+		case .revoke:
+            		return "/oauth/revoke"
 		case .vehicles:
 			return "/api/1/vehicles"
 		case .mobileAccess(let vehicleID):
@@ -51,7 +54,7 @@ extension Endpoint {
 	
 	var method: String {
 		switch self {
-		case .authentication, .command:
+		case .authentication, .revoke, .command:
 			return "POST"
 		case .vehicles, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState:
 			return "GET"
