@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0478B862FEF88CCD3EC80F94 /* Pods_TeslaSwiftMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */; };
 		0C7ED84E15E6213553283EE1 /* Pods_TeslaSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */; };
+		65F055182173DB3D00BE3BE5 /* NavigationRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */; };
 		7D161BA01E9DC805001C89ED /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 		8CC62B67A853293ADBFB6B75 /* Pods_TeslaSwift_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */; };
 		CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF01EA661C9EC1950064B2B5 /* VehicleState.json */; };
@@ -157,6 +158,7 @@
 		507DE01A16E7BC28AE46813C /* Pods-TeslaSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		50BF831C9E3C5642B8EE0D30 /* Pods_TeslaSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA4687B48AE0E48AF1EA4CD /* Pods-TeslaSwiftMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac.debug.xcconfig"; sourceTree = "<group>"; };
+		65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationRequestOptions.swift; sourceTree = "<group>"; };
 		663732209E4E55CAD3A287C6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7714DD772753FEF8BB88D841 /* Pods-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7D161B9F1E9DC805001C89ED /* StreamEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamEvent.swift; sourceTree = "<group>"; };
@@ -300,27 +302,28 @@
 		CF0D2F181D95A49000E5A304 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CFF048011F72EDC6006B52F7 /* Distance.swift */,
 				CF0D2F191D95A4A900E5A304 /* Authtentication.swift */,
-				CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */,
+				CF1BD5921DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift */,
 				CF0D2F1A1D95A4A900E5A304 /* ChargeState.swift */,
 				CF0D2F1B1D95A4A900E5A304 /* ClimateState.swift */,
+				CFAE278E1F76644300D28079 /* Codable+JSONString.swift */,
 				CF0D2F1C1D95A4A900E5A304 /* CommandResponse.swift */,
+				CFF048011F72EDC6006B52F7 /* Distance.swift */,
 				CF0D2F1D1D95A4A900E5A304 /* DriveState.swift */,
+				CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */,
 				CF0D2F1E1D95A4A900E5A304 /* GenericResponse.swift */,
 				CF0D2F1F1D95A4A900E5A304 /* GuiSettings.swift */,
+				65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */,
 				CF0D2F201D95A4A900E5A304 /* OpenTrunkOptions.swift */,
-				CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */,
-				CF1BD5921DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift */,
-				CF1BD5951DD5051600E4C493 /* SetTemperatureCommandOptions.swift */,
-				CF1BD5981DD505EF00E4C493 /* SetSunRoofCommandOptions.swift */,
-				7D161B9F1E9DC805001C89ED /* StreamEvent.swift */,
 				CF1BD59B1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift */,
+				CF1BD5981DD505EF00E4C493 /* SetSunRoofCommandOptions.swift */,
+				CF1BD5951DD5051600E4C493 /* SetTemperatureCommandOptions.swift */,
+				7D161B9F1E9DC805001C89ED /* StreamEvent.swift */,
+				CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */,
 				CF0D2F221D95A4A900E5A304 /* Vehicle.swift */,
-				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */,
+				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
-				CFAE278E1F76644300D28079 /* Codable+JSONString.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -791,6 +794,7 @@
 				7D161BA01E9DC805001C89ED /* StreamEvent.swift in Sources */,
 				CF1BD5931DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
 				CFB5D7B71E66088F003EA1EF /* ErrorMessage.swift in Sources */,
+				65F055182173DB3D00BE3BE5 /* NavigationRequestOptions.swift in Sources */,
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */,
 				CF0D2F271D95A4A900E5A304 /* ChargeState.swift in Sources */,
