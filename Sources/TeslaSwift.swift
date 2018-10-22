@@ -104,7 +104,7 @@ public enum VehicleCommand {
 	}
 }
 
-public enum TeslaError: Error {
+public enum TeslaError: Error, Equatable {
 	case networkError(error:NSError)
 	case authenticationRequired
 	case authenticationFailed
