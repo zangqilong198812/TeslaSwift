@@ -161,8 +161,8 @@ extension TeslaSwift {
 		let body = AuthTokenRequest(email: email,
 		                            password: password,
 		                            grantType: "password",
-		                            clientID: "e4a9949fcfa04068f59abb5a658f2bac0a3428e4652315490b659d5ab3f35a9e",
-		                            clientSecret: "c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9d220")
+		                            clientID: "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384",
+		                            clientSecret: "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3")
 		
 		return request(.authentication, body: body)
 			.map(on: .global()) { (result: AuthToken) -> AuthToken in
