@@ -42,6 +42,7 @@ public enum VehicleCommand {
     	case previousFavorite
     	case volumeUp
     	case volumeDown
+    case navigationRequest(options:NavigationRequestOptions)
 	
 	func path() -> String {
 		switch self {
@@ -97,11 +98,13 @@ public enum VehicleCommand {
 		    	return "command/media_volume_up"
 		case .volumeDown:
 		    	return "command/media_volume_down"
+        case .navigationRequest:
+            return "command/navigation_request"
 		}
 	}
 }
 
-public enum TeslaError: Error {
+public enum TeslaError: Error, Equatable {
 	case networkError(error:NSError)
 	case authenticationRequired
 	case authenticationFailed
@@ -406,6 +409,9 @@ extension TeslaSwift {
 				case let .openTrunk(options):
 					let body = options
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                case let .navigationRequest(address):
+                    let body = address
+                    return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
 				case let .chargeLimitPercentage(limit):
 					let body = ChargeLimitPercentageCommandOptions(limit: limit)
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)

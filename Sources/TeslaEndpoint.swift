@@ -60,12 +60,17 @@ extension Endpoint {
 			return "GET"
 		}
 	}
-	
-	func baseURL(_ useMockServer: Bool) -> String {
-		if useMockServer {
-			return "https://private-623898-modelsapi.apiary-mock.com"
-		} else {
-			return "https://owner-api.teslamotors.com"
-		}
-	}
+    
+    func baseURL(_ useMockServer: Bool) -> String {
+        if useMockServer {
+            let mockUrl = UserDefaults.standard.string(forKey: "mock_base_url")
+            if mockUrl != nil && mockUrl!.count > 0 {
+                return mockUrl!
+            } else {
+                return "https://private-623898-modelsapi.apiary-mock.com"
+            }
+        } else {
+            return "https://owner-api.teslamotors.com"
+        }
+    }
 }
