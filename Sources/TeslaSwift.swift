@@ -100,6 +100,10 @@ public enum VehicleCommand {
 		    	return "command/media_volume_down"
         case .navigationRequest:
             return "command/navigation_request"
+        case .scheduleSoftwareUpdate:
+            return "command/schedule_software_update"
+        case .cancelSoftwareUpdate:
+            return "command/cancel_software_update"
 		}
 	}
 }
