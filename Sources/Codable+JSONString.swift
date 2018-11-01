@@ -16,10 +16,6 @@ public extension Encodable {
 		return String(data: data, encoding: String.Encoding.utf8)
 	}
 	
-	var jsonObject: Any? {
-		guard let data = try? JSONSerialization.data(withJSONObject: self, options: []) else { return nil }
-		return try? JSONSerialization.data(withJSONObject: data, options: [])
-	}
 }
 
 public extension String {
