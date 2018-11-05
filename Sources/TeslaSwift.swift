@@ -199,26 +199,34 @@ extension TeslaSwift {
 	}
 	
 	/**
-     	Revokes the stored token. Endpoint always returns true.
+	Revokes the stored token. Endpoint always returns true.
+	
+	- returns: A Promise with the token revoke state.
+	*/
 
-     	- returns: A Promise with the token revoke state.
-     	*/
-
-    	public func revoke() -> Promise<Bool> {
-
+	public func revoke() -> Promise<Bool> {
+		
+		guard let accessToken = self.token?.accessToken else {
+			token = nil
+			return .value(false)
+		}
+			
+		token = nil
+		
 		return checkAuthentication().then(on: .global()) {
-	    		(token) -> Promise<BoolResponse> in
-
-	    		let body = ["token" : self.token?.accessToken!]
-
-	    		return self.request(.revoke, body: body)
-
-	    	}.map(on: .global()) {
-			(data: BoolResponse) -> Bool in
-
-			data.response
+			(token) -> Promise<BoolResponse> in
+			
+			let body = ["token" : accessToken]
+			self.token = nil
+			
+			return self.request(.revoke, body: body)
+			
+			}.map(on: .global()) {
+				(data: BoolResponse) -> Bool in
+				
+				data.response
 		}	
-    	}
+	}
 	
 	/**
 	Removes all the information related to the previous authentication
