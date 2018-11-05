@@ -108,6 +108,7 @@ public enum TeslaError: Error, Equatable {
 	case networkError(error:NSError)
 	case authenticationRequired
 	case authenticationFailed
+	case tokenRevoked
 	case invalidOptionsForCommand
 	case failedToParseData
 	case streamingMissingEmailOrVehicleToken
@@ -137,7 +138,7 @@ open class TeslaSwift {
 extension TeslaSwift {
 	
 	public var isAuthenticated: Bool {
-		return token != nil
+		return token != nil && (token?.isValid ?? false)
 	}
 	
 	/**
@@ -516,7 +517,10 @@ extension TeslaSwift {
 					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
 					logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
 					
-					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
+					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
+						wwwauthenticate.contains("invalid_token") {
+						seal.reject(TeslaError.tokenRevoked)
+					} else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
