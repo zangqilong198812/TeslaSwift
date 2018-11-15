@@ -114,6 +114,7 @@ public enum TeslaError: Error, Equatable {
 	case networkError(error:NSError)
 	case authenticationRequired
 	case authenticationFailed
+	case tokenRevoked
 	case invalidOptionsForCommand
 	case failedToParseData
 	case streamingMissingEmailOrVehicleToken
@@ -143,7 +144,7 @@ open class TeslaSwift {
 extension TeslaSwift {
 	
 	public var isAuthenticated: Bool {
-		return token != nil
+		return token != nil && (token?.isValid ?? false)
 	}
 	
 	/**
@@ -204,26 +205,34 @@ extension TeslaSwift {
 	}
 	
 	/**
-     	Revokes the stored token. Endpoint always returns true.
+	Revokes the stored token. Endpoint always returns true.
+	
+	- returns: A Promise with the token revoke state.
+	*/
 
-     	- returns: A Promise with the token revoke state.
-     	*/
-
-    	public func revoke() -> Promise<Bool> {
-
+	public func revoke() -> Promise<Bool> {
+		
+		guard let accessToken = self.token?.accessToken else {
+			token = nil
+			return .value(false)
+		}
+			
+		token = nil
+		
 		return checkAuthentication().then(on: .global()) {
-	    		(token) -> Promise<BoolResponse> in
-
-	    		let body = ["token" : self.token?.accessToken!]
-
-	    		return self.request(.revoke, body: body)
-
-	    	}.map(on: .global()) {
-			(data: BoolResponse) -> Bool in
-
-			data.response
+			(token) -> Promise<BoolResponse> in
+			
+			let body = ["token" : accessToken]
+			self.token = nil
+			
+			return self.request(.revoke, body: body)
+			
+			}.map(on: .global()) {
+				(data: BoolResponse) -> Bool in
+				
+				data.response
 		}	
-    	}
+	}
 	
 	/**
 	Removes all the information related to the previous authentication
@@ -522,7 +531,10 @@ extension TeslaSwift {
 					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
 					logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
 					
-					if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
+					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
+						wwwauthenticate.contains("invalid_token") {
+						seal.reject(TeslaError.tokenRevoked)
+					} else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
 						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
