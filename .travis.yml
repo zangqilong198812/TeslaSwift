@@ -1,13 +1,8 @@
 language: objective-c  
-osx_image: xcode9.1
+osx_image: xcode10.1
 xcode_workspace: TeslaSwift.xcworkspace
 xcode_scheme: TeslaSwift
-xcode_sdk: iphonesimulator11.1
+xcode_sdk: iphonesimulator12.1
+xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone XS
 notifications:
   email: false
-before_install:
- - rvm install ruby-2.2.2
- - gem install cocoapods --pre
- - pod repo update --silent
-script: 
- - xcodebuild -workspace 'TeslaSwift.xcworkspace' -scheme 'TeslaSwift' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO test

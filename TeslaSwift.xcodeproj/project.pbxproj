@@ -204,6 +204,9 @@
 		CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF4D4D0C1D81F39900CCE6ED /* Pods_TeslaSwiftTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_TeslaSwiftTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_TeslaSwiftTests.framework"; sourceTree = "<group>"; };
 		CF5D13A61CB41BAE00744DCC /* WakeUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WakeUp.json; sourceTree = "<group>"; };
+		CF5FF50F21AAED7B007B6306 /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
+		CF5FF51021AAED84007B6306 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		CF5FF51121AAED8A007B6306 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		CF8D0CFE1D971B320069FFFE /* Pods_TeslaSwift_TeslaSwiftTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_TeslaSwift_TeslaSwiftTests.framework; path = "../../Library/Developer/Xcode/DerivedData/TeslaSwift-dvxfesbvbekzvlebgextwccbvtxb/Build/Products/Debug-iphonesimulator/Pods_TeslaSwift_TeslaSwiftTests.framework"; sourceTree = "<group>"; };
 		CFA037A31C8A160600FA2423 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetValetMode.json; sourceTree = "<group>"; };
@@ -382,6 +385,9 @@
 		CFD2E7B81C8A13D60005E882 = {
 			isa = PBXGroup;
 			children = (
+				CF5FF50F21AAED7B007B6306 /* .hound.yml */,
+				CF5FF51021AAED84007B6306 /* .travis.yml */,
+				CF5FF51121AAED8A007B6306 /* .swiftlint.yml */,
 				CFF048051F72F115006B52F7 /* README.md */,
 				CF30F95B1C8A2BC20067D3D9 /* Podfile */,
 				CFF06D041FB63CF9003320E3 /* Podfile.lock */,
