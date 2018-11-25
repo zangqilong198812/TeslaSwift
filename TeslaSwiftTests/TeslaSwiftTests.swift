@@ -1025,4 +1025,12 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectations(timeout: 2, handler: nil)
 
     }
+	
+	//MARK: - Parsing extra -
+	
+	func testParseEmpty() {
+		
+		XCTAssertNoThrow( { () -> VehicleExtended? in "{}".decodeJSON() }())
+		
+	}
 }
