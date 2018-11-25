@@ -43,6 +43,8 @@ public enum VehicleCommand {
     	case volumeUp
     	case volumeDown
     case navigationRequest(options:NavigationRequestOptions)
+    case cancelSoftwareUpdate
+    case scheduleSoftwareUpdate
 	
 	func path() -> String {
 		switch self {
@@ -100,6 +102,10 @@ public enum VehicleCommand {
 		    	return "command/media_volume_down"
         case .navigationRequest:
             return "command/navigation_request"
+        case .scheduleSoftwareUpdate:
+            return "command/schedule_software_update"
+        case .cancelSoftwareUpdate:
+            return "command/cancel_software_update"
 		}
 	}
 }

@@ -59,6 +59,8 @@ open class VehicleState: Codable {
 			return false
 		}
 	}
+    
+    open var softwareUpdate: SoftwareUpdate?
 	
 	open var sunRoofPercentageOpen: Int? // null if not installed
 	open var sunRoofState: String?
@@ -109,6 +111,8 @@ open class VehicleState: Codable {
 		
 		case rearTrunkOpenInt			 = "rt"
 		
+        case softwareUpdate         = "software_update"
+
 		case sunRoofPercentageOpen	 = "sun_roof_percent_open"
 		case sunRoofState			 = "sun_roof_state"
 		
@@ -161,7 +165,8 @@ open class VehicleState: Codable {
 		remoteStartSupported = try? container.decode(Bool.self, forKey: .remoteStartSupported)
 		
 		rearTrunkOpenInt = try? container.decode(Int.self, forKey: .rearTrunkOpenInt)
-		
+
+		softwareUpdate = try? container.decode(SoftwareUpdate.self, forKey: .softwareUpdate)
 		sunRoofPercentageOpen = try? container.decode(Int.self, forKey: .sunRoofPercentageOpen)
 		sunRoofState = try? container.decode(String.self, forKey: .sunRoofState)
 		
@@ -198,6 +203,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(remoteStart, forKey: .remoteStart)
 		try container.encodeIfPresent(remoteStartSupported, forKey: .remoteStartSupported)
 		try container.encodeIfPresent(rearTrunkOpenInt, forKey: .rearTrunkOpenInt)
+		try container.encodeIfPresent(softwareUpdate, forKey: .softwareUpdate)
 		try container.encodeIfPresent(sunRoofPercentageOpen, forKey: .sunRoofPercentageOpen)
 		try container.encodeIfPresent(sunRoofState, forKey: .sunRoofState)
 		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
