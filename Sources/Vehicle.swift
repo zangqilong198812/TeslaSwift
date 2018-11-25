@@ -57,37 +57,53 @@ open class Vehicle: Codable {
 	required public init(from decoder: Decoder) throws {
 		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		backseatToken = try container.decode(String?.self, forKey: .backseatToken)
-		backseatTokenUpdatedAt = try container.decode(Date?.self, forKey: .backseatTokenUpdatedAt)
-		calendarEnabled = try container.decode(Bool?.self, forKey: .calendarEnabled)
-		color = try container.decode(String?.self, forKey: .color)
-		displayName = try container.decode(String?.self, forKey: .displayName)
-		idInt = try container.decode(Int64?.self, forKey: .idInt)
-		idS = try container.decode(String?.self, forKey: .idS)
-		inService = try container.decode(Bool?.self, forKey: .inService)
-		optionCodes = try container.decode(String?.self, forKey: .optionCodes)
-		state = try container.decode(String?.self, forKey: .state)
-		tokens = try container.decode([String]?.self, forKey: .tokens)
-		vehicleID = try container.decode(Int?.self, forKey: .vehicleID)
-		vin = try container.decode(String?.self, forKey: .vin)
+		backseatToken = try? container.decode(String.self, forKey: .backseatToken)
+		backseatTokenUpdatedAt = try? container.decode(Date.self, forKey: .backseatTokenUpdatedAt)
+		calendarEnabled = {
+			if let boolValue = try? container.decode(Bool.self, forKey: .calendarEnabled) {
+				return boolValue
+			} else if let intValue = try? container.decode(Int.self, forKey: .calendarEnabled) {
+					return intValue > 0
+			} else {
+				return nil
+			}
+		}()
+		color = try? container.decode(String.self, forKey: .color)
+		displayName = try? container.decode(String.self, forKey: .displayName)
+		idInt = try? container.decode(Int64.self, forKey: .idInt)
+		idS = try? container.decode(String.self, forKey: .idS)
+		inService = {
+			if let boolValue = try? container.decode(Bool.self, forKey: .inService) {
+				return boolValue
+			} else if let intValue = try? container.decode(Int.self, forKey: .inService) {
+				return intValue > 0
+			} else {
+				return nil
+			}
+		}()
+		optionCodes = try? container.decode(String.self, forKey: .optionCodes)
+		state = try? container.decode(String.self, forKey: .state)
+		tokens = try? container.decode([String].self, forKey: .tokens)
+		vehicleID = try? container.decode(Int.self, forKey: .vehicleID)
+		vin = try? container.decode(String.self, forKey: .vin)
 	}
 	
 	public func encode(to encoder: Encoder) throws {
 		
 		var container = encoder.container(keyedBy: CodingKeys.self)
-		try container.encode(backseatToken, forKey: .backseatToken)
-		try container.encode(backseatTokenUpdatedAt, forKey: .backseatTokenUpdatedAt)
-		try container.encode(calendarEnabled, forKey: .calendarEnabled)
-		try container.encode(color, forKey: .color)
-		try container.encode(displayName, forKey: .displayName)
-		try container.encode(idInt, forKey: .idInt)
-		try container.encode(idS, forKey: .idS)
-		try container.encode(inService, forKey: .inService)
-		try container.encode(optionCodes, forKey: .optionCodes)
-		try container.encode(state, forKey: .state)
-		try container.encode(tokens, forKey: .tokens)
-		try container.encode(vehicleID, forKey: .vehicleID)
-		try container.encode(vin, forKey: .vin)
+		try container.encodeIfPresent(backseatToken, forKey: .backseatToken)
+		try container.encodeIfPresent(backseatTokenUpdatedAt, forKey: .backseatTokenUpdatedAt)
+		try container.encodeIfPresent(calendarEnabled, forKey: .calendarEnabled)
+		try container.encodeIfPresent(color, forKey: .color)
+		try container.encodeIfPresent(displayName, forKey: .displayName)
+		try container.encodeIfPresent(idInt, forKey: .idInt)
+		try container.encodeIfPresent(idS, forKey: .idS)
+		try container.encodeIfPresent(inService, forKey: .inService)
+		try container.encodeIfPresent(optionCodes, forKey: .optionCodes)
+		try container.encodeIfPresent(state, forKey: .state)
+		try container.encodeIfPresent(tokens, forKey: .tokens)
+		try container.encodeIfPresent(vehicleID, forKey: .vehicleID)
+		try container.encodeIfPresent(vin, forKey: .vin)
 		
 	}
 

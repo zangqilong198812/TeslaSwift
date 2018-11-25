@@ -58,4 +58,63 @@ open class VehicleConfig: Codable {
 		case wheelType			 = "wheel_type"
 	}
 	
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		canActuateTrunks = try? container.decode(Bool.self, forKey: .canActuateTrunks)
+		carSpecialType = try? container.decode(String.self, forKey: .carSpecialType)
+		carType = try? container.decode(String.self, forKey: .carType)
+		chargePortType = try? container.decode(String.self, forKey: .chargePortType)
+		euVehicle = try? container.decode(Bool.self, forKey: .euVehicle)
+		exteriorColor = try? container.decode(String.self, forKey: .exteriorColor)
+		hasLudicoursMode = try? container.decode(Bool.self, forKey: .hasLudicoursMode)
+		motorizedChargePort = try? container.decode(Bool.self, forKey: .motorizedChargePort)
+		perfConfig = try? container.decode(String.self, forKey: .perfConfig)
+		plg = try? container.decode(Bool.self, forKey: .plg)
+		
+		rearSeatHeatersBool = try? container.decode(Int.self, forKey: .rearSeatHeatersBool)
+		
+		rearSeatType = try? container.decode(Int.self, forKey: .rearSeatType)
+		rhd = try? container.decode(Bool.self, forKey: .rhd)
+		roofColor = try? container.decode(String.self, forKey: .roofColor) // "None" for panoramic roof
+		seatType = try? container.decode(Int.self, forKey: .seatType)
+		spoilerType = try? container.decode(String.self, forKey: .spoilerType)
+		sunRoofInstalled = try? container.decode(Int.self, forKey: .sunRoofInstalled)
+		thirdRowSeats = try? container.decode(String.self, forKey: .thirdRowSeats)
+		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		trimBadging = try? container.decode(String.self, forKey: .trimBadging)
+		wheelType = try? container.decode(String.self, forKey: .wheelType)
+		
+	}
+	
+	public func encode(to encoder: Encoder) throws {
+		
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		
+		try container.encodeIfPresent(canActuateTrunks, forKey: .canActuateTrunks)
+		try container.encodeIfPresent(carSpecialType, forKey: .carSpecialType)
+		try container.encodeIfPresent(carType, forKey: .carType)
+		try container.encodeIfPresent(chargePortType, forKey: .chargePortType)
+		try container.encodeIfPresent(euVehicle, forKey: .euVehicle)
+		try container.encodeIfPresent(exteriorColor, forKey: .exteriorColor)
+		try container.encodeIfPresent(hasLudicoursMode, forKey: .hasLudicoursMode)
+		try container.encodeIfPresent(motorizedChargePort, forKey: .motorizedChargePort)
+		try container.encodeIfPresent(perfConfig, forKey: .perfConfig)
+		try container.encodeIfPresent(plg, forKey: .plg)
+		try container.encodeIfPresent(rearSeatHeatersBool, forKey: .rearSeatHeatersBool)
+
+		try container.encodeIfPresent(rearSeatType, forKey: .rearSeatType)
+		try container.encodeIfPresent(rhd, forKey: .rhd)
+		try container.encodeIfPresent(roofColor, forKey: .roofColor)
+		try container.encodeIfPresent(seatType, forKey: .seatType)
+		try container.encodeIfPresent(spoilerType, forKey: .spoilerType)
+		try container.encodeIfPresent(sunRoofInstalled, forKey: .sunRoofInstalled)
+		try container.encodeIfPresent(thirdRowSeats, forKey: .thirdRowSeats)
+		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
+		try container.encodeIfPresent(trimBadging, forKey: .trimBadging)
+		try container.encodeIfPresent(wheelType, forKey: .wheelType)
+
+		
+	}
 }

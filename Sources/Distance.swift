@@ -9,7 +9,7 @@
 import Foundation
 
 public struct Distance: Codable {
-    fileprivate var value: Measurement<UnitLength>
+    public var value: Measurement<UnitLength>
     
     public init(miles: Double?) {
         let tempValue = miles ?? 0.0

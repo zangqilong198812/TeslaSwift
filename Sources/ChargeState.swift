@@ -11,6 +11,7 @@ import Foundation
 open class ChargeState: Codable {
 	
 	public enum ChargingState: String, Codable {
+		// Caps on purpose to avoid codingkeys
 		case Complete
 		case Charging
 		case Disconnected
@@ -184,5 +185,157 @@ open class ChargeState: Codable {
 		case usableBatteryLevel			 = "usable_battery_level"
 		
 		case userChargeEnableRequest		 = "user_charge_enable_request"
+	}
+	
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		batteryHeaterOn = try? container.decode(Bool.self, forKey: .batteryHeaterOn)
+		
+		batteryLevel = try? container.decode(Int.self, forKey: .batteryLevel)
+
+		ratedBatteryRange = try? container.decode(Distance.self, forKey: .ratedBatteryRange)
+		chargeCurrentRequest = try? container.decode(Int.self, forKey: .chargeCurrentRequest)
+		chargeCurrentRequestMax = try? container.decode(Int.self, forKey: .chargeCurrentRequestMax)
+		chargeEnableRequest = try? container.decode(Bool.self, forKey: .chargeEnableRequest)
+		chargeEnergyAdded = try? container.decode(Double.self, forKey: .chargeEnergyAdded)
+		
+		chargeLimitSOC = try? container.decode(Int.self, forKey: .chargeLimitSOC)
+		chargeLimitSOCMax = try? container.decode(Int.self, forKey: .chargeLimitSOCMax)
+		chargeLimitSOCMin = try? container.decode(Int.self, forKey: .chargeLimitSOCMin)
+		chargeLimitSOCStandard = try? container.decode(Int.self, forKey: .chargeLimitSOCStandard)
+		
+		
+		chargeDistanceAddedIdeal = try? container.decode(Distance.self, forKey: .chargeDistanceAddedIdeal)
+		chargeDistanceAddedRated = try? container.decode(Distance.self, forKey: .chargeDistanceAddedRated)
+		
+
+		chargePortDoorOpen = try? container.decode(Bool.self, forKey: .chargePortDoorOpen)
+		chargePortLatch = try? container.decode(String.self, forKey: .chargePortLatch)
+		
+		
+		chargeRate = try? container.decode(Distance.self, forKey: .chargeRate)
+
+		chargeToMaxRange = try? container.decode(Bool.self, forKey: .chargeToMaxRange)
+		
+
+		chargerActualCurrent = try? container.decode(Int.self, forKey: .chargerActualCurrent)
+		chargerPhases = try? container.decode(Int.self, forKey: .chargerPhases)
+
+		chargerPilotCurrent = try? container.decode(Int.self, forKey: .chargerPilotCurrent)
+
+		chargerPower = try? container.decode(Int.self, forKey: .chargerPower)
+ 
+		chargerVoltage = try? container.decode(Int.self, forKey: .chargerVoltage)
+		
+
+		chargingState = try? container.decode(ChargingState.self, forKey: .chargingState)
+		
+		connChargeCable = try? container.decode(String.self, forKey: .connChargeCable)
+		
+
+		estimatedBatteryRange = try? container.decode(Distance.self, forKey: .estimatedBatteryRange)
+		
+		euVehicle = try? container.decode(Bool.self, forKey: .euVehicle)
+		
+		fastChargerBrand = try? container.decode(String.self, forKey: .fastChargerBrand)
+
+		fastChargerPresent = try? container.decode(Bool.self, forKey: .fastChargerPresent)
+		fastChargerType = try? container.decode(String.self, forKey: .fastChargerType)
+
+		idealBatteryRange = try? container.decode(Distance.self, forKey: .idealBatteryRange)
+		managedChargingActive = try? container.decode(Bool.self, forKey: .managedChargingActive)
+		managedChargingStartTime = try? container.decode(Date.self, forKey: .managedChargingStartTime)
+		managedChargingUserCanceled = try? container.decode(Bool.self, forKey: .managedChargingUserCanceled)
+		
+		maxRangeChargeCounter = try? container.decode(Int.self, forKey: .maxRangeChargeCounter)
+		
+		notEnoughPowerToHeat = try? container.decode(Bool.self, forKey: .notEnoughPowerToHeat)
+		
+		scheduledChargingPending = try? container.decode(Bool.self, forKey: .scheduledChargingPending)
+		scheduledChargingStartTime = try? container.decode(TimeInterval.self, forKey: .scheduledChargingStartTime)
+		
+
+		timeToFullCharge = try? container.decode(Double.self, forKey: .timeToFullCharge)
+		timeStamp = try? container.decode(Date.self, forKey: .timeStamp)
+		
+		tripCharging = try? container.decode(Bool.self, forKey: .tripCharging)
+		
+		usableBatteryLevel = try? container.decode(Int.self, forKey: .usableBatteryLevel)
+		userChargeEnableRequest = try? container.decode(Bool.self, forKey: .userChargeEnableRequest)
+	}
+	
+	public func encode(to encoder: Encoder) throws {
+		
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encodeIfPresent(batteryHeaterOn, forKey: .batteryHeaterOn)
+		
+		try container.encodeIfPresent(batteryLevel, forKey: .batteryLevel)
+		
+		try container.encodeIfPresent(ratedBatteryRange, forKey: .ratedBatteryRange)
+		
+		try container.encodeIfPresent(chargeCurrentRequest, forKey: .chargeCurrentRequest)
+		try container.encodeIfPresent(chargeCurrentRequestMax, forKey: .chargeCurrentRequestMax)
+		try container.encodeIfPresent(chargeEnableRequest, forKey: .chargeEnableRequest)
+		try container.encodeIfPresent(chargeEnergyAdded, forKey: .chargeEnergyAdded)
+		
+		try container.encodeIfPresent(chargeLimitSOC, forKey: .chargeLimitSOC)
+		try container.encodeIfPresent(chargeLimitSOCMax, forKey: .chargeLimitSOCMax)
+		try container.encodeIfPresent(chargeLimitSOCMin, forKey: .chargeLimitSOCMin)
+		try container.encodeIfPresent(chargeLimitSOCStandard, forKey: .chargeLimitSOCStandard)
+		
+		try container.encodeIfPresent(chargeDistanceAddedIdeal, forKey: .chargeDistanceAddedIdeal)
+		try container.encodeIfPresent(chargeDistanceAddedRated, forKey: .chargeDistanceAddedRated)
+		
+		try container.encodeIfPresent(chargePortDoorOpen, forKey: .chargePortDoorOpen)
+		try container.encodeIfPresent(chargePortLatch, forKey: .chargePortLatch)
+
+		try container.encodeIfPresent(chargeRate, forKey: .chargeRate)
+
+		try container.encodeIfPresent(chargeToMaxRange, forKey: .chargeToMaxRange)
+		
+		try container.encodeIfPresent(chargerActualCurrent, forKey: .chargerActualCurrent)
+		try container.encodeIfPresent(chargerPhases, forKey: .chargerPhases)
+
+		try container.encodeIfPresent(chargerPilotCurrent, forKey: .chargerPilotCurrent)
+
+		try container.encodeIfPresent(chargerPower, forKey: .chargerPower)
+
+		try container.encodeIfPresent(chargerVoltage, forKey: .chargerVoltage)
+		
+		try container.encodeIfPresent(chargingState, forKey: .chargingState)
+		
+		try container.encodeIfPresent(connChargeCable, forKey: .connChargeCable)
+		
+		try container.encodeIfPresent(estimatedBatteryRange, forKey: .estimatedBatteryRange)
+		
+		try container.encodeIfPresent(euVehicle, forKey: .euVehicle)
+		
+		try container.encodeIfPresent(fastChargerBrand, forKey: .fastChargerBrand)
+
+		try container.encodeIfPresent(fastChargerPresent, forKey: .fastChargerPresent)
+		try container.encodeIfPresent(fastChargerType, forKey: .fastChargerType)
+		
+		try container.encodeIfPresent(idealBatteryRange, forKey: .idealBatteryRange)
+		try container.encodeIfPresent(managedChargingActive, forKey: .managedChargingActive)
+		try container.encodeIfPresent(managedChargingStartTime, forKey: .managedChargingStartTime)
+		try container.encodeIfPresent(managedChargingUserCanceled, forKey: .managedChargingUserCanceled)
+		
+		try container.encodeIfPresent(maxRangeChargeCounter, forKey: .maxRangeChargeCounter)
+		
+		try container.encodeIfPresent(notEnoughPowerToHeat, forKey: .notEnoughPowerToHeat)
+		
+		try container.encodeIfPresent(scheduledChargingPending, forKey: .scheduledChargingPending)
+		try container.encodeIfPresent(scheduledChargingStartTime, forKey: .scheduledChargingStartTime)
+		
+		try container.encodeIfPresent(timeToFullCharge, forKey: .timeToFullCharge)
+		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
+		
+		try container.encodeIfPresent(tripCharging, forKey: .tripCharging)
+		
+		
+		
+		try container.encodeIfPresent(usableBatteryLevel, forKey: .usableBatteryLevel)
+		try container.encodeIfPresent(userChargeEnableRequest, forKey: .userChargeEnableRequest)
 	}
 }

@@ -119,4 +119,92 @@ open class VehicleState: Codable {
 		
 		case vehicleName			 = "vehicle_name"
 	}
+	
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+
+		apiVersion = try? container.decode(Int.self, forKey: .apiVersion)
+		
+		autoparkState = try? container.decode(String.self, forKey: .autoparkState)
+		autoparkStateV2 = try? container.decode(String.self, forKey: .autoparkStateV2)
+		autoparkStyle = try? container.decode(String.self, forKey: .autoparkStyle)
+		
+		calendarSupported = try? container.decode(Bool.self, forKey: .calendarSupported)
+		
+		firmwareVersion = try? container.decode(String.self, forKey: .firmwareVersion)
+		
+		centerDisplayStateBool = try? container.decode(Int.self, forKey: .centerDisplayStateBool)
+		
+		driverDoorOpenBool = try? container.decode(Int.self, forKey: .driverDoorOpenBool)
+		driverRearDoorOpenBool = try? container.decode(Int.self, forKey: .driverRearDoorOpenBool)
+		
+		frontTrunkOpenBool = try? container.decode(Int.self, forKey: .frontTrunkOpenBool)
+		
+		homelinkNearby = try? container.decode(Bool.self, forKey: .homelinkNearby)
+		
+		lastAutoparkError = try? container.decode(String.self, forKey: .lastAutoparkError)
+		
+		locked = try? container.decode(Bool.self, forKey: .locked)
+		
+		notificationsSupported = try? container.decode(Bool.self, forKey: .notificationsSupported)
+		
+		odometer = try? container.decode(Double.self, forKey: .odometer)
+		
+		parsedCalendarSupported = try? container.decode(Bool.self, forKey: .parsedCalendarSupported)
+		
+		passengerDoorOpenBool = try? container.decode(Int.self, forKey: .passengerDoorOpenBool)
+		passengerRearDoorOpenBool = try? container.decode(Int.self, forKey: .passengerRearDoorOpenBool)
+		
+		remoteStart = try? container.decode(Bool.self, forKey: .remoteStart)
+		remoteStartSupported = try? container.decode(Bool.self, forKey: .remoteStartSupported)
+		
+		rearTrunkOpenInt = try? container.decode(Int.self, forKey: .rearTrunkOpenInt)
+		
+		sunRoofPercentageOpen = try? container.decode(Int.self, forKey: .sunRoofPercentageOpen)
+		sunRoofState = try? container.decode(String.self, forKey: .sunRoofState)
+		
+		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		
+		valetMode = try? container.decode(Bool.self, forKey: .valetMode)
+		valetPinNeeded = try? container.decode(Bool.self, forKey: .valetPinNeeded)
+		
+		vehicleName = try? container.decode(String.self, forKey: .vehicleName)
+	}
+	
+	public func encode(to encoder: Encoder) throws {
+		
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		
+		try container.encodeIfPresent(apiVersion, forKey: .apiVersion)
+		try container.encodeIfPresent(autoparkState, forKey: .autoparkState)
+		try container.encodeIfPresent(autoparkStateV2, forKey: .autoparkStateV2)
+		try container.encodeIfPresent(autoparkStyle, forKey: .autoparkStyle)
+		try container.encodeIfPresent(calendarSupported, forKey: .calendarSupported)
+		try container.encodeIfPresent(firmwareVersion, forKey: .firmwareVersion)
+		try container.encodeIfPresent(centerDisplayStateBool, forKey: .centerDisplayStateBool)
+		try container.encodeIfPresent(driverDoorOpenBool, forKey: .driverDoorOpenBool)
+		try container.encodeIfPresent(driverRearDoorOpenBool, forKey: .driverRearDoorOpenBool)
+		try container.encodeIfPresent(frontTrunkOpenBool, forKey: .frontTrunkOpenBool)
+		try container.encodeIfPresent(homelinkNearby, forKey: .homelinkNearby)
+		try container.encodeIfPresent(lastAutoparkError, forKey: .lastAutoparkError)
+		try container.encodeIfPresent(locked, forKey: .locked)
+		try container.encodeIfPresent(notificationsSupported, forKey: .notificationsSupported)
+		try container.encodeIfPresent(odometer, forKey: .odometer)
+		try container.encodeIfPresent(parsedCalendarSupported, forKey: .parsedCalendarSupported)
+		try container.encodeIfPresent(passengerDoorOpenBool, forKey: .passengerDoorOpenBool)
+		try container.encodeIfPresent(passengerRearDoorOpenBool, forKey: .passengerRearDoorOpenBool)
+		try container.encodeIfPresent(remoteStart, forKey: .remoteStart)
+		try container.encodeIfPresent(remoteStartSupported, forKey: .remoteStartSupported)
+		try container.encodeIfPresent(rearTrunkOpenInt, forKey: .rearTrunkOpenInt)
+		try container.encodeIfPresent(sunRoofPercentageOpen, forKey: .sunRoofPercentageOpen)
+		try container.encodeIfPresent(sunRoofState, forKey: .sunRoofState)
+		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
+		try container.encodeIfPresent(valetMode, forKey: .valetMode)
+		try container.encodeIfPresent(valetPinNeeded, forKey: .valetPinNeeded)
+		
+		try container.encodeIfPresent(vehicleName, forKey: .vehicleName)
+		
+	}
 }

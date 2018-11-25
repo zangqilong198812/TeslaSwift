@@ -26,4 +26,11 @@ open class CommandResponse: Decodable {
 	enum CodingKeys: String, CodingKey {
 		case response
 	}
+	
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		response = (try? container.decode(Response.self, forKey: .response)) ?? Response()
+		
+	}
 }

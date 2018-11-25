@@ -15,7 +15,7 @@ open class ClimateState: Codable {
 	open var batteryHeaterNoPower: Bool?
 	
 	public struct Temperature: Codable {
-		fileprivate var value: Measurement<UnitTemperature>
+		public var value: Measurement<UnitTemperature>
 		
 		public init(celsius: Double?) {
 			let tempValue = celsius ?? 0.0
@@ -136,5 +136,104 @@ open class ClimateState: Codable {
 		
 		case timeStamp					= "timestamp"
         
+	}
+	
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		batteryHeater = try? container.decode(Bool.self, forKey: .batteryHeater)
+		
+		batteryHeaterNoPower = try? container.decode(Bool.self, forKey: .batteryHeaterNoPower)
+		
+		driverTemperatureSetting = try? container.decode(Temperature.self, forKey: .driverTemperatureSetting)
+	
+		fanStatus = try? container.decode(Int.self, forKey: .fanStatus)
+		
+		insideTemperature  = try? container.decode(Temperature.self, forKey: .insideTemperature)
+		
+		isAutoConditioningOn  = try? container.decode(Bool.self, forKey: .isAutoConditioningOn)
+		isClimateOn  = try? container.decode(Bool.self, forKey: .isClimateOn)
+		isFrontDefrosterOn  = try? container.decode(Bool.self, forKey: .isFrontDefrosterOn)
+		isRearDefrosterOn  = try? container.decode(Bool.self, forKey: .isRearDefrosterOn)
+		
+		isPreconditioning  = try? container.decode(Bool.self, forKey: .isPreconditioning)
+		
+		leftTemperatureDirection  = try? container.decode(Int.self, forKey: .leftTemperatureDirection)
+		
+		maxAvailableTemperature  = try? container.decode(Temperature.self, forKey: .maxAvailableTemperature)
+		minAvailableTemperature  = try? container.decode(Temperature.self, forKey: .minAvailableTemperature)
+		
+		outsideTemperature  = try? container.decode(Temperature.self, forKey: .outsideTemperature)
+		
+		passengerTemperatureSetting  = try? container.decode(Temperature.self, forKey: .passengerTemperatureSetting)
+		
+
+		rightTemperatureDirection  = try? container.decode(Int.self, forKey: .rightTemperatureDirection)
+		
+		
+		seatHeaterLeft  = try? container.decode(Bool.self, forKey: .seatHeaterLeft)
+		seatHeaterRearCenter  = try? container.decode(Bool.self, forKey: .seatHeaterRearCenter)
+		seatHeaterRearLeft  = try? container.decode(Bool.self, forKey: .seatHeaterRearLeft)
+		seatHeaterRearLeftBack  = try? container.decode(Int.self, forKey: .seatHeaterRearLeftBack)
+		seatHeaterRearRight  = try? container.decode(Bool.self, forKey: .seatHeaterRearRight)
+		seatHeaterRearRightBack  = try? container.decode(Int.self, forKey: .seatHeaterRearRightBack)
+		seatHeaterRight  = try? container.decode(Bool.self, forKey: .seatHeaterRight)
+		
+		sideMirrorHeaters  = try? container.decode(Bool.self, forKey: .sideMirrorHeaters)
+		steeringWheelHeater  = try? container.decode(Bool.self, forKey: .steeringWheelHeater)
+		wiperBladeHeater  = try? container.decode(Bool.self, forKey: .wiperBladeHeater)
+		
+		smartPreconditioning  = try? container.decode(Bool.self, forKey: .smartPreconditioning)
+		
+		timeStamp  = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		
+	}
+	
+	public func encode(to encoder: Encoder) throws {
+		
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		
+		try container.encodeIfPresent(batteryHeater, forKey: .batteryHeater)
+		
+		
+		try container.encodeIfPresent(batteryHeaterNoPower, forKey: .batteryHeaterNoPower)
+		
+		try container.encodeIfPresent(driverTemperatureSetting, forKey: .driverTemperatureSetting)
+		
+		try container.encodeIfPresent(fanStatus, forKey: .fanStatus)
+		
+		try container.encodeIfPresent(insideTemperature, forKey: .insideTemperature)
+
+		try container.encodeIfPresent(isAutoConditioningOn, forKey: .isAutoConditioningOn)
+		try container.encodeIfPresent(isClimateOn, forKey: .isClimateOn)
+		try container.encodeIfPresent(isFrontDefrosterOn, forKey: .isFrontDefrosterOn)
+		try container.encodeIfPresent(isRearDefrosterOn, forKey: .isRearDefrosterOn)
+		try container.encodeIfPresent(isPreconditioning, forKey: .isPreconditioning)
+		try container.encodeIfPresent(leftTemperatureDirection, forKey: .leftTemperatureDirection)
+		try container.encodeIfPresent(maxAvailableTemperature, forKey: .maxAvailableTemperature)
+		try container.encodeIfPresent(minAvailableTemperature, forKey: .minAvailableTemperature)
+		
+		try container.encodeIfPresent(outsideTemperature, forKey: .outsideTemperature)
+		
+		try container.encodeIfPresent(passengerTemperatureSetting, forKey: .passengerTemperatureSetting)
+		
+		try container.encodeIfPresent(rightTemperatureDirection, forKey: .rightTemperatureDirection)
+		
+		try container.encodeIfPresent(seatHeaterLeft, forKey: .seatHeaterLeft)
+		try container.encodeIfPresent(seatHeaterRearCenter, forKey: .seatHeaterRearCenter)
+		try container.encodeIfPresent(seatHeaterRearLeft, forKey: .seatHeaterRearLeft)
+
+		try container.encodeIfPresent(seatHeaterRearLeftBack, forKey: .seatHeaterRearLeftBack)
+		try container.encodeIfPresent(seatHeaterRearRight, forKey: .seatHeaterRearRight)
+		try container.encodeIfPresent(seatHeaterRearRightBack, forKey: .seatHeaterRearRightBack)
+		try container.encodeIfPresent(seatHeaterRight, forKey: .seatHeaterRight)
+		try container.encodeIfPresent(sideMirrorHeaters, forKey: .sideMirrorHeaters)
+		try container.encodeIfPresent(steeringWheelHeater, forKey: .steeringWheelHeater)
+		try container.encodeIfPresent(wiperBladeHeater, forKey: .wiperBladeHeater)
+		
+		try container.encodeIfPresent(smartPreconditioning, forKey: .smartPreconditioning)
+		
+		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
 	}
 }

@@ -59,5 +59,49 @@ open class DriveState: Codable {
 		case nativeType = "native_type"
 	}
 
+	required public init(from decoder: Decoder) throws {
+		
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+
+		
+		shiftState = try? container.decode(String.self, forKey: .shiftState)
+		
+		speed = try? container.decode(CLLocationSpeed.self, forKey: .speed)
+		latitude = try? container.decode(CLLocationDegrees.self, forKey: .latitude)
+		longitude = try? container.decode(CLLocationDegrees.self, forKey: .longitude)
+		heading = try? container.decode(CLLocationDirection.self, forKey: .heading)
+		nativeLatitude = try? container.decode(CLLocationDegrees.self, forKey: .nativeLatitude)
+		nativeLongitude = try? container.decode(CLLocationDegrees.self, forKey: .nativeLongitude)
+		nativeLocationSupportedBool = try? container.decode(Int.self, forKey: .nativeLocationSupportedBool)
+
+		nativeType = try? container.decode(String.self, forKey: .nativeType)
+		
+		date = try? container.decode(Date.self, forKey: .date)
+		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		power = try? container.decode(Int.self, forKey: .power)
+		
+	}
+	
+	public func encode(to encoder: Encoder) throws {
+		
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		
+		
+		try container.encodeIfPresent(shiftState, forKey: .shiftState)
+		
+		try container.encodeIfPresent(speed, forKey: .speed)
+		try container.encodeIfPresent(latitude, forKey: .latitude)
+		try container.encodeIfPresent(longitude, forKey: .longitude)
+		try container.encodeIfPresent(heading, forKey: .heading)
+		try container.encodeIfPresent(nativeLatitude, forKey: .nativeLatitude)
+		try container.encodeIfPresent(nativeLongitude, forKey: .nativeLongitude)
+		try container.encodeIfPresent(nativeLocationSupportedBool, forKey: .nativeLocationSupportedBool)
+
+		try container.encodeIfPresent(nativeType, forKey: .nativeType)
+		
+		try container.encodeIfPresent(date, forKey: .date)
+		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
+		try container.encodeIfPresent(power, forKey: .power)
+	}
 	
 }
