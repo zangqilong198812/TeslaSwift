@@ -1,5 +1,5 @@
 # TeslaSwift
-Swift library to access the Tesla Model S API based on [Unofficial Tesla Model S API](http://docs.timdorr.apiary.io/#)
+Swift library to access Tesla API based on [Tesla JSON API (Unofficial)](https://tesla-api.timdorr.com)
 
 [![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
