@@ -9,6 +9,7 @@
 import Foundation
 
 open class SoftwareUpdate: Codable {
+	
     open var status: String?
     open var expectedDuration: Int?
     open var scheduledTime: Double?
