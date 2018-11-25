@@ -59,6 +59,8 @@ open class VehicleState: Codable {
 			return false
 		}
 	}
+    
+    open var softwareUpdate: SoftwareUpdate?
 	
 	open var sunRoofPercentageOpen: Int? // null if not installed
 	open var sunRoofState: String?
@@ -109,6 +111,8 @@ open class VehicleState: Codable {
 		
 		case rearTrunkOpenInt			 = "rt"
 		
+        case softwareUpdate         = "software_update"
+
 		case sunRoofPercentageOpen	 = "sun_roof_percent_open"
 		case sunRoofState			 = "sun_roof_state"
 		
