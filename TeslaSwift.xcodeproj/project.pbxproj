@@ -79,6 +79,7 @@
 		CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */; };
 		CF4D4D0F1D81F46B00CCE6ED /* TeslaEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */; };
 		CF5D13A71CB41BAE00744DCC /* WakeUp.json in Resources */ = {isa = PBXBuildFile; fileRef = CF5D13A61CB41BAE00744DCC /* WakeUp.json */; };
+		CF5FF50E21AADC3E007B6306 /* NavigationRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */; };
 		CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */; };
 		CFA984E81CBD730500B23C7D /* ResetValetPin.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E71CBD730500B23C7D /* ResetValetPin.json */; };
 		CFA984EA1CBD739400B23C7D /* OpenChargeDoor.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E91CBD739400B23C7D /* OpenChargeDoor.json */; };
@@ -829,6 +830,7 @@
 			files = (
 				CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CF0D2F261D95A4A900E5A304 /* Authentication.swift in Sources */,
+				CF5FF50E21AADC3E007B6306 /* NavigationRequestOptions.swift in Sources */,
 				CF0D2F301D95A4A900E5A304 /* GenericResponse.swift in Sources */,
 				CFEAF13E1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
 				CF0D2F2E1D95A4A900E5A304 /* DriveState.swift in Sources */,
@@ -1080,6 +1082,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = TeslaSwiftTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = joao.TeslaSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1097,6 +1100,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = TeslaSwiftTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = joao.TeslaSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

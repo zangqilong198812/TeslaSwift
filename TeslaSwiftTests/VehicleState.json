@@ -1,11 +1,11 @@
 {
 	"response": {
-		"df": false,
-		"dr": false,
-		"pf": false,
-		"pr": false,
-		"ft": false,
-		"rt": false,
+		"df": 0,
+		"dr": 0,
+		"pf": 0,
+		"pr": 0,
+		"ft": 0,
+		"rt": 0,
 		"car_verson": "1.19.42",
 		"locked": true,
 		"sun_roof_installed": false,

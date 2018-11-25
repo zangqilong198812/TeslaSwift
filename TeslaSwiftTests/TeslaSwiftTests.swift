@@ -47,7 +47,7 @@ class TeslaSwiftTests: XCTestCase {
 		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass")
-			.then { (response) -> Void in
+			.done { (response) -> Void in
 				
 				XCTAssertEqual(response.accessToken, "abc123-mock")
 				expection.fulfill()
@@ -73,7 +73,7 @@ class TeslaSwiftTests: XCTestCase {
 		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass")
-			.then { (response) -> Void in
+			.done { (response) -> Void in
 				
 				XCTFail("Authentication must fail")
 				expection.fulfill()
@@ -98,10 +98,10 @@ class TeslaSwiftTests: XCTestCase {
 		service.useMockServer = true
 		
 		_ = service.authenticate(email: "user", password: "pass")
-			.then {
-				(_) -> Void in
+			.done {
+				(_) in
 				
-				service.checkToken().then { (response) -> Void in
+				service.checkToken().done { (response) in
 					
 					XCTAssertFalse(response)
 					expection.fulfill()
@@ -124,12 +124,12 @@ class TeslaSwiftTests: XCTestCase {
 		service.useMockServer = true
 		
 		_ = service.authenticate(email: "user", password: "pass")
-			.then {
+			.done {
 				(_) -> Void in
 				
 				service.token?.createdAt = Date()
 				
-				service.checkToken().then { (response) -> Void in
+				service.checkToken().done { (response) -> Void in
 					
 					XCTAssertTrue(response)
 					expection.fulfill()
@@ -154,11 +154,11 @@ class TeslaSwiftTests: XCTestCase {
 		service.useMockServer = true
 		
 		_ = service.authenticate(email: "user", password: "pass")
-			.then {
-				(_) -> Void in
+			.done {
+				(_) in
 				service.getVehicles()
-					.then {
-						(response) -> Void in
+					.done {
+						(response) in
 						
 						XCTAssertEqual(response[0].displayName, "mockCar")
 						
@@ -193,7 +193,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleMobileAccessState(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response, false)
 				
@@ -224,7 +224,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getAllData(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.userId, 1234)
 				XCTAssertEqual(response.chargeState?.chargingState, .Disconnected)
@@ -259,7 +259,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleChargeState(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.chargingState, .Complete)
 				XCTAssertEqual(response.ratedBatteryRange?.miles, 200.0)
@@ -292,7 +292,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleClimateState(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.insideTemperature?.celsius,18.0)
 				
@@ -323,7 +323,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleDriveState(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.position?.course,10.0)
 				
@@ -354,7 +354,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleGuiSettings(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.distanceUnits,"km/hr")
 				
@@ -385,7 +385,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.getVehicleState(vehicles[0])
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 			
 				XCTAssertEqual(response.locked, true)
 				
@@ -393,6 +393,7 @@ class TeslaSwiftTests: XCTestCase {
 			}.catch { (error) in
 				print(error)
 				XCTFail((error as NSError).description)
+				expection.fulfill()
 		}
 		
 		waitForExpectations(timeout: 2, handler: nil)
@@ -419,7 +420,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .wakeUp)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test wakeup")
@@ -450,7 +451,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles) in
 				service.sendCommandToVehicle(vehicles[0], command: .valetMode(valetActivated: true, pin: "1234"))
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test valet")
@@ -481,7 +482,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .resetValetPin)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test resetValet")
@@ -512,7 +513,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .openChargeDoor)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test open charge door")
@@ -543,7 +544,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitStandard)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test charge standard")
@@ -574,7 +575,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitMaxRange)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test charge max range")
@@ -605,7 +606,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .chargeLimitPercentage(limit: 10))
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test charge percentage")
@@ -636,7 +637,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .startCharging)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test start charging")
@@ -667,7 +668,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .stopCharging)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test stop charging")
@@ -698,7 +699,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .flashLights)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test FlashLights")
@@ -729,7 +730,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .honkHorn)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test HonkHorn")
@@ -760,7 +761,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .unlockDoors)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test UnlockDoors")
@@ -791,7 +792,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .lockDoors)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test LockDoors")
@@ -822,7 +823,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .setTemperature(driverTemperature: 22.0, passengerTemperature: 23.0))
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test SetTemperature")
@@ -853,7 +854,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .startAutoConditioning)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test StartAutoConditioning")
@@ -884,7 +885,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .stopAutoConditioning)
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test StopAutoConditioning")
@@ -913,9 +914,9 @@ class TeslaSwiftTests: XCTestCase {
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
-			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .setSunRoof(state: .Open, percentage: 20))
-			}.then { (response) -> Void in
+			}.then { (vehicles: [Vehicle])  in
+				service.sendCommandToVehicle(vehicles[0], command: .setSunRoof(state: .close, percentage: 20))
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test SetSunRoof")
@@ -946,7 +947,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles)  in
 				service.sendCommandToVehicle(vehicles[0], command: .startVehicle(password: "pass"))
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test StartVehicle")
@@ -962,7 +963,7 @@ class TeslaSwiftTests: XCTestCase {
 	
 	func testCommandOpenTrunk() {
 		
-		let options = OpenTrunkOptions.Rear
+		let options = OpenTrunkOptions.rear
 		
 		let stubPath = OHPathForFile("OpenTrunk.json", type(of: self))
 		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .openTrunk(options: options)).path)) {
@@ -979,7 +980,7 @@ class TeslaSwiftTests: XCTestCase {
 			service.getVehicles()
 			}.then { (vehicles) in
 				service.sendCommandToVehicle(vehicles[0], command: .openTrunk(options: options))
-			}.then { (response) -> Void in
+			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test OpenTrunk")
@@ -1009,7 +1010,7 @@ class TeslaSwiftTests: XCTestCase {
         
         service.authenticate(email: "user", password: "pass").then { (token) in
                 service.getVehicles()
-            }.then { (vehicles) in
+			}.done { (vehicles: [Vehicle]) in
 				service.openStream(vehicle: vehicles[0], dataReceived: {
 					(event: StreamEvent?, error: Error?) in
 					if event != nil {
