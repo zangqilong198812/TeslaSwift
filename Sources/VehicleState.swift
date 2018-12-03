@@ -29,13 +29,13 @@ open class VehicleState: Codable {
 	open var driverRearDoorOpen: Bool? { return driverRearDoorOpenBool == 1 }
 	
 	private var frontTrunkOpenInt: Int?
-    open var frontTrunkOpen: Bool? {
-        if let frontTrunkOpenInt = frontTrunkOpenInt {
-            return frontTrunkOpenInt > 0
-        } else {
-            return false
-        }
-    }
+	open var frontTrunkOpen: Bool? {
+		if let frontTrunkOpenInt = frontTrunkOpenInt {
+			return frontTrunkOpenInt > 0
+		} else {
+			return false
+ 		}
+    	}
 	
 	open var homelinkNearby: Bool?
 	
