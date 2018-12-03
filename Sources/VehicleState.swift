@@ -31,7 +31,7 @@ open class VehicleState: Codable {
 	private var frontTrunkOpenInt: Int?
     open var frontTrunkOpen: Bool? {
         if let frontTrunkOpenInt = frontTrunkOpenInt {
-            return rearTrunkOpenInt > 0
+            return frontTrunkOpenInt > 0
         } else {
             return false
         }
