@@ -93,7 +93,7 @@ class VehicleViewController: UIViewController {
 	}
 	@IBAction func command(_ sender: AnyObject) {
 		if let vehicle = vehicle {
-			_ = api.sendCommandToVehicle(vehicle, command: .lockDoors).done {
+			_ = api.sendCommandToVehicle(vehicle, command: .chargeLimitPercentage(limit: 90)).done {
 				(response:CommandResponse) -> Void in
 				self.textView.text = (response.result! ? "true" : "false")
 				if let reason = response.reason {
@@ -103,6 +103,14 @@ class VehicleViewController: UIViewController {
 		}
 	}
 	
+	@IBAction func wakeup(_ sender: Any) {
+		if let vehicle = vehicle {
+			_ = api.wakeUp(vehicle: vehicle).done {
+				(response:Vehicle) -> Void in
+				self.textView.text = response.state
+				}
+			}
+		}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)

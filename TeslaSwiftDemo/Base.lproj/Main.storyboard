@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Helvetica.ttc">
-            <string>Helvetica</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Login-->
         <scene sceneID="RLU-GX-AlX">
@@ -164,7 +158,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1iA-0c-01W">
-                                <rect key="frame" x="16" y="126" width="71" height="30"/>
+                                <rect key="frame" x="16" y="126" width="71.5" height="30"/>
                                 <state key="normal" title="Command"/>
                                 <connections>
                                     <action selector="command:" destination="hQa-7w-LXN" eventType="touchUpInside" id="ot1-Sv-VtE"/>
@@ -178,7 +172,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDa-tz-cjg">
-                                <rect key="frame" x="151" y="64" width="72" height="30"/>
+                                <rect key="frame" x="151.5" y="64" width="72" height="30"/>
                                 <state key="normal" title="Get temps"/>
                                 <connections>
                                     <action selector="getTemps:" destination="hQa-7w-LXN" eventType="touchUpInside" id="IRa-o0-Lij"/>
@@ -213,10 +207,17 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLA-89-uZU">
-                                <rect key="frame" x="112" y="126" width="49" height="30"/>
+                                <rect key="frame" x="112.5" y="126" width="49" height="30"/>
                                 <state key="normal" title="Stream"/>
                                 <connections>
                                     <segue destination="Tzz-ec-DsJ" kind="show" identifier="toStream" id="orP-Rk-jxS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugC-lm-CpD">
+                                <rect key="frame" x="215" y="126" width="62" height="30"/>
+                                <state key="normal" title="Wake Up"/>
+                                <connections>
+                                    <action selector="wakeup:" destination="hQa-7w-LXN" eventType="touchUpInside" id="zDL-BF-JfF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -229,7 +230,9 @@
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="leading" secondItem="zs8-Um-QL5" secondAttribute="leadingMargin" id="6yK-w5-77i"/>
                             <constraint firstItem="Xr7-QY-Fkr" firstAttribute="bottom" secondItem="dL3-Y4-FTE" secondAttribute="bottom" constant="20" id="87g-in-Fax"/>
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
+                            <constraint firstItem="ugC-lm-CpD" firstAttribute="bottom" secondItem="RLA-89-uZU" secondAttribute="bottom" id="GjJ-te-7to"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="100" id="Ifi-ov-SfX"/>
+                            <constraint firstItem="ugC-lm-CpD" firstAttribute="leading" secondItem="RLA-89-uZU" secondAttribute="trailing" constant="53.5" id="JJ2-l6-kNg"/>
                             <constraint firstItem="ySF-V2-hJS" firstAttribute="top" secondItem="xP4-ae-x7r" secondAttribute="bottom" constant="-1" id="XDi-tN-cHx"/>
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="leading" secondItem="dL3-Y4-FTE" secondAttribute="leading" id="YoO-4n-cSJ"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="dL3-Y4-FTE" secondAttribute="centerX" id="Zkk-J1-41o"/>
@@ -369,6 +372,7 @@
                     <tabBarItem key="tabBarItem" title="Vehicles" image="first" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0F0-t0-hZd">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

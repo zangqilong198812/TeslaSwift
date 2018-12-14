@@ -20,6 +20,7 @@ enum Endpoint {
 	case driveState(vehicleID: String)
 	case guiSettings(vehicleID: String)
 	case vehicleState(vehicleID: String)
+	case wakeUp(vehicleID: String)
 	case command(vehicleID: String, command:VehicleCommand)
 }
 
@@ -30,7 +31,7 @@ extension Endpoint {
 		case .authentication:
 			return "/oauth/token"
 		case .revoke:
-            		return "/oauth/revoke"
+			return "/oauth/revoke"
 		case .vehicles:
 			return "/api/1/vehicles"
 		case .mobileAccess(let vehicleID):
@@ -47,6 +48,8 @@ extension Endpoint {
 			return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
 		case .vehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
+		case .wakeUp(let vehicleID):
+			return "/api/1/vehicles/\(vehicleID)/wake_up"
 		case let .command(vehicleID, command):
 			return "/api/1/vehicles/\(vehicleID)/\(command.path())"
 		}
@@ -54,13 +57,13 @@ extension Endpoint {
 	
 	var method: String {
 		switch self {
-		case .authentication, .revoke, .command:
+		case .authentication, .revoke, .wakeUp, .command:
 			return "POST"
-		case .vehicles, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState:
+	case .vehicles, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState:
 			return "GET"
 		}
 	}
-    
+
     func baseURL(_ useMockServer: Bool) -> String {
         if useMockServer {
             let mockUrl = UserDefaults.standard.string(forKey: "mock_base_url")

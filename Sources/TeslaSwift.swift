@@ -16,7 +16,6 @@ public enum RoofState: String, Codable {
 }
 
 public enum VehicleCommand {
-	case wakeUp
 	case valetMode(valetActivated: Bool, pin: String?)
 	case resetValetPin
 	case openChargeDoor
@@ -48,8 +47,6 @@ public enum VehicleCommand {
 	
 	func path() -> String {
 		switch self {
-		case .wakeUp:
-			return "wake_up"
 		case .valetMode:
 			return "command/set_valet_mode"
 		case .resetValetPin:
@@ -405,6 +402,23 @@ extension TeslaSwift {
 		}
 	}
 	
+	public func wakeUp(vehicle: Vehicle) -> Promise<Vehicle> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<Response<Vehicle>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.wakeUp(vehicleID: vehicleID), body: nullBody)
+			
+			}.map(on: .global()) {
+				(data: Response<Vehicle>) -> Vehicle in
+				
+				data.response
+		}
+	}
+	
+	
 	/**
 	Sends a command to the vehicle
 	
@@ -576,7 +590,7 @@ extension TeslaSwift {
 		}
 		
 		logDebug("\nREQUEST: \(request)", debuggingEnabled: debuggingEnabled)
-		logDebug("METHOD: \(endpoint.method)", debuggingEnabled: debuggingEnabled)
+		logDebug("METHOD: \(request.httpMethod!)", debuggingEnabled: debuggingEnabled)
 		if let headers = request.allHTTPHeaderFields {
 			var headersString = "REQUEST HEADERS: [\n"
 			headers.forEach {(key: String, value: String) in
