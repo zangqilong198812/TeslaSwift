@@ -84,19 +84,19 @@ public enum VehicleCommand {
 		case .openTrunk:
 			return "command/actuate_trunk"
 		case .togglePlayback:
-		    	return "command/media_toggle_playback"
+			return "command/media_toggle_playback"
 		case .nextTrack:
-		    	return "command/media_next_track"
+			return "command/media_next_track"
 		case .previousTrack:
-		    	return "command/media_prev_track"
+			return "command/media_prev_track"
 		case .nextFavorite:
-		    	return "command/media_next_fav"
+			return "command/media_next_fav"
 		case .previousFavorite:
-		    	return "command/media_prev_fav"
+			return "command/media_prev_fav"
 		case .volumeUp:
-		    	return "command/media_volume_up"
+			return "command/media_volume_up"
 		case .volumeDown:
-		    	return "command/media_volume_down"
+			return "command/media_volume_down"
         case .navigationRequest:
             return "command/navigation_request"
         case .scheduleSoftwareUpdate:
