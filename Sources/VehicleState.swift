@@ -28,8 +28,14 @@ open class VehicleState: Codable {
 	private var driverRearDoorOpenBool: Int?
 	open var driverRearDoorOpen: Bool? { return driverRearDoorOpenBool == 1 }
 	
-	private var frontTrunkOpenBool: Int?
-	open var frontTrunkOpen: Bool? { return frontTrunkOpenBool == 1 }
+	private var frontTrunkOpenInt: Int?
+	open var frontTrunkOpen: Bool? {
+		if let frontTrunkOpenInt = frontTrunkOpenInt {
+			return frontTrunkOpenInt > 0
+		} else {
+			return false
+ 		}
+    	}
 	
 	open var homelinkNearby: Bool?
 	
@@ -89,7 +95,7 @@ open class VehicleState: Codable {
 		
 		case driverDoorOpenBool			 = "df"
 		case driverRearDoorOpenBool		 = "dr"
-		case frontTrunkOpenBool			 = "ft"
+		case frontTrunkOpenInt			 = "ft"
 		
 		case homelinkNearby			 = "homelink_nearby"
 		
@@ -144,7 +150,7 @@ open class VehicleState: Codable {
 		driverDoorOpenBool = try? container.decode(Int.self, forKey: .driverDoorOpenBool)
 		driverRearDoorOpenBool = try? container.decode(Int.self, forKey: .driverRearDoorOpenBool)
 		
-		frontTrunkOpenBool = try? container.decode(Int.self, forKey: .frontTrunkOpenBool)
+		frontTrunkOpenInt = try? container.decode(Int.self, forKey: .frontTrunkOpenInt)
 		
 		homelinkNearby = try? container.decode(Bool.self, forKey: .homelinkNearby)
 		
@@ -191,7 +197,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(centerDisplayStateBool, forKey: .centerDisplayStateBool)
 		try container.encodeIfPresent(driverDoorOpenBool, forKey: .driverDoorOpenBool)
 		try container.encodeIfPresent(driverRearDoorOpenBool, forKey: .driverRearDoorOpenBool)
-		try container.encodeIfPresent(frontTrunkOpenBool, forKey: .frontTrunkOpenBool)
+		try container.encodeIfPresent(frontTrunkOpenInt, forKey: .frontTrunkOpenInt)
 		try container.encodeIfPresent(homelinkNearby, forKey: .homelinkNearby)
 		try container.encodeIfPresent(lastAutoparkError, forKey: .lastAutoparkError)
 		try container.encodeIfPresent(locked, forKey: .locked)
