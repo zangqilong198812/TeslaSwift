@@ -32,6 +32,7 @@ open class VehicleState: Codable {
 	open var frontTrunkOpen: Bool? { return (frontTrunkOpenBool ?? 0) > 0 }
 	
 	open var homelinkNearby: Bool?
+	open var isUserPresent: Bool?
 	
 	open var lastAutoparkError: String?
 	
@@ -92,6 +93,7 @@ open class VehicleState: Codable {
 		case frontTrunkOpenBool			 = "ft"
 		
 		case homelinkNearby			 = "homelink_nearby"
+		case isUserPresent 			= "is_user_present"
 		
 		case lastAutoparkError		 = "last_autopark_error"
 		
@@ -116,7 +118,7 @@ open class VehicleState: Codable {
 		case sunRoofPercentageOpen	 = "sun_roof_percent_open"
 		case sunRoofState			 = "sun_roof_state"
 		
-		case timeStamp				= "timestamp"//, TeslaTimeStampTransform())
+		case timeStamp				= "timestamp"
 		
 		case valetMode				 = "valet_mode"
 		case valetPinNeeded			 = "valet_pin_needed"
@@ -147,6 +149,7 @@ open class VehicleState: Codable {
 		frontTrunkOpenBool = try? container.decode(Int.self, forKey: .frontTrunkOpenBool)
 		
 		homelinkNearby = try? container.decode(Bool.self, forKey: .homelinkNearby)
+		isUserPresent = try? container.decode(Bool.self, forKey: .isUserPresent)
 		
 		lastAutoparkError = try? container.decode(String.self, forKey: .lastAutoparkError)
 		
@@ -193,6 +196,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(driverRearDoorOpenBool, forKey: .driverRearDoorOpenBool)
 		try container.encodeIfPresent(frontTrunkOpenBool, forKey: .frontTrunkOpenBool)
 		try container.encodeIfPresent(homelinkNearby, forKey: .homelinkNearby)
+		try container.encodeIfPresent(isUserPresent, forKey: .isUserPresent)
 		try container.encodeIfPresent(lastAutoparkError, forKey: .lastAutoparkError)
 		try container.encodeIfPresent(locked, forKey: .locked)
 		try container.encodeIfPresent(notificationsSupported, forKey: .notificationsSupported)
