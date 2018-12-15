@@ -17,6 +17,7 @@ open class VehicleConfig: Codable {
 	open var chargePortType: String?
 	open var euVehicle: Bool?
 	open var exteriorColor: String?
+	open var hasAirSuspension: Bool?
 	open var hasLudicoursMode: Bool?
 	open var motorizedChargePort: Bool?
 	open var perfConfig: String?
@@ -43,6 +44,7 @@ open class VehicleConfig: Codable {
 		case chargePortType			= "charge_port_type"
 		case euVehicle			 = "eu_vehicle"
 		case exteriorColor		 = "exterior_color"
+		case hasAirSuspension 	= "has_air_suspension"
 		case hasLudicoursMode	 = "has_ludicrous_mode"
 		case motorizedChargePort  = "motorized_charge_port"
 		case perfConfig			 = "perf_config"
@@ -70,6 +72,7 @@ open class VehicleConfig: Codable {
 		carType = try? container.decode(String.self, forKey: .carType)
 		chargePortType = try? container.decode(String.self, forKey: .chargePortType)
 		euVehicle = try? container.decode(Bool.self, forKey: .euVehicle)
+		hasAirSuspension = try? container.decode(Bool.self, forKey: .hasAirSuspension)
 		exteriorColor = try? container.decode(String.self, forKey: .exteriorColor)
 		hasLudicoursMode = try? container.decode(Bool.self, forKey: .hasLudicoursMode)
 		motorizedChargePort = try? container.decode(Bool.self, forKey: .motorizedChargePort)
@@ -102,6 +105,7 @@ open class VehicleConfig: Codable {
 		try container.encodeIfPresent(chargePortType, forKey: .chargePortType)
 		try container.encodeIfPresent(euVehicle, forKey: .euVehicle)
 		try container.encodeIfPresent(exteriorColor, forKey: .exteriorColor)
+		try container.encodeIfPresent(hasAirSuspension, forKey: .hasAirSuspension)
 		try container.encodeIfPresent(hasLudicoursMode, forKey: .hasLudicoursMode)
 		try container.encodeIfPresent(motorizedChargePort, forKey: .motorizedChargePort)
 		try container.encodeIfPresent(perfConfig, forKey: .perfConfig)
