@@ -191,7 +191,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(centerDisplayStateBool, forKey: .centerDisplayStateBool)
 		try container.encodeIfPresent(driverDoorOpenBool, forKey: .driverDoorOpenBool)
 		try container.encodeIfPresent(driverRearDoorOpenBool, forKey: .driverRearDoorOpenBool)
-		try container.encodeIfPresent(frontTrunkOpenInt, forKey: .frontTrunkOpenBool)
+		try container.encodeIfPresent(frontTrunkOpenBool, forKey: .frontTrunkOpenBool)
 		try container.encodeIfPresent(homelinkNearby, forKey: .homelinkNearby)
 		try container.encodeIfPresent(lastAutoparkError, forKey: .lastAutoparkError)
 		try container.encodeIfPresent(locked, forKey: .locked)
