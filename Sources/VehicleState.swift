@@ -28,14 +28,8 @@ open class VehicleState: Codable {
 	private var driverRearDoorOpenBool: Int?
 	open var driverRearDoorOpen: Bool? { return driverRearDoorOpenBool == 1 }
 	
-	private var frontTrunkOpenInt: Int?
-	open var frontTrunkOpen: Bool? {
-		if let frontTrunkOpenInt = frontTrunkOpenInt {
-			return frontTrunkOpenInt > 0
-		} else {
-			return false
- 		}
-    	}
+	private var frontTrunkOpenBool: Int?
+	open var frontTrunkOpen: Bool? { return (frontTrunkOpenBool ?? 0) > 0 }
 	
 	open var homelinkNearby: Bool?
 	
@@ -95,7 +89,7 @@ open class VehicleState: Codable {
 		
 		case driverDoorOpenBool			 = "df"
 		case driverRearDoorOpenBool		 = "dr"
-		case frontTrunkOpenInt			 = "ft"
+		case frontTrunkOpenBool			 = "ft"
 		
 		case homelinkNearby			 = "homelink_nearby"
 		
@@ -150,7 +144,7 @@ open class VehicleState: Codable {
 		driverDoorOpenBool = try? container.decode(Int.self, forKey: .driverDoorOpenBool)
 		driverRearDoorOpenBool = try? container.decode(Int.self, forKey: .driverRearDoorOpenBool)
 		
-		frontTrunkOpenInt = try? container.decode(Int.self, forKey: .frontTrunkOpenInt)
+		frontTrunkOpenBool = try? container.decode(Int.self, forKey: .frontTrunkOpenBool)
 		
 		homelinkNearby = try? container.decode(Bool.self, forKey: .homelinkNearby)
 		
