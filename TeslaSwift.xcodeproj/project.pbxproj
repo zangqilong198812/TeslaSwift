@@ -76,6 +76,9 @@
 		CF26AA2B1C99D13B00090B20 /* ClimateSettings.json in Resources */ = {isa = PBXBuildFile; fileRef = CF26AA2A1C99D13B00090B20 /* ClimateSettings.json */; };
 		CF26AA2D1C99D14D00090B20 /* DriveState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF26AA2C1C99D14D00090B20 /* DriveState.json */; };
 		CF37B81D1C9B40200000E894 /* GuiSettings.json in Resources */ = {isa = PBXBuildFile; fileRef = CF37B81C1C9B40200000E894 /* GuiSettings.json */; };
+		CF3F851A21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */; };
+		CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */; };
+		CF3F851C21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */; };
 		CF48FA971C8B039F00B1DA93 /* TeslaSwift.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */; };
 		CF48FA991C8B08AC00B1DA93 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48FA981C8B08AC00B1DA93 /* TabController.swift */; };
 		CF48FA9B1C8B09C500B1DA93 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */; };
@@ -203,6 +206,7 @@
 		CF26AA2C1C99D14D00090B20 /* DriveState.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DriveState.json; sourceTree = "<group>"; };
 		CF30F95B1C8A2BC20067D3D9 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		CF37B81C1C9B40200000E894 /* GuiSettings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GuiSettings.json; sourceTree = "<group>"; };
+		CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLimitOptions.swift; sourceTree = "<group>"; };
 		CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TeslaSwift.podspec; sourceTree = "<group>"; };
 		CF48FA981C8B08AC00B1DA93 /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 				CF1BD5951DD5051600E4C493 /* SetTemperatureCommandOptions.swift */,
 				650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */,
 				7D161B9F1E9DC805001C89ED /* StreamEvent.swift */,
+				CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */,
 				CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */,
 				CF0D2F221D95A4A900E5A304 /* Vehicle.swift */,
 				CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */,
@@ -778,6 +783,7 @@
 				CF25069A1E4603CF00D0E08A /* ClimateState.swift in Sources */,
 				CF25069E1E4603CF00D0E08A /* GuiSettings.swift in Sources */,
 				CF2506A11E4603CF00D0E08A /* ChargeLimitPercentageCommandOptions.swift in Sources */,
+				CF3F851C21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
 				CF2506A01E4603CF00D0E08A /* ValetCommandOptions.swift in Sources */,
 				CF25068C1E46034800D0E08A /* ViewController.swift in Sources */,
 				CF25069F1E4603CF00D0E08A /* OpenTrunkOptions.swift in Sources */,
@@ -833,6 +839,7 @@
 				CF1BD59C1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */,
 				CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */,
+				CF3F851A21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
 				CFEAF1411EB505D40003FA6E /* HTTPEventStreaming.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -867,6 +874,7 @@
 				CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
+				CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
 				650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
 				CFB5D7B81E66088F003EA1EF /* ErrorMessage.swift in Sources */,
 				CF4D4D0F1D81F46B00CCE6ED /* TeslaEndpoint.swift in Sources */,
