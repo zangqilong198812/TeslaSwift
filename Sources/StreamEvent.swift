@@ -12,7 +12,7 @@ import CoreLocation
 
 open class StreamEvent: Codable {
 	
-    open var timestamp: TimeInterval?
+    open var timestamp: Double?
     open var speed: CLLocationSpeed? // mph
     open var odometer: Distance? // miles
     open var soc: Int?

@@ -31,7 +31,7 @@ open class VehicleConfig: Codable {
 	open var spoilerType: String?
 	open var sunRoofInstalled: Int?
 	open var thirdRowSeats: String?
-	open var timeStamp: TimeInterval?
+	open var timeStamp: Double?
 	open var trimBadging: String?
 	open var wheelType: String?
 
@@ -88,7 +88,7 @@ open class VehicleConfig: Codable {
 		spoilerType = try? container.decode(String.self, forKey: .spoilerType)
 		sunRoofInstalled = try? container.decode(Int.self, forKey: .sunRoofInstalled)
 		thirdRowSeats = try? container.decode(String.self, forKey: .thirdRowSeats)
-		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
 		trimBadging = try? container.decode(String.self, forKey: .trimBadging)
 		wheelType = try? container.decode(String.self, forKey: .wheelType)
 		

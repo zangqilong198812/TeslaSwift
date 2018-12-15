@@ -114,7 +114,7 @@ open class ChargeState: Codable {
 	Only valid while charging
 	*/
 	open var timeToFullCharge: Double?
-	open var timeStamp: Date?
+	open var timeStamp: Double?
 	
 	open var tripCharging: Bool?
 	
@@ -178,7 +178,7 @@ open class ChargeState: Codable {
 		
 		case timeToFullCharge             = "time_to_full_charge"
 		
-		case timeStamp					= "timestamp"//, TeslaTimeStampTransform())
+		case timeStamp					= "timestamp"
 		
 		case tripCharging				 = "trip_charging"
 		
@@ -257,7 +257,7 @@ open class ChargeState: Codable {
 		
 
 		timeToFullCharge = try? container.decode(Double.self, forKey: .timeToFullCharge)
-		timeStamp = try? container.decode(Date.self, forKey: .timeStamp)
+		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
 		
 		tripCharging = try? container.decode(Bool.self, forKey: .tripCharging)
 		

@@ -124,7 +124,7 @@ open class VehicleState: Codable {
 	open var sunRoofPercentageOpen: Int? // null if not installed
 	open var sunRoofState: String?
 	
-	open var timeStamp: TimeInterval?
+	open var timeStamp: Double?
 	
 	open var valetMode: Bool?
 	open var valetPinNeeded: Bool?
@@ -235,7 +235,7 @@ open class VehicleState: Codable {
 		sunRoofPercentageOpen = try? container.decode(Int.self, forKey: .sunRoofPercentageOpen)
 		sunRoofState = try? container.decode(String.self, forKey: .sunRoofState)
 		
-		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
 		
 		valetMode = try? container.decode(Bool.self, forKey: .valetMode)
 		valetPinNeeded = try? container.decode(Bool.self, forKey: .valetPinNeeded)

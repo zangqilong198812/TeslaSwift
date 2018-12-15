@@ -24,7 +24,7 @@ open class DriveState: Codable {
 	open var nativeType: String?
 	
 	open var date: Date?
-	open var timeStamp: TimeInterval?
+	open var timeStamp: Double?
 	open var power: Int?
 	
 	
@@ -77,7 +77,7 @@ open class DriveState: Codable {
 		nativeType = try? container.decode(String.self, forKey: .nativeType)
 		
 		date = try? container.decode(Date.self, forKey: .date)
-		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
 		power = try? container.decode(Int.self, forKey: .power)
 		
 	}

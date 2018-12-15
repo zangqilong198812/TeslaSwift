@@ -15,7 +15,7 @@ open class GuiSettings: Codable {
 	open var chargeRateUnits: String?
 	open var time24Hours: Bool?
 	open var rangeDisplay: String?
-	open var timeStamp: TimeInterval?
+	open var timeStamp: Double?
 	
 	
 	enum CodingKeys: String, CodingKey {
@@ -35,7 +35,7 @@ open class GuiSettings: Codable {
 		chargeRateUnits = try? container.decode(String.self, forKey: .chargeRateUnits)
 		time24Hours = try? container.decode(Bool.self, forKey: .time24Hours)
 		rangeDisplay = try? container.decode(String.self, forKey: .rangeDisplay)
-		timeStamp = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
 		
 	}
 	

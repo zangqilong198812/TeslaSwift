@@ -89,7 +89,7 @@ open class ClimateState: Codable {
 	
 	open var smartPreconditioning: Bool?
 	
-	open var timeStamp: TimeInterval?
+	open var timeStamp: Double?
 	
 	enum CodingKeys: String, CodingKey {
 		
@@ -186,7 +186,7 @@ open class ClimateState: Codable {
 		
 		smartPreconditioning  = try? container.decode(Bool.self, forKey: .smartPreconditioning)
 		
-		timeStamp  = try? container.decode(TimeInterval.self, forKey: .timeStamp)
+		timeStamp  = try? container.decode(Double.self, forKey: .timeStamp)
 		
 	}
 	
