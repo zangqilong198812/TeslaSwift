@@ -21,7 +21,7 @@ public struct Distance: Codable {
 	
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.singleValueContainer()
-		if let tempValue = try container.decode(Double?.self) {
+		if let tempValue = try? container.decode(Double.self) {
 			value = Measurement(value: tempValue, unit: UnitLength.miles)
 		} else {
 			value = Measurement(value: 0, unit: UnitLength.miles)
