@@ -10,6 +10,7 @@ import Foundation
 
 open class VehicleConfig: Codable {
 	
+	open var canAcceptNavigationRequests: Bool?
 	open var canActuateTrunks: Bool?
 	open var carSpecialType: String?
 	open var carType: String?
@@ -35,6 +36,7 @@ open class VehicleConfig: Codable {
 
 	enum CodingKeys: String, CodingKey {
 		
+		case canAcceptNavigationRequests = "can_accept_navigation_requests"
 		case canActuateTrunks	= "can_actuate_trunks"
 		case carSpecialType		 = "car_special_type"
 		case carType				 = "car_type"
@@ -62,6 +64,7 @@ open class VehicleConfig: Codable {
 		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		
+		canAcceptNavigationRequests = try? container.decode(Bool.self, forKey: .canAcceptNavigationRequests)
 		canActuateTrunks = try? container.decode(Bool.self, forKey: .canActuateTrunks)
 		carSpecialType = try? container.decode(String.self, forKey: .carSpecialType)
 		carType = try? container.decode(String.self, forKey: .carType)
@@ -92,6 +95,7 @@ open class VehicleConfig: Codable {
 		
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		
+		try container.encodeIfPresent(canAcceptNavigationRequests, forKey: .canAcceptNavigationRequests)
 		try container.encodeIfPresent(canActuateTrunks, forKey: .canActuateTrunks)
 		try container.encodeIfPresent(carSpecialType, forKey: .carSpecialType)
 		try container.encodeIfPresent(carType, forKey: .carType)
