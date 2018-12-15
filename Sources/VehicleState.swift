@@ -18,6 +18,53 @@ open class VehicleState: Codable {
 		}
 	}
 	
+	open class SpeedLimitMode: Codable {
+		open var active: Bool?
+		open var currentLimit: Measurement<UnitSpeed>?
+		open var maxLimit: Measurement<UnitSpeed>?
+		open var minLimit: Measurement<UnitSpeed>?
+		open var pinCodeSet: Bool?
+		
+		enum CodingKeys: String, CodingKey {
+			case active = "active"
+			case currentLimit = "current_limit_mph"
+			case maxLimit = "max_limit_mph"
+			case minLimit = "min_limit_mph"
+			case pinCodeSet = "pin_code_set"
+		}
+		
+		required public init(from decoder: Decoder) throws {
+			
+			func milesDecoder(container: KeyedDecodingContainer<VehicleState.SpeedLimitMode.CodingKeys>, key: CodingKeys) -> Measurement<UnitSpeed>? {
+				if let value = try? container.decode(Double.self, forKey: key) {
+					return Measurement<UnitSpeed>(value: value, unit: UnitSpeed.milesPerHour)
+				}
+				return nil
+			}
+			
+			let container = try decoder.container(keyedBy: CodingKeys.self)
+			
+			active = try? container.decode(Bool.self, forKey: .active)
+			currentLimit = milesDecoder(container: container, key: .currentLimit)
+			maxLimit = milesDecoder(container: container, key: .maxLimit)
+			minLimit = milesDecoder(container: container, key: .minLimit)
+			pinCodeSet = try? container.decode(Bool.self, forKey: .pinCodeSet)
+		}
+		
+		public func encode(to encoder: Encoder) throws {
+			
+			var container = encoder.container(keyedBy: CodingKeys.self)
+			
+			try container.encodeIfPresent(active, forKey: .active)
+			try container.encodeIfPresent(currentLimit?.value, forKey: .currentLimit)
+			try container.encodeIfPresent(maxLimit?.value, forKey: .maxLimit)
+			try container.encodeIfPresent(minLimit?.value, forKey: .minLimit)
+			try container.encodeIfPresent(pinCodeSet, forKey: .pinCodeSet)
+			
+		}
+		
+	}
+	
 	open var apiVersion: Int?
 	
 	open var autoparkState: String?
@@ -72,6 +119,7 @@ open class VehicleState: Codable {
 	}
     
     open var softwareUpdate: SoftwareUpdate?
+	open var speedLimitMode: SpeedLimitMode?
 	
 	open var sunRoofPercentageOpen: Int? // null if not installed
 	open var sunRoofState: String?
@@ -125,6 +173,7 @@ open class VehicleState: Codable {
 		case rearTrunkOpenInt			 = "rt"
 		
         case softwareUpdate         = "software_update"
+		case speedLimitMode 		= "speed_limit_mode"
 
 		case sunRoofPercentageOpen	 = "sun_roof_percent_open"
 		case sunRoofState			 = "sun_roof_state"
@@ -182,6 +231,7 @@ open class VehicleState: Codable {
 		rearTrunkOpenInt = try? container.decode(Int.self, forKey: .rearTrunkOpenInt)
 
 		softwareUpdate = try? container.decode(SoftwareUpdate.self, forKey: .softwareUpdate)
+		speedLimitMode = try? container.decode(SpeedLimitMode.self, forKey: .speedLimitMode)
 		sunRoofPercentageOpen = try? container.decode(Int.self, forKey: .sunRoofPercentageOpen)
 		sunRoofState = try? container.decode(String.self, forKey: .sunRoofState)
 		
@@ -221,6 +271,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(remoteStartSupported, forKey: .remoteStartSupported)
 		try container.encodeIfPresent(rearTrunkOpenInt, forKey: .rearTrunkOpenInt)
 		try container.encodeIfPresent(softwareUpdate, forKey: .softwareUpdate)
+		try container.encodeIfPresent(speedLimitMode, forKey: .speedLimitMode)
 		try container.encodeIfPresent(sunRoofPercentageOpen, forKey: .sunRoofPercentageOpen)
 		try container.encodeIfPresent(sunRoofState, forKey: .sunRoofState)
 		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
