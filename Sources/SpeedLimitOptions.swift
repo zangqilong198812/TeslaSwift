@@ -16,6 +16,10 @@ open class SetSpeedLimitOptions: Codable {
 		case limit = "limit_mph"
 	}
 	
+	public init(limit: Measurement<UnitSpeed>) {
+		self.limit = limit.converted(to: UnitSpeed.milesPerHour)
+	}
+	
 	required public init(from decoder: Decoder) throws {
 		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -38,7 +42,11 @@ open class SetSpeedLimitOptions: Codable {
 
 open class SpeedLimitPinOptions: Codable {
 	
-	open var pin: Int
+	open var pin: String // 4 digits pin
+	
+	public init(pin: String) {
+		self.pin = pin
+	}
 	
 	enum CodingKeys: String, CodingKey {
 		case pin

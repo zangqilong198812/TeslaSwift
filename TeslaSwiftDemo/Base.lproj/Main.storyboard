@@ -231,7 +231,7 @@
                                 <rect key="frame" x="290" y="126" width="78" height="30"/>
                                 <state key="normal" title="SpeedLimit"/>
                                 <connections>
-                                    <action selector="command:" destination="hQa-7w-LXN" eventType="touchUpInside" id="rGv-Rf-0Ge"/>
+                                    <action selector="speedLimit:" destination="hQa-7w-LXN" eventType="touchUpInside" id="yMW-Mt-XyZ"/>
                                 </connections>
                             </button>
                         </subviews>

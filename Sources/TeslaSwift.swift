@@ -44,10 +44,10 @@ public enum VehicleCommand {
     case navigationRequest(options: NavigationRequestOptions)
     case cancelSoftwareUpdate
     case scheduleSoftwareUpdate
-	case speedLimitSetLimit(options: SetSpeedLimitOptions)
-	case speedLimitActivate(options: SpeedLimitPinOptions)
-	case speedLimitDeactivate(options: SpeedLimitPinOptions)
-	case speedLimitClearPin(options: SpeedLimitPinOptions)
+	case speedLimitSetLimit(speed: Measurement<UnitSpeed>)
+	case speedLimitActivate(pin: String)
+	case speedLimitDeactivate(pin: String)
+	case speedLimitClearPin(pin: String)
 	
 	func path() -> String {
 		switch self {
@@ -491,17 +491,17 @@ extension TeslaSwift {
 				case let .startVehicle(password):
 					let body = RemoteStartDriveCommandOptions(password: password)
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
-				case let .speedLimitSetLimit(options):
-					let body = options
+				case let .speedLimitSetLimit(speed):
+					let body = SetSpeedLimitOptions(limit: speed)
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
 				case let .speedLimitActivate(pin):
-					let body = pin
+					let body = SpeedLimitPinOptions(pin: pin)
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
 				case let .speedLimitDeactivate(pin):
-					let body = pin
+					let body = SpeedLimitPinOptions(pin: pin)
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
 				case let .speedLimitClearPin(pin):
-					let body = pin
+					let body = SpeedLimitPinOptions(pin: pin)
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
 				default:
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: nullBody)

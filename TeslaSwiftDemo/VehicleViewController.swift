@@ -121,6 +121,22 @@ class VehicleViewController: UIViewController {
 			}
 		}
 	
+	
+	@IBAction func speedLimit(_ sender: Any) {
+		
+		if let vehicle = vehicle {
+			_ = api.sendCommandToVehicle(vehicle, command: .speedLimitClearPin(pin: "1234")).done {
+				(response:CommandResponse) -> Void in
+				
+				self.textView.text = (response.result! ? "true" : "false")
+				if let reason = response.reason {
+					self.textView.text.append(reason)
+				}
+			}
+		}
+		
+	}
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)
 		
