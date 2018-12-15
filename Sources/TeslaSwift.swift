@@ -414,6 +414,32 @@ extension TeslaSwift {
 		}
 	}
 	
+	/**
+	Fetchs the vehicle config
+	
+	- returns: A Promise with vehicle config
+	*/
+	public func getVehicleConfig(_ vehicle: Vehicle) -> Promise<VehicleConfig> {
+		
+		return checkAuthentication().then(on: .global()) {
+			(token) -> Promise<Response<VehicleConfig>> in
+			
+			let vehicleID = vehicle.id!
+			
+			return self.request(.vehicleConfig(vehicleID: vehicleID), body: nullBody)
+			
+			}.map(on: .global()) {
+				(data: Response<VehicleConfig>) -> VehicleConfig in
+				
+				data.response
+		}
+	}
+	
+	/**
+	Wakes up the vehicle
+	
+	- returns: A Promise with the current Vehicle
+	*/
 	public func wakeUp(vehicle: Vehicle) -> Promise<Vehicle> {
 		
 		return checkAuthentication().then(on: .global()) {

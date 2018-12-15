@@ -199,6 +199,13 @@
                                     <action selector="getVehicleState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="l7O-Ay-bFQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NiR-K7-WLA">
+                                <rect key="frame" x="296" y="101" width="72" height="30"/>
+                                <state key="normal" title="Get config"/>
+                                <connections>
+                                    <action selector="getConfig:" destination="hQa-7w-LXN" eventType="touchUpInside" id="WOY-dB-XV8"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySF-V2-hJS">
                                 <rect key="frame" x="266" y="93" width="30" height="38"/>
                                 <state key="normal" title="all"/>
@@ -220,6 +227,13 @@
                                     <action selector="wakeup:" destination="hQa-7w-LXN" eventType="touchUpInside" id="zDL-BF-JfF"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZeE-wh-PNs">
+                                <rect key="frame" x="290" y="126" width="78" height="30"/>
+                                <state key="normal" title="SpeedLimit"/>
+                                <connections>
+                                    <action selector="command:" destination="hQa-7w-LXN" eventType="touchUpInside" id="rGv-Rf-0Ge"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -232,13 +246,17 @@
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
                             <constraint firstItem="ugC-lm-CpD" firstAttribute="bottom" secondItem="RLA-89-uZU" secondAttribute="bottom" id="GjJ-te-7to"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="100" id="Ifi-ov-SfX"/>
+                            <constraint firstItem="NiR-K7-WLA" firstAttribute="bottom" secondItem="ySF-V2-hJS" secondAttribute="bottom" id="JIz-DV-zDK"/>
                             <constraint firstItem="ugC-lm-CpD" firstAttribute="leading" secondItem="RLA-89-uZU" secondAttribute="trailing" constant="53.5" id="JJ2-l6-kNg"/>
+                            <constraint firstItem="ZeE-wh-PNs" firstAttribute="leading" secondItem="ugC-lm-CpD" secondAttribute="trailing" constant="13" id="Kwq-qr-Dmc"/>
                             <constraint firstItem="ySF-V2-hJS" firstAttribute="top" secondItem="xP4-ae-x7r" secondAttribute="bottom" constant="-1" id="XDi-tN-cHx"/>
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="leading" secondItem="dL3-Y4-FTE" secondAttribute="leading" id="YoO-4n-cSJ"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="dL3-Y4-FTE" secondAttribute="centerX" id="Zkk-J1-41o"/>
                             <constraint firstItem="RLA-89-uZU" firstAttribute="top" secondItem="V2I-wH-VVW" secondAttribute="bottom" constant="32" id="Zx1-iu-YAb"/>
-                            <constraint firstItem="V2I-wH-VVW" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="8" symbolic="YES" id="dCk-o2-SJo"/>
+                            <constraint firstItem="V2I-wH-VVW" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" symbolic="YES" id="dCk-o2-SJo"/>
+                            <constraint firstItem="ZeE-wh-PNs" firstAttribute="bottom" secondItem="ugC-lm-CpD" secondAttribute="bottom" id="eN9-LA-BOX"/>
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="baseline" secondItem="qDa-tz-cjg" secondAttribute="baseline" id="ebx-82-gQY"/>
+                            <constraint firstItem="NiR-K7-WLA" firstAttribute="leading" secondItem="ySF-V2-hJS" secondAttribute="trailing" id="ggc-Bj-VOo"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="leading" id="kcW-Yd-VGP"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="37" id="pww-bt-4nh"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>

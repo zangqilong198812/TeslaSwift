@@ -88,9 +88,18 @@ class VehicleViewController: UIViewController {
 				extendedVehicle.jsonString!
 			}
 		}
-		
-		
 	}
+	
+	
+	@IBAction func getConfig(_ sender: Any) {
+		if let vehicle = vehicle {
+			_ = api.getVehicleConfig(vehicle).done { (config: VehicleConfig) in
+				self.textView.text = "All data:\n" +
+					config.jsonString!
+			}
+		}
+	}
+	
 	@IBAction func command(_ sender: AnyObject) {
 		if let vehicle = vehicle {
 			_ = api.sendCommandToVehicle(vehicle, command: .chargeLimitPercentage(limit: 90)).done {
