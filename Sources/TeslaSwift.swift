@@ -35,12 +35,12 @@ public enum VehicleCommand {
 	case startVehicle(password:String)
 	case openTrunk(options:OpenTrunkOptions)
 	case togglePlayback
-    	case nextTrack
-    	case previousTrack
-    	case nextFavorite
-    	case previousFavorite
-    	case volumeUp
-    	case volumeDown
+	case nextTrack
+	case previousTrack
+	case nextFavorite
+	case previousFavorite
+	case volumeUp
+	case volumeDown
     case navigationRequest(options:NavigationRequestOptions)
     case cancelSoftwareUpdate
     case scheduleSoftwareUpdate

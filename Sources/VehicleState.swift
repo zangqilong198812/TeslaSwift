@@ -10,6 +10,14 @@ import Foundation
 
 open class VehicleState: Codable {
 	
+	open class MediaState: Codable {
+		open var remoteControlEnabled: Bool?
+		
+		enum CodingKeys: String, CodingKey {
+			case remoteControlEnabled = "remote_control_enabled"
+		}
+	}
+	
 	open var apiVersion: Int?
 	
 	open var autoparkState: String?
@@ -37,6 +45,8 @@ open class VehicleState: Codable {
 	open var lastAutoparkError: String?
 	
 	open var locked: Bool?
+	
+	open var mediaState: MediaState?
 	
 	open var notificationsSupported: Bool?
 	
@@ -98,6 +108,7 @@ open class VehicleState: Codable {
 		case lastAutoparkError		 = "last_autopark_error"
 		
 		case locked					 = "locked"
+		case mediaState				= "media_state"
 		
 		case notificationsSupported	 = "notifications_supported"
 		
@@ -154,6 +165,7 @@ open class VehicleState: Codable {
 		lastAutoparkError = try? container.decode(String.self, forKey: .lastAutoparkError)
 		
 		locked = try? container.decode(Bool.self, forKey: .locked)
+		mediaState = try? container.decode(MediaState.self, forKey: .mediaState)
 		
 		notificationsSupported = try? container.decode(Bool.self, forKey: .notificationsSupported)
 		
@@ -199,6 +211,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(isUserPresent, forKey: .isUserPresent)
 		try container.encodeIfPresent(lastAutoparkError, forKey: .lastAutoparkError)
 		try container.encodeIfPresent(locked, forKey: .locked)
+		try container.encodeIfPresent(mediaState, forKey: .mediaState)
 		try container.encodeIfPresent(notificationsSupported, forKey: .notificationsSupported)
 		try container.encodeIfPresent(odometer, forKey: .odometer)
 		try container.encodeIfPresent(parsedCalendarSupported, forKey: .parsedCalendarSupported)
