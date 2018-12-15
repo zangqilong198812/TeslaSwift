@@ -399,14 +399,44 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
-
-
-	// MARK:  - Commands -
 	
+	func testGetVehicleConfig() {
+		
+		let stubPath6 = OHPathForFile("VehicleConfig.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.vehicleConfig(vehicleID: "321").path)) {
+			_ in
+			return fixture(filePath: stubPath6!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles)  in
+				service.getVehicleConfig(vehicles[0])
+			}.done { (response) -> Void in
+				
+				XCTAssertEqual(response.canAcceptNavigationRequests, true)
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+				expection.fulfill()
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+		
+	}
+
+	// MARK:  - Wake Up -
 	func testCommandWakeUp() {
 		
 		let stubPath = OHPathForFile("WakeUp.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .wakeUp).path)) {
+		_ = stub(condition: isPath(Endpoint.wakeUp(vehicleID: "321").path)) {
 			_ in
 			return fixture(filePath: stubPath!, headers: self.headers)
 		}
@@ -419,11 +449,10 @@ class TeslaSwiftTests: XCTestCase {
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
 			}.then { (vehicles)  in
-				service.sendCommandToVehicle(vehicles[0], command: .wakeUp)
+				service.wakeUp(vehicle: vehicles[0])
 			}.done { (response) -> Void in
 				
-				XCTAssertEqual(response.result, false)
-				XCTAssertEqual(response.reason, "Test wakeup")
+				XCTAssertEqual(response.displayName, "mockCar")
 				
 				expection.fulfill()
 			}.catch { (error) in
@@ -433,6 +462,9 @@ class TeslaSwiftTests: XCTestCase {
 		
 		waitForExpectations(timeout: 2, handler: nil)
 	}
+	
+	
+	// MARK:  - Commands -
 	
 	func testCommandValetMode() {
 
@@ -984,6 +1016,132 @@ class TeslaSwiftTests: XCTestCase {
 				
 				XCTAssertEqual(response.result, false)
 				XCTAssertEqual(response.reason, "Test OpenTrunk")
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+	}
+	
+	func testCommandSpeedLimitSetSpeed() {
+		
+		let options = Measurement<UnitSpeed>(value: 100, unit: UnitSpeed.milesPerHour)
+		
+		let stubPath = OHPathForFile("SetSpeedLimit.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .speedLimitSetLimit(speed: options)).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles) in
+				service.sendCommandToVehicle(vehicles[0], command: .speedLimitSetLimit(speed: options))
+			}.done { (response) -> Void in
+				
+				XCTAssertEqual(response.result, true)
+				XCTAssertEqual(response.reason, "Test Set SpeedLimit")
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+	}
+	
+	func testCommandSpeedLimitActivate() {
+		
+		let stubPath = OHPathForFile("SpeedLimitPin.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .speedLimitActivate(pin: "1234")).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles) in
+				service.sendCommandToVehicle(vehicles[0], command: .speedLimitActivate(pin: "1234"))
+			}.done { (response) -> Void in
+				
+				XCTAssertEqual(response.result, true)
+				XCTAssertEqual(response.reason, "Test Set SpeedLimit Pin")
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+	}
+	
+	func testCommandSpeedLimitDeactivate() {
+		
+		let stubPath = OHPathForFile("SpeedLimitPin.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .speedLimitDeactivate(pin: "1234")).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles) in
+				service.sendCommandToVehicle(vehicles[0], command: .speedLimitDeactivate(pin: "1234"))
+			}.done { (response) -> Void in
+				
+				XCTAssertEqual(response.result, true)
+				XCTAssertEqual(response.reason, "Test Set SpeedLimit Pin")
+				
+				expection.fulfill()
+			}.catch { (error) in
+				print(error)
+				XCTFail((error as NSError).description)
+		}
+		
+		waitForExpectations(timeout: 2, handler: nil)
+	}
+	
+	func testCommandSpeedLimitClearPin() {
+		
+		let stubPath = OHPathForFile("SpeedLimitPin.json", type(of: self))
+		_ = stub(condition: isPath(Endpoint.command(vehicleID: "321", command: .speedLimitClearPin(pin: "1234")).path)) {
+			_ in
+			return fixture(filePath: stubPath!, headers: self.headers)
+		}
+		
+		let expection = expectation(description: "All Done")
+		
+		let service = TeslaSwift()
+		service.useMockServer = true
+		
+		service.authenticate(email: "user", password: "pass").then { (token) in
+			service.getVehicles()
+			}.then { (vehicles) in
+				service.sendCommandToVehicle(vehicles[0], command: .speedLimitClearPin(pin: "1234"))
+			}.done { (response) -> Void in
+				
+				XCTAssertEqual(response.result, true)
+				XCTAssertEqual(response.reason, "Test Set SpeedLimit Pin")
 				
 				expection.fulfill()
 			}.catch { (error) in

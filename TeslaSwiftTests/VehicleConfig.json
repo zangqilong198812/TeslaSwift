@@ -1,0 +1,23 @@
+{
+	"response": {
+		"can_accept_navigation_requests": true,
+		"car_special_type": "base",
+		"car_type": "s",
+		"eu_vehicle": true,
+		"exterior_color": "Blue",
+		"has_ludicrous_mode": false,
+		"motorized_charge_port": false,
+		"perf_config": "P1",
+		"rear_seat_heaters": 1,
+		"rear_seat_type": 0,
+		"rhd": false,
+		"roof_color": "None",
+		"seat_type": 0,
+		"spoiler_type": "None",
+		"sun_roof_installed": 1,
+		"third_row_seats": "None",
+		"timestamp": 1488311473475,
+		"trim_badging": "85",
+		"wheel_type": "Base19"
+	}
+}

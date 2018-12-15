@@ -79,6 +79,9 @@
 		CF3F851A21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */; };
 		CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */; };
 		CF3F851C21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */; };
+		CF3F851E21C52B0B0086B564 /* VehicleConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3F851D21C52B0B0086B564 /* VehicleConfig.json */; };
+		CF3F852021C52BD60086B564 /* SetSpeedLimit.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */; };
+		CF3F852221C52C650086B564 /* SpeedLimitPin.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3F852121C52C650086B564 /* SpeedLimitPin.json */; };
 		CF48FA971C8B039F00B1DA93 /* TeslaSwift.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */; };
 		CF48FA991C8B08AC00B1DA93 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48FA981C8B08AC00B1DA93 /* TabController.swift */; };
 		CF48FA9B1C8B09C500B1DA93 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */; };
@@ -207,6 +210,9 @@
 		CF30F95B1C8A2BC20067D3D9 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		CF37B81C1C9B40200000E894 /* GuiSettings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GuiSettings.json; sourceTree = "<group>"; };
 		CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLimitOptions.swift; sourceTree = "<group>"; };
+		CF3F851D21C52B0B0086B564 /* VehicleConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleConfig.json; sourceTree = "<group>"; };
+		CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetSpeedLimit.json; sourceTree = "<group>"; };
+		CF3F852121C52C650086B564 /* SpeedLimitPin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SpeedLimitPin.json; sourceTree = "<group>"; };
 		CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TeslaSwift.podspec; sourceTree = "<group>"; };
 		CF48FA981C8B08AC00B1DA93 /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -368,6 +374,7 @@
 				CF26AA2C1C99D14D00090B20 /* DriveState.json */,
 				CF37B81C1C9B40200000E894 /* GuiSettings.json */,
 				CF01EA661C9EC1950064B2B5 /* VehicleState.json */,
+				CF3F851D21C52B0B0086B564 /* VehicleConfig.json */,
 				CF5D13A61CB41BAE00744DCC /* WakeUp.json */,
 				CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */,
 				CFA984E71CBD730500B23C7D /* ResetValetPin.json */,
@@ -387,6 +394,8 @@
 				CFA985091CC2691500B23C7D /* SetSunRoof.json */,
 				CFA9850B1CC269B000B23C7D /* StartVehicle.json */,
 				CFA985101CC26BA000B23C7D /* OpenTrunk.json */,
+				CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */,
+				CF3F852121C52C650086B564 /* SpeedLimitPin.json */,
 				CFEAF1441EB52A160003FA6E /* StreamingData.txt */,
 			);
 			name = Recorded;
@@ -637,13 +646,16 @@
 				CF26AA231C99CE8400090B20 /* Authentication.json in Resources */,
 				CF26AA291C99D12700090B20 /* ChargeState.json in Resources */,
 				CFA984EC1CBD74B500B23C7D /* ChargeLimitStandard.json in Resources */,
+				CF3F852021C52BD60086B564 /* SetSpeedLimit.json in Resources */,
 				CFA984F51CBD81C400B23C7D /* StartCharging.json in Resources */,
 				CF1492AF1D2BF87A0061088C /* AuthenticationFailed.json in Resources */,
 				CF37B81D1C9B40200000E894 /* GuiSettings.json in Resources */,
+				CF3F851E21C52B0B0086B564 /* VehicleConfig.json in Resources */,
 				CFF001A61E755C4A00B8139B /* AllStates.json in Resources */,
 				CFA984E81CBD730500B23C7D /* ResetValetPin.json in Resources */,
 				CFEAF1451EB52A160003FA6E /* StreamingData.txt in Resources */,
 				CF26AA2B1C99D13B00090B20 /* ClimateSettings.json in Resources */,
+				CF3F852221C52C650086B564 /* SpeedLimitPin.json in Resources */,
 				CF5D13A71CB41BAE00744DCC /* WakeUp.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
