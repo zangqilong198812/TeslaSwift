@@ -28,6 +28,10 @@ public enum SeatHeater: Int, Encodable {
     case driver = 0
     case passenger = 1
     case rearLeft = 2
+    case rearLeftBack = 3
     case rearCenter = 4
     case rearRight = 5
+    case rearRightBack = 6
+    case thirdRowLeft = 7
+    case thirdRowRight = 8
 }
