@@ -48,8 +48,8 @@ public enum VehicleCommand {
 	case speedLimitActivate(pin: String)
 	case speedLimitDeactivate(pin: String)
 	case speedLimitClearPin(pin: String)
-    case setSeatHeater(seat: SeatHeater, level: Int)
-    case setSteeringWheelHeater(on: Bool)
+	case setSeatHeater(seat: HeatedSeat, level: HeatLevel)
+	case setSteeringWheelHeater(on: Bool)
 	
 	func path() -> String {
 		switch self {
