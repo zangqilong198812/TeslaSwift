@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		0478B862FEF88CCD3EC80F94 /* Pods_TeslaSwiftMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */; };
 		0C7ED84E15E6213553283EE1 /* Pods_TeslaSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */; };
+		176F073B2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */; };
+		176F073E2219ECF6000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */; };
+		176F073F2219ECF7000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */; };
+		1787516D221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
+		17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
+		17875172221C4C7800B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507F218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
@@ -161,6 +167,8 @@
 
 /* Begin PBXFileReference section */
 		12B3E002E01A2F394D2418B5 /* Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSeatHeaterRequestOptions.swift; sourceTree = "<group>"; };
+		1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSteeringWheelHeaterRequestOptions.swift; sourceTree = "<group>"; };
 		197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftAll_TeslaSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -333,7 +341,9 @@
 				CF0D2F1F1D95A4A900E5A304 /* GuiSettings.swift */,
 				65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */,
 				CF0D2F201D95A4A900E5A304 /* OpenTrunkOptions.swift */,
+				176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */,
 				CF1BD59B1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift */,
+				1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */,
 				CF1BD5981DD505EF00E4C493 /* SetSunRoofCommandOptions.swift */,
 				CF1BD5951DD5051600E4C493 /* SetTemperatureCommandOptions.swift */,
 				650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */,
@@ -806,6 +816,8 @@
 				CFEAF1371EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF25069B1E4603CF00D0E08A /* CommandResponse.swift in Sources */,
 				CFF001AA1E755CF800B8139B /* VehicleExtended.swift in Sources */,
+				176F073F2219ECF7000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
+				17875172221C4C7800B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */,
 				650A507F218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
 				CF25069C1E4603CF00D0E08A /* DriveState.swift in Sources */,
 				CF2506991E4603CF00D0E08A /* ChargeState.swift in Sources */,
@@ -826,9 +838,11 @@
 				CF1BD5931DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
 				CFB5D7B71E66088F003EA1EF /* ErrorMessage.swift in Sources */,
 				65F055182173DB3D00BE3BE5 /* NavigationRequestOptions.swift in Sources */,
+				176F073B2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */,
 				CF0D2F271D95A4A900E5A304 /* ChargeState.swift in Sources */,
+				1787516D221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */,
 				CFF001A81E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CF0D2F351D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CF14238D1DF360A500CB4D96 /* ViewController+TeslaSwift.swift in Sources */,
@@ -860,6 +874,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				176F073E2219ECF6000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
 				CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CF0D2F261D95A4A900E5A304 /* Authentication.swift in Sources */,
 				CF5FF50E21AADC3E007B6306 /* NavigationRequestOptions.swift in Sources */,
@@ -883,6 +898,7 @@
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
+				17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */,
 				CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
