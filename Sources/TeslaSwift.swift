@@ -50,6 +50,7 @@ public enum VehicleCommand {
 	case speedLimitClearPin(pin: String)
 	case setSeatHeater(seat: HeatedSeat, level: HeatLevel)
 	case setSteeringWheelHeater(on: Bool)
+    case sentryMode(activated: Bool)
 	
 	func path() -> String {
 		switch self {
@@ -121,6 +122,8 @@ public enum VehicleCommand {
             return "command/remote_seat_heater_request"
         case .setSteeringWheelHeater:
             return "command/remote_steering_wheel_heater_request"
+        case .sentryMode:
+            return "command/set_sentry_mode"
 		}
 	}
 }
@@ -514,6 +517,9 @@ extension TeslaSwift {
                     return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
                 case let .setSteeringWheelHeater(on):
                     let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
+                    return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                case let .sentryMode(activated):
+                    let body = SentryModeCommandOptions(activated: activated)
                     return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
 				default:
 					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: nullBody)
