@@ -75,13 +75,13 @@ open class ClimateState: Codable {
 	open var rightTemperatureDirection: Int?
 	
 	
-    open var seatHeaterLeft: Bool?
-	open var seatHeaterRearCenter: Bool?
-	open var seatHeaterRearLeft: Bool?
+    open var seatHeaterLeft: Int?
+	open var seatHeaterRearCenter: Int?
+	open var seatHeaterRearLeft: Int?
 	open var seatHeaterRearLeftBack: Int?
-	open var seatHeaterRearRight: Bool?
+	open var seatHeaterRearRight: Int?
 	open var seatHeaterRearRightBack: Int?
-	open var seatHeaterRight: Bool?
+	open var seatHeaterRight: Int?
 	
 	open var sideMirrorHeaters: Bool?
 	open var steeringWheelHeater: Bool?
@@ -172,13 +172,13 @@ open class ClimateState: Codable {
 		rightTemperatureDirection  = try? container.decode(Int.self, forKey: .rightTemperatureDirection)
 		
 		
-		seatHeaterLeft  = try? container.decode(Bool.self, forKey: .seatHeaterLeft)
-		seatHeaterRearCenter  = try? container.decode(Bool.self, forKey: .seatHeaterRearCenter)
-		seatHeaterRearLeft  = try? container.decode(Bool.self, forKey: .seatHeaterRearLeft)
+		seatHeaterLeft  = try? container.decode(Int.self, forKey: .seatHeaterLeft)
+		seatHeaterRearCenter  = try? container.decode(Int.self, forKey: .seatHeaterRearCenter)
+		seatHeaterRearLeft  = try? container.decode(Int.self, forKey: .seatHeaterRearLeft)
 		seatHeaterRearLeftBack  = try? container.decode(Int.self, forKey: .seatHeaterRearLeftBack)
-		seatHeaterRearRight  = try? container.decode(Bool.self, forKey: .seatHeaterRearRight)
+		seatHeaterRearRight  = try? container.decode(Int.self, forKey: .seatHeaterRearRight)
 		seatHeaterRearRightBack  = try? container.decode(Int.self, forKey: .seatHeaterRearRightBack)
-		seatHeaterRight  = try? container.decode(Bool.self, forKey: .seatHeaterRight)
+		seatHeaterRight  = try? container.decode(Int.self, forKey: .seatHeaterRight)
 		
 		sideMirrorHeaters  = try? container.decode(Bool.self, forKey: .sideMirrorHeaters)
 		steeringWheelHeater  = try? container.decode(Bool.self, forKey: .steeringWheelHeater)
