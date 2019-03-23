@@ -69,6 +69,7 @@ open class ClimateState: Codable {
 	
 	open var passengerTemperatureSetting: Temperature?
 	
+	open var remoteHeaterControlEnabled: Bool?
 	/*
 	* Temp directions 0 at least 583...
 	*/
@@ -116,6 +117,8 @@ open class ClimateState: Codable {
 		case outsideTemperature			= "outside_temp"
 		
 		case passengerTemperatureSetting = "passenger_temp_setting"
+		
+		case remoteHeaterControlEnabled = "remote_heater_control_enabled"
 		
 		case rightTemperatureDirection	 = "right_temp_direction"
 		
@@ -168,6 +171,7 @@ open class ClimateState: Codable {
 		
 		passengerTemperatureSetting  = try? container.decode(Temperature.self, forKey: .passengerTemperatureSetting)
 		
+		remoteHeaterControlEnabled = try? container.decode(Bool.self, forKey: .remoteHeaterControlEnabled)
 
 		rightTemperatureDirection  = try? container.decode(Int.self, forKey: .rightTemperatureDirection)
 		
@@ -217,6 +221,8 @@ open class ClimateState: Codable {
 		try container.encodeIfPresent(outsideTemperature, forKey: .outsideTemperature)
 		
 		try container.encodeIfPresent(passengerTemperatureSetting, forKey: .passengerTemperatureSetting)
+		
+		try container.encodeIfPresent(remoteHeaterControlEnabled, forKey: .remoteHeaterControlEnabled)
 		
 		try container.encodeIfPresent(rightTemperatureDirection, forKey: .rightTemperatureDirection)
 		
