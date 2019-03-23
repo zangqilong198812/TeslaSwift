@@ -22,8 +22,7 @@ open class VehicleConfig: Codable {
 	open var motorizedChargePort: Bool?
 	open var perfConfig: String?
 	open var plg: Bool?
-	private var rearSeatHeatersBool: Int?
-	open var rearSeatHeaters: Bool? { return rearSeatHeatersBool == 1 }
+	open var rearSeatHeaters: Int?
 	open var rearSeatType: Int?
 	open var rhd: Bool?
 	open var roofColor: String? // "None" for panoramic roof
@@ -49,7 +48,7 @@ open class VehicleConfig: Codable {
 		case motorizedChargePort  = "motorized_charge_port"
 		case perfConfig			 = "perf_config"
 		case plg				= "plg"
-		case rearSeatHeatersBool		 = "rear_seat_heaters"
+		case rearSeatHeaters		 = "rear_seat_heaters"
 		case rearSeatType		 = "rear_seat_type"
 		case rhd					 = "rhd"
 		case roofColor			 = "roof_color"
@@ -79,7 +78,7 @@ open class VehicleConfig: Codable {
 		perfConfig = try? container.decode(String.self, forKey: .perfConfig)
 		plg = try? container.decode(Bool.self, forKey: .plg)
 		
-		rearSeatHeatersBool = try? container.decode(Int.self, forKey: .rearSeatHeatersBool)
+		rearSeatHeaters = try? container.decode(Int.self, forKey: .rearSeatHeaters)
 		
 		rearSeatType = try? container.decode(Int.self, forKey: .rearSeatType)
 		rhd = try? container.decode(Bool.self, forKey: .rhd)
@@ -110,7 +109,7 @@ open class VehicleConfig: Codable {
 		try container.encodeIfPresent(motorizedChargePort, forKey: .motorizedChargePort)
 		try container.encodeIfPresent(perfConfig, forKey: .perfConfig)
 		try container.encodeIfPresent(plg, forKey: .plg)
-		try container.encodeIfPresent(rearSeatHeatersBool, forKey: .rearSeatHeatersBool)
+		try container.encodeIfPresent(rearSeatHeaters, forKey: .rearSeatHeaters)
 
 		try container.encodeIfPresent(rearSeatType, forKey: .rearSeatType)
 		try container.encodeIfPresent(rhd, forKey: .rhd)
