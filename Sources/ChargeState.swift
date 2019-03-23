@@ -46,6 +46,7 @@ open class ChargeState: Codable {
 	*/
 	open var chargePortDoorOpen: Bool?
 	open var chargePortLatch: String?
+	open var chargePortColdWeatherMode: Bool?
 	
 	/**
 	miles/hour while charging or 0 if not charging
@@ -141,6 +142,7 @@ open class ChargeState: Codable {
 		
 		case chargePortDoorOpen           = "charge_port_door_open"
 		case chargePortLatch				 = "charge_port_latch"
+		case chargePortColdWeatherMode	= "charge_port_cold_weather_mode"
 		
 		case chargeRate                  = "charge_rate"
 		case chargeToMaxRange             = "charge_to_max_range"
@@ -212,6 +214,7 @@ open class ChargeState: Codable {
 
 		chargePortDoorOpen = try? container.decode(Bool.self, forKey: .chargePortDoorOpen)
 		chargePortLatch = try? container.decode(String.self, forKey: .chargePortLatch)
+		chargePortColdWeatherMode = try? container.decode(Bool.self, forKey: .chargePortColdWeatherMode)
 		
 		
 		chargeRate = try? container.decode(Distance.self, forKey: .chargeRate)
@@ -289,6 +292,7 @@ open class ChargeState: Codable {
 		
 		try container.encodeIfPresent(chargePortDoorOpen, forKey: .chargePortDoorOpen)
 		try container.encodeIfPresent(chargePortLatch, forKey: .chargePortLatch)
+		try container.encodeIfPresent(chargePortColdWeatherMode, forKey: .chargePortColdWeatherMode)
 
 		try container.encodeIfPresent(chargeRate, forKey: .chargeRate)
 
