@@ -117,6 +117,8 @@ open class VehicleState: Codable {
 			return false
 		}
 	}
+	
+	open var sentryMode: Bool?
     
     open var softwareUpdate: SoftwareUpdate?
 	open var speedLimitMode: SpeedLimitMode?
@@ -171,6 +173,8 @@ open class VehicleState: Codable {
 		case remoteStartSupported	 = "remote_start_supported"
 		
 		case rearTrunkOpenInt			 = "rt"
+		
+		case sentryMode			= "entry_mode"
 		
         case softwareUpdate         = "software_update"
 		case speedLimitMode 		= "speed_limit_mode"
@@ -230,6 +234,8 @@ open class VehicleState: Codable {
 		
 		rearTrunkOpenInt = try? container.decode(Int.self, forKey: .rearTrunkOpenInt)
 
+		sentryMode = try? container.decode(Bool.self, forKey: .sentryMode)
+		
 		softwareUpdate = try? container.decode(SoftwareUpdate.self, forKey: .softwareUpdate)
 		speedLimitMode = try? container.decode(SpeedLimitMode.self, forKey: .speedLimitMode)
 		sunRoofPercentageOpen = try? container.decode(Int.self, forKey: .sunRoofPercentageOpen)
@@ -270,6 +276,7 @@ open class VehicleState: Codable {
 		try container.encodeIfPresent(remoteStart, forKey: .remoteStart)
 		try container.encodeIfPresent(remoteStartSupported, forKey: .remoteStartSupported)
 		try container.encodeIfPresent(rearTrunkOpenInt, forKey: .rearTrunkOpenInt)
+		try container.encodeIfPresent(sentryMode, forKey: .sentryMode)
 		try container.encodeIfPresent(softwareUpdate, forKey: .softwareUpdate)
 		try container.encodeIfPresent(speedLimitMode, forKey: .speedLimitMode)
 		try container.encodeIfPresent(sunRoofPercentageOpen, forKey: .sunRoofPercentageOpen)
