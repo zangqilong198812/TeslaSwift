@@ -19,7 +19,7 @@ public enum VehicleCommand {
 	case valetMode(valetActivated: Bool, pin: String?)
 	case resetValetPin
 	case openChargeDoor
-    case closeChargeDoor
+	case closeChargeDoor
 	case chargeLimitStandard
 	case chargeLimitMaxRange
 	case chargeLimitPercentage(limit: Int)
@@ -42,16 +42,16 @@ public enum VehicleCommand {
 	case previousFavorite
 	case volumeUp
 	case volumeDown
-    case navigationRequest(options: NavigationRequestOptions)
-    case cancelSoftwareUpdate
-    case scheduleSoftwareUpdate
+	case navigationRequest(options: NavigationRequestOptions)
+	case cancelSoftwareUpdate
+	case scheduleSoftwareUpdate
 	case speedLimitSetLimit(speed: Measurement<UnitSpeed>)
 	case speedLimitActivate(pin: String)
 	case speedLimitDeactivate(pin: String)
 	case speedLimitClearPin(pin: String)
 	case setSeatHeater(seat: HeatedSeat, level: HeatLevel)
 	case setSteeringWheelHeater(on: Bool)
-    case sentryMode(activated: Bool)
+	case sentryMode(activated: Bool)
 	
 	func path() -> String {
 		switch self {
@@ -107,12 +107,12 @@ public enum VehicleCommand {
 			return "command/media_volume_up"
 		case .volumeDown:
 			return "command/media_volume_down"
-        case .navigationRequest:
-            return "command/navigation_request"
-        case .scheduleSoftwareUpdate:
-            return "command/schedule_software_update"
-        case .cancelSoftwareUpdate:
-            return "command/cancel_software_update"
+		case .navigationRequest:
+            		return "command/navigation_request"
+		case .scheduleSoftwareUpdate:
+            		return "command/schedule_software_update"
+		case .cancelSoftwareUpdate:
+            		return "command/cancel_software_update"
 		case .speedLimitSetLimit:
 			return "command/speed_limit_set_limit"
 		case .speedLimitActivate:
@@ -121,12 +121,12 @@ public enum VehicleCommand {
 			return "command/speed_limit_deactivate"
 		case .speedLimitClearPin:
 			return "command/speed_limit_clear_pin"
-        case .setSeatHeater:
-            return "command/remote_seat_heater_request"
-        case .setSteeringWheelHeater:
-            return "command/remote_steering_wheel_heater_request"
-        case .sentryMode:
-            return "command/set_sentry_mode"
+		case .setSeatHeater:
+			return "command/remote_seat_heater_request"
+		case .setSteeringWheelHeater:
+			return "command/remote_steering_wheel_heater_request"
+		case .sentryMode:
+			return "command/set_sentry_mode"
 		}
 	}
 }
