@@ -61,8 +61,8 @@ public enum VehicleCommand {
 			return "command/reset_valet_pin"
 		case .openChargeDoor:
 			return "command/charge_port_door_open"
-        case .closeChargeDoor:
-            return "command/charge_port_door_close"
+		case .closeChargeDoor:
+			return "command/charge_port_door_close"
 		case .chargeLimitStandard:
 			return "command/charge_standard"
 		case .chargeLimitMaxRange:
