@@ -702,7 +702,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -711,7 +711,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4D96450F7514EF3E50A9AF64 /* [CP] Check Pods Manifest.lock */ = {
@@ -738,7 +738,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -747,7 +747,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8DDA809520A64DD5288FBA06 /* [CP] Embed Pods Frameworks */ = {
@@ -756,7 +756,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 			);
@@ -767,7 +767,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6D804E2E76F43BE14128984 /* [CP] Check Pods Manifest.lock */ = {
