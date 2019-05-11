@@ -174,7 +174,7 @@ open class VehicleState: Codable {
 		
 		case rearTrunkOpenInt			 = "rt"
 		
-		case sentryMode			= "entry_mode"
+		case sentryMode			= "sentry_mode"
 		
         case softwareUpdate         = "software_update"
 		case speedLimitMode 		= "speed_limit_mode"
