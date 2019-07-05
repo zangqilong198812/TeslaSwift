@@ -432,6 +432,41 @@ class TeslaSwiftTests: XCTestCase {
 		
 	}
 
+    func testGetNearbyChargingSites() {
+
+        let stubPath6 = OHPathForFile("NearbyChargingSites.json", type(of: self))
+        _ = stub(condition: isPath(Endpoint.nearbyChargingSites(vehicleID: "321").path)) {
+            _ in
+            return fixture(filePath: stubPath6!, headers: self.headers)
+        }
+
+        let expection = expectation(description: "All Done")
+
+        let service = TeslaSwift()
+        service.useMockServer = true
+
+        service.authenticate(email: "user", password: "pass").then { (token) in
+            service.getVehicles()
+            }.then { (vehicles)  in
+                service.getNearbyChargingSites(vehicles[0])
+            }.done { (response) -> Void in
+
+                XCTAssertEqual(response.congestionSyncTimeUTCSecs, 1545091987)
+                XCTAssertEqual(response.destinationChargers?.count, 4)
+                XCTAssertEqual(response.superchargers?.count, 4)
+                XCTAssertEqual(response.timestamp, 1545092157769)
+
+                expection.fulfill()
+            }.catch { (error) in
+                print(error)
+                XCTFail((error as NSError).description)
+                expection.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+
+    }
+
 	// MARK:  - Wake Up -
 	func testCommandWakeUp() {
 		

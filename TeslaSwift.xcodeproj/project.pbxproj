@@ -21,6 +21,7 @@
 		1787516D221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17875172221C4C7800B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
+		17CD215C22D1739600AAC7F2 /* NearbyChargingSites.json in Resources */ = {isa = PBXBuildFile; fileRef = 17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */; };
 		650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507F218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
@@ -177,6 +178,7 @@
 		1759B7412228D3210032EB4C /* SentryModeCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryModeCommandOptions.swift; sourceTree = "<group>"; };
 		176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSeatHeaterRequestOptions.swift; sourceTree = "<group>"; };
 		1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSteeringWheelHeaterRequestOptions.swift; sourceTree = "<group>"; };
+		17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NearbyChargingSites.json; sourceTree = "<group>"; };
 		197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftAll_TeslaSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -416,6 +418,7 @@
 				CFA985101CC26BA000B23C7D /* OpenTrunk.json */,
 				CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */,
 				CF3F852121C52C650086B564 /* SpeedLimitPin.json */,
+				17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */,
 				CFEAF1441EB52A160003FA6E /* StreamingData.txt */,
 			);
 			name = Recorded;
@@ -650,6 +653,7 @@
 				CF26AA251C99CF9300090B20 /* Vehicles.json in Resources */,
 				CFA984EE1CBD758200B23C7D /* ChargeLimitMaxRange.json in Resources */,
 				CFA984F31CBD7CBC00B23C7D /* ChargeLimitPercentage.json in Resources */,
+				17CD215C22D1739600AAC7F2 /* NearbyChargingSites.json in Resources */,
 				CFA984FC1CC256D100B23C7D /* FlashLights.json in Resources */,
 				CFA9850A1CC2691500B23C7D /* SetSunRoof.json in Resources */,
 				CFA984FE1CC2572C00B23C7D /* HonkHorn.json in Resources */,
