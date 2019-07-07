@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0478B862FEF88CCD3EC80F94 /* Pods_TeslaSwiftMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */; };
 		0C7ED84E15E6213553283EE1 /* Pods_TeslaSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */; };
+		170D32D322D0EBCD00B6A51A /* NearbyChargingSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */; };
+		170D32D622D0EE4D00B6A51A /* NearbyChargingSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */; };
+		170D32D722D0EE4E00B6A51A /* NearbyChargingSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */; };
 		1759B7422228D3210032EB4C /* SentryModeCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759B7412228D3210032EB4C /* SentryModeCommandOptions.swift */; };
 		1759B7432228D3210032EB4C /* SentryModeCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759B7412228D3210032EB4C /* SentryModeCommandOptions.swift */; };
 		1759B7442228D3210032EB4C /* SentryModeCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759B7412228D3210032EB4C /* SentryModeCommandOptions.swift */; };
@@ -18,6 +21,7 @@
 		1787516D221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17875172221C4C7800B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
+		17CD215C22D1739600AAC7F2 /* NearbyChargingSites.json in Resources */ = {isa = PBXBuildFile; fileRef = 17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */; };
 		650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507F218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
@@ -170,9 +174,11 @@
 
 /* Begin PBXFileReference section */
 		12B3E002E01A2F394D2418B5 /* Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyChargingSites.swift; sourceTree = "<group>"; };
 		1759B7412228D3210032EB4C /* SentryModeCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryModeCommandOptions.swift; sourceTree = "<group>"; };
 		176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSeatHeaterRequestOptions.swift; sourceTree = "<group>"; };
 		1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSteeringWheelHeaterRequestOptions.swift; sourceTree = "<group>"; };
+		17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NearbyChargingSites.json; sourceTree = "<group>"; };
 		197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftAll_TeslaSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -344,6 +350,7 @@
 				CF0D2F1E1D95A4A900E5A304 /* GenericResponse.swift */,
 				CF0D2F1F1D95A4A900E5A304 /* GuiSettings.swift */,
 				65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */,
+				170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */,
 				CF0D2F201D95A4A900E5A304 /* OpenTrunkOptions.swift */,
 				176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */,
 				CF1BD59B1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift */,
@@ -411,6 +418,7 @@
 				CFA985101CC26BA000B23C7D /* OpenTrunk.json */,
 				CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */,
 				CF3F852121C52C650086B564 /* SpeedLimitPin.json */,
+				17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */,
 				CFEAF1441EB52A160003FA6E /* StreamingData.txt */,
 			);
 			name = Recorded;
@@ -645,6 +653,7 @@
 				CF26AA251C99CF9300090B20 /* Vehicles.json in Resources */,
 				CFA984EE1CBD758200B23C7D /* ChargeLimitMaxRange.json in Resources */,
 				CFA984F31CBD7CBC00B23C7D /* ChargeLimitPercentage.json in Resources */,
+				17CD215C22D1739600AAC7F2 /* NearbyChargingSites.json in Resources */,
 				CFA984FC1CC256D100B23C7D /* FlashLights.json in Resources */,
 				CFA9850A1CC2691500B23C7D /* SetSunRoof.json in Resources */,
 				CFA984FE1CC2572C00B23C7D /* HonkHorn.json in Resources */,
@@ -806,6 +815,7 @@
 				CF2506961E4603CF00D0E08A /* TeslaSwift.swift in Sources */,
 				CFF048041F72EE16006B52F7 /* Distance.swift in Sources */,
 				CFF5D0001EABD1AD00655B81 /* StreamEvent.swift in Sources */,
+				170D32D722D0EE4E00B6A51A /* NearbyChargingSites.swift in Sources */,
 				CF2506A21E4603CF00D0E08A /* SetTemperatureCommandOptions.swift in Sources */,
 				CF25069A1E4603CF00D0E08A /* ClimateState.swift in Sources */,
 				CF25069E1E4603CF00D0E08A /* GuiSettings.swift in Sources */,
@@ -846,6 +856,7 @@
 				65F055182173DB3D00BE3BE5 /* NavigationRequestOptions.swift in Sources */,
 				176F073B2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
 				1759B7422228D3210032EB4C /* SentryModeCommandOptions.swift in Sources */,
+				170D32D322D0EBCD00B6A51A /* NearbyChargingSites.swift in Sources */,
 				CFD2E7E81C8A13F20005E882 /* TeslaSwift.swift in Sources */,
 				CF0D2F3B1D95A4A900E5A304 /* VehicleState.swift in Sources */,
 				CF0D2F271D95A4A900E5A304 /* ChargeState.swift in Sources */,
@@ -907,6 +918,7 @@
 				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
 				17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */,
 				CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
+				170D32D622D0EE4D00B6A51A /* NearbyChargingSites.swift in Sources */,
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,

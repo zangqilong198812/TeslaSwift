@@ -18,6 +18,7 @@ enum Endpoint {
 	case chargeState(vehicleID: String)
 	case climateState(vehicleID: String)
 	case driveState(vehicleID: String)
+    case nearbyChargingSites(vehicleID: String)
 	case guiSettings(vehicleID: String)
 	case vehicleState(vehicleID: String)
 	case vehicleConfig(vehicleID: String)
@@ -47,6 +48,8 @@ extension Endpoint {
 			return "/api/1/vehicles/\(vehicleID)/data_request/drive_state"
 		case .guiSettings(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
+        case .nearbyChargingSites(let vehicleID):
+            return "/api/1/vehicles/\(vehicleID)/nearby_charging_sites"
 		case .vehicleState(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
 		case .vehicleConfig(let vehicleID):
@@ -62,7 +65,7 @@ extension Endpoint {
 		switch self {
 		case .authentication, .revoke, .wakeUp, .command:
 			return "POST"
-	case .vehicles, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig:
+        case .vehicles, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites:
 			return "GET"
 		}
 	}
