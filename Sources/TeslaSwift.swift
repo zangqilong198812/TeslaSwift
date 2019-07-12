@@ -176,7 +176,7 @@ extension TeslaSwift {
 	- parameter email:      The email address.
 	- parameter password:   The password.
 	
-	- returns: A Promise with the AuthToken.
+	- returns: A completion handler with the AuthToken.
 	*/
 
     public func authenticate(email: String, password: String, completion: @escaping (AuthToken?, Error?) -> ()) -> Void {
@@ -232,9 +232,8 @@ extension TeslaSwift {
 	/**
 	Revokes the stored token. Endpoint always returns true.
 	
-	- returns: A Promise with the token revoke state.
+	- returns: A completion handler with the token revoke state.
 	*/
-
 	public func revoke(completion: @escaping (Bool?, Error?) -> ()) -> Void {
 		
 		guard let accessToken = self.token?.accessToken else {
@@ -281,7 +280,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the list of your vehicles including not yet delivered ones
 	
-	- returns: A Promise with an array of Vehicles.
+	- returns: A completion handler with an array of Vehicles.
 	*/
 	public func getVehicles(completion: @escaping ([Vehicle]?, Error?) -> ()) -> Void {
 		
@@ -304,6 +303,11 @@ extension TeslaSwift {
 		
 	}
 	
+    /**
+     Fetchs the vehicle data
+     
+     - returns: A completion handler with all the data
+     */
 	public func getAllData(_ vehicle: Vehicle, completion: @escaping (VehicleExtended?, Error?) -> ()) -> Void {
     
         checkAuthentication { (token: AuthToken?, error: Error?) in
@@ -331,7 +335,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle mobile access state
 	
-	- returns: A Promise with mobile access state.
+	- returns: A completion handler with mobile access state.
 	*/
 	public func getVehicleMobileAccessState(_ vehicle: Vehicle, completion: @escaping (Bool?, Error?) -> ()) -> Void {
 		
@@ -359,7 +363,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle charge state
 	
-	- returns: A Promise with charge state.
+	- returns: A completion handler with charge state.
 	*/
 	public func getVehicleChargeState(_ vehicle: Vehicle, completion: @escaping (ChargeState?, Error?) -> ()) -> Void {
 		
@@ -388,7 +392,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle Climate state
 	
-	- returns: A Promise with Climate state.
+	- returns: A completion handler with Climate state.
 	*/
 	public func getVehicleClimateState(_ vehicle: Vehicle, completion: @escaping (ClimateState?, Error?) -> ()) -> Void {
 		
@@ -417,7 +421,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicledrive state
 	
-	- returns: A Promise with drive state.
+	- returns: A completion handler with drive state.
 	*/
 	public func getVehicleDriveState(_ vehicle: Vehicle, completion: @escaping (DriveState?, Error?) -> ()) -> Void {
 		
@@ -446,7 +450,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle Gui Settings
 	
-	- returns: A Promise with Gui Settings.
+	- returns: A completion handler with Gui Settings.
 	*/
     public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (GuiSettings?, Error?) -> ()) -> Void {
         
@@ -474,7 +478,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle state
 	
-	- returns: A Promise with vehicle state.
+	- returns: A completion handler with vehicle state.
 	*/
     public func getVehicleState(_ vehicle: Vehicle, completion: @escaping (VehicleState?, Error?) -> ()) -> Void {
         
@@ -503,7 +507,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the vehicle config
 	
-	- returns: A Promise with vehicle config
+	- returns: A completion handler with vehicle config
 	*/
     public func getVehicleConfig(_ vehicle: Vehicle, completion: @escaping (VehicleConfig?, Error?) -> ()) -> Void {
         
@@ -532,7 +536,7 @@ extension TeslaSwift {
      Fetches the nearby charging sites
 
      - parameter vehicle: the vehicle to get nearby charging sites from
-     - returns: A Promise with nearby charging sites
+     - returns: A completion handler with nearby charging sites
      */
     public func getNearbyChargingSites(_ vehicle: Vehicle, completion: @escaping (NearbyChargingSites?, Error?) -> ()) -> Void {
         
@@ -560,7 +564,7 @@ extension TeslaSwift {
 	/**
 	Wakes up the vehicle
 	
-	- returns: A Promise with the current Vehicle
+	- returns: A completion handler with the current Vehicle
 	*/
     public func wakeUp(_ vehicle: Vehicle, completion: @escaping (Vehicle?, Error?) -> ()) -> Void {
         
@@ -591,7 +595,7 @@ extension TeslaSwift {
 	
 	- parameter vehicle: the vehicle that will receive the command
 	- parameter command: the command to send to the vehicle
-	- returns: A Promise with the CommandResponse object containing the results of the command.
+	- returns: A completion handler with the CommandResponse object containing the results of the command.
 	*/
 	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand, completion: @escaping (CommandResponse?, Error?) -> ()) -> Void {
 		

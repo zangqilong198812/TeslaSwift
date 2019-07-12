@@ -23,6 +23,17 @@ extension TeslaSwift {
         }
     }
  
+    /**
+     Performs the authentition with the Tesla API
+     
+     You only need to call this once. The token will be stored and your credentials.
+     If the token expires your credentials will be reused.
+     
+     - parameter email:      The email address.
+     - parameter password:   The password.
+     
+     - returns: A Promise with the AuthToken.
+     */
     public func authenticate(email: String, password: String) -> Promise<AuthToken> {
         
         let (promise, seal) = Promise<AuthToken>.pending()
@@ -32,6 +43,11 @@ extension TeslaSwift {
         return promise
     }
     
+    /**
+     Revokes the stored token. Endpoint always returns true.
+     
+     - returns: A Promise with the token revoke state.
+     */
     public func revoke() -> Promise<Bool> {
         
         let (promise, seal) = Promise<Bool>.pending()
@@ -42,6 +58,11 @@ extension TeslaSwift {
         
     }
     
+    /**
+     Fetchs the list of your vehicles including not yet delivered ones
+     
+     - returns: A Promise with an array of Vehicles.
+     */
     public func getVehicles() -> Promise<[Vehicle]> {
         
         let (promise, seal) = Promise<[Vehicle]>.pending()
