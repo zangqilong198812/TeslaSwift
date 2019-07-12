@@ -1,0 +1,211 @@
+//
+//  TeslaSwift+PromiseKit.swift
+//  TeslaSwift
+//
+//  Created by Joao Nunes on 09/07/2019.
+//  Copyright © 2019 Joao Nunes. All rights reserved.
+//
+
+import Foundation
+import PromiseKit
+
+extension TeslaSwift {
+    
+    func promisify<Value: Decodable>(seal: Resolver<Value>) -> ((Value?, Error?) -> ()) {
+        return { (result: Value?, error: Error?) in
+            if let result = result {
+                seal.fulfill(result)
+            } else if let error = error {
+                seal.reject(error)
+            } else {
+                // not possible
+            }
+        }
+    }
+ 
+    public func authenticate(email: String, password: String) -> Promise<AuthToken> {
+        
+        let (promise, seal) = Promise<AuthToken>.pending()
+        
+        authenticate(email: email, password: password, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+    public func revoke() -> Promise<Bool> {
+        
+        let (promise, seal) = Promise<Bool>.pending()
+        
+        revoke(completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    public func getVehicles() -> Promise<[Vehicle]> {
+        
+        let (promise, seal) = Promise<[Vehicle]>.pending()
+        
+        getVehicles(completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getAllData(_ vehicle: Vehicle) -> Promise<VehicleExtended> {
+        
+        let (promise, seal) = Promise<VehicleExtended>.pending()
+        
+        getAllData(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    public func getVehicleMobileAccessState(_ vehicle: Vehicle) -> Promise<Bool> {
+        
+        let (promise, seal) = Promise<Bool>.pending()
+        
+        getVehicleMobileAccessState(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+    /**
+     Fetchs the vehicle charge state
+     
+     - returns: A Promise with charge state.
+     */
+    public func getVehicleChargeState(_ vehicle: Vehicle) -> Promise<ChargeState> {
+        
+        let (promise, seal) = Promise<ChargeState>.pending()
+        
+        getVehicleChargeState(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    /**
+     Fetchs the vehicle Climate state
+     
+     - returns: A Promise with Climate state.
+     */
+    public func getVehicleClimateState(_ vehicle: Vehicle) -> Promise<ClimateState> {
+        
+        let (promise, seal) = Promise<ClimateState>.pending()
+        
+        getVehicleClimateState(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    /**
+     Fetchs the vehicledrive state
+     
+     - returns: A Promise with drive state.
+     */
+    public func getVehicleDriveState(_ vehicle: Vehicle) -> Promise<DriveState> {
+        
+        let (promise, seal) = Promise<DriveState>.pending()
+        
+        getVehicleDriveState(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    /**
+     Fetchs the vehicle Gui Settings
+     
+     - returns: A Promise with Gui Settings.
+     */
+    public func getVehicleGuiSettings(_ vehicle: Vehicle) -> Promise<GuiSettings> {
+        
+        let (promise, seal) = Promise<GuiSettings>.pending()
+        
+        getVehicleGuiSettings(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+    /**
+     Fetchs the vehicle state
+     
+     - returns: A Promise with vehicle state.
+     */
+    public func getVehicleState(_ vehicle: Vehicle) -> Promise<VehicleState> {
+        
+        let (promise, seal) = Promise<VehicleState>.pending()
+        
+        getVehicleState(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+    /**
+     Fetchs the vehicle config
+     
+     - returns: A Promise with vehicle config
+     */
+    public func getVehicleConfig(_ vehicle: Vehicle) -> Promise<VehicleConfig> {
+        
+        let (promise, seal) = Promise<VehicleConfig>.pending()
+        
+        getVehicleConfig(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+    /**
+     Wakes up the vehicle
+     
+     - returns: A Promise with the current Vehicle
+     */
+    public func wakeUp(vehicle: Vehicle) -> Promise<Vehicle> {
+        
+        let (promise, seal) = Promise<Vehicle>.pending()
+        
+        wakeUp(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    /**
+     Sends a command to the vehicle
+     
+     - parameter vehicle: the vehicle that will receive the command
+     - parameter command: the command to send to the vehicle
+     - returns: A Promise with the CommandResponse object containing the results of the command.
+     */
+    public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand) -> Promise<CommandResponse> {
+        
+        let (promise, seal) = Promise<CommandResponse>.pending()
+        
+        sendCommandToVehicle(vehicle, command: command, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+    func checkAuthentication() -> Promise<AuthToken> {
+        
+        let (promise, seal) = Promise<AuthToken>.pending()
+        
+        checkAuthentication(completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    
+    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> Promise<ReturnType> {
+        
+        let (promise, seal) = Promise<ReturnType>.pending()
+        
+        request(endpoint, body: body, completion: promisify(seal: seal))
+        
+        return promise
+    }
+    
+}

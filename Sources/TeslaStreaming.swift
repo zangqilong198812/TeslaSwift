@@ -17,7 +17,7 @@ class TeslaStreaming {
 	var debuggingEnabled = false
 	var httpStreaming = HTTPEventStreaming()
 	
-	func openStream(endpoint: StreamEndpoint, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
+    func openStream(endpoint: StreamEndpoint, streamOpen: (() -> Void)? = nil,  dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
 		
 		let authentication = endpoint.authentication
 		let url = endpoint.baseURL() + endpoint.path
@@ -26,6 +26,7 @@ class TeslaStreaming {
 		
 		httpStreaming.openCallback = {
 			logDebug("Stream open", debuggingEnabled: self.debuggingEnabled)
+            streamOpen?()
 		}
 		
 		httpStreaming.callback = {

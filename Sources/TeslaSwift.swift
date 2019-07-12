@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PromiseKit
 import os.log
 
 public enum RoofState: String, Codable {
@@ -157,7 +156,7 @@ open class TeslaSwift {
 	
     open fileprivate(set) var email: String?
 	fileprivate var password: String?
-	lazy fileprivate var streaming = TeslaStreaming()
+	lazy var streaming = TeslaStreaming()
 	
 	public init() { }
 }
@@ -180,7 +179,7 @@ extension TeslaSwift {
 	- returns: A Promise with the AuthToken.
 	*/
 
-	public func authenticate(email: String, password: String) -> Promise<AuthToken> {
+    public func authenticate(email: String, password: String, completion: @escaping (AuthToken?, Error?) -> ()) -> Void {
 		
 		self.email = email
         UserDefaults.standard.set(email, forKey: "TeslaSwift.email")
@@ -192,22 +191,27 @@ extension TeslaSwift {
 		                            clientID: "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384",
 		                            clientSecret: "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3")
 		
-		return request(.authentication, body: body)
-			.map(on: .global()) { (result: AuthToken) -> AuthToken in
-				self.token = result
-				return result
-			}.recover { (error) -> Guarantee<AuthToken> in
-
-			if case let TeslaError.networkError(error: internalError) = error {
-				if internalError.code == 401 {
-					throw TeslaError.authenticationFailed
-				} else {
-					throw error
-				}
-			} else {
-				throw error
-			}
-		}
+        
+        request(.authentication, body: body) { (result: AuthToken?, error: Error?) in
+            
+            if let result = result {
+                self.token = result
+                completion(result, nil)
+            } else if let error = error {
+                if case let TeslaError.networkError(error: internalError) = error {
+                    if internalError.code == 401 {
+                        completion(nil, TeslaError.authenticationFailed)
+                    } else {
+                        completion(nil, error)
+                    }
+                } else {
+                    completion(nil, error)
+                }
+            } else {
+                // not possible
+            }
+        }
+        
 	}
 	
 	
@@ -231,28 +235,37 @@ extension TeslaSwift {
 	- returns: A Promise with the token revoke state.
 	*/
 
-	public func revoke() -> Promise<Bool> {
+	public func revoke(completion: @escaping (Bool?, Error?) -> ()) -> Void {
 		
 		guard let accessToken = self.token?.accessToken else {
 			token = nil
-			return .value(false)
+			return completion(false, nil)
 		}
 			
 		token = nil
 		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<BoolResponse> in
-			
-			let body = ["token" : accessToken]
-			self.token = nil
-			
-			return self.request(.revoke, body: body)
-			
-			}.map(on: .global()) {
-				(data: BoolResponse) -> Bool in
-				
-				data.response
-		}	
+        checkAuthentication { (token, error) in
+            
+            let body = ["token" : accessToken]
+            self.token = nil
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                self.request(.revoke, body: body) { (data: BoolResponse?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
+        
+
 	}
 	
 	/**
@@ -270,33 +283,49 @@ extension TeslaSwift {
 	
 	- returns: A Promise with an array of Vehicles.
 	*/
-	public func getVehicles() -> Promise<[Vehicle]> {
+	public func getVehicles(completion: @escaping ([Vehicle]?, Error?) -> ()) -> Void {
 		
-		return checkAuthentication().then(on: .global()) { _ in
-			return self.request(.vehicles, body: nullBody)
-			}.map(on: .global()) {
-				(data: ArrayResponse<Vehicle>) -> [Vehicle] in
-				return data.response
-		}
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                self.request(.vehicles, body: nullBody) { (data: ArrayResponse<Vehicle>?, error: Error?) in
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
 		
 	}
 	
-	public func getAllData(_ vehicle: Vehicle) -> Promise<VehicleExtended> {
-		let promise = checkAuthentication()
-		let first = promise.then(on: .global()) {
-			(token) -> Promise<Response<VehicleExtended>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.allStates(vehicleID: vehicleID), body: nullBody)
-			
-		}
-		let second = first.map(on: .global()) {
-				(data: Response<VehicleExtended>) -> VehicleExtended in
-				
-				return data.response
-		}
-		return second
+	public func getAllData(_ vehicle: Vehicle, completion: @escaping (VehicleExtended?, Error?) -> ()) -> Void {
+    
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.allStates(vehicleID: vehicleID), body: nullBody) { (data: Response<VehicleExtended>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
+
 	}
 	
 	/**
@@ -304,42 +333,56 @@ extension TeslaSwift {
 	
 	- returns: A Promise with mobile access state.
 	*/
-	public func getVehicleMobileAccessState(_ vehicle: Vehicle) -> Promise<Bool> {
+	public func getVehicleMobileAccessState(_ vehicle: Vehicle, completion: @escaping (Bool?, Error?) -> ()) -> Void {
 		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<BoolResponse> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody)
-			
-			}.map(on: .global()) {
-				(data: BoolResponse) -> Bool in
-				
-				data.response
-		}
-	}
-	
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody) { (data: BoolResponse?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
+    }
+    
 	/**
 	Fetchs the vehicle charge state
 	
 	- returns: A Promise with charge state.
 	*/
-	public func getVehicleChargeState(_ vehicle: Vehicle) -> Promise<ChargeState> {
+	public func getVehicleChargeState(_ vehicle: Vehicle, completion: @escaping (ChargeState?, Error?) -> ()) -> Void {
 		
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.chargeState(vehicleID: vehicleID), body: nullBody) { (data: Response<ChargeState>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
 		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<ChargeState>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.chargeState(vehicleID: vehicleID), body: nullBody)
-			
-			}.map(on: .global()) {
-				(data: Response<ChargeState>) -> ChargeState in
-				
-				data.response
-			}
 	}
 	
 	/**
@@ -347,20 +390,28 @@ extension TeslaSwift {
 	
 	- returns: A Promise with Climate state.
 	*/
-	public func getVehicleClimateState(_ vehicle: Vehicle) -> Promise<ClimateState> {
+	public func getVehicleClimateState(_ vehicle: Vehicle, completion: @escaping (ClimateState?, Error?) -> ()) -> Void {
 		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<ClimateState>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.climateState(vehicleID: vehicleID), body: nullBody)
-				
-			}.map(on: .global()) {
-				(data: Response<ClimateState>) -> ClimateState in
-				
-				data.response
-			}
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.climateState(vehicleID: vehicleID), body: nullBody) { (data: Response<ClimateState>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
+  
 	}
 	
 	/**
@@ -368,20 +419,28 @@ extension TeslaSwift {
 	
 	- returns: A Promise with drive state.
 	*/
-	public func getVehicleDriveState(_ vehicle: Vehicle) -> Promise<DriveState> {
+	public func getVehicleDriveState(_ vehicle: Vehicle, completion: @escaping (DriveState?, Error?) -> ()) -> Void {
 		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<DriveState>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.driveState(vehicleID: vehicleID), body: nullBody)
-				
-			}.map(on: .global()) {
-				(data: Response<DriveState>) -> DriveState in
-				
-					data.response
-			}
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.driveState(vehicleID: vehicleID), body: nullBody) { (data: Response<DriveState>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
+       
 	}
 	
 	/**
@@ -389,20 +448,27 @@ extension TeslaSwift {
 	
 	- returns: A Promise with Gui Settings.
 	*/
-	public func getVehicleGuiSettings(_ vehicle: Vehicle) -> Promise<GuiSettings> {
-		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<GuiSettings>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.guiSettings(vehicleID: vehicleID), body: nullBody)
-			
-			}.map(on: .global()) {
-				(data: Response<GuiSettings>) -> GuiSettings in
-				
-					data.response
-			}
+    public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (GuiSettings?, Error?) -> ()) -> Void {
+        
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.guiSettings(vehicleID: vehicleID), body: nullBody) { (data: Response<GuiSettings>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
 	}
 	
 	/**
@@ -410,20 +476,28 @@ extension TeslaSwift {
 	
 	- returns: A Promise with vehicle state.
 	*/
-	public func getVehicleState(_ vehicle: Vehicle) -> Promise<VehicleState> {
-		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<VehicleState>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.vehicleState(vehicleID: vehicleID), body: nullBody)
-			
-			}.map(on: .global()) {
-				(data: Response<VehicleState>) -> VehicleState in
-				
-				data.response
-		}
+    public func getVehicleState(_ vehicle: Vehicle, completion: @escaping (VehicleState?, Error?) -> ()) -> Void {
+        
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.vehicleState(vehicleID: vehicleID), body: nullBody) { (data: Response<VehicleState>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
+
 	}
 	
 	/**
@@ -431,20 +505,27 @@ extension TeslaSwift {
 	
 	- returns: A Promise with vehicle config
 	*/
-	public func getVehicleConfig(_ vehicle: Vehicle) -> Promise<VehicleConfig> {
-		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<VehicleConfig>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.vehicleConfig(vehicleID: vehicleID), body: nullBody)
-			
-			}.map(on: .global()) {
-				(data: Response<VehicleConfig>) -> VehicleConfig in
-				
-				data.response
-		}
+    public func getVehicleConfig(_ vehicle: Vehicle, completion: @escaping (VehicleConfig?, Error?) -> ()) -> Void {
+        
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.vehicleConfig(vehicleID: vehicleID), body: nullBody) { (data: Response<VehicleConfig>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
 	}
 
     /**
@@ -474,22 +555,29 @@ extension TeslaSwift {
 	
 	- returns: A Promise with the current Vehicle
 	*/
-	public func wakeUp(vehicle: Vehicle) -> Promise<Vehicle> {
+    public func wakeUp(_ vehicle: Vehicle, completion: @escaping (Vehicle?, Error?) -> ()) -> Void {
+        
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.wakeUp(vehicleID: vehicleID), body: nullBody) { (data: Response<Vehicle>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
+        }
 		
-		return checkAuthentication().then(on: .global()) {
-			(token) -> Promise<Response<Vehicle>> in
-			
-			let vehicleID = vehicle.id!
-			
-			return self.request(.wakeUp(vehicleID: vehicleID), body: nullBody)
-			
-			}.map(on: .global()) {
-				(data: Response<Vehicle>) -> Vehicle in
-				
-				data.response
-		}
 	}
-	
 	
 	/**
 	Sends a command to the vehicle
@@ -498,57 +586,74 @@ extension TeslaSwift {
 	- parameter command: the command to send to the vehicle
 	- returns: A Promise with the CommandResponse object containing the results of the command.
 	*/
-	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand) -> Promise<CommandResponse> {
+	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand, completion: @escaping (CommandResponse?, Error?) -> ()) -> Void {
 		
-		return checkAuthentication()
-			.then(on: .global()) { (token) -> Promise<CommandResponse> in
-				
-				switch command {
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let requestCompletion = { (data: CommandResponse?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data, error)
+                }
+                
+    			switch command {
 				case let .valetMode(valetActivated, pin):
-					let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                    let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .openTrunk(options):
 					let body = options
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
                 case let .navigationRequest(address):
                     let body = address
-                    return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .chargeLimitPercentage(limit):
 					let body = ChargeLimitPercentageCommandOptions(limit: limit)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .setTemperature(driverTemperature, passengerTemperature):
-					let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .setSunRoof(state, percent):
-					let body = SetSunRoofCommandOptions(state: state, percent: percent)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = SetSunRoofCommandOptions(state: state, percent: percent)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .startVehicle(password):
-					let body = RemoteStartDriveCommandOptions(password: password)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = RemoteStartDriveCommandOptions(password: password)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .speedLimitSetLimit(speed):
-					let body = SetSpeedLimitOptions(limit: speed)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = SetSpeedLimitOptions(limit: speed)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .speedLimitActivate(pin):
-					let body = SpeedLimitPinOptions(pin: pin)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = SpeedLimitPinOptions(pin: pin)
+					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .speedLimitDeactivate(pin):
-					let body = SpeedLimitPinOptions(pin: pin)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = SpeedLimitPinOptions(pin: pin)
+					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				case let .speedLimitClearPin(pin):
-					let body = SpeedLimitPinOptions(pin: pin)
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+					 let body = SpeedLimitPinOptions(pin: pin)
+					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
                 case let .setSeatHeater(seat, level):
-                    let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
-                    return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                     let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
                 case let .setSteeringWheelHeater(on):
-                    let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
-                    return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                     let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
                 case let .sentryMode(activated):
-                    let body = SentryModeCommandOptions(activated: activated)
-                    return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+                     let body = SentryModeCommandOptions(activated: activated)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				default:
-					return self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: nullBody)
+                    let body = nullBody
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
 				}
+                
+                
+            }
 		
 		}
 		
@@ -557,44 +662,36 @@ extension TeslaSwift {
 
 extension TeslaSwift {
 	
-	func checkToken() -> Promise<Bool> {
+	func checkToken() -> Bool {
 		
 		if let token = self.token {
-			return .value(token.isValid)
+			return token.isValid
 		} else {
-			return .value(false)
+			return false
 		}
 	}
 	
-	func cleanToken() -> Promise<Void> {
+    func cleanToken()  {
 		self.token = nil
-		return .value(())
 	}
 	
-	func checkAuthentication() -> Promise<AuthToken> {
-		
-		return checkToken().then(on: .global()) { (value) -> Promise<AuthToken> in
-			
-			if value {
-				return .value(self.token!)
-			} else {
-				return self.cleanToken().then(on: .global()) {
-					_ -> Promise<AuthToken> in
-					
-					if let email = self.email, let password = self.password {
-						return self.authenticate(email: email, password: password)
-					} else {
-						throw TeslaError.authenticationRequired
-					}
-				}
-				
-			}
-		}
+    func checkAuthentication(completion: @escaping (AuthToken?, Error?) -> ()) {
+
+        let value = checkToken()
+        
+        if value {
+            completion(self.token!, nil)
+        } else {
+            self.cleanToken()
+            if let email = self.email, let password = self.password {
+                authenticate(email: email, password: password, completion: completion)
+            } else {
+                completion(nil, TeslaError.authenticationRequired)
+            }
+        }
 	}
 	
-	func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> Promise<ReturnType> {
-		
-		let (promise, seal) = Promise<ReturnType>.pending()
+    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, completion: @escaping (ReturnType?, Error?) -> ()) -> Void {
 		
 		let request = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
@@ -602,8 +699,8 @@ extension TeslaSwift {
 			(data, response, error) in
 			
 			
-			guard error == nil else { seal.reject(error!); return }
-			guard let httpResponse = response as? HTTPURLResponse else { seal.reject(TeslaError.failedToParseData); return }
+			guard error == nil else { completion(nil, error!); return }
+			guard let httpResponse = response as? HTTPURLResponse else { completion(nil, TeslaError.failedToParseData); return }
 			
 			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
 			responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
@@ -625,11 +722,11 @@ extension TeslaSwift {
 						logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
 						
 						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
-						seal.fulfill(mapped)
+                        completion(mapped, nil)
 					}
 				} catch {
 					logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
-					seal.reject(TeslaError.failedToParseData)
+					completion(nil, TeslaError.failedToParseData)
 				}
 				
 			} else {
@@ -640,20 +737,20 @@ extension TeslaSwift {
 					
 					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
 						wwwauthenticate.contains("invalid_token") {
-						seal.reject(TeslaError.tokenRevoked)
+						completion(nil, TeslaError.tokenRevoked)
 					} else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
-						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
+						completion(nil, TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
 					} else {
-						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+						completion(nil, TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
 					}
 					
 				} else {
 					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
 						if wwwauthenticate.contains("invalid_token") {
-							seal.reject(TeslaError.authenticationFailed)
+							completion(nil, TeslaError.authenticationFailed)
 						}
 					} else {
-						seal.reject(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+						completion(nil, TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
 					}
 				}
 			}
@@ -662,7 +759,6 @@ extension TeslaSwift {
 		}) 
 		task.resume()
 		
-		return promise
 	}
 
 	func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
@@ -717,11 +813,13 @@ extension TeslaSwift {
 		
 		if reloadsVehicle {
 			
-			reloadVehicle(vehicle: vehicle).done { (freshVehicle) -> Void in
-				self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
-			}.catch { (error) in
-				dataReceived((event: nil, error: error))
-			}
+            reloadVehicle(vehicle: vehicle) { (freshVehicle: Vehicle?, error: Error?) in
+                if let freshVehicle = freshVehicle {
+                    self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
+                } else {
+                    dataReceived((event: nil, error: error))
+                }
+            }
 			
 		} else {
 			startStream(vehicle: vehicle, dataReceived: dataReceived)
@@ -729,15 +827,23 @@ extension TeslaSwift {
 	
 	}
 	
-	func reloadVehicle(vehicle: Vehicle) -> Promise<Vehicle> {
-		return getVehicles().map { (vehicles: [Vehicle]) -> Vehicle in
-			
-			for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
-				return freshVehicle
-			}
-			
-			return vehicle
-		}
+	func reloadVehicle(vehicle: Vehicle, completion: @escaping (Vehicle?, Error?) -> ()) -> Void {
+        
+        getVehicles { (vehicles: [Vehicle]?, error: Error?) in
+            
+            guard let vehicles = vehicles else {
+                completion(nil, error)
+                return
+            }
+            
+            for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
+                completion(freshVehicle, error)
+                return
+            }
+            
+            completion(vehicle, error)
+        }
+        
 	}
 	
 	func startStream(vehicle: Vehicle, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {

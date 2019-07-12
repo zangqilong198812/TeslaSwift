@@ -97,7 +97,7 @@ extension HTTPEventStreaming: URLSessionDataDelegate {
 	
 	func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
 		
-		if error == nil || (error as NSError?)?.code != -999 {
+        if let error = error as NSError?, error.code != -999 {
 			let seconds = retryTime / 1000.0
 			let delayTime = DispatchTime.now() + seconds
 			DispatchQueue.main.asyncAfter(deadline: delayTime) {

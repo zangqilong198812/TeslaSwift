@@ -101,14 +101,11 @@ class TeslaSwiftTests: XCTestCase {
 			.done {
 				(_) in
 				
-				service.checkToken().done { (response) in
-					
-					XCTAssertFalse(response)
-					expection.fulfill()
-					
-					}.catch { (error) in
-						XCTFail("Token is not valid: \((error as NSError).description)")
-				}
+                let response = service.checkToken()
+                
+                XCTAssertFalse(response)
+                expection.fulfill()
+
 				
 		}
 		
@@ -129,14 +126,10 @@ class TeslaSwiftTests: XCTestCase {
 				
 				service.token?.createdAt = Date()
 				
-				service.checkToken().done { (response) -> Void in
-					
-					XCTAssertTrue(response)
-					expection.fulfill()
-					
-					}.catch { (error) in
-						XCTFail("Token is not valid: \((error as NSError).description)")
-				}
+				let response = service.checkToken()
+                
+                XCTAssertTrue(response)
+                expection.fulfill() 
 				
 		}
 		
