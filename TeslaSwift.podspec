@@ -29,6 +29,8 @@ Pod::Spec.new do |s|
         ss.dependency 'PromiseKit/CorePromise' ,  '~> 6'
         ss.ios.deployment_target = '10.0'
         ss.osx.deployment_target = '10.12'
+        ss.watchos.deployment_target = '3.0'
+        ss.tvos.deployment_target = '10.0'
 end
 
 end
