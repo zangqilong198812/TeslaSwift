@@ -98,7 +98,6 @@
 		CF3F851E21C52B0B0086B564 /* VehicleConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3F851D21C52B0B0086B564 /* VehicleConfig.json */; };
 		CF3F852021C52BD60086B564 /* SetSpeedLimit.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */; };
 		CF3F852221C52C650086B564 /* SpeedLimitPin.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3F852121C52C650086B564 /* SpeedLimitPin.json */; };
-		CF48FA971C8B039F00B1DA93 /* TeslaSwift.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */; };
 		CF48FA991C8B08AC00B1DA93 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48FA981C8B08AC00B1DA93 /* TabController.swift */; };
 		CF48FA9B1C8B09C500B1DA93 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */; };
 		CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */; };
@@ -656,7 +655,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFF06D051FB63CF9003320E3 /* Podfile.lock in Resources */,
-				CF48FA971C8B039F00B1DA93 /* TeslaSwift.podspec in Resources */,
 				CFD2E7D11C8A13D60005E882 /* LaunchScreen.storyboard in Resources */,
 				CFF048061F72F115006B52F7 /* README.md in Resources */,
 				CFD2E7CE1C8A13D60005E882 /* Assets.xcassets in Resources */,
