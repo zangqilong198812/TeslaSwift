@@ -52,12 +52,21 @@ Perform an authentication with your My Tesla credentials:
 
 ```swift
 let api = TeslaSwift()
-api.authenticate(email: email, password: password)
+api.authenticate(email: email, password: password) {
+   (token: AuthToken?, error: Error?) in 
+      if let token = token {
+        // Logged in 
+      } else {
+        // Failed
+      }
+
+}
 ```
 
-Use the promise to check the success: 
+Or if you use PromiseKit you can check the success: 
 
 ```swift
+api.authenticate(email: email, password: password)
 .done { (result) in
     // Logged In!
 }.catch { (error) in
