@@ -534,19 +534,26 @@ extension TeslaSwift {
      - parameter vehicle: the vehicle to get nearby charging sites from
      - returns: A Promise with nearby charging sites
      */
-    public func getNearbyChargingSites(_ vehicle: Vehicle) -> Promise<NearbyChargingSites> {
-
-        return checkAuthentication().then(on: .global()) {
-            (token) -> Promise<Response<NearbyChargingSites>> in
-
-            let vehicleID = vehicle.id!
-
-            return self.request(.nearbyChargingSites(vehicleID: vehicleID), body: nullBody)
-
-            }.map(on: .global()) {
-                (data: Response<NearbyChargingSites>) -> NearbyChargingSites in
-
-                data.response
+    public func getNearbyChargingSites(_ vehicle: Vehicle, completion: @escaping (NearbyChargingSites?, Error?) -> ()) -> Void {
+        
+        checkAuthentication { (token: AuthToken?, error: Error?) in
+            
+            if error != nil {
+                completion(nil, error)
+            } else {
+                
+                let vehicleID = vehicle.id!
+                
+                self.request(.nearbyChargingSites(vehicleID: vehicleID), body: nullBody) { (data: Response<NearbyChargingSites>?, error: Error?) in
+                    
+                    guard let data = data else {
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    completion(data.response, error)
+                }
+            }
         }
     }
 

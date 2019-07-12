@@ -158,6 +158,22 @@ extension TeslaSwift {
     }
     
     /**
+     Fetches the nearby charging sites
+     
+     - parameter vehicle: the vehicle to get nearby charging sites from
+     - returns: A Promise with nearby charging sites
+     */
+    public func getNearbyChargingSites(_ vehicle: Vehicle) -> Promise<NearbyChargingSites> {
+        
+        let (promise, seal) = Promise<NearbyChargingSites>.pending()
+        
+        getNearbyChargingSites(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    /**
      Wakes up the vehicle
      
      - returns: A Promise with the current Vehicle

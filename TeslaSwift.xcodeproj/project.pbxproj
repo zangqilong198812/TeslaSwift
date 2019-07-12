@@ -22,6 +22,9 @@
 		17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17875172221C4C7800B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17CD215C22D1739600AAC7F2 /* NearbyChargingSites.json in Resources */ = {isa = PBXBuildFile; fileRef = 17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */; };
+		1AB2325722D90FAD0050C740 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB2325622D90FAD0050C740 /* TeslaSwift+PromiseKit.swift */; };
+		1AB2325822D90FAD0050C740 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB2325622D90FAD0050C740 /* TeslaSwift+PromiseKit.swift */; };
+		1AB2325922D90FAD0050C740 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB2325622D90FAD0050C740 /* TeslaSwift+PromiseKit.swift */; };
 		650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507F218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
@@ -180,6 +183,7 @@
 		1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSteeringWheelHeaterRequestOptions.swift; sourceTree = "<group>"; };
 		17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NearbyChargingSites.json; sourceTree = "<group>"; };
 		197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AB2325622D90FAD0050C740 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftAll_TeslaSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F4E32676B9AA496A9E76FC3 /* Pods-TeslaSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift.release.xcconfig"; sourceTree = "<group>"; };
@@ -488,6 +492,7 @@
 			isa = PBXGroup;
 			children = (
 				CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */,
+				1AB2325622D90FAD0050C740 /* TeslaSwift+PromiseKit.swift */,
 				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
 				CFEAF13C1EACEE550003FA6E /* TeslaStreaming.swift */,
 				CFEAF1401EB505D40003FA6E /* HTTPEventStreaming.swift */,
@@ -826,6 +831,7 @@
 				CF25068C1E46034800D0E08A /* ViewController.swift in Sources */,
 				CF25069F1E4603CF00D0E08A /* OpenTrunkOptions.swift in Sources */,
 				CF25068A1E46034800D0E08A /* AppDelegate.swift in Sources */,
+				1AB2325922D90FAD0050C740 /* TeslaSwift+PromiseKit.swift in Sources */,
 				CF2506A31E4603CF00D0E08A /* SetSunRoofCommandOptions.swift in Sources */,
 				CFF001AE1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CFAE27911F76644400D28079 /* Codable+JSONString.swift in Sources */,
@@ -872,6 +878,7 @@
 				CF0D2F291D95A4A900E5A304 /* ClimateState.swift in Sources */,
 				CF0D2F251D95A4A900E5A304 /* Authentication.swift in Sources */,
 				CF1BD5991DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
+				1AB2325722D90FAD0050C740 /* TeslaSwift+PromiseKit.swift in Sources */,
 				CF0D2F311D95A4A900E5A304 /* GuiSettings.swift in Sources */,
 				CF1BD5961DD5051600E4C493 /* SetTemperatureCommandOptions.swift in Sources */,
 				CFEAF13D1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
@@ -913,6 +920,7 @@
 				CF1BD5971DD5051600E4C493 /* SetTemperatureCommandOptions.swift in Sources */,
 				CF0D2F2C1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
 				CF0D2F321D95A4A900E5A304 /* GuiSettings.swift in Sources */,
+				1AB2325822D90FAD0050C740 /* TeslaSwift+PromiseKit.swift in Sources */,
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
