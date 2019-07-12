@@ -14,12 +14,12 @@ Copy `Sources` folder into your project
 ### CocoaPods
 
 ```ruby
-pod 'TeslaSwift', '~> 4'
+pod 'TeslaSwift', '~> 5'
 ```
 If you need PromiseKit extensions you need to also add this line
 
 ```ruby
-pod 'TeslaSwift/PromiseKit', '~> 4'
+pod 'TeslaSwift/PromiseKit', '~> 5'
 ```
 
 ### Swift Package Manager
