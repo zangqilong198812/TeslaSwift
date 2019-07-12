@@ -25,8 +25,7 @@ Pod::Spec.new do |s|
 	s.requires_arc = true
 
     s.subspec 'PromiseKit' do |ss|
-        ss.source_files = 'Sources/Extensions/PromiseKit/*.{swift}'
-        ss.dependency 'TeslaSwift'
+        ss.source_files = 'Sources/**/*.{swift}'
         ss.dependency 'PromiseKit/CorePromise' ,  '~> 6'
         ss.ios.deployment_target = '10.0'
         ss.osx.deployment_target = '10.12'
