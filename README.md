@@ -16,7 +16,7 @@ Copy `Sources` folder into your project
 ```ruby
 pod 'TeslaSwift', '~> 5'
 ```
-If you need PromiseKit extensions you need to also add this line
+If you need PromiseKit extensions you can use this line instead
 
 ```ruby
 pod 'TeslaSwift/PromiseKit', '~> 5'
