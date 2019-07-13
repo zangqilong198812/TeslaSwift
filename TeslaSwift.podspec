@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
 	s.source       = { :git => "https://github.com/jonasman/TeslaSwift.git", :tag => "#{s.version}" }
 
-    s.source_files  = "Sources/TeslaSwift/**/*.{swift}"
+    s.source_files  = "Sources/TeslaSwift/**/*.swift"
 
 
 	s.framework  = "Foundation"
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
 	s.requires_arc = true
 
     s.subspec 'PromiseKit' do |ss|
-        ss.source_files = 'Sources/Extensions/PromiseKit/*.{swift}'
+        ss.source_files = 'Sources/Extensions/PromiseKit/*.swift'
         ss.dependency 'PromiseKit/CorePromise' ,  '~> 6'
         ss.ios.deployment_target = '10.0'
         ss.osx.deployment_target = '10.12'
