@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class FirstViewController: UIViewController, UITableViewDataSource {
     
@@ -31,16 +32,13 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     }
     
     func getVehicles() {
-        api.getVehicles()
-            .done {
-                (response) -> Void in
-                
-                self.data = response
-                self.tableView.reloadData()
-                
-        }.catch { (error) in
-            //Process error
+        _ = api.getVehicles().sink { response in
+            
+            self.data = response
+            self.tableView.reloadData()
+            
         }
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
