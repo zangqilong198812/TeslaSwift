@@ -321,40 +321,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1AE27F7422D91DE800456310 /* Extensions */ = {
+		1A9B1B1A22DA40370014CE17 /* TeslaSwift */ = {
 			isa = PBXGroup;
 			children = (
-				1AE27F7522D91DE800456310 /* PromiseKit */,
+				CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */,
+				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
+				CFEAF13C1EACEE550003FA6E /* TeslaStreaming.swift */,
+				CFEAF1401EB505D40003FA6E /* HTTPEventStreaming.swift */,
+				CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */,
+				1A9B1B1C22DA40AF0014CE17 /* Model */,
 			);
-			path = Extensions;
+			path = TeslaSwift;
 			sourceTree = "<group>";
 		};
-		1AE27F7522D91DE800456310 /* PromiseKit */ = {
-			isa = PBXGroup;
-			children = (
-				1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */,
-			);
-			path = PromiseKit;
-			sourceTree = "<group>";
-		};
-		972A07A9A28D45E77B9699F5 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				CF8D0CFE1D971B320069FFFE /* Pods_TeslaSwift_TeslaSwiftTests.framework */,
-				CF4D4D0C1D81F39900CCE6ED /* Pods_TeslaSwiftTests.framework */,
-				CFD950661C8A44F4008397BD /* Pods.framework */,
-				663732209E4E55CAD3A287C6 /* Pods.framework */,
-				BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */,
-				50BF831C9E3C5642B8EE0D30 /* Pods_TeslaSwiftTests.framework */,
-				9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */,
-				45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */,
-				C41422821C25B682F122BE7C /* Pods_TeslaSwiftAll_TeslaSwiftTests.framework */,
-				197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CF0D2F181D95A49000E5A304 /* Model */ = {
+		1A9B1B1C22DA40AF0014CE17 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				CF0D2F191D95A4A900E5A304 /* Authentication.swift */,
@@ -386,7 +366,40 @@
 				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
 			);
-			name = Model;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1AE27F7422D91DE800456310 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1AE27F7522D91DE800456310 /* PromiseKit */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1AE27F7522D91DE800456310 /* PromiseKit */ = {
+			isa = PBXGroup;
+			children = (
+				1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */,
+			);
+			path = PromiseKit;
+			sourceTree = "<group>";
+		};
+		972A07A9A28D45E77B9699F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CF8D0CFE1D971B320069FFFE /* Pods_TeslaSwift_TeslaSwiftTests.framework */,
+				CF4D4D0C1D81F39900CCE6ED /* Pods_TeslaSwiftTests.framework */,
+				CFD950661C8A44F4008397BD /* Pods.framework */,
+				663732209E4E55CAD3A287C6 /* Pods.framework */,
+				BCCF54A5D3EEC6D742F8BA4D /* Pods_TeslaSwift.framework */,
+				50BF831C9E3C5642B8EE0D30 /* Pods_TeslaSwiftTests.framework */,
+				9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */,
+				45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */,
+				C41422821C25B682F122BE7C /* Pods_TeslaSwiftAll_TeslaSwiftTests.framework */,
+				197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		CF2506881E46034800D0E08A /* TeslaSwiftDemoMacOs */ = {
@@ -506,13 +519,8 @@
 		CFD2E7E61C8A13E20005E882 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1A9B1B1A22DA40370014CE17 /* TeslaSwift */,
 				1AE27F7422D91DE800456310 /* Extensions */,
-				CFD2E7E71C8A13F20005E882 /* TeslaSwift.swift */,
-				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
-				CFEAF13C1EACEE550003FA6E /* TeslaStreaming.swift */,
-				CFEAF1401EB505D40003FA6E /* HTTPEventStreaming.swift */,
-				CFEAF1341EABF9C10003FA6E /* TeslaStreamEndpoint.swift */,
-				CF0D2F181D95A49000E5A304 /* Model */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
