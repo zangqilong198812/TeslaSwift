@@ -4,5 +4,6 @@ xcode_workspace: TeslaSwiftDemo/TeslaSwift.xcworkspace
 xcode_scheme: TeslaSwift
 xcode_sdk: iphonesimulator12.2
 xcode_destination: platform=iOS Simulator,OS=12.2,name=iPhone XS
+podfile: TeslaSwiftDemo/Podfile
 notifications:
   email: false
