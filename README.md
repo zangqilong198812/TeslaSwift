@@ -1,7 +1,7 @@
-# TeslaSwift
+    # TeslaSwift
 Swift library to access Tesla API based on [Tesla JSON API (Unofficial)](https://tesla-api.timdorr.com)
 
-[![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
 [![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)](https://github.com/jonasman/TeslaSwift)
 
@@ -27,7 +27,7 @@ pod 'TeslaSwift/PromiseKit', '~> 5'
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this:
 
 ```swift
-.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 4)
+.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 5)
 ```
 
 ## Usage
