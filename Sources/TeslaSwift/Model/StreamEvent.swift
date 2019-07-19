@@ -10,6 +10,13 @@ import Foundation
 
 import CoreLocation
 
+public enum TeslaStreamingEvent {
+    case open
+    case event(StreamEvent)
+    case error(Error?)
+    case disconnected
+}
+
 open class StreamEvent: Codable {
 	
     open var timestamp: Double?

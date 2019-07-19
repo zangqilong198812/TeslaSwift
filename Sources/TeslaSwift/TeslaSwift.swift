@@ -138,6 +138,7 @@ public enum TeslaError: Error, Equatable {
 	case invalidOptionsForCommand
 	case failedToParseData
 	case streamingMissingEmailOrVehicleToken
+    case failedToReloadVehicle
 }
 
 let ErrorInfo = "ErrorInfo"
@@ -179,7 +180,7 @@ extension TeslaSwift {
 	- returns: A completion handler with the AuthToken.
 	*/
 
-    public func authenticate(email: String, password: String, completion: @escaping (AuthToken?, Error?) -> ()) -> Void {
+    public func authenticate(email: String, password: String, completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
 		
 		self.email = email
         UserDefaults.standard.set(email, forKey: "TeslaSwift.email")
@@ -192,24 +193,24 @@ extension TeslaSwift {
 		                            clientSecret: "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3")
 		
         
-        request(.authentication, body: body) { (result: AuthToken?, error: Error?) in
+        request(.authentication, body: body) { (result: Result<AuthToken, Error>) in
             
-            if let result = result {
-                self.token = result
-                completion(result, nil)
-            } else if let error = error {
+            switch result {
+            case .success(let token):
+                self.token = token
+                completion(Result.success(token))
+            case .failure(let error):
                 if case let TeslaError.networkError(error: internalError) = error {
                     if internalError.code == 401 {
-                        completion(nil, TeslaError.authenticationFailed)
+                        completion(Result.failure(TeslaError.authenticationFailed))
                     } else {
-                        completion(nil, error)
+                        completion(Result.failure(error))
                     }
                 } else {
-                    completion(nil, error)
+                    completion(Result.failure(error))
                 }
-            } else {
-                // not possible
             }
+            
         }
         
 	}
@@ -234,32 +235,31 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with the token revoke state.
 	*/
-	public func revoke(completion: @escaping (Bool?, Error?) -> ()) -> Void {
+	public func revoke(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
 		
 		guard let accessToken = self.token?.accessToken else {
 			token = nil
-			return completion(false, nil)
+			return completion(Result.success(false))
 		}
 			
 		token = nil
 		
-        checkAuthentication { (token, error) in
-            
-            let body = ["token" : accessToken]
-            self.token = nil
-            
-            if error != nil {
-                completion(nil, error)
-            } else {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
-                self.request(.revoke, body: body) { (data: BoolResponse?, error: Error?) in
+                let body = ["token" : accessToken]
+                self.request(.revoke, body: body) { (result: Result<BoolResponse, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -282,21 +282,22 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with an array of Vehicles.
 	*/
-	public func getVehicles(completion: @escaping ([Vehicle]?, Error?) -> ()) -> Void {
-		
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+    public func getVehicles(completion: @escaping (Result<[Vehicle], Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
-                self.request(.vehicles, body: nullBody) { (data: ArrayResponse<Vehicle>?, error: Error?) in
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                self.request(.vehicles, body: nullBody) { (result: Result<ArrayResponse<Vehicle>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -308,24 +309,25 @@ extension TeslaSwift {
      
      - returns: A completion handler with all the data
      */
-	public func getAllData(_ vehicle: Vehicle, completion: @escaping (VehicleExtended?, Error?) -> ()) -> Void {
+	public func getAllData(_ vehicle: Vehicle, completion: @escaping (Result<VehicleExtended, Error>) -> ()) -> Void {
     
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.allStates(vehicleID: vehicleID), body: nullBody) { (data: Response<VehicleExtended>?, error: Error?) in
+                self.request(.allStates(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<VehicleExtended>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -337,24 +339,25 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with mobile access state.
 	*/
-	public func getVehicleMobileAccessState(_ vehicle: Vehicle, completion: @escaping (Bool?, Error?) -> ()) -> Void {
-		
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+    public func getVehicleMobileAccessState(_ vehicle: Vehicle, completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody) { (data: BoolResponse?, error: Error?) in
+                self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody) { (result: Result<BoolResponse, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -365,24 +368,25 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with charge state.
 	*/
-	public func getVehicleChargeState(_ vehicle: Vehicle, completion: @escaping (ChargeState?, Error?) -> ()) -> Void {
-		
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+	public func getVehicleChargeState(_ vehicle: Vehicle, completion: @escaping (Result<ChargeState, Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.chargeState(vehicleID: vehicleID), body: nullBody) { (data: Response<ChargeState>?, error: Error?) in
+                self.request(.chargeState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<ChargeState>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -394,24 +398,25 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with Climate state.
 	*/
-	public func getVehicleClimateState(_ vehicle: Vehicle, completion: @escaping (ClimateState?, Error?) -> ()) -> Void {
-		
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+    public func getVehicleClimateState(_ vehicle: Vehicle, completion: @escaping (Result<ClimateState, Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.climateState(vehicleID: vehicleID), body: nullBody) { (data: Response<ClimateState>?, error: Error?) in
+                self.request(.climateState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<ClimateState>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -423,28 +428,29 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with drive state.
 	*/
-	public func getVehicleDriveState(_ vehicle: Vehicle, completion: @escaping (DriveState?, Error?) -> ()) -> Void {
-		
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+	public func getVehicleDriveState(_ vehicle: Vehicle, completion: @escaping (Result<DriveState, Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.driveState(vehicleID: vehicleID), body: nullBody) { (data: Response<DriveState>?, error: Error?) in
+                self.request(.driveState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<DriveState>,  Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
-       
+        
 	}
 	
 	/**
@@ -452,85 +458,88 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with Gui Settings.
 	*/
-    public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (GuiSettings?, Error?) -> ()) -> Void {
+    public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (Result<GuiSettings, Error>?) -> ()) -> Void {
         
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.guiSettings(vehicleID: vehicleID), body: nullBody) { (data: Response<GuiSettings>?, error: Error?) in
+                self.request(.guiSettings(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<GuiSettings>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
-	}
+    }
 	
 	/**
 	Fetchs the vehicle state
 	
 	- returns: A completion handler with vehicle state.
 	*/
-    public func getVehicleState(_ vehicle: Vehicle, completion: @escaping (VehicleState?, Error?) -> ()) -> Void {
+    public func getVehicleState(_ vehicle: Vehicle, completion: @escaping (Result<VehicleState, Error>) -> ()) -> Void {
         
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.vehicleState(vehicleID: vehicleID), body: nullBody) { (data: Response<VehicleState>?, error: Error?) in
+                self.request(.vehicleState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<VehicleState>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
-
-	}
+        
+    }
 	
 	/**
 	Fetchs the vehicle config
 	
 	- returns: A completion handler with vehicle config
 	*/
-    public func getVehicleConfig(_ vehicle: Vehicle, completion: @escaping (VehicleConfig?, Error?) -> ()) -> Void {
+    public func getVehicleConfig(_ vehicle: Vehicle, completion: @escaping (Result<VehicleConfig, Error>) -> ()) -> Void {
         
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.vehicleConfig(vehicleID: vehicleID), body: nullBody) { (data: Response<VehicleConfig>?, error: Error?) in
+                self.request(.vehicleConfig(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<VehicleConfig>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
-	}
+    }
 
     /**
      Fetches the nearby charging sites
@@ -538,24 +547,25 @@ extension TeslaSwift {
      - parameter vehicle: the vehicle to get nearby charging sites from
      - returns: A completion handler with nearby charging sites
      */
-    public func getNearbyChargingSites(_ vehicle: Vehicle, completion: @escaping (NearbyChargingSites?, Error?) -> ()) -> Void {
+    public func getNearbyChargingSites(_ vehicle: Vehicle, completion: @escaping (Result<NearbyChargingSites, Error>) -> ()) -> Void {
         
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.nearbyChargingSites(vehicleID: vehicleID), body: nullBody) { (data: Response<NearbyChargingSites>?, error: Error?) in
+                self.request(.nearbyChargingSites(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<NearbyChargingSites>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -566,24 +576,25 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with the current Vehicle
 	*/
-    public func wakeUp(_ vehicle: Vehicle, completion: @escaping (Vehicle?, Error?) -> ()) -> Void {
+    public func wakeUp(_ vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
         
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
                 let vehicleID = vehicle.id!
                 
-                self.request(.wakeUp(vehicleID: vehicleID), body: nullBody) { (data: Response<Vehicle>?, error: Error?) in
+                self.request(.wakeUp(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<Vehicle>, Error>) in
                     
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
                     }
-                    
-                    completion(data.response, error)
                 }
             }
         }
@@ -597,70 +608,61 @@ extension TeslaSwift {
 	- parameter command: the command to send to the vehicle
 	- returns: A completion handler with the CommandResponse object containing the results of the command.
 	*/
-	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand, completion: @escaping (CommandResponse?, Error?) -> ()) -> Void {
+	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand, completion: @escaping (Result<CommandResponse, Error>) -> ()) -> Void {
 		
-        checkAuthentication { (token: AuthToken?, error: Error?) in
+        checkAuthentication { (result: Result<AuthToken, Error>) in
             
-            if error != nil {
-                completion(nil, error)
-            } else {
-                
-                let requestCompletion = { (data: CommandResponse?, error: Error?) in
-                    
-                    guard let data = data else {
-                        completion(nil, error)
-                        return
-                    }
-                    
-                    completion(data, error)
-                }
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
                 
     			switch command {
 				case let .valetMode(valetActivated, pin):
                     let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .openTrunk(options):
 					let body = options
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                 case let .navigationRequest(address):
                     let body = address
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .chargeLimitPercentage(limit):
 					let body = ChargeLimitPercentageCommandOptions(limit: limit)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .setTemperature(driverTemperature, passengerTemperature):
 					 let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .setSunRoof(state, percent):
 					 let body = SetSunRoofCommandOptions(state: state, percent: percent)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .startVehicle(password):
 					 let body = RemoteStartDriveCommandOptions(password: password)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .speedLimitSetLimit(speed):
 					 let body = SetSpeedLimitOptions(limit: speed)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .speedLimitActivate(pin):
 					 let body = SpeedLimitPinOptions(pin: pin)
-					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .speedLimitDeactivate(pin):
 					 let body = SpeedLimitPinOptions(pin: pin)
-					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .speedLimitClearPin(pin):
 					 let body = SpeedLimitPinOptions(pin: pin)
-					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                 case let .setSeatHeater(seat, level):
                      let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                 case let .setSteeringWheelHeater(on):
                      let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                 case let .sentryMode(activated):
                      let body = SentryModeCommandOptions(activated: activated)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				default:
                     let body = nullBody
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: requestCompletion)
+					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				}
                 
                 
@@ -686,23 +688,23 @@ extension TeslaSwift {
 		self.token = nil
 	}
 	
-    func checkAuthentication(completion: @escaping (AuthToken?, Error?) -> ()) {
+    func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
 
         let value = checkToken()
         
         if value {
-            completion(self.token!, nil)
+            completion(Result.success(self.token!))
         } else {
             self.cleanToken()
             if let email = self.email, let password = self.password {
                 authenticate(email: email, password: password, completion: completion)
             } else {
-                completion(nil, TeslaError.authenticationRequired)
+                completion(Result.failure(TeslaError.authenticationRequired))
             }
         }
 	}
 	
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, completion: @escaping (ReturnType?, Error?) -> ()) -> Void {
+    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, completion: @escaping (Result<ReturnType, Error>) -> ()) -> Void {
 		
 		let request = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
@@ -710,8 +712,8 @@ extension TeslaSwift {
 			(data, response, error) in
 			
 			
-			guard error == nil else { completion(nil, error!); return }
-			guard let httpResponse = response as? HTTPURLResponse else { completion(nil, TeslaError.failedToParseData); return }
+			guard error == nil else { completion(Result.failure(error!)); return }
+			guard let httpResponse = response as? HTTPURLResponse else { completion(Result.failure(TeslaError.failedToParseData)); return }
 			
 			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
 			responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
@@ -733,11 +735,11 @@ extension TeslaSwift {
 						logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
 						
 						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
-                        completion(mapped, nil)
+                        completion(Result.success(mapped))
 					}
 				} catch {
 					logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
-					completion(nil, TeslaError.failedToParseData)
+					completion(Result.failure(TeslaError.failedToParseData))
 				}
 				
 			} else {
@@ -748,20 +750,20 @@ extension TeslaSwift {
 					
 					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
 						wwwauthenticate.contains("invalid_token") {
-						completion(nil, TeslaError.tokenRevoked)
+						completion(Result.failure(TeslaError.tokenRevoked))
 					} else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
-						completion(nil, TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped])))
+                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))))
 					} else {
-						completion(nil, TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
 					}
 					
 				} else {
 					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
 						if wwwauthenticate.contains("invalid_token") {
-							completion(nil, TeslaError.authenticationFailed)
+                            completion(Result.failure(TeslaError.authenticationFailed))
 						}
 					} else {
-						completion(nil, TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil)))
+						completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
 					}
 				}
 			}
@@ -812,7 +814,7 @@ extension TeslaSwift {
 
 // MARK: Streaming API
 extension TeslaSwift {
-	
+    
 	/**
 	Streams vehicle data
 	
@@ -820,15 +822,16 @@ extension TeslaSwift {
 	- parameter reloadsVehicle: if you have a cached vehicle, the token might be expired, this forces a vehicle token reload
 	- parameter dataReceived: callback to receive the websocket data
 	*/
-	public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
+	public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
 		
 		if reloadsVehicle {
 			
-            reloadVehicle(vehicle: vehicle) { (freshVehicle: Vehicle?, error: Error?) in
-                if let freshVehicle = freshVehicle {
+            reloadVehicle(vehicle: vehicle) { (result: Result<Vehicle, Error>) in
+                switch result {
+                case .failure(let error):
+                    dataReceived(TeslaStreamingEvent.error(error))
+                case .success(let freshVehicle):
                     self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
-                } else {
-                    dataReceived((event: nil, error: error))
                 }
             }
 			
@@ -838,29 +841,31 @@ extension TeslaSwift {
 	
 	}
 	
-	func reloadVehicle(vehicle: Vehicle, completion: @escaping (Vehicle?, Error?) -> ()) -> Void {
+	func reloadVehicle(vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
         
-        getVehicles { (vehicles: [Vehicle]?, error: Error?) in
+        getVehicles { (result: Result<[Vehicle], Error>) in
             
-            guard let vehicles = vehicles else {
-                completion(nil, error)
-                return
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(let vehicles):
+                
+                for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
+                    completion(Result.success(freshVehicle))
+                    return
+                }
+                
+                completion(Result.failure(TeslaError.failedToReloadVehicle))
+                
             }
-            
-            for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
-                completion(freshVehicle, error)
-                return
-            }
-            
-            completion(vehicle, error)
         }
         
 	}
 	
-	func startStream(vehicle: Vehicle, dataReceived: @escaping ((event: StreamEvent?, error: Error?)) -> Void) {
+	func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
 		guard let email = email,
 			let vehicleToken = vehicle.tokens?.first else {
-				dataReceived((nil, TeslaError.streamingMissingEmailOrVehicleToken))
+                dataReceived(TeslaStreamingEvent.error(TeslaError.streamingMissingEmailOrVehicleToken))
 				return
 		}
 		
