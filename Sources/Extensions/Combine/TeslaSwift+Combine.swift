@@ -169,30 +169,6 @@ extension TeslaSwift {
         return future
     }
     
-    
-    func checkAuthentication() -> Future<AuthToken, Error> {
-        
-        let future = Future<AuthToken,Error> { (subscriber: @escaping (Result<AuthToken, Error>) -> Void) in
-            
-            self.checkAuthentication(completion: self.resultify(subscriber: subscriber))
-            
-        }
-        
-        return future
-        
-    }
-
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> Future<ReturnType, Error> {
-        
-        let future = Future<ReturnType,Error> { (subscriber: @escaping (Result<ReturnType, Error>) -> Void) in
-            
-            self.request(endpoint, body: body, completion: self.resultify(subscriber: subscriber))
-
-        }
-                
-        return future
-    }
-    
     func streamPublisher(vehicle: Vehicle) -> TeslaStreamingPublisher {
         
         guard let email = email,
@@ -255,13 +231,6 @@ extension TeslaSwift  {
     func streamPublisher(endpoint: StreamEndpoint) -> TeslaStreamingPublisher {
         
         return TeslaStreamingPublisher(endpoint: endpoint, stream: TeslaStreaming())
-    }
-    
-    public enum TeslaStreamingEvent {
-        case open
-        case event(StreamEvent)
-        case error(Error)
-        case disconnected
     }
     
 }
