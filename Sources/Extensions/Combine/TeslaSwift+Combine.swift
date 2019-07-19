@@ -6,8 +6,8 @@
 //  Copyright © 2019 Joao Nunes. All rights reserved.
 //
 
-import Foundation
 import Combine
+import TeslaSwift
 
 @available(iOS 13.0, macOS 10.15, watchOS 6, tvOS 13, *)
 extension TeslaSwift {
@@ -193,29 +193,29 @@ extension TeslaSwift {
         return future
     }
     
-    func streamPublisher(vehicle: Vehicle) -> TeslaStreaming.TeslaStreamingPublisher {
+    func streamPublisher(vehicle: Vehicle) -> TeslaStreamingPublisher {
         
         guard let email = email,
             let vehicleToken = vehicle.tokens?.first else {
                 //dataReceived((nil, TeslaError.streamingMissingEmailOrVehicleToken))
                 let endpoint = StreamEndpoint.stream(email: "", vehicleToken: "", vehicleId: "\(vehicle.vehicleID!)")
-                return streaming.publisher(endpoint: endpoint)
+                return streamPublisher(endpoint: endpoint)
         }
         
         let endpoint = StreamEndpoint.stream(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
         
         
-        return streaming.publisher(endpoint: endpoint)
+        return streamPublisher(endpoint: endpoint)
     }
 }
 
 @available(iOS 13.0, macOS 10.15, watchOS 6, tvOS 13, *)
-extension TeslaStreaming  {
+extension TeslaSwift  {
     
     public struct TeslaStreamingPublisher: Publisher, Cancellable {
         
-        typealias Output = TeslaStreamingEvent
-        typealias Failure = Error
+        public typealias Output = TeslaStreamingEvent
+        public typealias Failure = Error
         
         let endpoint: StreamEndpoint
         let stream: TeslaStreaming
@@ -225,20 +225,20 @@ extension TeslaStreaming  {
             self.stream = stream
         }
         
-        func receive<S>(subscriber: S) where S : Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
+        public func receive<S>(subscriber: S) where S : Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
             
             stream.openStream(endpoint: endpoint, streamOpen: {
                
-                _ = subscriber.receive(TeslaStreaming.TeslaStreamingEvent.open)
+                _ = subscriber.receive(TeslaStreamingEvent.open)
                 
             }) { (event: StreamEvent?, error: Error?) in
                 
                 if let event = event {
-                    _ = subscriber.receive(TeslaStreaming.TeslaStreamingEvent.event(event))
+                    _ = subscriber.receive(TeslaStreamingEvent.event(event))
                 } else if let error = error {
-                    _ = subscriber.receive(TeslaStreaming.TeslaStreamingEvent.error(error))
+                    _ = subscriber.receive(TeslaStreamingEvent.error(error))
                 } else {
-                    _ = subscriber.receive(TeslaStreaming.TeslaStreamingEvent.disconnected)
+                    _ = subscriber.receive(TeslaStreamingEvent.disconnected)
                     _ = subscriber.receive(completion: Subscribers.Completion.finished)
                 }
                 
@@ -246,17 +246,18 @@ extension TeslaStreaming  {
             
         }
         
-        func cancel() {
+        public func cancel() {
             stream.closeStream()
         }
         
     }
     
-    func publisher(endpoint: StreamEndpoint) -> TeslaStreamingPublisher {
-        return TeslaStreamingPublisher(endpoint: endpoint, stream: self)
+    func streamPublisher(endpoint: StreamEndpoint) -> TeslaStreamingPublisher {
+        
+        return TeslaStreamingPublisher(endpoint: endpoint, stream: TeslaStreaming())
     }
     
-    enum TeslaStreamingEvent {
+    public enum TeslaStreamingEvent {
         case open
         case event(StreamEvent)
         case error(Error)

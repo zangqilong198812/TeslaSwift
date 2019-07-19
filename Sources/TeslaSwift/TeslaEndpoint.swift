@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Endpoint {
+public enum Endpoint {
 	
 	case authentication
 	case revoke

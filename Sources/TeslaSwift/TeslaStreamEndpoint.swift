@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum StreamEndpoint {
+public enum StreamEndpoint {
 	
 	case stream(email: String, vehicleToken: String, vehicleId: String)
 }

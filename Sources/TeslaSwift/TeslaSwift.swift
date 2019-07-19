@@ -686,7 +686,7 @@ extension TeslaSwift {
 		self.token = nil
 	}
 	
-    func checkAuthentication(completion: @escaping (AuthToken?, Error?) -> ()) {
+    public func checkAuthentication(completion: @escaping (AuthToken?, Error?) -> ()) {
 
         let value = checkToken()
         
@@ -702,7 +702,7 @@ extension TeslaSwift {
         }
 	}
 	
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, completion: @escaping (ReturnType?, Error?) -> ()) -> Void {
+    public func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, completion: @escaping (ReturnType?, Error?) -> ()) -> Void {
 		
 		let request = prepareRequest(endpoint, body: body)
 		let debugEnabled = debuggingEnabled
