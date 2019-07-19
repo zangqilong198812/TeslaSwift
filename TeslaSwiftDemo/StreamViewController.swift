@@ -32,11 +32,16 @@ class StreamViewController: UIViewController {
 			if let vehicle = vehicle {
 				self.textView.text = ""
 				api.openStream(vehicle: vehicle, dataReceived: {
-					(event: StreamEvent?, error: Error?) in
-					if let error = error {
-						self.textView.text = error.localizedDescription
-					} else {
-						self.textView.text = "\(self.textView.text ?? "")\nevent:\n \(event?.descriptionKm ?? "")"
+					(event: TeslaStreamingEvent) in
+                    switch event {
+                    case .error(let error):
+                        self.textView.text = error?.localizedDescription
+                    case .event(let event):
+						self.textView.text = "\(self.textView.text ?? "")\nevent:\n \(event.descriptionKm)"
+                    case .disconnected:
+                        break
+                    case .open:
+                        break
 					}
 				})
 			}

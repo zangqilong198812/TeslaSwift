@@ -23,6 +23,7 @@ class HTTPEventStreaming: NSObject {
 	var openCallback: (() -> Void)?
 	var callback: ((String) -> Void)?
 	var errorCallback: ((Error?) -> Void)?
+    var closeCallback: (() -> Void)?
 	
 	override init() {
 		configuration = URLSessionConfiguration.default
@@ -107,6 +108,10 @@ extension HTTPEventStreaming: URLSessionDataDelegate {
 			}
 		}
 		
-		self.errorCallback?(error)
+        if let error = error {
+            self.errorCallback?(error)
+        } else {
+            self.closeCallback?()
+        }
 	}
 }

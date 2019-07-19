@@ -49,6 +49,11 @@ class TeslaStreaming {
 				dataReceived(TeslaStreamingEvent.error(error))
 			}
 		}
+        
+        httpStreaming.closeCallback = {
+            logDebug("Stream disconnected", debuggingEnabled: self.debuggingEnabled)
+            dataReceived(TeslaStreamingEvent.disconnected)
+        }
 		
 		httpStreaming.connect(url: URL(string: url)!, username: authentication.email, password: authentication.vehicleToken)
 	}

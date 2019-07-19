@@ -1193,16 +1193,31 @@ class TeslaSwiftTests: XCTestCase {
         let service = TeslaSwift()
         service.useMockServer = true
         let expection = expectation(description: "All Done")
+        var order = 0
         
         service.authenticate(email: "user", password: "pass").then { (token) in
                 service.getVehicles()
 			}.done { (vehicles: [Vehicle]) in
 				service.openStream(vehicle: vehicles[0], dataReceived: {
-					(event: StreamEvent?, error: Error?) in
-					if event != nil {
-						XCTAssertEqual(event!.elevation,17)
-						expection.fulfill()
-					}
+					(event: TeslaStreamingEvent) in
+
+                    switch event {
+                    case .open:
+                        XCTAssert(order == 0)
+                        order = 1
+                    case .event(let streamEvent):
+                        XCTAssert(order == 1)
+                        order = 2
+                        XCTAssertEqual(streamEvent.elevation,17)
+                    case .disconnected:
+                        XCTAssert(order == 2)
+                        order = 3
+                        expection.fulfill()
+                    case .error(_):
+                        break
+                    }
+                    
+                    
 				})
             }.catch { (error) in
                 XCTFail((error as NSError).description)

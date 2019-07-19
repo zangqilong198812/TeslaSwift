@@ -458,7 +458,7 @@ extension TeslaSwift {
 	
 	- returns: A completion handler with Gui Settings.
 	*/
-    public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (Result<GuiSettings, Error>?) -> ()) -> Void {
+    public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (Result<GuiSettings, Error>) -> ()) -> Void {
         
         checkAuthentication { (result: Result<AuthToken, Error>) in
             

@@ -11,15 +11,15 @@ import PromiseKit
 
 extension TeslaSwift {
     
-    func promisify<Value: Decodable>(seal: Resolver<Value>) -> ((Value?, Error?) -> ()) {
-        return { (result: Value?, error: Error?) in
-            if let result = result {
-                seal.fulfill(result)
-            } else if let error = error {
+    func promisify<Value: Decodable>(seal: Resolver<Value>) -> ((Swift.Result<Value, Error>) -> ()) {
+        return { (result: Swift.Result<Value, Error>) in
+            switch result {
+            case .success(let value):
+                seal.fulfill(value)
+            case .failure(let error):
                 seal.reject(error)
-            } else {
-                // not possible
             }
+            
         }
     }
  
