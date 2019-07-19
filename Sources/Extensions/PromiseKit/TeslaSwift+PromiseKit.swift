@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import TeslaSwift
 
 extension TeslaSwift {
     
@@ -221,26 +222,6 @@ extension TeslaSwift {
         let (promise, seal) = Promise<CommandResponse>.pending()
         
         sendCommandToVehicle(vehicle, command: command, completion: promisify(seal: seal))
-        
-        return promise
-    }
-    
-    func checkAuthentication() -> Promise<AuthToken> {
-        
-        let (promise, seal) = Promise<AuthToken>.pending()
-        
-        checkAuthentication(completion: promisify(seal: seal))
-        
-        return promise
-        
-    }
-    
-    
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> Promise<ReturnType> {
-        
-        let (promise, seal) = Promise<ReturnType>.pending()
-        
-        request(endpoint, body: body, completion: promisify(seal: seal))
         
         return promise
     }
