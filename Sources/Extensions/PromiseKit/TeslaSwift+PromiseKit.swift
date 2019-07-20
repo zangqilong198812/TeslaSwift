@@ -8,7 +8,10 @@
 
 import Foundation
 import PromiseKit
+#if COCOAPODS
+#else // SPM
 import TeslaSwift
+#endif
 
 extension TeslaSwift {
     
