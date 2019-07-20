@@ -6,6 +6,7 @@
 //  Copyright © 2019 Joao Nunes. All rights reserved.
 //
 
+#if swift(>=5.1)
 import Combine
 import TeslaSwift
 
@@ -234,3 +235,5 @@ extension TeslaSwift  {
     }
     
 }
+
+#endif
