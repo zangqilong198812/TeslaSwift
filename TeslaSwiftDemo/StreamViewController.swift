@@ -33,13 +33,14 @@ class StreamViewController: UIViewController {
 				self.textView.text = ""
                 
                 #if swift(>=5.1)
-                    
+                if #available(iOS 13.0, *) {
                     _ = api.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
                         
                     }) { (event) in
                         self.processEvent(event: event)
                     }
-                    
+                }
+                
                 #else
                     
                     api.openStream(vehicle: vehicle, dataReceived: {
