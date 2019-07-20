@@ -33,4 +33,13 @@ Pod::Spec.new do |s|
         ss.dependency 'TeslaSwift/Core'
     end
 
+    s.subspec 'Combine' do |ss|
+        ss.source_files = 'Sources/Extensions/Combine/*.swift'
+        ss.dependency 'TeslaSwift/Core'
+        ss.ios.deployment_target = '13.0'
+        ss.osx.deployment_target = '10.15'
+        ss.watchos.deployment_target = '6.0'
+        ss.tvos.deployment_target = '13.0'
+    end
+
 end

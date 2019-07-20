@@ -12,7 +12,7 @@ import Foundation
  * Streaming class takes care of the different types of data streaming from Tesla servers
  *
  */
-class TeslaStreaming {
+public class TeslaStreaming {
 	
 	var debuggingEnabled = false
 	var httpStreaming = HTTPEventStreaming()
@@ -58,7 +58,7 @@ class TeslaStreaming {
 		httpStreaming.connect(url: URL(string: url)!, username: authentication.email, password: authentication.vehicleToken)
 	}
 	
-	func closeStream() {
+	public func closeStream() {
 		httpStreaming.disconnect()
 		logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
 	}

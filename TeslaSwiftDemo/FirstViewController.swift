@@ -7,6 +7,9 @@
 //
 
 import UIKit
+#if swift(>=5.1)
+import Combine
+#endif
 
 class FirstViewController: UIViewController, UITableViewDataSource {
     
@@ -31,16 +34,21 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     }
     
     func getVehicles() {
-        api.getVehicles()
-            .done {
-                (response) -> Void in
-                
-                self.data = response
-                self.tableView.reloadData()
-                
-        }.catch { (error) in
-            //Process error
+        #if swift(>=5.1)
+        _ = api.getVehicles().sink { response in
+            
+            self.data = response
+            self.tableView.reloadData()
+            
         }
+        #else
+        
+        _ = api.getVehicles().done { (response) in
+            self.data = response
+            self.tableView.reloadData()
+        }
+        #endif
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
