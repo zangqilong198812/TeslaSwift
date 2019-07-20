@@ -32,7 +32,7 @@ class StreamViewController: UIViewController {
 			if let vehicle = vehicle {
 				self.textView.text = ""
                 
-                if #available(iOS 13.0, *) {
+                #if swift(>=5.1)
                     
                     _ = api.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
                         
@@ -40,14 +40,14 @@ class StreamViewController: UIViewController {
                         self.processEvent(event: event)
                     }
                     
-                } else {
+                #else
                     
                     api.openStream(vehicle: vehicle, dataReceived: {
                         (event: TeslaStreamingEvent) in
                         self.processEvent(event: event)
                     })
                     
-                }
+                #endif
 			}
 		}
 		
