@@ -31,25 +31,43 @@ class StreamViewController: UIViewController {
 		if !streaming {
 			if let vehicle = vehicle {
 				self.textView.text = ""
-				api.openStream(vehicle: vehicle, dataReceived: {
-					(event: TeslaStreamingEvent) in
-                    switch event {
-                    case .error(let error):
-                        self.textView.text = error?.localizedDescription
-                    case .event(let event):
-						self.textView.text = "\(self.textView.text ?? "")\nevent:\n \(event.descriptionKm)"
-                    case .disconnected:
-                        break
-                    case .open:
-                        break
-					}
-				})
+                
+                if #available(iOS 13.0, *) {
+                    
+                    _ = api.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
+                        
+                    }) { (event) in
+                        self.processEvent(event: event)
+                    }
+                    
+                } else {
+                    
+                    api.openStream(vehicle: vehicle, dataReceived: {
+                        (event: TeslaStreamingEvent) in
+                        self.processEvent(event: event)
+                    })
+                    
+                }
 			}
 		}
 		
 		streaming = true
 	}
 	
+    func processEvent(event: TeslaStreamingEvent) {
+        switch event {
+        case .error(let error):
+            textView.text = error.localizedDescription
+        case .event(let event):
+            textView.text = "\(self.textView.text ?? "")\nevent:\n \(event.descriptionKm)"
+        case .disconnected:
+            break
+        case .open:
+            break
+        }
+    }
+    
+    
 	@IBAction func stopStream(_ sender: Any) {
 		
 		api.closeStream()

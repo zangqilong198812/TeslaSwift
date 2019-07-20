@@ -8,7 +8,10 @@
 
 #if swift(>=5.1)
 import Combine
+#if COCOAPODS
+#else // SPM
 import TeslaSwift
+#endif
 
 @available(iOS 13.0, macOS 10.15, watchOS 6, tvOS 13, *)
 extension TeslaSwift {
@@ -170,7 +173,7 @@ extension TeslaSwift {
         return future
     }
     
-    func streamPublisher(vehicle: Vehicle) -> TeslaStreamingPublisher {
+    public func streamPublisher(vehicle: Vehicle) -> TeslaStreamingPublisher {
         
         guard let email = email,
             let vehicleToken = vehicle.tokens?.first else {
