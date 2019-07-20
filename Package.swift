@@ -8,7 +8,7 @@ let package = Package(
     ],
     products: [
         .library(name: "TeslaSwift", targets: ["TeslaSwift"]),
-        .library(name: "TeslaSwiftCombine", targets: ["TeslaSwiftCombine"])
+        .library(name: "TeslaSwiftCombine", targets: ["TeslaSwiftCombine"]),
         .library(name: "TeslaSwiftPromiseKit", targets: ["TeslaSwiftPMK"])
     ],
     dependencies: [

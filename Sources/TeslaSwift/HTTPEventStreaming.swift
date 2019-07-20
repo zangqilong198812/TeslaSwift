@@ -22,7 +22,7 @@ class HTTPEventStreaming: NSObject {
 	
 	var openCallback: (() -> Void)?
 	var callback: ((String) -> Void)?
-	var errorCallback: ((Error?) -> Void)?
+	var errorCallback: ((Error) -> Void)?
     var closeCallback: (() -> Void)?
 	
 	override init() {

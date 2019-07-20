@@ -13,7 +13,7 @@ import CoreLocation
 public enum TeslaStreamingEvent {
     case open
     case event(StreamEvent)
-    case error(Error?)
+    case error(Error)
     case disconnected
 }
 

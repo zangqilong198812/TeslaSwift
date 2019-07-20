@@ -13,15 +13,15 @@ import TeslaSwift
 @available(iOS 13.0, macOS 10.15, watchOS 6, tvOS 13, *)
 extension TeslaSwift {
     
-    func resultify<Value: Decodable>(subscriber: @escaping (Result<Value, Error>) -> Void) -> ((Value?, Error?) -> ()) {
+    func resultify<Value: Decodable>(subscriber: @escaping (Result<Value, Error>) -> Void) -> ((Result<Value, Error>) -> ()) {
         
-        return { (result: Value?, error: Error?) in
-            if let result = result {
-                subscriber(.success(result))
-            } else if let error = error {
+        return { (result: Result<Value, Error>) in
+            
+            switch result {
+            case .success(let value):
+                subscriber(.success(value))
+            case .failure(let error):
                 subscriber(.failure(error))
-            } else {
-                // not possible
             }
         }
         
@@ -204,17 +204,17 @@ extension TeslaSwift  {
         
         public func receive<S>(subscriber: S) where S : Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
             
-            stream.openStream(endpoint: endpoint, streamOpen: {
-               
-                _ = subscriber.receive(TeslaStreamingEvent.open)
+            stream.openStream(endpoint: endpoint) {
+                (streamEvent: TeslaStreamingEvent) in
                 
-            }) { (event: StreamEvent?, error: Error?) in
-                
-                if let event = event {
+                switch streamEvent {
+                case .open:
+                    _ = subscriber.receive(TeslaStreamingEvent.open)
+                case .event(let event):
                     _ = subscriber.receive(TeslaStreamingEvent.event(event))
-                } else if let error = error {
+                case .error(let error):
                     _ = subscriber.receive(TeslaStreamingEvent.error(error))
-                } else {
+                case .disconnected:
                     _ = subscriber.receive(TeslaStreamingEvent.disconnected)
                     _ = subscriber.receive(completion: Subscribers.Completion.finished)
                 }
