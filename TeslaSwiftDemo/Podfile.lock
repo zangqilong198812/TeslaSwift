@@ -15,21 +15,36 @@ PODS:
   - OHHTTPStubs/Swift (7.0.0):
     - OHHTTPStubs/Default
   - PromiseKit/CorePromise (6.8.4)
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
 
 DEPENDENCIES:
   - OHHTTPStubs
   - OHHTTPStubs/Swift
   - PromiseKit/CorePromise (~> 6)
+  - RxCocoa (~> 5)
+  - RxSwift (~> 5)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - OHHTTPStubs
     - PromiseKit
+  trunk:
+    - RxCocoa
+    - RxRelay
+    - RxSwift
 
 SPEC CHECKSUMS:
   OHHTTPStubs: ef33a2c353110d306bb98f695435ec56ff5a26c3
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
 
-PODFILE CHECKSUM: d28538bc81976163af0a632fc185ad0d9e9a3d9d
+PODFILE CHECKSUM: 2590d5df82bfa1296386684fc1afcba25e8c9449
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.8.0

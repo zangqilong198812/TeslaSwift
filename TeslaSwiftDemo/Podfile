@@ -3,6 +3,9 @@ target 'TeslaSwift' do
 	platform :ios, '10.0'
 
 	pod 'PromiseKit/CorePromise' , '~> 6'
+    
+    pod 'RxSwift', '~> 5'
+    pod 'RxCocoa', '~> 5'
 
 	target 'TeslaSwiftTests' do
 		

@@ -9,15 +9,18 @@ let package = Package(
     products: [
         .library(name: "TeslaSwift", targets: ["TeslaSwift"]),
         .library(name: "TeslaSwiftCombine", targets: ["TeslaSwiftCombine"]),
-        .library(name: "TeslaSwiftPromiseKit", targets: ["TeslaSwiftPMK"])
+        .library(name: "TeslaSwiftPromiseKit", targets: ["TeslaSwiftPMK"]),
+        .library(name: "TeslaSwiftRx", targets: ["TeslaSwiftRx"])
     ],
     dependencies: [
-    .package(url: "https://github.com/mxcl/PromiseKit", from: "6.0.0")
+        .package(url: "https://github.com/mxcl/PromiseKit", from: "6.0.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0")
     ],
     targets: [
+        .target(name: "TeslaSwift"),
         .target(name: "TeslaSwiftCombine", dependencies: ["TeslaSwift"], path: "Sources/Extensions/Combine"),
         .target(name: "TeslaSwiftPMK", dependencies: ["TeslaSwift", "PromiseKit"], path: "Sources/Extensions/PromiseKit"),
-        .target(name: "TeslaSwift"),
+        .target(name: "TeslaSwiftRx", dependencies: ["TeslaSwift", "RxSwift", "RxCocoa"], path: "Sources/Extensions/Rx"),
         /*.testTarget(
          name: "TeslaSwiftTests",
          dependencies: ["TeslaSwift"],

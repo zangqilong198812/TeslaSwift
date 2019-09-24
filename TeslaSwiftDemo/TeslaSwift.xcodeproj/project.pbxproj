@@ -17,6 +17,8 @@
 		1787516D221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */; };
 		17CD215C22D1739600AAC7F2 /* NearbyChargingSites.json in Resources */ = {isa = PBXBuildFile; fileRef = 17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */; };
+		1A5ED54C233A2C84001B3809 /* TeslaSwift+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */; };
+		1A5ED54D233A2C8E001B3809 /* TeslaSwift+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */; };
 		1AA6819222DA6FC7002E323F /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = CF30F95B1C8A2BC20067D3D9 /* Podfile */; };
 		1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
@@ -148,6 +150,7 @@
 		1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSteeringWheelHeaterRequestOptions.swift; sourceTree = "<group>"; };
 		17CD215B22D1739600AAC7F2 /* NearbyChargingSites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NearbyChargingSites.json; sourceTree = "<group>"; };
 		197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Rx.swift"; sourceTree = "<group>"; };
 		1AA6819122DA6F8E002E323F /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .hound.yml; path = ../.hound.yml; sourceTree = "<group>"; };
 		1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Combine.swift"; sourceTree = "<group>"; };
 		1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
@@ -274,6 +277,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A5ED54A233A2C84001B3809 /* Rx */ = {
+			isa = PBXGroup;
+			children = (
+				1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */,
+			);
+			path = Rx;
+			sourceTree = "<group>";
+		};
 		1A9B1B1A22DA40370014CE17 /* TeslaSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +344,7 @@
 		1AE27F7422D91DE800456310 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1A5ED54A233A2C84001B3809 /* Rx */,
 				1AC5CB1022DA77FF009B7190 /* Combine */,
 				1AE27F7522D91DE800456310 /* PromiseKit */,
 			);
@@ -674,10 +686,16 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -692,11 +710,17 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -752,6 +776,7 @@
 				CF1BD59C1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */,
 				CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */,
+				1A5ED54C233A2C84001B3809 /* TeslaSwift+Rx.swift in Sources */,
 				CF3F851A21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
 				CFEAF1411EB505D40003FA6E /* HTTPEventStreaming.swift in Sources */,
 			);
@@ -785,6 +810,7 @@
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
+				1A5ED54D233A2C8E001B3809 /* TeslaSwift+Rx.swift in Sources */,
 				17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */,
 				CFEAF1361EABF9C10003FA6E /* TeslaStreamEndpoint.swift in Sources */,
 				170D32D622D0EE4D00B6A51A /* NearbyChargingSites.swift in Sources */,
