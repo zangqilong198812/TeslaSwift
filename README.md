@@ -28,6 +28,11 @@ If you need Combine extensions, use this line
 ```ruby
 pod 'TeslaSwift/Combine', '~> 6'
 ```
+If you need Rx extensions, use this line
+
+```ruby
+pod 'TeslaSwift/Rx', '~> 6'
+```
 
 ### Swift Package Manager
 
@@ -36,6 +41,8 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 ```swift
 .Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 6)
 ```
+
+There are also extensions for Combine `TeslaSwiftCombine`, PromiseKit `TeslaSwiftPMK` and Rx `TeslaSwiftRx`
 
 ## Usage
 
@@ -62,6 +69,9 @@ import TeslaSwiftPromiseKit
 ```
 ```swift
 import TeslaSwiftCombine
+```
+```swift
+import TeslaSwiftRx
 ```
 
 Perform an authentication with your My Tesla credentials: 
