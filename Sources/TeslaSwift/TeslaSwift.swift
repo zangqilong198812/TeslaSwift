@@ -751,7 +751,9 @@ extension TeslaSwift {
 					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
 						wwwauthenticate.contains("invalid_token") {
 						completion(Result.failure(TeslaError.tokenRevoked))
-					} else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
+                    } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
+                        completion(Result.failure(TeslaError.authenticationFailed))
+                    } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
                         completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))))
 					} else {
                         completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
