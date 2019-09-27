@@ -20,6 +20,8 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getVehicles()
+        
         NotificationCenter.default.addObserver(forName: Notification.Name.loginDone, object: nil, queue: nil) { [weak self] (notification: Notification) in
             
             self?.getVehicles()
@@ -37,14 +39,17 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         
         #if swift(>=5.1)
         if #available(iOS 13.0, *) {
-            _ = api.getVehicles().sink(receiveCompletion: { (completion) in
+            
+            
+            api.getVehicles { (result: Result<[Vehicle], Error>) in
                 
-            }) { response in
-                
-                self.data = response
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.data = try! result.get()
+                    self.tableView.reloadData()
+                }
                 
             }
+
         }
         #else
         _ = api.getVehicles().done { (response) in
