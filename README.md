@@ -62,10 +62,10 @@ Import the module
 import TeslaSwift
 ```
 
-With SPM import the extension modules if needed
+Add the extension modules as needed (with the previous line)
 
 ```swift
-import TeslaSwiftPromiseKit
+import TeslaSwiftPMK
 ```
 ```swift
 import TeslaSwiftCombine
