@@ -10,11 +10,6 @@ import Foundation
 import os.log
 import CoreLocation.CLLocation
 
-public enum RoofState: String, Codable {
-	case close
-	case vent
-}
-
 public enum VehicleCommand {
 	case valetMode(valetActivated: Bool, pin: String?)
 	case resetValetPin
@@ -53,6 +48,7 @@ public enum VehicleCommand {
 	case setSeatHeater(seat: HeatedSeat, level: HeatLevel)
 	case setSteeringWheelHeater(on: Bool)
 	case sentryMode(activated: Bool)
+    case windowControl(state: WindowState)
 	
 	func path() -> String {
 		switch self {
@@ -130,6 +126,8 @@ public enum VehicleCommand {
 			return "command/remote_steering_wheel_heater_request"
 		case .sentryMode:
 			return "command/set_sentry_mode"
+        case .windowControl:
+            return "command/window_control"
 		}
 	}
 }
@@ -667,6 +665,9 @@ extension TeslaSwift {
                 case let .sentryMode(activated):
                      let body = SentryModeCommandOptions(activated: activated)
                      self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                case let .windowControl(state):
+                    let body = WindowControlCommandOptions(command: state)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				default:
                     let body = nullBody
 					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)

@@ -22,6 +22,8 @@
 		1AA6819222DA6FC7002E323F /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = CF30F95B1C8A2BC20067D3D9 /* Podfile */; };
 		1AA73E86235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */; };
 		1AA73E87235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */; };
+		1AA73E89235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */; };
+		1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */; };
 		1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */; };
@@ -155,6 +157,7 @@
 		1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Rx.swift"; sourceTree = "<group>"; };
 		1AA6819122DA6F8E002E323F /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .hound.yml; path = ../.hound.yml; sourceTree = "<group>"; };
 		1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLinkCommandOptions.swift; sourceTree = "<group>"; };
+		1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControlCommandOptions.swift; sourceTree = "<group>"; };
 		1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Combine.swift"; sourceTree = "<group>"; };
 		1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -333,6 +336,7 @@
 				CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */,
 				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
+				1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -745,6 +749,7 @@
 				CFA984F91CC2545600B23C7D /* TeslaEndpoint.swift in Sources */,
 				CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */,
 				CF48FA991C8B08AC00B1DA93 /* TabController.swift in Sources */,
+				1AA73E89235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
 				1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */,
 				7D161BA01E9DC805001C89ED /* StreamEvent.swift in Sources */,
 				CF1BD5931DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
@@ -823,6 +828,7 @@
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
+				1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
 				650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
 				CFB5D7B81E66088F003EA1EF /* ErrorMessage.swift in Sources */,
 				1759B7432228D3210032EB4C /* SentryModeCommandOptions.swift in Sources */,

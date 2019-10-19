@@ -102,8 +102,7 @@ class VehicleViewController: UIViewController {
 	
 	@IBAction func command(_ sender: AnyObject) {
 		if let vehicle = vehicle {
-            let coordinate = CLLocation(latitude: 60.1623, longitude: 24.8595)
-            _ = api.sendCommandToVehicle(vehicle, command: .triggerHomeLink(location: coordinate)).done {
+            _ = api.sendCommandToVehicle(vehicle, command: .windowControl(state: WindowState.close)).done {
 				(response:CommandResponse) -> Void in
 				self.textView.text = (response.result! ? "true" : "false")
 				if let reason = response.reason {
