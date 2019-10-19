@@ -102,7 +102,7 @@ class VehicleViewController: UIViewController {
 	
 	@IBAction func command(_ sender: AnyObject) {
 		if let vehicle = vehicle {
-            _ = api.sendCommandToVehicle(vehicle, command: .windowControl(state: WindowState.close)).done {
+            _ = api.sendCommandToVehicle(vehicle, command: .setMaxDefrost(on: false)).done {
 				(response:CommandResponse) -> Void in
 				self.textView.text = (response.result! ? "true" : "false")
 				if let reason = response.reason {

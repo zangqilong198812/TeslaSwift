@@ -24,6 +24,8 @@
 		1AA73E87235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */; };
 		1AA73E89235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */; };
 		1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */; };
+		1AA73E8C235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */; };
+		1AA73E8D235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */; };
 		1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */; };
@@ -158,6 +160,7 @@
 		1AA6819122DA6F8E002E323F /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .hound.yml; path = ../.hound.yml; sourceTree = "<group>"; };
 		1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLinkCommandOptions.swift; sourceTree = "<group>"; };
 		1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControlCommandOptions.swift; sourceTree = "<group>"; };
+		1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxDefrostCommandOptions.swift; sourceTree = "<group>"; };
 		1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Combine.swift"; sourceTree = "<group>"; };
 		1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 				CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */,
 				CF0D2F1E1D95A4A900E5A304 /* GenericResponse.swift */,
 				CF0D2F1F1D95A4A900E5A304 /* GuiSettings.swift */,
+				1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */,
 				65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */,
 				170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */,
 				1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */,
@@ -747,6 +751,7 @@
 				CFC819A41DBBA2EA00A8E47B /* VehicleViewController.swift in Sources */,
 				CF48FA9B1C8B09C500B1DA93 /* LoginViewController.swift in Sources */,
 				CFA984F91CC2545600B23C7D /* TeslaEndpoint.swift in Sources */,
+				1AA73E8C235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */,
 				CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */,
 				CF48FA991C8B08AC00B1DA93 /* TabController.swift in Sources */,
 				1AA73E89235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
@@ -805,6 +810,7 @@
 				CFEAF13E1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
 				CF0D2F2E1D95A4A900E5A304 /* DriveState.swift in Sources */,
 				CF1BD59A1DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
+				1AA73E8D235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */,
 				CF1BD59D1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFEAF1421EB505D40003FA6E /* HTTPEventStreaming.swift in Sources */,
 				CF0D2F281D95A4A900E5A304 /* ChargeState.swift in Sources */,

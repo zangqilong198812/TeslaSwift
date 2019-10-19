@@ -26,6 +26,7 @@ public enum VehicleCommand {
 	case unlockDoors
 	case lockDoors
 	case setTemperature(driverTemperature: Double, passengerTemperature: Double)
+    case setMaxDefrost(on: Bool)
 	case startAutoConditioning
 	case stopAutoConditioning
 	case setSunRoof(state: RoofState, percentage: Int?)
@@ -82,6 +83,8 @@ public enum VehicleCommand {
 			return "command/door_lock"
 		case .setTemperature:
 			return "command/set_temps"
+        case .setMaxDefrost:
+            return "command/set_preconditioning_max"
 		case .startAutoConditioning:
 			return "command/auto_conditioning_start"
 		case .stopAutoConditioning:
@@ -620,6 +623,9 @@ extension TeslaSwift {
             case .success(_):
                 
     			switch command {
+                case let .setMaxDefrost(on: state):
+                    let body = MaxDefrostCommandOptions(state: state)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                 case let .triggerHomeLink(coordinates):
                     let body = HomeLinkCommandOptions(coordinates: coordinates)
                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
