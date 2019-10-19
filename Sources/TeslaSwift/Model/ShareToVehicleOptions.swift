@@ -1,5 +1,5 @@
 //
-//  NavigationRequestOptions.swift
+//  ShareToVehicleOptions.swift
 //  TeslaSwift
 //
 //  Created by Derek Johnson on 10/14/18.
@@ -7,21 +7,21 @@
 
 import Foundation
 
-open class NavigationRequestOptions: Codable {
+open class ShareToVehicleOptions: Codable {
 	
 	public let type: String
-    public let value: NavigationRequestValue
+    public let value: ShareToVehicleValue
     public let locale: String
     public let timestamp_ms: String
     
     public init(address: String) {
-        self.value = NavigationRequestValue.init(address: address)
+        self.value = ShareToVehicleValue.init(address: address)
         self.type = "share_ext_content_raw"
         self.locale = "en-US"
         self.timestamp_ms = "12345"
     }
 	
-    public class NavigationRequestValue: Codable {
+    public class ShareToVehicleValue: Codable {
 		
 		public let intentAction: String
         public let intentType: String

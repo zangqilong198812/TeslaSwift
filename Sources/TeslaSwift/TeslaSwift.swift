@@ -39,7 +39,7 @@ public enum VehicleCommand {
 	case previousFavorite
 	case volumeUp
 	case volumeDown
-	case navigationRequest(options: NavigationRequestOptions)
+	case shareToVehicle(options: ShareToVehicleOptions)
 	case cancelSoftwareUpdate
 	case scheduleSoftwareUpdate
 	case speedLimitSetLimit(speed: Measurement<UnitSpeed>)
@@ -109,8 +109,8 @@ public enum VehicleCommand {
 			return "command/media_volume_up"
 		case .volumeDown:
 			return "command/media_volume_down"
-		case .navigationRequest:
-            return "command/navigation_request"
+		case .shareToVehicle:
+            return "command/share"
 		case .scheduleSoftwareUpdate:
             return "command/schedule_software_update"
 		case .cancelSoftwareUpdate:
@@ -635,7 +635,7 @@ extension TeslaSwift {
 				case let .openTrunk(options):
 					let body = options
 					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .navigationRequest(address):
+                case let .shareToVehicle(address):
                     let body = address
                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .chargeLimitPercentage(limit):
