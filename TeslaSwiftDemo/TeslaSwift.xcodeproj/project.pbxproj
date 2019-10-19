@@ -20,6 +20,8 @@
 		1A5ED54C233A2C84001B3809 /* TeslaSwift+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */; };
 		1A5ED54D233A2C8E001B3809 /* TeslaSwift+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */; };
 		1AA6819222DA6FC7002E323F /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = CF30F95B1C8A2BC20067D3D9 /* Podfile */; };
+		1AA73E86235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */; };
+		1AA73E87235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */; };
 		1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */; };
@@ -152,6 +154,7 @@
 		197116DC2020475D3BAC1658 /* Pods_TeslaSwiftMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A5ED54B233A2C84001B3809 /* TeslaSwift+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Rx.swift"; sourceTree = "<group>"; };
 		1AA6819122DA6F8E002E323F /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .hound.yml; path = ../.hound.yml; sourceTree = "<group>"; };
+		1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLinkCommandOptions.swift; sourceTree = "<group>"; };
 		1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Combine.swift"; sourceTree = "<group>"; };
 		1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 				CF0D2F1F1D95A4A900E5A304 /* GuiSettings.swift */,
 				65F055172173DB3D00BE3BE5 /* NavigationRequestOptions.swift */,
 				170D32D222D0EBCD00B6A51A /* NearbyChargingSites.swift */,
+				1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */,
 				CF0D2F201D95A4A900E5A304 /* OpenTrunkOptions.swift */,
 				176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */,
 				CF1BD59B1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift */,
@@ -773,6 +777,7 @@
 				650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
 				CFAE278F1F76644300D28079 /* Codable+JSONString.swift in Sources */,
 				CF0D2F331D95A4A900E5A304 /* OpenTrunkOptions.swift in Sources */,
+				1AA73E86235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */,
 				CF1BD59C1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */,
 				CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */,
@@ -787,6 +792,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				176F073E2219ECF6000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
+				1AA73E87235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */,
 				CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CF0D2F261D95A4A900E5A304 /* Authentication.swift in Sources */,
 				CF5FF50E21AADC3E007B6306 /* NavigationRequestOptions.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import Foundation
 import os.log
+import CoreLocation.CLLocation
 
 public enum RoofState: String, Codable {
 	case close
@@ -25,6 +26,7 @@ public enum VehicleCommand {
 	case startCharging
 	case stopCharging
 	case flashLights
+    case triggerHomeLink(location: CLLocation)
 	case honkHorn
 	case unlockDoors
 	case lockDoors
@@ -74,6 +76,8 @@ public enum VehicleCommand {
 			return "command/charge_stop"
 		case .flashLights:
 			return "command/flash_lights"
+        case .triggerHomeLink:
+            return "command/trigger_homelink"
 		case .honkHorn:
 			return "command/honk_horn"
 		case .unlockDoors:
@@ -107,11 +111,11 @@ public enum VehicleCommand {
 		case .volumeDown:
 			return "command/media_volume_down"
 		case .navigationRequest:
-            		return "command/navigation_request"
+            return "command/navigation_request"
 		case .scheduleSoftwareUpdate:
-            		return "command/schedule_software_update"
+            return "command/schedule_software_update"
 		case .cancelSoftwareUpdate:
-            		return "command/cancel_software_update"
+            return "command/cancel_software_update"
 		case .speedLimitSetLimit:
 			return "command/speed_limit_set_limit"
 		case .speedLimitActivate:
@@ -618,6 +622,9 @@ extension TeslaSwift {
             case .success(_):
                 
     			switch command {
+                case let .triggerHomeLink(coordinates):
+                    let body = HomeLinkCommandOptions(coordinates: coordinates)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .valetMode(valetActivated, pin):
                     let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
