@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum RoofState: String, Codable {
+    case close
+    case vent
+}
+
 open class SetSunRoofCommandOptions: Encodable {
 
 	open var state: RoofState
