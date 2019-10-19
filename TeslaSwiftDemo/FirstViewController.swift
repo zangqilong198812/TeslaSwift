@@ -44,7 +44,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
             api.getVehicles { (result: Result<[Vehicle], Error>) in
                 
                 DispatchQueue.main.async {
-                    self.data = try! result.get()
+                    self.data = try? result.get()
                     self.tableView.reloadData()
                 }
                 
