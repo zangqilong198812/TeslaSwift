@@ -28,6 +28,8 @@ open class VehicleExtended: Vehicle {
 		case guiSettings		 = "gui_settings"
 		case vehicleConfig	 = "vehicle_config"
 		case vehicleState	 = "vehicle_state"
+        
+        case superWorkaround = "super" // We need this to be able to decode from the Tesla API and from an ecoded string
 	}
 	
 	required public init(from decoder: Decoder) throws {
@@ -40,7 +42,11 @@ open class VehicleExtended: Vehicle {
 		guiSettings = try container.decodeIfPresent(GuiSettings.self, forKey: .guiSettings)
 		vehicleConfig = try container.decodeIfPresent(VehicleConfig.self, forKey: .vehicleConfig)
 		vehicleState = try container.decodeIfPresent(VehicleState.self, forKey: .vehicleState)
-		try super.init(from: decoder)
+        if container.contains(.superWorkaround) {
+            try super.init(from: container.superDecoder() )
+        } else {
+            try super.init(from: decoder)
+        }
 	}
 	
 	override open func encode(to encoder: Encoder) throws {
