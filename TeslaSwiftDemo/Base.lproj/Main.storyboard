@@ -240,6 +240,15 @@
                                     <action selector="getVehicle:" destination="hQa-7w-LXN" eventType="touchUpInside" id="Szm-Zd-vYh"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUy-VO-gOX">
+                                <rect key="frame" x="111" y="144" width="178" height="30"/>
+                                <state key="normal" title="Get Nearby charging sites"/>
+                                <connections>
+                                    <action selector="getChargeState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="3m6-bb-dOT"/>
+                                    <action selector="getNearbyChargingSites:" destination="hQa-7w-LXN" eventType="touchUpInside" id="RQC-vC-4gK"/>
+                                    <action selector="getVehicle:" destination="hQa-7w-LXN" eventType="touchUpInside" id="QGZ-Io-NmZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -264,11 +273,13 @@
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" symbolic="YES" id="dCk-o2-SJo"/>
                             <constraint firstItem="ZeE-wh-PNs" firstAttribute="bottom" secondItem="ugC-lm-CpD" secondAttribute="bottom" id="eN9-LA-BOX"/>
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="baseline" secondItem="qDa-tz-cjg" secondAttribute="baseline" id="ebx-82-gQY"/>
+                            <constraint firstItem="yUy-VO-gOX" firstAttribute="top" secondItem="RLA-89-uZU" secondAttribute="bottom" constant="8" id="gIi-ld-YRd"/>
                             <constraint firstItem="NiR-K7-WLA" firstAttribute="leading" secondItem="ySF-V2-hJS" secondAttribute="trailing" id="ggc-Bj-VOo"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="leading" id="kcW-Yd-VGP"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="37" id="pww-bt-4nh"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="trailing" secondItem="dL3-Y4-FTE" secondAttribute="trailing" id="u7E-K6-cVx"/>
+                            <constraint firstItem="yUy-VO-gOX" firstAttribute="leading" secondItem="VFT-h9-uZn" secondAttribute="trailing" constant="16" id="uxG-li-1JI"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="leading" secondItem="Xr7-QY-Fkr" secondAttribute="leading" constant="16" id="vFA-SY-OzU"/>
                             <constraint firstItem="RLA-89-uZU" firstAttribute="leading" secondItem="1iA-0c-01W" secondAttribute="trailing" constant="25" id="xgg-rv-Kjc"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="top" secondItem="V2I-wH-VVW" secondAttribute="bottom" constant="32" id="yja-yV-dgv"/>

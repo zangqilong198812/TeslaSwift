@@ -146,7 +146,16 @@ class VehicleViewController: UIViewController {
 		}
 		
 	}
-	
+    @IBAction func getNearbyChargingSites(_ sender: Any) {
+        if let vehicle = vehicle {
+            _ = api.getNearbyChargingSites(vehicle).done { (nearbyChargingSites: NearbyChargingSites) in
+                self.textView.text = "NearbyChargingSites:\n" +
+                nearbyChargingSites.jsonString!
+            }
+        }
+        
+    }
+    
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)
 		
