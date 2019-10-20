@@ -20,7 +20,17 @@ class VehicleViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-	@IBAction func getTemps(_ sender: Any) {
+    @IBAction func getVehicle(_ sender: Any) {
+        if let vehicle = vehicle {
+            _ = api.getVehicle(vehicle).done {
+                (vehicle: Vehicle) -> Void in
+                self.textView.text = "Inside temp: \(vehicle.jsonString!)"
+            }
+        }
+        
+    }
+    
+    @IBAction func getTemps(_ sender: Any) {
 		if let vehicle = vehicle {
 			_ = api.getVehicleClimateState(vehicle).done {
 				(climateState: ClimateState) -> Void in

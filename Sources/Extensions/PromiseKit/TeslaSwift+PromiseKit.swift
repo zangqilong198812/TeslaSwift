@@ -76,6 +76,26 @@ extension TeslaSwift {
         return promise
     }
 
+    public func getVehicle(_ vehicleID: String) -> Promise<Vehicle> {
+        
+        let (promise, seal) = Promise<Vehicle>.pending()
+        
+        getVehicle(vehicleID, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
+    public func getVehicle(_ vehicle: Vehicle) -> Promise<Vehicle> {
+        
+        let (promise, seal) = Promise<Vehicle>.pending()
+        
+        getVehicle(vehicle, completion: promisify(seal: seal))
+        
+        return promise
+        
+    }
+    
     public func getAllData(_ vehicle: Vehicle) -> Promise<VehicleExtended> {
         
         let (promise, seal) = Promise<VehicleExtended>.pending()

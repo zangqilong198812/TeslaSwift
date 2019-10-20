@@ -65,6 +65,30 @@ extension TeslaSwift {
         return future
     }
     
+    public func getVehicle(_ vehicleID: String) -> Single<Vehicle> {
+        
+        let future = Single<Vehicle>.create { (single: @escaping (SingleEvent<Vehicle>) -> Void) -> Disposable in
+            
+            self.getVehicle(vehicleID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+    
+    public func getVehicle(_ vehicle: Vehicle) -> Single<Vehicle> {
+        
+        let future = Single<Vehicle>.create { (single: @escaping (SingleEvent<Vehicle>) -> Void) -> Disposable in
+            
+            self.getVehicle(vehicle, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+    
     public func getAllData(_ vehicle: Vehicle) -> Single<VehicleExtended> {
         
         let future = Single<VehicleExtended>.create { (single: @escaping (SingleEvent<VehicleExtended>) -> Void) -> Disposable in

@@ -308,6 +308,42 @@ extension TeslaSwift {
         }
 		
 	}
+    
+    /**
+    Fetchs the summary of a vehicle
+    
+    - returns: A completion handler with a Vehicle.
+    */
+    public func getVehicle(_ vehicleID: String, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                
+                self.request(.vehicleSummary(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<Vehicle>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    /**
+    Fetchs the summary of a vehicle
+    
+    - returns: A completion handler with a Vehicle.
+    */
+    public func getVehicle(_ vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
+        return getVehicle(vehicle.id!, completion: completion)
+    }
 	
     /**
      Fetchs the vehicle data

@@ -63,6 +63,28 @@ extension TeslaSwift {
         return future
     }
     
+    public func getVehicle(_ vehicleID: String) -> Future<Vehicle, Error> {
+           
+           let future = Future<Vehicle,Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
+               
+               self.getVehicle(vehicleID, completion: self.resultify(subscriber: subscriber))
+               
+           }
+           
+           return future
+       }
+    
+    public func getVehicle(_ vehicle: Vehicle) -> Future<Vehicle, Error> {
+        
+        let future = Future<Vehicle,Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
+            
+            self.getVehicle(vehicle, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+    
     public func getAllData(_ vehicle: Vehicle) -> Future<VehicleExtended, Error> {
         
         let future = Future<VehicleExtended,Error> { (subscriber: @escaping (Result<VehicleExtended, Error>) -> Void) in

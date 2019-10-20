@@ -13,6 +13,7 @@ enum Endpoint {
 	case authentication
 	case revoke
 	case vehicles
+    case vehicleSummary(vehicleID: String)
 	case mobileAccess(vehicleID: String)
 	case allStates(vehicleID: String)
 	case chargeState(vehicleID: String)
@@ -36,6 +37,8 @@ extension Endpoint {
 			return "/oauth/revoke"
 		case .vehicles:
 			return "/api/1/vehicles"
+        case .vehicleSummary(let vehicleID):
+            return "/api/1/vehicles/\(vehicleID)"
 		case .mobileAccess(let vehicleID):
 			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
 		case .allStates(let vehicleID):
@@ -65,7 +68,7 @@ extension Endpoint {
 		switch self {
 		case .authentication, .revoke, .wakeUp, .command:
 			return "POST"
-        case .vehicles, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites:
+        case .vehicles, .vehicleSummary, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites:
 			return "GET"
 		}
 	}
