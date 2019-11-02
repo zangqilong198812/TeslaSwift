@@ -14,6 +14,12 @@ public struct TeslaStreamAuthentication {
     let email: String
     let vehicleToken: String
     let vehicleId: String
+    
+    public init(email: String, vehicleToken: String, vehicleId: String) {
+        self.email = email
+        self.vehicleToken = vehicleToken
+        self.vehicleId = vehicleId
+    }
 }
 
 /*
