@@ -1,26 +1,27 @@
 PODS:
-  - OHHTTPStubs (7.0.0):
-    - OHHTTPStubs/Default (= 7.0.0)
-  - OHHTTPStubs/Core (7.0.0)
-  - OHHTTPStubs/Default (7.0.0):
+  - OHHTTPStubs (8.0.0):
+    - OHHTTPStubs/Default (= 8.0.0)
+  - OHHTTPStubs/Core (8.0.0)
+  - OHHTTPStubs/Default (8.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (7.0.0):
+  - OHHTTPStubs/JSON (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (7.0.0):
+  - OHHTTPStubs/NSURLSession (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (7.0.0)
-  - OHHTTPStubs/Swift (7.0.0):
+  - OHHTTPStubs/OHPathHelpers (8.0.0)
+  - OHHTTPStubs/Swift (8.0.0):
     - OHHTTPStubs/Default
-  - PromiseKit/CorePromise (6.8.4)
-  - RxCocoa (5.0.0):
+  - PromiseKit/CorePromise (6.11.0)
+  - RxCocoa (5.0.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
-  - RxRelay (5.0.0):
+  - RxRelay (5.0.1):
     - RxSwift (~> 5)
-  - RxSwift (5.0.0)
+  - RxSwift (5.0.1)
+  - Starscream (3.1.1)
 
 DEPENDENCIES:
   - OHHTTPStubs
@@ -28,23 +29,25 @@ DEPENDENCIES:
   - PromiseKit/CorePromise (~> 6)
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
+  - Starscream (~> 3)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - OHHTTPStubs
     - PromiseKit
-  trunk:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - Starscream
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: ef33a2c353110d306bb98f695435ec56ff5a26c3
-  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
-  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
-  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
-  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
+  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
+  RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
+  RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
+  RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 
-PODFILE CHECKSUM: 2590d5df82bfa1296386684fc1afcba25e8c9449
+PODFILE CHECKSUM: 4b0ff50871ba1626140fd6d253cbee6cc0323b53
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.8.4

@@ -15,15 +15,14 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.0.0"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
+        .package(url: "https://github.com/daltoniam/Starscream.git", from: "3.0.0"),
         //.package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", Package.Dependency.Requirement.branch("feature/spm-support"))
     ],
     targets: [
-        .target(name: "TeslaSwift"),
+        .target(name: "TeslaSwift", dependencies: ["Starscream"]),
         .target(name: "TeslaSwiftCombine", dependencies: ["TeslaSwift"], path: "Sources/Extensions/Combine"),
         .target(name: "TeslaSwiftPMK", dependencies: ["TeslaSwift", "PromiseKit"], path: "Sources/Extensions/PromiseKit"),
         .target(name: "TeslaSwiftRx", dependencies: ["TeslaSwift", "RxSwift", "RxCocoa"], path: "Sources/Extensions/Rx"),
-        /*.testTarget(
-            name: "TeslaSwiftTests", dependencies: ["TeslaSwift", "PromiseKit", "OHHTTPStubs"], path: "TeslaSwiftTests")
-         */
+        //.testTarget(name: "TeslaSwiftTests", dependencies: ["TeslaSwiftPMK", "PromiseKit", "OHHTTPStubsSwift"], path: "TeslaSwiftTests")
     ]
 )

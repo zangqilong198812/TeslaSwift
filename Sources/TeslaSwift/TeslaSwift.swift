@@ -921,9 +921,9 @@ extension TeslaSwift {
 				return
 		}
 		
-		let endpoint = StreamEndpoint.stream(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
+		let authentication = TeslaStreamAuthentication(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
 		
-		streaming.openStream(endpoint: endpoint, dataReceived: dataReceived)
+		streaming.openStream(authentication: authentication, dataReceived: dataReceived)
 	}
 
 	/**
