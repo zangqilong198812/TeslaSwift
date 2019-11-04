@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "6.3.0"
+	s.version      = "6.3.1"
 	s.summary      = "Swift library to access the Tesla Model S API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
 
     s.subspec 'Core' do |ss|
         ss.source_files = "Sources/TeslaSwift/**/*"
+        ss.dependency 'Starscream' ,  '~> 3'
     end
 
     s.subspec 'PromiseKit' do |ss|
