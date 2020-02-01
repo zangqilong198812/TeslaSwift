@@ -79,9 +79,9 @@ open class VehicleState: Codable {
 	open var centerDisplayState: Bool? { return centerDisplayStateBool == 1 }
 	
 	private var driverDoorOpenBool: Int?
-	open var driverDoorOpen: Bool? { return driverDoorOpenBool == 1 }
+	open var driverDoorOpen: Bool? { return (driverDoorOpenBool ?? 0) > 0 }
 	private var driverRearDoorOpenBool: Int?
-	open var driverRearDoorOpen: Bool? { return driverRearDoorOpenBool == 1 }
+	open var driverRearDoorOpen: Bool? { return (driverRearDoorOpenBool ?? 0) > 0 }
 	
 	private var frontTrunkOpenBool: Int?
 	open var frontTrunkOpen: Bool? { return (frontTrunkOpenBool ?? 0) > 0 }
@@ -102,9 +102,9 @@ open class VehicleState: Codable {
 	open var parsedCalendarSupported: Bool?
 	
 	private var passengerDoorOpenBool: Int?
-	open var passengerDoorOpen: Bool? { return passengerDoorOpenBool == 1 }
+	open var passengerDoorOpen: Bool? { return (passengerDoorOpenBool ?? 0) > 0 }
 	private var passengerRearDoorOpenBool: Int?
-	open var passengerRearDoorOpen: Bool? { return passengerRearDoorOpenBool == 1 }
+	open var passengerRearDoorOpen: Bool? { return (passengerRearDoorOpenBool ?? 0) > 0 }
 	
 	open var remoteStart: Bool?
 	open var remoteStartSupported: Bool?
