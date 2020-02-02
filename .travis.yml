@@ -1,9 +1,7 @@
 language: swift
-osx_image: xcode11
+osx_image: xcode11.3
 xcode_workspace: TeslaSwiftDemo/TeslaSwift.xcworkspace
 xcode_scheme: TeslaSwift
-xcode_sdk: iphonesimulator13.0
-xcode_destination: platform=iOS Simulator,OS=13.0,name=iPhone XS
 podfile: TeslaSwiftDemo/Podfile
 notifications:
   email: false
