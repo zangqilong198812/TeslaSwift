@@ -26,6 +26,8 @@
 		1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */; };
 		1AA73E8C235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */; };
 		1AA73E8D235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */; };
+		1AABBBAA242646E200FFED6C /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AABBBA9242646E200FFED6C /* Speed.swift */; };
+		1AABBBAB242646E200FFED6C /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AABBBA9242646E200FFED6C /* Speed.swift */; };
 		1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */; };
@@ -159,6 +161,7 @@
 		1AA73E85235B37560088D66A /* HomeLinkCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLinkCommandOptions.swift; sourceTree = "<group>"; };
 		1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControlCommandOptions.swift; sourceTree = "<group>"; };
 		1AA73E8B235B3FA40088D66A /* MaxDefrostCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxDefrostCommandOptions.swift; sourceTree = "<group>"; };
+		1AABBBA9242646E200FFED6C /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Combine.swift"; sourceTree = "<group>"; };
 		1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
 		1AEE6AA0235C815A00A6CE2C /* StreamControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamControl.swift; sourceTree = "<group>"; };
@@ -312,6 +315,7 @@
 				CFAE278E1F76644300D28079 /* Codable+JSONString.swift */,
 				CF0D2F1C1D95A4A900E5A304 /* CommandResponse.swift */,
 				CFF048011F72EDC6006B52F7 /* Distance.swift */,
+				1AABBBA9242646E200FFED6C /* Speed.swift */,
 				CF0D2F1D1D95A4A900E5A304 /* DriveState.swift */,
 				CFB5D7B61E66088F003EA1EF /* ErrorMessage.swift */,
 				CF0D2F1E1D95A4A900E5A304 /* GenericResponse.swift */,
@@ -781,6 +785,7 @@
 				CF0D2F311D95A4A900E5A304 /* GuiSettings.swift in Sources */,
 				1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */,
 				CF1BD5961DD5051600E4C493 /* SetTemperatureCommandOptions.swift in Sources */,
+				1AABBBAA242646E200FFED6C /* Speed.swift in Sources */,
 				CFEAF13D1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
 				CFF001AC1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CF0D2F2D1D95A4A900E5A304 /* DriveState.swift in Sources */,
@@ -823,6 +828,7 @@
 				CF0D2F2C1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
 				CF0D2F321D95A4A900E5A304 /* GuiSettings.swift in Sources */,
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
+				1AABBBAB242646E200FFED6C /* Speed.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
 				1A5ED54D233A2C8E001B3809 /* TeslaSwift+Rx.swift in Sources */,

@@ -51,7 +51,7 @@ open class ChargeState: Codable {
 	/**
 	miles/hour while charging or 0 if not charging
 	*/
-	open var chargeRate: Distance?
+	open var chargeRate: Speed?
 	/**
 	Charge to max rate or standard
 	*/
@@ -126,7 +126,7 @@ open class ChargeState: Codable {
 		
 		case batteryHeaterOn				 = "battery_heater_on"
 		case batteryLevel                 = "battery_level"
-		case ratedBatteryRange           = "battery_range"//, distanceTransform)
+		case ratedBatteryRange           = "battery_range"
 		case chargeCurrentRequest		 = "charge_current_request"
 		case chargeCurrentRequestMax		 = "charge_current_request_max"
 		case chargeEnableRequest			 = "charge_enable_request"
@@ -157,7 +157,7 @@ open class ChargeState: Codable {
 		
 		case connChargeCable				= "conn_charge_cable"
 		
-		case estimatedBatteryRange      = "est_battery_range"//, distanceTransform)
+		case estimatedBatteryRange      = "est_battery_range"
 		
 		case euVehicle					 = "eu_vehicle"
 		
@@ -165,7 +165,7 @@ open class ChargeState: Codable {
 		case fastChargerPresent           = "fast_charger_present"
 		case fastChargerType				 = "fast_charger_type"
 		
-		case idealBatteryRange          = "ideal_battery_range"//, distanceTransform)
+		case idealBatteryRange          = "ideal_battery_range"
 		
 		case managedChargingActive		 = "managed_charging_active"
 		case managedChargingStartTime	 = "managed_charging_start_time"
@@ -217,7 +217,7 @@ open class ChargeState: Codable {
 		chargePortColdWeatherMode = try? container.decode(Bool.self, forKey: .chargePortColdWeatherMode)
 		
 		
-		chargeRate = try? container.decode(Distance.self, forKey: .chargeRate)
+		chargeRate = try? container.decode(Speed.self, forKey: .chargeRate)
 
 		chargeToMaxRange = try? container.decode(Bool.self, forKey: .chargeToMaxRange)
 		

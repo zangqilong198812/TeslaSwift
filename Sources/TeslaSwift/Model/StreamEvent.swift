@@ -21,6 +21,12 @@ open class StreamEvent: Codable {
 	
     open var timestamp: Double?
     open var speed: CLLocationSpeed? // mph
+    open var speedUnit: Speed? {
+        get {
+            guard let speed = speed else { return nil }
+            return Speed(milesPerHour: speed)
+        }
+    }
     open var odometer: Distance? // miles
     open var soc: Int?
     open var elevation: Int? // feet
@@ -156,10 +162,10 @@ open class StreamEvent: Codable {
 
 extension StreamEvent: CustomStringConvertible {
 	public var description: String {
-		return "speed: \(speed ?? -1), odo: \(odometer?.miles ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.miles ?? -1), estRange: \(estRange?.miles ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
+        return "speed: \(speed ?? -1), odo: \(odometer?.miles ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.miles ?? -1), estRange: \(estRange?.miles ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
 	}
 	
 	public var descriptionKm: String {
-		return "speed: \(speed ?? -1), odo: \(odometer?.kms ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.kms ?? -1), estRange: \(estRange?.kms ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
+        return "speed: \(speedUnit?.kilometersPerHour ?? -1), odo: \(odometer?.kms ?? -1.0), soc: \(soc ?? -1), elevation: \(elevation ?? -1), estLat: \(estLat ?? -1), estLng: \(estLng ?? -1), power: \(power ?? -1), shift: \(shiftState ?? ""), range: \(range?.kms ?? -1), estRange: \(estRange?.kms ?? -1) heading: \(heading ?? -1), estHeading: \(estHeading ?? -1), timestamp: \(timestamp ?? 0)"
 	}
 }
