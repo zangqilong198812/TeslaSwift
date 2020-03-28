@@ -41,18 +41,21 @@ open class AuthToken: Codable {
 
 class AuthTokenRequest: Encodable {
 	
-	var grantType: String?
-	var clientID: String?
-	var clientSecret: String?
+    enum GrantType: String, Encodable {
+        case password
+        case refreshToken = "refresh_token"
+    }
+    
+    var grantType: GrantType
+	var clientID: String = "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384"
+	var clientSecret: String = "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3"
 	var email: String?
-	var password: String?
+	var password: String
 	
-	init(email: String, password: String, grantType: String, clientID: String, clientSecret: String) {
+    init(email: String, password: String, grantType: GrantType = .password) {
 		self.email = email
 		self.password = password
 		self.grantType = grantType
-		self.clientID = clientID
-		self.clientSecret = clientSecret
 	}
 	
 	// MARK: Codable protocol
