@@ -50,12 +50,14 @@ class AuthTokenRequest: Encodable {
 	var clientID: String = "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384"
 	var clientSecret: String = "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3"
 	var email: String?
-	var password: String
+	var password: String?
+    var refreshToken: String?
 	
-    init(email: String, password: String, grantType: GrantType = .password) {
+    init(email: String? = nil, password: String? = nil, grantType: GrantType = .password, refreshToken: String? = nil) {
 		self.email = email
 		self.password = password
 		self.grantType = grantType
+        self.refreshToken = refreshToken
 	}
 	
 	// MARK: Codable protocol
@@ -68,5 +70,6 @@ class AuthTokenRequest: Encodable {
 		case clientSecret = "client_secret"
 		case email = "email"
 		case password = "password"
+        case refreshToken = "refresh_token"
 	}
 }

@@ -155,6 +155,20 @@ class VehicleViewController: UIViewController {
         }
         
     }
+    @IBAction func refreshToken(_ sender: Any) {
+        api.refreshToken { (result: Result<AuthToken, Error>) in
+            DispatchQueue.main.async {
+                do {
+                    let token = try result.get().accessToken
+                    self.textView.text = "New access Token:\n" + (token ?? "")
+                } catch {
+                    self.textView.text = "Refresh Token:\n CATCH"
+                }
+            }
+            
+        }
+       }
+    
     
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)

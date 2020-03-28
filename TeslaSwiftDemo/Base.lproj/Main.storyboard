@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -236,7 +236,6 @@
                                 <rect key="frame" x="16" y="143" width="79" height="30"/>
                                 <state key="normal" title="Get Vehicle"/>
                                 <connections>
-                                    <action selector="getChargeState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="gdm-rW-rDN"/>
                                     <action selector="getVehicle:" destination="hQa-7w-LXN" eventType="touchUpInside" id="Szm-Zd-vYh"/>
                                 </connections>
                             </button>
@@ -244,9 +243,14 @@
                                 <rect key="frame" x="111" y="144" width="178" height="30"/>
                                 <state key="normal" title="Get Nearby charging sites"/>
                                 <connections>
-                                    <action selector="getChargeState:" destination="hQa-7w-LXN" eventType="touchUpInside" id="3m6-bb-dOT"/>
                                     <action selector="getNearbyChargingSites:" destination="hQa-7w-LXN" eventType="touchUpInside" id="RQC-vC-4gK"/>
-                                    <action selector="getVehicle:" destination="hQa-7w-LXN" eventType="touchUpInside" id="QGZ-Io-NmZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-KV-smN">
+                                <rect key="frame" x="310" y="144" width="53" height="30"/>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="refreshToken:" destination="hQa-7w-LXN" eventType="touchUpInside" id="7Kt-IL-gYc"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -266,6 +270,8 @@
                             <constraint firstItem="ugC-lm-CpD" firstAttribute="leading" secondItem="RLA-89-uZU" secondAttribute="trailing" constant="53.5" id="JJ2-l6-kNg"/>
                             <constraint firstItem="VFT-h9-uZn" firstAttribute="top" secondItem="1iA-0c-01W" secondAttribute="bottom" constant="7" id="Jpf-2w-9JS"/>
                             <constraint firstItem="ZeE-wh-PNs" firstAttribute="leading" secondItem="ugC-lm-CpD" secondAttribute="trailing" constant="13" id="Kwq-qr-Dmc"/>
+                            <constraint firstItem="RmL-KV-smN" firstAttribute="top" secondItem="ZeE-wh-PNs" secondAttribute="bottom" constant="8" id="QY9-JF-OUt"/>
+                            <constraint firstItem="Xr7-QY-Fkr" firstAttribute="trailing" secondItem="RmL-KV-smN" secondAttribute="trailing" constant="12" id="V0n-Tv-QrC"/>
                             <constraint firstItem="ySF-V2-hJS" firstAttribute="top" secondItem="xP4-ae-x7r" secondAttribute="bottom" constant="-1" id="XDi-tN-cHx"/>
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="leading" secondItem="dL3-Y4-FTE" secondAttribute="leading" id="YoO-4n-cSJ"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="dL3-Y4-FTE" secondAttribute="centerX" id="Zkk-J1-41o"/>
@@ -275,6 +281,7 @@
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="baseline" secondItem="qDa-tz-cjg" secondAttribute="baseline" id="ebx-82-gQY"/>
                             <constraint firstItem="yUy-VO-gOX" firstAttribute="top" secondItem="RLA-89-uZU" secondAttribute="bottom" constant="8" id="gIi-ld-YRd"/>
                             <constraint firstItem="NiR-K7-WLA" firstAttribute="leading" secondItem="ySF-V2-hJS" secondAttribute="trailing" id="ggc-Bj-VOo"/>
+                            <constraint firstItem="RmL-KV-smN" firstAttribute="bottom" secondItem="yUy-VO-gOX" secondAttribute="bottom" id="jfY-Ew-ssP"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="leading" id="kcW-Yd-VGP"/>
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="37" id="pww-bt-4nh"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>
