@@ -188,7 +188,6 @@ extension TeslaSwift {
     public func authenticate(email: String, password: String, completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
 		
 		self.email = email
-        UserDefaults.standard.set(email, forKey: "TeslaSwift.email")
 		self.password = password
 
 		let body = AuthTokenRequest(email: email,
