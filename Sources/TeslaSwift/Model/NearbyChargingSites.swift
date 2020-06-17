@@ -9,6 +9,13 @@
 import Foundation
 import CoreLocation
 
+public protocol Charger {
+    var name: String? { get }
+    var type: String? { get }
+    var distance: Distance? { get }
+    var location: NearbyChargingSites.ChargerLocation? { get }
+}
+
 open class NearbyChargingSites: Codable {
 
     open var congestionSyncTimeUTCSecs: Int?
@@ -39,7 +46,7 @@ open class NearbyChargingSites: Codable {
         try container.encodeIfPresent(timestamp, forKey: .timestamp)
     }
 
-    public struct DestinationCharger: Codable {
+    public struct DestinationCharger: Codable, Charger {
         public var distance: Distance?
         public var location: ChargerLocation?
         public var name: String?
@@ -53,7 +60,7 @@ open class NearbyChargingSites: Codable {
         }
     }
 
-    public struct Supercharger: Codable {
+    public struct Supercharger: Codable, Charger {
         public var availableStalls: Int?
         public var distance: Distance?
         public var location: ChargerLocation?
