@@ -160,7 +160,7 @@ open class TeslaSwift {
 		}
 	}
 	
-	open fileprivate(set) var token: AuthToken?
+	open var token: AuthToken?
 	
     open fileprivate(set) var email: String?
 	fileprivate var password: String?
