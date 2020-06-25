@@ -11,11 +11,10 @@ import Foundation
 open class ChargeState: Codable {
 	
 	public enum ChargingState: String, Codable {
-		// Caps on purpose to avoid codingkeys
-		case Complete
-		case Charging
-		case Disconnected
-		case Stopped
+		case complete = "Complete"
+		case charging = "Charging"
+		case disconnected = "Disconnected"
+		case stopped = "Stopped"
 	}
 	
 	open var batteryHeaterOn: Bool?

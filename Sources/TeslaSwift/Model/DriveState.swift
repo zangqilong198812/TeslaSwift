@@ -10,8 +10,14 @@ import Foundation
 import CoreLocation
 
 open class DriveState: Codable {
+    public enum ShiftState: String, Codable {
+        case drive = "D"
+        case parked = "P"
+        case reverse = "R"
+        case neutral = "N"
+    }
 	
-	open var shiftState: String?
+	open var shiftState: ShiftState?
 	
 	open var speed: CLLocationSpeed?
 	open var latitude: CLLocationDegrees?
