@@ -12,7 +12,7 @@ import CoreLocation
 open class DriveState: Codable {
     public enum ShiftState: String, Codable {
         case drive = "D"
-        case parked = "P"
+        case park = "P"
         case reverse = "R"
         case neutral = "N"
     }
