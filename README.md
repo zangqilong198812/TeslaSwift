@@ -180,6 +180,7 @@ http://ts.la/joao290
 * Power for Tesla (https://itunes.apple.com/us/app/power-for-tesla/id1194710823?mt=8)
 * Plus - for Tesla Model S & X (https://itunes.apple.com/us/app/plus-for-tesla-model-s-x/id1187829197?mt=8)
 * Nikola for Tesla (https://itunes.apple.com/us/app/nikola-for-tesla/id1244489779?mt=8)
+* Charged - for Tesla (https://getcharged.app/)
 
 Missing your app? open a PR or issue
 
