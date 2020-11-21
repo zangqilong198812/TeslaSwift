@@ -70,7 +70,7 @@ open class DriveState: Codable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		
-		shiftState = try? container.decode(String.self, forKey: .shiftState)
+        shiftState = try? container.decode(ShiftState.self, forKey: .shiftState)
 		
 		speed = try? container.decode(CLLocationSpeed.self, forKey: .speed)
 		latitude = try? container.decode(CLLocationDegrees.self, forKey: .latitude)
