@@ -11,7 +11,11 @@ import Foundation
 enum Endpoint {
 	
 	case authentication
-	case revoke
+    case revoke
+    @available(iOS 13.0, *)
+    case oAuth2Authorization(auth: AuthCodeRequest)
+    case oAuth2Token
+    case oAuth2revoke(token: String)
 	case vehicles
     case vehicleSummary(vehicleID: String)
 	case mobileAccess(vehicleID: String)
@@ -29,51 +33,68 @@ enum Endpoint {
 
 extension Endpoint {
 	
-	var path: String {
-		switch self {
-		case .authentication:
-			return "/oauth/token"
-		case .revoke:
-			return "/oauth/revoke"
-		case .vehicles:
-			return "/api/1/vehicles"
-        case .vehicleSummary(let vehicleID):
-            return "/api/1/vehicles/\(vehicleID)"
-		case .mobileAccess(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
-		case .allStates(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/vehicle_data"
-		case .chargeState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/charge_state"
-		case .climateState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/climate_state"
-		case .driveState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/drive_state"
-		case .guiSettings(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
-        case .nearbyChargingSites(let vehicleID):
-            return "/api/1/vehicles/\(vehicleID)/nearby_charging_sites"
-		case .vehicleState(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
-		case .vehicleConfig(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_config"
-		case .wakeUp(let vehicleID):
-			return "/api/1/vehicles/\(vehicleID)/wake_up"
-		case let .command(vehicleID, command):
-			return "/api/1/vehicles/\(vehicleID)/\(command.path())"
-		}
+    var path: String {
+        switch self {
+            case .authentication:
+                return "/oauth/token"
+            case .revoke:
+                return "/oauth/revoke"
+            case .oAuth2Authorization:
+                return "/oauth2/v3/authorize"
+            case .oAuth2Token:
+                return "/oauth2/v3/token"
+            case .oAuth2revoke:
+                return "/oauth2/v3/revoke"
+            case .vehicles:
+                return "/api/1/vehicles"
+            case .vehicleSummary(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)"
+            case .mobileAccess(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/mobile_enabled"
+            case .allStates(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/vehicle_data"
+            case .chargeState(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/data_request/charge_state"
+            case .climateState(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/data_request/climate_state"
+            case .driveState(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/data_request/drive_state"
+            case .guiSettings(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/data_request/gui_settings"
+            case .nearbyChargingSites(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/nearby_charging_sites"
+            case .vehicleState(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_state"
+            case .vehicleConfig(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/data_request/vehicle_config"
+            case .wakeUp(let vehicleID):
+                return "/api/1/vehicles/\(vehicleID)/wake_up"
+            case let .command(vehicleID, command):
+                return "/api/1/vehicles/\(vehicleID)/\(command.path())"
+        }
 	}
 	
 	var method: String {
 		switch self {
-		case .authentication, .revoke, .wakeUp, .command:
+            case .authentication, .revoke, .oAuth2Token, .wakeUp, .command:
 			return "POST"
-        case .vehicles, .vehicleSummary, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites:
+            case .vehicles, .vehicleSummary, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites, .oAuth2Authorization, .oAuth2revoke:
 			return "GET"
 		}
 	}
 
-    func baseURL(_ useMockServer: Bool) -> String {
+    var queryParameters: [URLQueryItem] {
+        switch self {
+            case let .oAuth2Authorization(auth):
+                return auth.parameters()
+            case let .oAuth2revoke(token):
+                return [URLQueryItem(name: "token", value: token)]
+            default:
+                return []
+        }
+    }
+
+    func baseURL(_ useMockServer: Bool = false) -> String {
         if useMockServer {
             let mockUrl = UserDefaults.standard.string(forKey: "mock_base_url")
             if mockUrl != nil && mockUrl!.count > 0 {
@@ -82,7 +103,12 @@ extension Endpoint {
                 return "https://private-623898-modelsapi.apiary-mock.com"
             }
         } else {
-            return "https://owner-api.teslamotors.com"
+            switch self {
+                case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
+                    return "https://auth.tesla.com"
+                default:
+                    return "https://owner-api.teslamotors.com"
+            }
         }
     }
 }

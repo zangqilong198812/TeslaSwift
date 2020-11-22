@@ -136,7 +136,7 @@ public enum VehicleCommand {
 }
 
 public enum TeslaError: Error, Equatable {
-	case networkError(error:NSError)
+	case networkError(error: NSError)
 	case authenticationRequired
 	case authenticationFailed
 	case tokenRevoked
@@ -174,12 +174,85 @@ extension TeslaSwift {
 	public var isAuthenticated: Bool {
 		return token != nil && (token?.isValid ?? false)
 	}
-	
+
+
+    /**
+     Performs the authentition with the Tesla API for web logins
+
+     For MFA users, this is the only way to authenticate.
+     If the token expires, a token refresh will be done
+
+     - parameter completion:      The completion handler when the token as been retrived
+     - returns: A ViewController that your app needs to present. This ViewContoller will ask the user for his/her Tesla credentials, MFA code if set and then desmiss on successful authentication
+     */
+    @available(iOS 13.0, *)
+    public func authenticateWeb(completion: @escaping (Result<AuthToken, Error>) -> ()) -> TeslaWebLoginViewContoller? {
+
+        let codeRequest = AuthCodeRequest()
+        let endpoint = Endpoint.oAuth2Authorization(auth: codeRequest)
+        var urlComponents = URLComponents(string: endpoint.baseURL())
+        urlComponents?.path = endpoint.path
+        urlComponents?.queryItems = endpoint.queryParameters
+
+        guard let safeUrlComponents = urlComponents else {
+            completion(Result.failure(TeslaError.authenticationFailed))
+            return nil
+        }
+
+        let teslaWebLoginViewContoller = TeslaWebLoginViewContoller(url: safeUrlComponents.url!)
+
+        teslaWebLoginViewContoller.result = { result in
+            switch result {
+                case let .success(url):
+                    let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+                    if let queryItems = urlComponents?.queryItems {
+                        for queryItem in queryItems {
+                            if queryItem.name == "code", let code = queryItem.value {
+                                self.getAuthenticationTokenforWeb(code: code, completion: completion)
+                                return
+                            }
+                        }
+                    }
+                    completion(Result.failure(TeslaError.authenticationFailed))
+                case let .failure(error):
+                    completion(Result.failure(error))
+            }
+        }
+
+        return teslaWebLoginViewContoller
+    }
+
+    private func getAuthenticationTokenforWeb(code: String, completion: @escaping (Result<AuthToken, Error>) -> ()) {
+
+        let body = AuthTokenRequestWeb(code: code)
+
+        request(.oAuth2Token, body: body) { (result: Result<AuthToken, Error>) in
+
+            switch result {
+                case .success(let token):
+                    self.token = token
+                    completion(Result.success(token))
+                case .failure(let error):
+                    if case let TeslaError.networkError(error: internalError) = error {
+                        if internalError.code == 401 {
+                            completion(Result.failure(TeslaError.authenticationFailed))
+                        } else {
+                            completion(Result.failure(error))
+                        }
+                    } else {
+                        completion(Result.failure(error))
+                    }
+            }
+
+        }
+
+    }
+
 	/**
-	Performs the authentition with the Tesla API
+	Performs the authentition with the Tesla API for email and password logins
 	
 	You only need to call this once. The token will be stored and your credentials.
-	If the token expires your credentials will be reused.
+    If the token expires, a token refresh will be done
 	
 	- parameter email:      The email address.
 	- parameter password:   The password.
@@ -218,9 +291,43 @@ extension TeslaSwift {
         }
         
 	}
-    
+
     /**
-    Performs the token refresh with the Tesla API
+     Performs the token refresh with the Tesla API for Web logins
+
+     - returns: A completion handler with the AuthToken.
+     */
+    public func refreshWebToken(completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
+        guard let token = self.token else {
+            completion(Result.failure(TeslaError.noTokenToRefresh))
+            return
+        }
+        let body = AuthTokenRequestWeb(grantType: .refreshToken, refreshToken: token.refreshToken)
+
+        request(.oAuth2Token, body: body) { (result: Result<AuthToken, Error>) in
+
+            switch result {
+                case .success(let token):
+                    self.token = token
+                    completion(Result.success(token))
+                case .failure(let error):
+                    if case let TeslaError.networkError(error: internalError) = error {
+                        if internalError.code == 401 {
+                            completion(Result.failure(TeslaError.tokenRefreshFailed))
+                        } else {
+                            completion(Result.failure(error))
+                        }
+                    } else {
+                        completion(Result.failure(error))
+                    }
+            }
+
+        }
+
+    }
+
+    /**
+    Performs the token refresh with the Tesla API for password logins
     
     - returns: A completion handler with the AuthToken.
     */
@@ -267,6 +374,39 @@ extension TeslaSwift {
 		self.token = token
 		self.email = email
 	}
+
+    /**
+     Revokes the stored token. Not working
+
+     - returns: A completion handler with the token revoke state.
+     */
+    public func revokeWeb(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
+
+        guard let accessToken = self.token?.accessToken else {
+            token = nil
+            return completion(Result.success(false))
+        }
+
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            self.token = nil
+
+            switch result {
+                case .failure(let error):
+                    completion(Result.failure(error))
+                case .success(_):
+
+                    self.request(.oAuth2revoke(token: accessToken), body: nullBody) { (result: Result<BoolResponse, Error>) in
+
+                        switch result {
+                            case .failure(let error):
+                                completion(Result.failure(error))
+                            case .success(let data):
+                                completion(Result.success(data.response))
+                        }
+                    }
+            }
+        }
+    }
 	
 	/**
 	Revokes the stored token. Endpoint always returns true.
@@ -301,8 +441,6 @@ extension TeslaSwift {
                 }
             }
         }
-        
-
 	}
 	
 	/**
@@ -774,13 +912,17 @@ extension TeslaSwift {
     func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
 
         let value = checkToken()
-        
         if value {
             completion(Result.success(self.token!))
         } else {
-            self.cleanToken()
-            if let email = self.email, let password = self.password {
-                authenticate(email: email, password: password, completion: completion)
+            if self.token?.refreshToken != nil {
+                if self.token?.idToken == nil {
+                    refreshToken(completion: completion)
+                } else {
+                    // idToken is only present on the new authentications
+                    refreshWebToken(completion: completion)
+                }
+                self.cleanToken()
             } else {
                 completion(Result.failure(TeslaError.authenticationRequired))
             }
@@ -860,8 +1002,11 @@ extension TeslaSwift {
 	}
 
 	func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
-	
-		var request = URLRequest(url: URL(string: endpoint.baseURL(useMockServer) + endpoint.path)!)
+
+        var urlComponents = URLComponents(url: URL(string: endpoint.baseURL(useMockServer))!, resolvingAgainstBaseURL: true)
+        urlComponents?.path = endpoint.path
+        urlComponents?.queryItems = endpoint.queryParameters
+        var request = URLRequest(url: urlComponents!.url!)
 		request.httpMethod = endpoint.method
 		
 		request.setValue("TeslaSwift", forHTTPHeaderField: "User-Agent")
