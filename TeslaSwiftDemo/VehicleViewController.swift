@@ -182,7 +182,6 @@ class VehicleViewController: UIViewController {
         }
     }
     
-    
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)
 		
