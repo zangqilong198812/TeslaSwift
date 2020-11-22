@@ -20,23 +20,46 @@ class LoginViewController: UIViewController {
     
     
     @IBOutlet weak var messageLabel: UILabel!
-    
+
+    @IBAction func webLoginAction(_ sender: AnyObject) {
+        if #available(iOS 13.0, *) {
+            let webloginViewController = api.authenticateWeb { (result) in
+
+                DispatchQueue.main.async {
+                    switch result {
+                        case .success:
+                            self.messageLabel.text = "Authentication success"
+                            NotificationCenter.default.post(name: Notification.Name.loginDone, object: nil)
+
+                            self.dismiss(animated: true, completion: nil)
+
+                        case let .failure(error):
+                            self.messageLabel.text = "Authentication failed: \(error)"
+                    }
+                }
+            }
+            guard let safeWebloginViewController = webloginViewController else { return }
+
+            self.present(safeWebloginViewController, animated: true, completion: nil)
+        }
+    }
+
     @IBAction func loginAction(_ sender: AnyObject) {
-        
+
         if let email = emailTextField.text,
-            let password = passwordTextField.text {
-            
+           let password = passwordTextField.text {
+
             UserDefaults.standard.set(email, forKey: "tesla.email")
             UserDefaults.standard.set(password, forKey: "tesla.password")
             UserDefaults.standard.synchronize()
-            
+
             api.authenticate(email: email, password: password).done {
                 (token) -> Void in
-                
+
                 NotificationCenter.default.post(name: Notification.Name.loginDone, object: nil)
-                
+
                 self.dismiss(animated: true, completion: nil)
-                
+
             }.catch { (error) in
                 if case TeslaError.authenticationFailed =  error {
                     self.messageLabel.text = "Authentication failed"
@@ -47,7 +70,7 @@ class LoginViewController: UIViewController {
         } else {
             messageLabel.text = "Please add your credentials"
         }
-        
+
     }
     
     override func viewDidLoad() {

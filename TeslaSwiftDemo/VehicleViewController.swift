@@ -156,7 +156,7 @@ class VehicleViewController: UIViewController {
         
     }
     @IBAction func refreshToken(_ sender: Any) {
-        api.refreshToken { (result: Result<AuthToken, Error>) in
+        api.refreshWebToken { (result: Result<AuthToken, Error>) in
             DispatchQueue.main.async {
                 do {
                     let token = try result.get().accessToken
@@ -167,7 +167,20 @@ class VehicleViewController: UIViewController {
             }
             
         }
-       }
+    }
+
+    @IBAction func revokeToken(_ sender: Any) {
+        api.revokeWeb { (result: Result<Bool, Error>) in
+            DispatchQueue.main.async {
+                do {
+                    let status = try result.get()
+                    self.textView.text = "Revoked: \(status)"
+                } catch {
+                    self.textView.text = "Revoke Token:\n CATCH"
+                }
+            }
+        }
+    }
     
     
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
