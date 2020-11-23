@@ -241,7 +241,7 @@ extension TeslaSwift  {
                     _ = subscriber.receive(TeslaStreamingEvent.error(error))
                 case .disconnected:
                     _ = subscriber.receive(TeslaStreamingEvent.disconnected)
-                    _ = subscriber.receive(completion: Subscribers.Completion.finished)
+                    subscriber.receive(completion: Subscribers.Completion.finished)
                 }
                 
             }

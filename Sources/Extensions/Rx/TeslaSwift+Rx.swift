@@ -246,14 +246,14 @@ extension TeslaSwift  {
                 
                 switch streamEvent {
                 case .open:
-                    _ = observer.onNext(TeslaStreamingEvent.open)
+                    observer.onNext(TeslaStreamingEvent.open)
                 case .event(let event):
-                    _ = observer.onNext(TeslaStreamingEvent.event(event))
+                    observer.onNext(TeslaStreamingEvent.event(event))
                 case .error(let error):
-                    _ = observer.onError(error)
+                    observer.onError(error)
                 case .disconnected:
-                    _ = observer.onNext(TeslaStreamingEvent.disconnected)
-                    _ = observer.onCompleted()
+                    observer.onNext(TeslaStreamingEvent.disconnected)
+                    observer.onCompleted()
                 }
                 
             }
