@@ -1,7 +1,7 @@
 # TeslaSwift
 Swift library to access Tesla API based on [Tesla JSON API (Unofficial)](https://tesla-api.timdorr.com)
 
-[![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg?style=flat)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
 [![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)](https://github.com/jonasman/TeslaSwift)
 
@@ -90,6 +90,24 @@ api.authenticate(email: email, password: password) {
 }
 ```
 
+Or perform an authentication with web oAuth2 and MFA: 
+
+```swift
+let api = TeslaSwift()
+let authViewControler = api.authenticate() {
+    (result: Result<AuthToken, Error>) in
+    switch result {
+        case .success(let token):
+            // Logged in
+        case .failure(let error):
+            // Failed
+
+    }
+}
+guard let safeWebloginViewController = authViewControler else { /* error */ return }
+present(safeWebloginViewController, animated: true, completion: nil)
+```
+
 Or if you use PromiseKit you can check the success: 
 
 ```swift
@@ -101,7 +119,18 @@ api.authenticate(email: email, password: password)
 }
 ```
 
-## Example
+## Token reuse
+After authentication, store the AuthToken in a safe place.
+The next time the app starts-up you can reuse the token:
+
+```swift
+let api = TeslaSwift()
+api.reuse(token: previousToken)
+
+```
+
+## Vehicle data
+Example on how to get a list of vehicles with promiseKit
 
 ```swift
 
@@ -161,7 +190,7 @@ You can enable debugging by setting: `api.debuggingEnabled = true`
 ## Other Features
 
 After the authentication is done. The library manages itself the access token. 
-When the token expires the library will perform another authentication with your past credentials.
+When the token expires the library will request a new token using the previous refresh token.
 
 ## Roadmap
 6.x
