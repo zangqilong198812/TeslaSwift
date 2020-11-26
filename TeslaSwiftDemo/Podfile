@@ -3,8 +3,8 @@ target 'TeslaSwift' do
 	platform :ios, '10.0'
 
     pod 'Starscream', '~> 3'
-	pod 'PromiseKit/CorePromise' , '~> 6'
-    
+    pod 'PromiseKit/CorePromise' , '~> 6'
+
     pod 'RxSwift', '~> 5'
     pod 'RxCocoa', '~> 5'
 

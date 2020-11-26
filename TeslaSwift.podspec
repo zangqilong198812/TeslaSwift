@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
 	s.version      = "6.5.0"
-	s.summary      = "Swift library to access the Tesla Model S API."
+	s.summary      = "Swift library to access the Tesla Model S, X, 3 and Y API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
 

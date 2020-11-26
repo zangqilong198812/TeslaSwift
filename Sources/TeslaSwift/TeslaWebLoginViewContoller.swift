@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joao Nunes. All rights reserved.
 //
 
+#if canImport(UIKit)
 import WebKit
 
 public class TeslaWebLoginViewContoller: UIViewController {
@@ -47,3 +48,4 @@ extension TeslaWebLoginViewContoller: WKNavigationDelegate {
     }
 
 }
+#endif
