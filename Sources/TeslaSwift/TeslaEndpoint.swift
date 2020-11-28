@@ -12,7 +12,7 @@ enum Endpoint {
 	
 	case authentication
     case revoke
-    @available(iOS 13.0, macOS 10.15, *)
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
     case oAuth2Authorization(auth: AuthCodeRequest)
     case oAuth2Token
     case oAuth2revoke(token: String)

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joao Nunes. All rights reserved.
 //
 
-#if canImport(UIKit)
+#if canImport(WebKit) && canImport(UIKit)
 import WebKit
 
 public class TeslaWebLoginViewContoller: UIViewController {

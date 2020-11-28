@@ -141,7 +141,7 @@ class AuthTokenRequestWeb: Encodable {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, *)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 class AuthCodeRequest: Encodable {
 
     var responseType: String = "code"
@@ -193,7 +193,7 @@ extension String {
         return verifier
     }
 
-    @available(iOS 13.0, macOS 10.15, *)
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
     var challenge: String {
         let hash = self.sha256
         let challenge = hash.base64EncodedString()
@@ -204,7 +204,7 @@ extension String {
         return challenge
     }
 
-    @available(iOS 13.0, macOS 10.15, *)
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
     var sha256:String {
         get {
             let inputData = Data(self.utf8)
