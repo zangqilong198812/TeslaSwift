@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "OHHTTPStubs",
-        "repositoryURL": "https://github.com/AliSoftware/OHHTTPStubs.git",
-        "state": {
-          "branch": "feature/spm-support",
-          "revision": "fda9902f8c5c4170c6914d7dc845174e8c75bf92",
-          "version": null
-        }
-      },
-      {
         "package": "PromiseKit",
         "repositoryURL": "https://github.com/mxcl/PromiseKit",
         "state": {
@@ -24,8 +15,17 @@
         "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {
           "branch": null,
-          "revision": "b3e888b4972d9bc76495dd74d30a8c7fad4b9395",
-          "version": "5.0.1"
+          "revision": "97e14358a3e6564de8a6289362385a92d85936e1",
+          "version": "6.0.0-rc.2"
+        }
+      },
+      {
+        "package": "Starscream",
+        "repositoryURL": "https://github.com/daltoniam/Starscream.git",
+        "state": {
+          "branch": null,
+          "revision": "df8d82047f6654d8e4b655d1b1525c64e1059d21",
+          "version": "4.0.4"
         }
       }
     ]

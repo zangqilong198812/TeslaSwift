@@ -16,22 +16,37 @@ Copy `Sources` folder into your project
 If you don't need any extensions, use this line
 
 ```ruby
-pod 'TeslaSwift', '~> 6'
+pod 'TeslaSwift', '~> 7'
 ```
 If you need PromiseKit extensions, use this line 
 
 ```ruby
-pod 'TeslaSwift/PromiseKit', '~> 6'
+pod 'TeslaSwift/PromiseKit', '~> 7'
 ```
 If you need Combine extensions, use this line
 
 ```ruby
-pod 'TeslaSwift/Combine', '~> 6'
+pod 'TeslaSwift/Combine', '~> 7'
 ```
 If you need Rx extensions, use this line
 
 ```ruby
-pod 'TeslaSwift/Rx', '~> 6'
+pod 'TeslaSwift/Rx', '~> 7'
+```
+
+Streaming extension
+
+```ruby
+pod 'TeslaSwift/Streaming', '~> 7'
+```
+If you need Combine extensions for Streaming, use this line
+```ruby
+pod 'TeslaSwift/StreamingCombine', '~> 7'
+```
+If you need Rx extensions for Streaming, use this line
+
+```ruby
+pod 'TeslaSwift/StreamingRx', '~> 7'
 ```
 
 ### Swift Package Manager
@@ -43,10 +58,11 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 ```
 
 There are also extensions for Combine `TeslaSwiftCombine`, PromiseKit `TeslaSwiftPMK` and Rx `TeslaSwiftRx`
+The Streaming extensions are: `TeslaSwiftStreaming`, Combine `TeslaSwiftStreamingCombine` and Rx `TeslaSwiftStreamingRx` 
 
 ## Usage
 
-Tesla's server is not fully compatible with ATS so you need to add the following to your app Info.plist
+Tesla's server is not compatible with ATS so you need to add the following to your app Info.plist
 
 ```XML
 <key>NSAppTransportSecurity</key>
@@ -108,7 +124,7 @@ guard let safeWebloginViewController = authViewControler else { /* error */ retu
 present(safeWebloginViewController, animated: true, completion: nil)
 ```
 
-Or if you use PromiseKit you can check the success: 
+Or if you use PromiseKit you can check success like this: 
 
 ```swift
 api.authenticate(email: email, password: password)
@@ -147,12 +163,26 @@ class ViewController {
 ```
 
 ## Streaming
+Import the module
 
+```swift
+import TeslaSwiftStreaming
+```
+
+Import the extension modules if needed (with the previous line)
+
+```swift
+import TeslaSwiftStreamingCombine
+```
+```swift
+import TeslaSwiftStreamingRx
+```
 ```swift
 class ViewController {
 
   func showStream() {
-    api.openStream(vehicle: myVehicle, dataReceived: {
+    stream = TeslaStreaming(teslaSwift: api)
+    stream.openStream(vehicle: myVehicle, dataReceived: {
                     (event: TeslaStreamEvent) in
                     switch event {
                     case .open:
@@ -167,7 +197,7 @@ class ViewController {
                 })
 
     // After some events...
-    api.closeStream()
+    stream.closeStream()
    }
 }
 ```
@@ -193,7 +223,7 @@ After the authentication is done. The library manages itself the access token.
 When the token expires the library will request a new token using the previous refresh token.
 
 ## Roadmap
-6.x
+7.x
 
 Add new API features and summon
 
