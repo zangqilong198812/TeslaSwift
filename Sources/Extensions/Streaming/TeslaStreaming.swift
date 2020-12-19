@@ -43,7 +43,7 @@ public class TeslaStreaming {
     private var teslaSwift: TeslaSwift
     
     public init(teslaSwift: TeslaSwift) {
-        httpStreaming = WebSocket(url: URL(string: "wss://streaming.vn.teslamotors.com/streaming/")!)
+        httpStreaming = WebSocket(request: URLRequest(url: URL(string: "wss://streaming.vn.teslamotors.com/streaming/")!))
         self.teslaSwift = teslaSwift
     }
 
@@ -114,78 +114,81 @@ public class TeslaStreaming {
     
     private func openStream(authentication: TeslaStreamAuthentication, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
         
-        let url = httpStreaming.currentURL
+        let url = httpStreaming.request.url?.absoluteString
         
-        logDebug("Opening Stream to: \(url)", debuggingEnabled: debuggingEnabled)
-        
-        httpStreaming.onConnect = { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            DispatchQueue.main.async {
-                
-                logDebug("Stream open", debuggingEnabled: strongSelf.debuggingEnabled)
-                
-                if let authMessage = StreamAuthentication(email: authentication.email, vehicleToken: authentication.vehicleToken, vehicleId: authentication.vehicleId), let string = try? teslaJSONEncoder.encode(authMessage) {
-                    
-                    strongSelf.httpStreaming.write(data: string)
-                    dataReceived(TeslaStreamingEvent.open)
-                } else {
-                    dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaSwift", code: 0, userInfo: ["errorDescription" : "Failed to parse authentication data"])))
-                    strongSelf.closeStream()
-                }
-            }
-        }
+        logDebug("Opening Stream to: \(url ?? "")", debuggingEnabled: debuggingEnabled)
 
-        httpStreaming.onData = { (data: Data) in
-            
-            logDebug("Stream data: \(data.count)", debuggingEnabled: self.debuggingEnabled)
-            
-            guard let message = try? teslaJSONDecoder.decode(StreamMessage.self, from: data) else { return }
-            
-            DispatchQueue.main.async {
-                let type = message.messageType
-                switch type {
-                case "control:hello":
-                    logDebug("Stream got hello", debuggingEnabled: self.debuggingEnabled)
-                    break
-                case "data:update":
-                    let values = message.value
-                    let event = StreamEvent(values: values)
-                    logDebug("Stream got data: \(values)", debuggingEnabled: self.debuggingEnabled)
-                    dataReceived(TeslaStreamingEvent.event(event))
-                case "data:error":
-                    logDebug("Stream got data error: \(message.value), \(String(describing: message.errorType))", debuggingEnabled: self.debuggingEnabled)
-                    dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaError", code: 0, userInfo: [message.value : message.errorType ?? ""])))
-                    break
-                default:
-                    break
-                }
+        httpStreaming.onEvent = {
+            [weak self] event in
+            guard let self = self else { return }
+
+            switch event {
+                case let .connected(headers):
+                    DispatchQueue.main.async {
+
+                        logDebug("Stream open headers: \(headers)", debuggingEnabled: self.debuggingEnabled)
+
+                        if let authMessage = StreamAuthentication(email: authentication.email, vehicleToken: authentication.vehicleToken, vehicleId: authentication.vehicleId), let string = try? teslaJSONEncoder.encode(authMessage) {
+
+                            self.httpStreaming.write(data: string)
+                            dataReceived(TeslaStreamingEvent.open)
+                        } else {
+                            dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: ["errorDescription" : "Failed to parse authentication data"])))
+                            self.closeStream()
+                        }
+                    }
+                case let .binary(data):
+                    logDebug("Stream data string: \(String(data: data, encoding: .utf8) ?? "")", debuggingEnabled: self.debuggingEnabled)
+
+                    guard let message = try? teslaJSONDecoder.decode(StreamMessage.self, from: data) else { return }
+
+                    DispatchQueue.main.async {
+                        let type = message.messageType
+                        switch type {
+                            case "control:hello":
+                                logDebug("Stream got hello", debuggingEnabled: self.debuggingEnabled)
+                                break
+                            case "data:update":
+                                if let values = message.value {
+                                    let event = StreamEvent(values: values)
+                                    logDebug("Stream got data: \(values)", debuggingEnabled: self.debuggingEnabled)
+                                    dataReceived(TeslaStreamingEvent.event(event))
+                                }
+                            case "data:error":
+                                logDebug("Stream got data error: \(message.value ?? ""), \(message.errorType ?? "")", debuggingEnabled: self.debuggingEnabled)
+                                dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: [message.value ?? "error": message.errorType ?? ""])))
+                                break
+                            default:
+                                break
+                        }
+                    }
+                case let .disconnected(error, code):
+                    DispatchQueue.main.async {
+                        logDebug("Stream error \(code):\(error)", debuggingEnabled: self.debuggingEnabled)
+                        dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: Int(code), userInfo: ["error": error])))
+                    }
+                case let .pong(data):
+                    DispatchQueue.main.async {
+                        logDebug("Stream Pong", debuggingEnabled: self.debuggingEnabled)
+                        self.httpStreaming.write(pong: data ?? Data())
+                    }
+                case let .text(text):
+                    logDebug("Stream Text: \(text)", debuggingEnabled: self.debuggingEnabled)
+                case let .ping(ping):
+                    logDebug("Stream ping: \(String(describing: ping))", debuggingEnabled: self.debuggingEnabled)
+                case let .error(error):
+                    DispatchQueue.main.async {
+                        logDebug("Stream error:\(String(describing: error))", debuggingEnabled: self.debuggingEnabled)
+                        dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: ["error": error ?? ""])))
+                    }
+                case let .viabilityChanged(viability):
+                    logDebug("Stream viabilityChanged: \(viability)", debuggingEnabled: self.debuggingEnabled)
+                case let .reconnectSuggested(reconnect):
+                    logDebug("Stream reconnectSuggested: \(reconnect)", debuggingEnabled: self.debuggingEnabled)
+                case .cancelled:
+                    logDebug("Stream cancelled", debuggingEnabled: self.debuggingEnabled)
             }
         }
-        
-        httpStreaming.onDisconnect = { (error: Error?) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    logDebug("Stream error: \(String(describing: error))", debuggingEnabled: self.debuggingEnabled)
-                    dataReceived(TeslaStreamingEvent.error(error))
-                } else {
-                    logDebug("Stream disconnected", debuggingEnabled: self.debuggingEnabled)
-                    dataReceived(TeslaStreamingEvent.disconnected)
-                }
-            }
-        }
-        
-        httpStreaming.onPong = { [weak self] (data: Data?) in
-            guard let strongSelf = self else { return }
-            
-            DispatchQueue.main.async {
-                
-                logDebug("Stream Pong", debuggingEnabled: strongSelf.debuggingEnabled)
-                
-                strongSelf.httpStreaming.write(pong: Data())
-            }
-        }
-		
 		httpStreaming.connect()
 	}
 

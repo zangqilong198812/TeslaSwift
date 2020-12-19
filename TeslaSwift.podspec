@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
     s.subspec 'Streaming' do |ss|
         ss.source_files = 'Sources/Extensions/Streaming/*.swift'
         ss.dependency 'TeslaSwift/Core'
-        ss.dependency 'Starscream' ,  '~> 3'
+        ss.dependency 'Starscream' ,  '~> 4'
     end
 
     s.subspec 'PromiseKit' do |ss|

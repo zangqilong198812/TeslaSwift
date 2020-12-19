@@ -2,7 +2,7 @@ target 'TeslaSwift' do
 	use_frameworks!
 	platform :ios, '10.0'
 
-    pod 'Starscream', '~> 3'
+    pod 'Starscream', '~> 4'
     pod 'PromiseKit/CorePromise' , '~> 6'
 
     pod 'RxSwift', '6.0.0-rc.2'

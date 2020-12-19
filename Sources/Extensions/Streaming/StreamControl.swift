@@ -25,7 +25,6 @@ class StreamAuthentication: Encodable {
     }
     
     enum CodingKeys: String, CodingKey {
-        
         case messageType = "msg_type"
         case token
         case value
@@ -37,15 +36,16 @@ class StreamAuthentication: Encodable {
 class StreamMessage: Decodable {
     
     var messageType: String
-    var value: String
+    var value: String?
     var tag: String?
     var errorType: String?
+    var connectionTimeout: Int?
     
     enum CodingKeys: String, CodingKey {
-        
         case messageType = "msg_type"
         case value
         case tag
         case errorType = "error_type"
+        case connectionTimeout = "connection_timeout"
     }
 }

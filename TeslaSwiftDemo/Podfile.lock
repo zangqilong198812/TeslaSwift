@@ -21,7 +21,7 @@ PODS:
   - RxRelay (6.0.0-rc.2):
     - RxSwift (= 6.0.0-rc.2)
   - RxSwift (6.0.0-rc.2)
-  - Starscream (3.1.1)
+  - Starscream (4.0.4)
 
 DEPENDENCIES:
   - OHHTTPStubs
@@ -29,7 +29,7 @@ DEPENDENCIES:
   - PromiseKit/CorePromise (~> 6)
   - RxCocoa (= 6.0.0-rc.2)
   - RxSwift (= 6.0.0-rc.2)
-  - Starscream (~> 3)
+  - Starscream (~> 4)
 
 SPEC REPOS:
   trunk:
@@ -46,8 +46,8 @@ SPEC CHECKSUMS:
   RxCocoa: 38445a25751be5907f52f7ea02c137f52ce2e7f2
   RxRelay: b9e2483e83f46e4e7bf1234c6fe418e5c2eaf825
   RxSwift: ada35be6643bedf6881cdbd6bbfb27aeea527670
-  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
-PODFILE CHECKSUM: 8f6163663d1f1b9b78a36361c6d73cd4ffd680e4
+PODFILE CHECKSUM: 663ae480c263ae4088d694bd988582d71a7da9e4
 
 COCOAPODS: 1.10.0
