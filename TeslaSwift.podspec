@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "TeslaSwift"
-	s.version      = "6.6.0"
+	s.version      = "7.0.0"
 	s.summary      = "Swift library to access the Tesla Model S, X, 3 and Y API."
 
 	s.homepage     = "https://github.com/jonasman/TeslaSwift"
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
         ss.source_files = "Sources/TeslaSwift/**/*"
     end
 
-    s.subspec 'StarScream' do |ss|
+    s.subspec 'Streaming' do |ss|
         ss.source_files = 'Sources/Extensions/PromiseKit/*.swift'
         ss.dependency 'Starscream' ,  '~> 3'
     end
@@ -52,6 +52,22 @@ Pod::Spec.new do |s|
         ss.dependency 'RxSwift' ,  '~> 5'
         ss.dependency 'RxCocoa' ,  '~> 5'
         ss.dependency 'TeslaSwift/Core'
+    end
+
+    s.subspec 'StreamingCombine' do |ss|
+        ss.source_files = 'Sources/Extensions/StreamingCombine/*.swift'
+        ss.dependency 'TeslaSwift/Streaming'
+        ss.dependency 'TeslaSwift/Combine'
+        ss.ios.deployment_target = '13.0'
+        ss.osx.deployment_target = '10.15'
+        ss.watchos.deployment_target = '6.0'
+        ss.tvos.deployment_target = '13.0'
+    end
+
+    s.subspec 'StreamingRx' do |ss|
+        ss.source_files = 'Sources/Extensions/StreamingRx/*.swift'
+        ss.dependency 'TeslaSwift/Streaming'
+        ss.dependency 'TeslaSwift/Rx'
     end
 
 end
