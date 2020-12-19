@@ -29,6 +29,7 @@ Pod::Spec.new do |s|
 
     s.subspec 'Streaming' do |ss|
         ss.source_files = 'Sources/Extensions/Streaming/*.swift'
+        ss.dependency 'TeslaSwift/Core'
         ss.dependency 'Starscream' ,  '~> 3'
     end
 
@@ -57,7 +58,6 @@ Pod::Spec.new do |s|
     s.subspec 'StreamingCombine' do |ss|
         ss.source_files = 'Sources/Extensions/StreamingCombine/*.swift'
         ss.dependency 'TeslaSwift/Streaming'
-        ss.dependency 'TeslaSwift/Combine'
         ss.ios.deployment_target = '13.0'
         ss.osx.deployment_target = '10.15'
         ss.watchos.deployment_target = '6.0'
@@ -67,7 +67,8 @@ Pod::Spec.new do |s|
     s.subspec 'StreamingRx' do |ss|
         ss.source_files = 'Sources/Extensions/StreamingRx/*.swift'
         ss.dependency 'TeslaSwift/Streaming'
-        ss.dependency 'TeslaSwift/Rx'
+        ss.dependency 'RxSwift' ,  '6.0.0-rc.2'
+        ss.dependency 'RxCocoa' ,  '6.0.0-rc.2'
     end
 
 end
