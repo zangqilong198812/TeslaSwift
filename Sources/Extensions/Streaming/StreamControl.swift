@@ -29,7 +29,6 @@ class StreamAuthentication: Encodable {
                 self.token = "\(oAuthToken)"
         }
 
-
         self.tag = vehicleId
     }
     
