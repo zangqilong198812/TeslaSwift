@@ -96,10 +96,8 @@ public class TeslaStreaming {
                     }
 
                     completion(Result.failure(TeslaError.failedToReloadVehicle))
-
             }
         }
-
     }
 
     private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {

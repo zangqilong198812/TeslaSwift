@@ -14,9 +14,12 @@ class StreamViewController: UIViewController {
 	
 	var streaming = false
 	var vehicle: Vehicle?
+    var stream: TeslaStreaming!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        stream = TeslaStreaming(teslaSwift: api)
 
         // Do any additional setup after loading the view.
     }
@@ -34,7 +37,7 @@ class StreamViewController: UIViewController {
                 
                 #if swift(>=5.1)
                 if #available(iOS 13.0, *) {
-                    _ = api.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
+                    _ = stream.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
                         
                     }) { (event) in
                         self.processEvent(event: event)
@@ -43,7 +46,7 @@ class StreamViewController: UIViewController {
                 
                 #else
                     
-                    api.openStream(vehicle: vehicle, dataReceived: {
+                stream.openStream(vehicle: vehicle, dataReceived: {
                         (event: TeslaStreamingEvent) in
                         self.processEvent(event: event)
                     })
@@ -71,7 +74,7 @@ class StreamViewController: UIViewController {
     
 	@IBAction func stopStream(_ sender: Any) {
 		
-		api.closeStream()
+        stream.closeStream()
 		
 		streaming = false
 	}
