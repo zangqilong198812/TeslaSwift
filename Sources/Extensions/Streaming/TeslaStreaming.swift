@@ -14,18 +14,22 @@ import TeslaSwift
 #endif
 
 enum TeslaStreamingError: Error {
-    case streamingMissingEmailOrVehicleToken
+    case streamingMissingVehicleTokenOrEmail
+    case streamingMissingOAuthToken
 }
 
-public struct TeslaStreamAuthentication {
-    
-    let email: String
-    let vehicleToken: String
+enum TeslaStreamAuthenticationType {
+    case bearer(String, String) // email, vehicleToken
+    case oAuth(String) // oAuthToken
+}
+
+struct TeslaStreamAuthentication {
+
+    let type: TeslaStreamAuthenticationType
     let vehicleId: String
     
-    public init(email: String, vehicleToken: String, vehicleId: String) {
-        self.email = email
-        self.vehicleToken = vehicleToken
+    public init(type: TeslaStreamAuthenticationType, vehicleId: String) {
+        self.type = type
         self.vehicleId = vehicleId
     }
 }
@@ -101,13 +105,24 @@ public class TeslaStreaming {
     }
 
     private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-        guard let email = teslaSwift.email,
-              let vehicleToken = vehicle.tokens?.first else {
-            dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingEmailOrVehicleToken))
-            return
+        let isOAuth = teslaSwift.token?.isOAuth ?? false
+        let type: TeslaStreamAuthenticationType
+        if isOAuth {
+            guard let accessToken = teslaSwift.token?.accessToken else {
+                dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingOAuthToken))
+                return
+            }
+            type = .oAuth(accessToken)
+        } else {
+            guard let vehicleToken = vehicle.tokens?.first,
+                  let email = teslaSwift.email else {
+                dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingVehicleTokenOrEmail))
+                return
+            }
+            type = .bearer(email, vehicleToken)
         }
 
-        let authentication = TeslaStreamAuthentication(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
+        let authentication = TeslaStreamAuthentication(type: type, vehicleId: "\(vehicle.vehicleID!)")
 
         openStream(authentication: authentication, dataReceived: dataReceived)
     }
@@ -128,7 +143,7 @@ public class TeslaStreaming {
 
                         logDebug("Stream open headers: \(headers)", debuggingEnabled: self.debuggingEnabled)
 
-                        if let authMessage = StreamAuthentication(email: authentication.email, vehicleToken: authentication.vehicleToken, vehicleId: authentication.vehicleId), let string = try? teslaJSONEncoder.encode(authMessage) {
+                        if let authMessage = StreamAuthentication(type: authentication.type, vehicleId: authentication.vehicleId), let string = try? teslaJSONEncoder.encode(authMessage) {
 
                             self.httpStreaming.write(data: string)
                             dataReceived(TeslaStreamingEvent.open)
@@ -138,7 +153,7 @@ public class TeslaStreaming {
                         }
                     }
                 case let .binary(data):
-                    logDebug("Stream data string: \(String(data: data, encoding: .utf8) ?? "")", debuggingEnabled: self.debuggingEnabled)
+                    logDebug("Stream data: \(String(data: data, encoding: .utf8) ?? "")", debuggingEnabled: self.debuggingEnabled)
 
                     guard let message = try? teslaJSONDecoder.decode(StreamMessage.self, from: data) else { return }
 
@@ -164,7 +179,7 @@ public class TeslaStreaming {
                     }
                 case let .disconnected(error, code):
                     DispatchQueue.main.async {
-                        logDebug("Stream error \(code):\(error)", debuggingEnabled: self.debuggingEnabled)
+                        logDebug("Stream disconnected \(code):\(error)", debuggingEnabled: self.debuggingEnabled)
                         dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: Int(code), userInfo: ["error": error])))
                     }
                 case let .pong(data):

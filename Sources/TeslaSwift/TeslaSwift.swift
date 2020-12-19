@@ -893,7 +893,6 @@ extension TeslaSwift {
 extension TeslaSwift {
 	
 	func checkToken() -> Bool {
-		
 		if let token = self.token {
 			return token.isValid
 		} else {
@@ -906,17 +905,16 @@ extension TeslaSwift {
 	}
 	
     func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
+        guard let token = self.token else { completion(Result.failure(TeslaError.authenticationRequired)); return }
 
-        let value = checkToken()
-        if value {
-            completion(Result.success(self.token!))
+        if checkToken() {
+            completion(Result.success(token))
         } else {
-            if self.token?.refreshToken != nil {
-                if self.token?.idToken == nil {
-                    refreshToken(completion: completion)
-                } else {
-                    // idToken is only present on the new authentications
+            if token.refreshToken != nil {
+                if token.isOAuth {
                     refreshWebToken(completion: completion)
+                } else {
+                    refreshToken(completion: completion)
                 }
                 self.cleanToken()
             } else {

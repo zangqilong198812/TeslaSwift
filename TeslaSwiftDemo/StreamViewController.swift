@@ -31,31 +31,30 @@ class StreamViewController: UIViewController {
 	}
 
 	@IBAction func stream(_ sender: Any) {
-		if !streaming {
-			if let vehicle = vehicle {
-				self.textView.text = ""
-                
-                #if swift(>=5.1)
-                if #available(iOS 13.0, *) {
-                    _ = stream.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
-                        
-                    }) { (event) in
-                        self.processEvent(event: event)
-                    }
+        if !streaming {
+            guard let vehicle = vehicle else { return }
+            self.textView.text = ""
+
+            #if swift(>=5.1)
+            if #available(iOS 13.0, *) {
+                _ = stream.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
+
+                }) { (event) in
+                    self.processEvent(event: event)
                 }
-                
-                #else
-                    
-                stream.openStream(vehicle: vehicle, dataReceived: {
-                        (event: TeslaStreamingEvent) in
-                        self.processEvent(event: event)
-                    })
-                    
-                #endif
-			}
-		}
-		
-		streaming = true
+            }
+
+            #else
+
+            stream.openStream(vehicle: vehicle, dataReceived: {
+                (event: TeslaStreamingEvent) in
+                self.processEvent(event: event)
+            })
+
+            #endif
+
+            streaming = true
+        }
 	}
 	
     func processEvent(event: TeslaStreamingEvent) {
@@ -67,7 +66,7 @@ class StreamViewController: UIViewController {
         case .disconnected:
             break
         case .open:
-            break
+            textView.text = "open"
         }
     }
     
