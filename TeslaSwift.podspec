@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
     end
 
     s.subspec 'Streaming' do |ss|
-        ss.source_files = 'Sources/Extensions/PromiseKit/*.swift'
+        ss.source_files = 'Sources/Extensions/Streaming/*.swift'
         ss.dependency 'Starscream' ,  '~> 3'
     end
 
