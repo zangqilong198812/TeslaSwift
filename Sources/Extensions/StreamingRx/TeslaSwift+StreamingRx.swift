@@ -11,40 +11,30 @@ import RxSwift
 #if COCOAPODS
 #else // SPM
 import TeslaSwift
+import TeslaSwiftStreaming
 #endif
 
-extension TeslaSwift  {
+extension TeslaStreaming {
 
     public func streamPublisher(vehicle: Vehicle) -> TeslaStreamingRxPublisher {
-
-        guard let email = email,
-              let vehicleToken = vehicle.tokens?.first else {
-            //dataReceived((nil, TeslaError.streamingMissingEmailOrVehicleToken))
-            let authentication = TeslaStreamAuthentication(email: "", vehicleToken: "", vehicleId: "\(vehicle.vehicleID!)")
-            return streamPublisher(authentication: authentication)
-        }
-
-        let authentication = TeslaStreamAuthentication(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
-
-
-        return streamPublisher(authentication: authentication)
+        return TeslaStreamingRxPublisher(vehicle: vehicle, stream: self)
     }
 
     public class TeslaStreamingRxPublisher: ObservableType, Disposable {
 
         public typealias Element = TeslaStreamingEvent
 
-        let authentication: TeslaStreamAuthentication
+        let vehicle: Vehicle
         let stream: TeslaStreaming
 
-        init(authentication: TeslaStreamAuthentication, stream: TeslaStreaming) {
-            self.authentication = authentication
+        init(vehicle: Vehicle, stream: TeslaStreaming) {
+            self.vehicle = vehicle
             self.stream = stream
         }
 
         public func subscribe<Observer>(_ observer: Observer) -> Disposable where Observer : ObserverType, TeslaStreamingRxPublisher.Element == Observer.Element {
 
-            stream.openStream(authentication: authentication) {
+            stream.openStream(vehicle: vehicle) {
                 (streamEvent: TeslaStreamingEvent) in
 
                 switch streamEvent {
@@ -72,10 +62,4 @@ extension TeslaSwift  {
         }
 
     }
-
-    func streamPublisher(authentication: TeslaStreamAuthentication) -> TeslaStreamingRxPublisher {
-
-        return TeslaStreamingRxPublisher(authentication: authentication, stream: TeslaStreaming())
-    }
-
 }

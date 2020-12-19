@@ -11,24 +11,14 @@ import Combine
 #if COCOAPODS
 #else // SPM
 import TeslaSwift
+import TeslaSwiftStreaming
 #endif
 
 @available(iOS 13.0, macOS 10.15, watchOS 6, tvOS 13, *)
-extension TeslaSwift  {
+extension TeslaStreaming  {
 
     public func streamPublisher(vehicle: Vehicle) -> TeslaStreamingPublisher {
-
-        guard let email = email,
-              let vehicleToken = vehicle.tokens?.first else {
-            //dataReceived((nil, TeslaError.streamingMissingEmailOrVehicleToken))
-            let authentication = TeslaStreamAuthentication(email: "", vehicleToken: "", vehicleId: "\(vehicle.vehicleID!)")
-            return streamPublisher(authentication: authentication)
-        }
-
-        let authentication = TeslaStreamAuthentication(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
-
-
-        return streamPublisher(authentication: authentication)
+        return TeslaStreamingPublisher(vehicle: vehicle, stream: self)
     }
 
     public struct TeslaStreamingPublisher: Publisher, Cancellable {
@@ -36,17 +26,17 @@ extension TeslaSwift  {
         public typealias Output = TeslaStreamingEvent
         public typealias Failure = Error
 
-        let authentication: TeslaStreamAuthentication
+        let vehicle: Vehicle
         let stream: TeslaStreaming
 
-        init(authentication: TeslaStreamAuthentication, stream: TeslaStreaming) {
-            self.authentication = authentication
+        init(vehicle: Vehicle, stream: TeslaStreaming) {
+            self.vehicle = vehicle
             self.stream = stream
         }
 
         public func receive<S>(subscriber: S) where S : Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
 
-            stream.openStream(authentication: authentication) {
+            stream.openStream(vehicle: vehicle) {
                 (streamEvent: TeslaStreamingEvent) in
 
                 switch streamEvent {
@@ -60,9 +50,7 @@ extension TeslaSwift  {
                         _ = subscriber.receive(TeslaStreamingEvent.disconnected)
                         subscriber.receive(completion: Subscribers.Completion.finished)
                 }
-
             }
-
         }
 
         public func cancel() {
@@ -70,12 +58,6 @@ extension TeslaSwift  {
         }
 
     }
-
-    func streamPublisher(authentication: TeslaStreamAuthentication) -> TeslaStreamingPublisher {
-
-        return TeslaStreamingPublisher(authentication: authentication, stream: TeslaStreaming())
-    }
-
 }
 
 #endif

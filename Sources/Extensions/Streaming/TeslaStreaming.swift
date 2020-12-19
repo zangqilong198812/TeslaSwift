@@ -13,6 +13,10 @@ import Starscream
 import TeslaSwift
 #endif
 
+enum TeslaStreamingError: Error {
+    case streamingMissingEmailOrVehicleToken
+}
+
 public struct TeslaStreamAuthentication {
     
     let email: String
@@ -32,10 +36,10 @@ public struct TeslaStreamAuthentication {
  */
 public class TeslaStreaming {
     
-    var debuggingEnabled {
+    var debuggingEnabled: Bool {
         teslaSwift.debuggingEnabled
     }
-    var httpStreaming: WebSocket
+    private var httpStreaming: WebSocket
     private var teslaSwift: TeslaSwift
     
     public init(teslaSwift: TeslaSwift) {
@@ -100,8 +104,8 @@ public class TeslaStreaming {
 
     private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
         guard let email = teslaSwift.email,
-              let vehicleToken = teslaSwift.vehicle.tokens?.first else {
-            dataReceived(TeslaStreamingEvent.error(TeslaError.streamingMissingEmailOrVehicleToken))
+              let vehicleToken = vehicle.tokens?.first else {
+            dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingEmailOrVehicleToken))
             return
         }
 
@@ -188,3 +192,12 @@ public class TeslaStreaming {
 	}
 
 }
+
+#if COCOAPODS
+#else // SPM
+func logDebug(_ format: String, debuggingEnabled: Bool) {
+    if debuggingEnabled {
+        print(format)
+    }
+}
+#endif

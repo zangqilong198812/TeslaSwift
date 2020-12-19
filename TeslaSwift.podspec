@@ -49,8 +49,8 @@ Pod::Spec.new do |s|
     
     s.subspec 'Rx' do |ss|
         ss.source_files = 'Sources/Extensions/Rx/*.swift'
-        ss.dependency 'RxSwift' ,  '~> 5'
-        ss.dependency 'RxCocoa' ,  '~> 5'
+        ss.dependency 'RxSwift' ,  '6.0.0-rc.2'
+        ss.dependency 'RxCocoa' ,  '6.0.0-rc.2'
         ss.dependency 'TeslaSwift/Core'
     end
 

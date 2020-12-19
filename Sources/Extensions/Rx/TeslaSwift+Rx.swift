@@ -23,7 +23,7 @@ extension TeslaSwift {
             case .success(let value):
                 subscriber(.success(value))
             case .failure(let error):
-                subscriber(.error(error))
+                subscriber(.failure(error))
             }
         }
         
