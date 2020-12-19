@@ -34,7 +34,7 @@ If you need Rx extensions, use this line
 pod 'TeslaSwift/Rx', '~> 7'
 ```
 
-Streaming extension
+#### Streaming extension
 
 ```ruby
 pod 'TeslaSwift/Streaming', '~> 7'
