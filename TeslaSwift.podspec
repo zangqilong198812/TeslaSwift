@@ -25,6 +25,10 @@ Pod::Spec.new do |s|
 
     s.subspec 'Core' do |ss|
         ss.source_files = "Sources/TeslaSwift/**/*"
+    end
+
+    s.subspec 'StarScream' do |ss|
+        ss.source_files = 'Sources/Extensions/PromiseKit/*.swift'
         ss.dependency 'Starscream' ,  '~> 3'
     end
 

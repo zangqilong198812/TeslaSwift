@@ -144,7 +144,6 @@ public enum TeslaError: Error, Equatable {
     case tokenRefreshFailed
 	case invalidOptionsForCommand
 	case failedToParseData
-	case streamingMissingEmailOrVehicleToken
     case failedToReloadVehicle
 }
 
@@ -154,17 +153,12 @@ private var nullBody = ""
 open class TeslaSwift {
 	
 	open var useMockServer = false
-	open var debuggingEnabled = false {
-		didSet {
-			streaming.debuggingEnabled = debuggingEnabled
-		}
-	}
+	open var debuggingEnabled = false
 	
     open fileprivate(set) var token: AuthToken?
 	
     open fileprivate(set) var email: String?
 	fileprivate var password: String?
-	lazy var streaming = TeslaStreaming()
 	
 	public init() { }
 }
@@ -1040,77 +1034,6 @@ extension TeslaSwift {
 		}
 		
 		return request
-	}
-	
-}
-
-// MARK: Streaming API
-extension TeslaSwift {
-    
-	/**
-	Streams vehicle data
-	
-	- parameter vehicle: the vehicle that will receive the command
-	- parameter reloadsVehicle: if you have a cached vehicle, the token might be expired, this forces a vehicle token reload
-	- parameter dataReceived: callback to receive the websocket data
-	*/
-	public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-		
-		if reloadsVehicle {
-			
-            reloadVehicle(vehicle: vehicle) { (result: Result<Vehicle, Error>) in
-                switch result {
-                case .failure(let error):
-                    dataReceived(TeslaStreamingEvent.error(error))
-                case .success(let freshVehicle):
-                    self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
-                }
-            }
-			
-		} else {
-			startStream(vehicle: vehicle, dataReceived: dataReceived)
-		}
-	
-	}
-	
-	func reloadVehicle(vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
-        
-        getVehicles { (result: Result<[Vehicle], Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(let vehicles):
-                
-                for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
-                    completion(Result.success(freshVehicle))
-                    return
-                }
-                
-                completion(Result.failure(TeslaError.failedToReloadVehicle))
-                
-            }
-        }
-        
-	}
-	
-	func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-		guard let email = email,
-			let vehicleToken = vehicle.tokens?.first else {
-                dataReceived(TeslaStreamingEvent.error(TeslaError.streamingMissingEmailOrVehicleToken))
-				return
-		}
-		
-		let authentication = TeslaStreamAuthentication(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
-		
-		streaming.openStream(authentication: authentication, dataReceived: dataReceived)
-	}
-
-	/**
-	Stops the stream
-	*/
-	public func closeStream() {
-		streaming.closeStream()
 	}
 	
 }

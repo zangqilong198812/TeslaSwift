@@ -8,6 +8,10 @@
 
 import Foundation
 import Starscream
+#if COCOAPODS
+#else // SPM
+import TeslaSwift
+#endif
 
 public struct TeslaStreamAuthentication {
     
@@ -28,14 +32,85 @@ public struct TeslaStreamAuthentication {
  */
 public class TeslaStreaming {
     
-    var debuggingEnabled = true
+    var debuggingEnabled {
+        teslaSwift.debuggingEnabled
+    }
     var httpStreaming: WebSocket
+    private var teslaSwift: TeslaSwift
     
-    public init() {
+    public init(teslaSwift: TeslaSwift) {
         httpStreaming = WebSocket(url: URL(string: "wss://streaming.vn.teslamotors.com/streaming/")!)
+        self.teslaSwift = teslaSwift
+    }
+
+    /**
+     Streams vehicle data
+
+     - parameter vehicle: the vehicle that will receive the command
+     - parameter reloadsVehicle: if you have a cached vehicle, the token might be expired, this forces a vehicle token reload
+     - parameter dataReceived: callback to receive the websocket data
+     */
+    public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
+
+        if reloadsVehicle {
+
+            reloadVehicle(vehicle: vehicle) { (result: Result<Vehicle, Error>) in
+                switch result {
+                    case .failure(let error):
+                        dataReceived(TeslaStreamingEvent.error(error))
+                    case .success(let freshVehicle):
+                        self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
+                }
+            }
+
+        } else {
+            startStream(vehicle: vehicle, dataReceived: dataReceived)
+        }
+
+    }
+
+    /**
+     Stops the stream
+     */
+    public func closeStream() {
+        httpStreaming.disconnect()
+        logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
+    }
+
+    private func reloadVehicle(vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
+
+        teslaSwift.getVehicles { (result: Result<[Vehicle], Error>) in
+
+            switch result {
+                case .failure(let error):
+                    completion(Result.failure(error))
+                case .success(let vehicles):
+
+                    for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
+                        completion(Result.success(freshVehicle))
+                        return
+                    }
+
+                    completion(Result.failure(TeslaError.failedToReloadVehicle))
+
+            }
+        }
+
+    }
+
+    private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
+        guard let email = teslaSwift.email,
+              let vehicleToken = teslaSwift.vehicle.tokens?.first else {
+            dataReceived(TeslaStreamingEvent.error(TeslaError.streamingMissingEmailOrVehicleToken))
+            return
+        }
+
+        let authentication = TeslaStreamAuthentication(email: email, vehicleToken: vehicleToken, vehicleId: "\(vehicle.vehicleID!)")
+
+        openStream(authentication: authentication, dataReceived: dataReceived)
     }
     
-    public func openStream(authentication: TeslaStreamAuthentication, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
+    private func openStream(authentication: TeslaStreamAuthentication, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
         
         let url = httpStreaming.currentURL
         
@@ -110,11 +185,6 @@ public class TeslaStreaming {
         }
 		
 		httpStreaming.connect()
-	}
-	
-	public func closeStream() {
-		httpStreaming.disconnect()
-		logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
 	}
 
 }
