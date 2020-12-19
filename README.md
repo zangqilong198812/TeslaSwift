@@ -54,7 +54,7 @@ pod 'TeslaSwift/StreamingRx', '~> 7'
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this or adding the dependency to Xcode:
 
 ```swift
-.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 6)
+.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 7)
 ```
 
 There are also extensions for Combine `TeslaSwiftCombine`, PromiseKit `TeslaSwiftPMK` and Rx `TeslaSwiftRx`
@@ -78,7 +78,7 @@ Import the module
 import TeslaSwift
 ```
 
-Add the extension modules as needed (with the previous line)
+Add the extension modules if needed (with the previous line)
 
 ```swift
 import TeslaSwiftPMK
@@ -90,7 +90,7 @@ import TeslaSwiftCombine
 import TeslaSwiftRx
 ```
 
-Perform an authentication with your My Tesla credentials: 
+Perform an authentication with your My Tesla credentials (currently still works for MFA enabled accounts): 
 
 ```swift
 let api = TeslaSwift()
@@ -106,7 +106,18 @@ api.authenticate(email: email, password: password) {
 }
 ```
 
-Or perform an authentication with web oAuth2 and MFA: 
+Or if you use PromiseKit you can check success like this: 
+
+```swift
+api.authenticate(email: email, password: password)
+.done { (result) in
+// Logged In!
+}.catch { (error) in
+print("Error: \(error as NSError)")
+}
+```
+
+You can also perform an authentication with web oAuth2 and MFA (this will be mandatory soon when Tesla enables MFA validation for MFA accounts): 
 
 ```swift
 let api = TeslaSwift()
@@ -120,20 +131,10 @@ let authViewControler = api.authenticate() {
 
     }
 }
-guard let safeWebloginViewController = authViewControler else { /* error */ return }
-present(safeWebloginViewController, animated: true, completion: nil)
+guard let safeWebLoginViewController = authViewControler else { /* error */ return }
+present(safeWebLoginViewController, animated: true, completion: nil)
 ```
 
-Or if you use PromiseKit you can check success like this: 
-
-```swift
-api.authenticate(email: email, password: password)
-.done { (result) in
-    // Logged In!
-}.catch { (error) in
-    print("Error: \(error as NSError)")
-}
-```
 
 ## Token reuse
 After authentication, store the AuthToken in a safe place.
@@ -219,13 +220,8 @@ You can enable debugging by setting: `api.debuggingEnabled = true`
 
 ## Other Features
 
-After the authentication is done. The library manages itself the access token. 
-When the token expires the library will request a new token using the previous refresh token.
-
-## Roadmap
-7.x
-
-Add new API features and summon
+After the authentication is done, the library will manage the access token. 
+When the token expires the library will request a new token using the refresh token.
 
 ## Referral
 
