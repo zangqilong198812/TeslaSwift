@@ -222,24 +222,25 @@ extension TeslaSwift {
 
         let body = AuthTokenRequestWeb(code: code)
 
-        request(.oAuth2Token, body: body) { (result: Result<AuthToken, Error>) in
+        request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
 
-            switch result {
-                case .success(let token):
-                    self.token = token
-                    completion(Result.success(token))
-                case .failure(let error):
-                    if case let TeslaError.networkError(error: internalError) = error {
-                        if internalError.code == 401 {
-                            completion(Result.failure(TeslaError.authenticationFailed))
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let token):
+                        self?.token = token
+                        completion(Result.success(token))
+                    case .failure(let error):
+                        if case let TeslaError.networkError(error: internalError) = error {
+                            if internalError.code == 401 {
+                                completion(Result.failure(TeslaError.authenticationFailed))
+                            } else {
+                                completion(Result.failure(error))
+                            }
                         } else {
                             completion(Result.failure(error))
                         }
-                    } else {
-                        completion(Result.failure(error))
-                    }
+                }
             }
-
         }
 
     }
@@ -379,12 +380,12 @@ extension TeslaSwift {
     public func revokeWeb(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
 
         guard let accessToken = self.token?.accessToken else {
-            token = nil
+            cleanToken()
             return completion(Result.success(false))
         }
 
         checkAuthentication { (result: Result<AuthToken, Error>) in
-            self.token = nil
+            self.cleanToken()
 
             switch result {
                 case .failure(let error):
@@ -412,11 +413,11 @@ extension TeslaSwift {
 	public func revoke(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
 		
 		guard let accessToken = self.token?.accessToken else {
-			token = nil
+			cleanToken()
 			return completion(Result.success(false))
 		}
 			
-		token = nil
+		cleanToken()
 		
         checkAuthentication { (result: Result<AuthToken, Error>) in
 
@@ -446,7 +447,7 @@ extension TeslaSwift {
 	public func logout() {
 		email = nil
 		password = nil
-		token = nil
+		cleanToken()
 	}
 	
 	/**
@@ -901,7 +902,7 @@ extension TeslaSwift {
 	}
 	
     func cleanToken()  {
-		self.token = nil
+		token = nil
 	}
 	
     func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
@@ -916,7 +917,6 @@ extension TeslaSwift {
                 } else {
                     refreshToken(completion: completion)
                 }
-                self.cleanToken()
             } else {
                 completion(Result.failure(TeslaError.authenticationRequired))
             }
