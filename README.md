@@ -90,34 +90,7 @@ import TeslaSwiftCombine
 import TeslaSwiftRx
 ```
 
-Perform an authentication with your My Tesla credentials (currently still works for MFA enabled accounts): 
-
-```swift
-let api = TeslaSwift()
-api.authenticate(email: email, password: password) {
-    (result: Result<AuthToken, Error>) in
-    switch result {
-        case .success(let token):
-            // Logged in
-        case .failure(let error):
-            // Failed
-
-    }
-}
-```
-
-Or if you use PromiseKit you can check success like this: 
-
-```swift
-api.authenticate(email: email, password: password)
-.done { (result) in
-// Logged In!
-}.catch { (error) in
-print("Error: \(error as NSError)")
-}
-```
-
-You can also perform an authentication with web oAuth2 and MFA (this will be mandatory soon when Tesla enables MFA validation for MFA accounts): 
+Perform an authentication with your MyTesla credentials using the web oAuth2 flow with MFA support: 
 
 ```swift
 let api = TeslaSwift()
