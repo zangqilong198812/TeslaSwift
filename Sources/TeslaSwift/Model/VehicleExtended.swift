@@ -29,7 +29,7 @@ open class VehicleExtended: Vehicle {
 		case vehicleConfig	 = "vehicle_config"
 		case vehicleState	 = "vehicle_state"
         
-        case superWorkaround = "super" // We need this to be able to decode from the Tesla API and from an ecoded string
+        case superWorkaround = "super" // We need this to be able to decode from the Tesla API and from an encoded string
 	}
 	
 	required public init(from decoder: Decoder) throws {
@@ -60,8 +60,8 @@ open class VehicleExtended: Vehicle {
 		try container.encodeIfPresent(vehicleConfig, forKey: .vehicleConfig)
 		try container.encodeIfPresent(vehicleState, forKey: .vehicleState)
 		
-		let superdecoder = container.superEncoder()
-		try super.encode(to: superdecoder)
+		let superEncoder = container.superEncoder()
+		try super.encode(to: superEncoder)
 	}
 	
 }
