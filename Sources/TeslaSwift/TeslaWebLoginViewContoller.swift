@@ -1,5 +1,5 @@
 //
-//  TeslaWebLoginViewContoller.swift
+//  TeslaWebLoginViewController.swift
 //  TeslaSwift
 //
 //  Created by João Nunes on 22/11/2020.
@@ -9,7 +9,7 @@
 #if canImport(WebKit) && canImport(UIKit)
 import WebKit
 
-public class TeslaWebLoginViewContoller: UIViewController {
+public class TeslaWebLoginViewController: UIViewController {
     var webView = WKWebView()
     var result: ((Result<URL, Error>) -> ())?
 
@@ -28,7 +28,7 @@ public class TeslaWebLoginViewContoller: UIViewController {
     }
 }
 
-extension TeslaWebLoginViewContoller: WKNavigationDelegate {
+extension TeslaWebLoginViewController: WKNavigationDelegate {
 
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 

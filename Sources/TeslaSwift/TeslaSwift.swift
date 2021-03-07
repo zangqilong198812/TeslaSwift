@@ -171,17 +171,17 @@ extension TeslaSwift {
 
 
     /**
-     Performs the authentition with the Tesla API for web logins
+     Performs the authentication with the Tesla API for web logins
 
      For MFA users, this is the only way to authenticate.
      If the token expires, a token refresh will be done
 
-     - parameter completion:      The completion handler when the token as been retrived
-     - returns: A ViewController that your app needs to present. This ViewContoller will ask the user for his/her Tesla credentials, MFA code if set and then desmiss on successful authentication
+     - parameter completion:      The completion handler when the token as been retrieved
+     - returns: A ViewController that your app needs to present. This ViewController will ask the user for his/her Tesla credentials, MFA code if set and then dismiss on successful authentication
      */
     #if canImport(WebKit) && canImport(UIKit)
     @available(iOS 13.0, *)
-    public func authenticateWeb(completion: @escaping (Result<AuthToken, Error>) -> ()) -> TeslaWebLoginViewContoller? {
+    public func authenticateWeb(completion: @escaping (Result<AuthToken, Error>) -> ()) -> TeslaWebLoginViewController? {
 
         let codeRequest = AuthCodeRequest()
         let endpoint = Endpoint.oAuth2Authorization(auth: codeRequest)
@@ -194,16 +194,16 @@ extension TeslaSwift {
             return nil
         }
 
-        let teslaWebLoginViewContoller = TeslaWebLoginViewContoller(url: safeUrlComponents.url!)
+        let teslaWebLoginViewController = TeslaWebLoginViewController(url: safeUrlComponents.url!)
 
-        teslaWebLoginViewContoller.result = { result in
+        teslaWebLoginViewController.result = { result in
             switch result {
                 case let .success(url):
                     let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
                     if let queryItems = urlComponents?.queryItems {
                         for queryItem in queryItems {
                             if queryItem.name == "code", let code = queryItem.value {
-                                self.getAuthenticationTokenforWeb(code: code, completion: completion)
+                                self.getAuthenticationTokenForWeb(code: code, completion: completion)
                                 return
                             }
                         }
@@ -214,11 +214,11 @@ extension TeslaSwift {
             }
         }
 
-        return teslaWebLoginViewContoller
+        return teslaWebLoginViewController
     }
     #endif
 
-    private func getAuthenticationTokenforWeb(code: String, completion: @escaping (Result<AuthToken, Error>) -> ()) {
+    private func getAuthenticationTokenForWeb(code: String, completion: @escaping (Result<AuthToken, Error>) -> ()) {
 
         let body = AuthTokenRequestWeb(code: code)
 
@@ -246,7 +246,7 @@ extension TeslaSwift {
     }
 
 	/**
-	Performs the authentition with the Tesla API for email and password logins
+	Performs the authentication with the Tesla API for email and password logins
 	
 	You only need to call this once. The token will be stored and your credentials.
     If the token expires, a token refresh will be done
@@ -361,7 +361,7 @@ extension TeslaSwift {
 	/**
 	Use this method to reuse a previous authentication token
 	
-	This method is useful if your app wants to ask the user for credentials once and reuse the token skiping authentication
+	This method is useful if your app wants to ask the user for credentials once and reuse the token skipping authentication
 	If the token is invalid a new authentication will be required
 	
 	- parameter token:      The previous token
@@ -505,7 +505,7 @@ extension TeslaSwift {
     }
     
     /**
-    Fetchs the summary of a vehicle
+    Fetches the summary of a vehicle
     
     - returns: A completion handler with a Vehicle.
     */
@@ -514,7 +514,7 @@ extension TeslaSwift {
     }
 	
     /**
-     Fetchs the vehicle data
+     Fetches the vehicle data
      
      - returns: A completion handler with all the data
      */
@@ -544,7 +544,7 @@ extension TeslaSwift {
 	}
 	
 	/**
-	Fetchs the vehicle mobile access state
+	Fetches the vehicle mobile access state
 	
 	- returns: A completion handler with mobile access state.
 	*/
@@ -573,7 +573,7 @@ extension TeslaSwift {
     }
     
 	/**
-	Fetchs the vehicle charge state
+	Fetches the vehicle charge state
 	
 	- returns: A completion handler with charge state.
 	*/
@@ -603,7 +603,7 @@ extension TeslaSwift {
 	}
 	
 	/**
-	Fetchs the vehicle Climate state
+	Fetches the vehicle Climate state
 	
 	- returns: A completion handler with Climate state.
 	*/
@@ -633,7 +633,7 @@ extension TeslaSwift {
 	}
 	
 	/**
-	Fetchs the vehicledrive state
+	Fetches the vehicle drive state
 	
 	- returns: A completion handler with drive state.
 	*/
@@ -663,9 +663,9 @@ extension TeslaSwift {
 	}
 	
 	/**
-	Fetchs the vehicle Gui Settings
+	Fetches the vehicle GUI Settings
 	
-	- returns: A completion handler with Gui Settings.
+	- returns: A completion handler with GUI Settings.
 	*/
     public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (Result<GuiSettings, Error>) -> ()) -> Void {
         
@@ -692,7 +692,7 @@ extension TeslaSwift {
     }
 	
 	/**
-	Fetchs the vehicle state
+	Fetches the vehicle state
 	
 	- returns: A completion handler with vehicle state.
 	*/
@@ -722,7 +722,7 @@ extension TeslaSwift {
     }
 	
 	/**
-	Fetchs the vehicle config
+	Fetches the vehicle config
 	
 	- returns: A completion handler with vehicle config
 	*/
@@ -967,8 +967,8 @@ extension TeslaSwift {
 					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
 					logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
 					
-					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
-						wwwauthenticate.contains("invalid_token") {
+					if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
+						wwwAuthenticate.contains("invalid_token") {
 						completion(Result.failure(TeslaError.tokenRevoked))
                     } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
                         completion(Result.failure(TeslaError.authenticationFailed))
@@ -979,8 +979,8 @@ extension TeslaSwift {
 					}
 					
 				} else {
-					if let wwwauthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
-						if wwwauthenticate.contains("invalid_token") {
+					if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
+						if wwwAuthenticate.contains("invalid_token") {
                             completion(Result.failure(TeslaError.authenticationFailed))
 						}
 					} else {
