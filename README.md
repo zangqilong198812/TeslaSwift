@@ -209,6 +209,7 @@ http://ts.la/joao290
 * Plus - for Tesla Model S & X (https://itunes.apple.com/us/app/plus-for-tesla-model-s-x/id1187829197?mt=8)
 * Nikola for Tesla (https://itunes.apple.com/us/app/nikola-for-tesla/id1244489779?mt=8)
 * Charged - for Tesla (https://getcharged.app/)
+* TeSlate (https://infinytum.co/)
 
 Missing your app? open a PR or issue
 
