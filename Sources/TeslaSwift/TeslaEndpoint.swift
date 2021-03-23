@@ -107,7 +107,7 @@ extension Endpoint {
                 case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
                     return "https://auth.tesla.\(country)"
                 default:
-                    return "https://owner-api.teslamotors.\(country)"
+                    return "https://owner-api.teslamotors.com"
             }
         }
     }
