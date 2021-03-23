@@ -94,7 +94,7 @@ extension Endpoint {
         }
     }
 
-    func baseURL(_ useMockServer: Bool = false) -> String {
+    func baseURL(_ useMockServer: Bool = false, country: String = "com") -> String {
         if useMockServer {
             let mockUrl = UserDefaults.standard.string(forKey: "mock_base_url")
             if mockUrl != nil && mockUrl!.count > 0 {
@@ -105,9 +105,9 @@ extension Endpoint {
         } else {
             switch self {
                 case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
-                    return "https://auth.tesla.com"
+                    return "https://auth.tesla.\(country)"
                 default:
-                    return "https://owner-api.teslamotors.com"
+                    return "https://owner-api.teslamotors.\(country)"
             }
         }
     }
