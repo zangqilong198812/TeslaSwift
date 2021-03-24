@@ -145,7 +145,6 @@ public enum TeslaError: Error, Equatable {
 	case invalidOptionsForCommand
 	case failedToParseData
     case failedToReloadVehicle
-    case navigationFailed(error: NSError)
 }
 
 let ErrorInfo = "ErrorInfo"
@@ -936,86 +935,79 @@ extension TeslaSwift {
 	}
 	
     func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, withExtension: String? = nil,
-                                                             completion: @escaping (Result<ReturnType, Error>) -> ()) -> Void {
-		
+                                                             completion: @escaping (Result<ReturnType, Error>) -> Void) {
         let request = prepareRequest(endpoint, body: body, withExtension: withExtension)
-		let debugEnabled = debuggingEnabled
-		let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) in
+        let debugEnabled = debuggingEnabled
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) in
             guard let self = self else { return }
-			guard error == nil else {
+            guard error == nil else {
                 completion(Result.failure(error!))
                 return
             }
-			guard let httpResponse = response as? HTTPURLResponse else {
+            guard let httpResponse = response as? HTTPURLResponse else {
                 completion(Result.failure(TeslaError.failedToParseData))
                 return
             }
-			
-			var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
-			responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
-			if let headers = httpResponse.allHeaderFields as? [String: String] {
-				responseString += "\nHEADERS: [\n"
-				headers.forEach {(key: String, value: String) in
-					responseString += "\"\(key)\": \"\(value)\"\n"
-				}
-				responseString += "]"
-			}
-			
-			logDebug(responseString, debuggingEnabled: debugEnabled)
-			
-			if case 200..<300 = httpResponse.statusCode {
-				do {
-					if let data = data {
-						let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-						logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
-						
-						let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
+
+            var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
+            responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
+            if let headers = httpResponse.allHeaderFields as? [String: String] {
+                responseString += "\nHEADERS: [\n"
+                headers.forEach {(key: String, value: String) in
+                    responseString += "\"\(key)\": \"\(value)\"\n"
+                }
+                responseString += "]"
+            }
+
+            logDebug(responseString, debuggingEnabled: debugEnabled)
+
+            if case 200..<300 = httpResponse.statusCode {
+                do {
+                    if let data = data {
+                        let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+                        logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
+
+                        let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
                         completion(Result.success(mapped))
-					}
-				} catch {
-					logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
-					completion(Result.failure(TeslaError.failedToParseData))
-				}
-				
+                    }
+                } catch {
+                    logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
+                    completion(Result.failure(TeslaError.failedToParseData))
+                }
             } else if httpResponse.statusCode == 302 || httpResponse.statusCode == 403 {
                 // Basically, the servers return a 403 forbiden when tried with cn account, so I added 302 in case of further research too.
                 // With a 403 we try with .cn extension.
                 // Since there is no clear way to deal with cn account, it's a workarount and could take more time to resolve requests but it's better
                 // than nothing.
                 self.request(endpoint, body: body, withExtension: "cn", completion: completion)
-
             } else {
-				if let data = data {
-					let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-					logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
-					
-					if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
-						wwwAuthenticate.contains("invalid_token") {
-						completion(Result.failure(TeslaError.tokenRevoked))
+                if let data = data {
+                    let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+                    logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
+                    if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
+                       wwwAuthenticate.contains("invalid_token") {
+                        completion(Result.failure(TeslaError.tokenRevoked))
                     } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
                         completion(Result.failure(TeslaError.authenticationFailed))
                     } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
                         completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))))
-					} else {
+                    } else {
                         completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
-					}
-					
-				} else {
-					if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
-						if wwwAuthenticate.contains("invalid_token") {
+                    }
+                } else {
+                    if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
+                        if wwwAuthenticate.contains("invalid_token") {
                             completion(Result.failure(TeslaError.authenticationFailed))
-						}
-					} else {
-						completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
-					}
-				}
-			}
-			
-			
-		}) 
-		task.resume()
-		
-	}
+                        }
+                    } else {
+                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
+                    }
+                }
+            }
+        })
+
+        task.resume()
+    }
 
     func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, withExtension: String? = nil) -> URLRequest {
         let url = withExtension != nil ? endpoint.baseURL(useMockServer, country: withExtension!) : endpoint.baseURL(useMockServer)
