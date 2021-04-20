@@ -145,6 +145,7 @@ public enum TeslaError: Error, Equatable {
 	case invalidOptionsForCommand
 	case failedToParseData
     case failedToReloadVehicle
+    case internalError
 }
 
 let ErrorInfo = "ErrorInfo"
@@ -223,7 +224,7 @@ extension TeslaSwift {
         let body = AuthTokenRequestWeb(code: code)
 
         request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { return }
+            guard let self = self else { completion(Result.failure(TeslaError.authenticationFailed)); return }
 
             DispatchQueue.main.async {
                 switch result {
@@ -233,7 +234,7 @@ extension TeslaSwift {
                     case .failure(let error):
                         if case let TeslaError.networkError(error: internalError) = error {
                             if internalError.code == 302 || internalError.code == 403 {
-                                self.request(.oAuth2Token, body: body, withExtension: "cn", completion: completion)
+                                self.request(.oAuth2TokenCN, body: body, completion: completion)
                             } else if internalError.code == 401 {
                                 completion(Result.failure(TeslaError.authenticationFailed))
                             } else {
@@ -271,7 +272,7 @@ extension TeslaSwift {
 		
         
         request(.authentication, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { return }
+            guard let self = self else { completion(Result.failure(TeslaError.internalError)); return }
             
             switch result {
             case .success(let token):
@@ -281,7 +282,7 @@ extension TeslaSwift {
                 if case let TeslaError.networkError(error: internalError) = error {
                     if internalError.code == 302 || internalError.code == 403 {
                         //Handle redirection for tesla.cn
-                        self.request(.authentication, body: body, withExtension: "cn", completion: completion)
+                        self.request(.authentication, body: body, completion: completion)
                     } else if internalError.code == 401 {
                         completion(Result.failure(TeslaError.authenticationFailed))
                     } else {
@@ -309,7 +310,7 @@ extension TeslaSwift {
         let body = AuthTokenRequestWeb(grantType: .refreshToken, refreshToken: token.refreshToken)
 
         request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { return }
+            guard let self = self else { completion(Result.failure(TeslaError.internalError)); return }
 
             switch result {
                 case .success(let token):
@@ -319,7 +320,7 @@ extension TeslaSwift {
                     if case let TeslaError.networkError(error: internalError) = error {
                         if internalError.code == 302 || internalError.code == 403 {
                             //Handle redirection for tesla.cn
-                            self.request(.oAuth2Token, body: body, withExtension: "cn", completion: completion)
+                            self.request(.oAuth2TokenCN, body: body, completion: completion)
                         } else if internalError.code == 401 {
                             completion(Result.failure(TeslaError.tokenRefreshFailed))
                         } else {
@@ -934,20 +935,14 @@ extension TeslaSwift {
         }
 	}
 	
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, withExtension: String? = nil,
+    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType,
                                                              completion: @escaping (Result<ReturnType, Error>) -> Void) {
-        let request = prepareRequest(endpoint, body: body, withExtension: withExtension)
+        let request = prepareRequest(endpoint, body: body)
         let debugEnabled = debuggingEnabled
         let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) in
-            guard let self = self else { return }
-            guard error == nil else {
-                completion(Result.failure(error!))
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(Result.failure(TeslaError.failedToParseData))
-                return
-            }
+            guard let self = self else { completion(Result.failure(TeslaError.internalError)); return }
+            guard error == nil else { completion(Result.failure(error!)); return }
+            guard let httpResponse = response as? HTTPURLResponse else { completion(Result.failure(TeslaError.failedToParseData)) ;return }
 
             var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
             responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
@@ -974,12 +969,6 @@ extension TeslaSwift {
                     logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
                     completion(Result.failure(TeslaError.failedToParseData))
                 }
-            } else if httpResponse.statusCode == 302 || httpResponse.statusCode == 403 {
-                // Basically, the servers return a 403 forbiden when tried with cn account, so I added 302 in case of further research too.
-                // With a 403 we try with .cn extension.
-                // Since there is no clear way to deal with cn account, it's a workarount and could take more time to resolve requests but it's better
-                // than nothing.
-                self.request(endpoint, body: body, withExtension: "cn", completion: completion)
             } else {
                 if let data = data {
                     let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
@@ -1009,9 +998,8 @@ extension TeslaSwift {
         task.resume()
     }
 
-    func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType, withExtension: String? = nil) -> URLRequest {
-        let url = withExtension != nil ? endpoint.baseURL(useMockServer, country: withExtension!) : endpoint.baseURL(useMockServer)
-        var urlComponents = URLComponents(url: URL(string: url)!, resolvingAgainstBaseURL: true)
+    func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
+        var urlComponents = URLComponents(url: URL(string: endpoint.baseURL(useMockServer))!, resolvingAgainstBaseURL: true)
         urlComponents?.path = endpoint.path
         urlComponents?.queryItems = endpoint.queryParameters
         var request = URLRequest(url: urlComponents!.url!)
