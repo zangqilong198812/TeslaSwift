@@ -14,8 +14,12 @@ enum Endpoint {
     case revoke
     @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
     case oAuth2Authorization(auth: AuthCodeRequest)
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
+    case oAuth2AuthorizationCN(auth: AuthCodeRequest)
     case oAuth2Token
+    case oAuth2TokenCN
     case oAuth2revoke(token: String)
+    case oAuth2revokeCN(token: String)
 	case vehicles
     case vehicleSummary(vehicleID: String)
 	case mobileAccess(vehicleID: String)
@@ -39,11 +43,11 @@ extension Endpoint {
                 return "/oauth/token"
             case .revoke:
                 return "/oauth/revoke"
-            case .oAuth2Authorization:
+            case .oAuth2Authorization, .oAuth2AuthorizationCN:
                 return "/oauth2/v3/authorize"
-            case .oAuth2Token:
+            case .oAuth2Token, .oAuth2TokenCN:
                 return "/oauth2/v3/token"
-            case .oAuth2revoke:
+            case .oAuth2revoke, .oAuth2revokeCN:
                 return "/oauth2/v3/revoke"
             case .vehicles:
                 return "/api/1/vehicles"
@@ -76,9 +80,9 @@ extension Endpoint {
 	
 	var method: String {
 		switch self {
-            case .authentication, .revoke, .oAuth2Token, .wakeUp, .command:
+            case .authentication, .revoke, .oAuth2Token, .oAuth2TokenCN, .wakeUp, .command:
 			return "POST"
-            case .vehicles, .vehicleSummary, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites, .oAuth2Authorization, .oAuth2revoke:
+            case .vehicles, .vehicleSummary, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites, .oAuth2Authorization, .oAuth2revoke, .oAuth2AuthorizationCN, .oAuth2revokeCN:
 			return "GET"
 		}
 	}
@@ -106,6 +110,8 @@ extension Endpoint {
             switch self {
                 case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
                     return "https://auth.tesla.com"
+                case .oAuth2AuthorizationCN, .oAuth2TokenCN, .oAuth2revokeCN:
+                    return "https://auth.tesla.cn"
                 default:
                     return "https://owner-api.teslamotors.com"
             }

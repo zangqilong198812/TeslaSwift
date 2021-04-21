@@ -210,6 +210,7 @@ http://ts.la/joao290
 * Nikola for Tesla (https://itunes.apple.com/us/app/nikola-for-tesla/id1244489779?mt=8)
 * Charged - for Tesla (https://getcharged.app/)
 * TeSlate (https://infinytum.co/)
+* Companion for Tesla - oAuth - (https://teslacompanion.app)
 
 Missing your app? open a PR or issue
 
