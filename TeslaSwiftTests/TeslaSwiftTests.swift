@@ -220,7 +220,7 @@ class TeslaSwiftTests: XCTestCase {
 			}.done { (response) -> Void in
 				
 				XCTAssertEqual(response.userId, 1234)
-				XCTAssertEqual(response.chargeState?.chargingState, .Disconnected)
+				XCTAssertEqual(response.chargeState?.chargingState, .disconnected)
 				XCTAssertEqual(response.vehicleConfig?.trimBadging, "85")
 				
 				expection.fulfill()
@@ -254,7 +254,7 @@ class TeslaSwiftTests: XCTestCase {
 				service.getVehicleChargeState(vehicles[0])
 			}.done { (response) -> Void in
 				
-				XCTAssertEqual(response.chargingState, .Complete)
+				XCTAssertEqual(response.chargingState, .complete)
 				XCTAssertEqual(response.ratedBatteryRange?.miles, 200.0)
 				XCTAssertEqual(response.batteryHeaterOn, true)
 				
@@ -1194,11 +1194,12 @@ class TeslaSwiftTests: XCTestCase {
         service.useMockServer = true
         let expection = expectation(description: "All Done")
         var order = 0
-        
+        let stream = TeslaStreaming(teslaSwift: service)
+
         service.authenticate(email: "user", password: "pass").then { (token) in
                 service.getVehicles()
 			}.done { (vehicles: [Vehicle]) in
-				service.openStream(vehicle: vehicles[0], dataReceived: {
+                stream.openStream(vehicle: vehicles[0], dataReceived: {
 					(event: TeslaStreamingEvent) in
 
                     switch event {
