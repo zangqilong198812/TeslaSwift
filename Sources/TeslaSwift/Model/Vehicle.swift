@@ -31,7 +31,7 @@ open class Vehicle: Codable {
 	open var optionCodes: String?
 	open var state: String?
 	open var tokens: [String]?
-	open var vehicleID: Int?
+	open var vehicleID: Int64?
 	open var vin: String?
 	
 	// MARK: Codable protocol
@@ -84,7 +84,7 @@ open class Vehicle: Codable {
 		optionCodes = try? container.decode(String.self, forKey: .optionCodes)
 		state = try? container.decode(String.self, forKey: .state)
 		tokens = try? container.decode([String].self, forKey: .tokens)
-		vehicleID = try? container.decode(Int.self, forKey: .vehicleID)
+		vehicleID = try? container.decode(Int64.self, forKey: .vehicleID)
 		vin = try? container.decode(String.self, forKey: .vin)
 	}
 	
