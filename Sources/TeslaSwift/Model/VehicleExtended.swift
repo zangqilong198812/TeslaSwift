@@ -10,7 +10,7 @@ import Foundation
 
 open class VehicleExtended: Vehicle {
 
-	open var userId: Int?
+	open var userId: Int64?
 	open var chargeState: ChargeState?
 	open var climateState: ClimateState?
 	open var driveState: DriveState?
@@ -35,7 +35,7 @@ open class VehicleExtended: Vehicle {
 	required public init(from decoder: Decoder) throws {
 		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		userId = try container.decodeIfPresent(Int.self, forKey: .userId)
+		userId = try container.decodeIfPresent(Int64.self, forKey: .userId)
 		chargeState = try container.decodeIfPresent(ChargeState.self, forKey: .chargeState)
 		climateState = try container.decodeIfPresent(ClimateState.self, forKey: .climateState)
 		driveState = try container.decodeIfPresent(DriveState.self, forKey: .driveState)
