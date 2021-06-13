@@ -8,12 +8,12 @@ let package = Package(
     ],
     products: [
         .library(name: "TeslaSwift", targets: ["TeslaSwift"]),
-        .library(name: "TeslaSwiftStreaming", targets: ["TeslaSwift"]),
+        .library(name: "TeslaSwiftStreaming", targets: ["TeslaSwiftStreaming"]),
         .library(name: "TeslaSwiftRx", targets: ["TeslaSwiftRx"]),
         .library(name: "TeslaSwiftCombine", targets: ["TeslaSwiftCombine"]),
         .library(name: "TeslaSwiftPromiseKit", targets: ["TeslaSwiftPMK"]),
         .library(name: "TeslaSwiftStreamingRx", targets: ["TeslaSwiftStreamingRx"]),
-        .library(name: "TeslaSwiftStreamingCombine", targets: ["TeslaSwiftCombine"])
+        .library(name: "TeslaSwiftStreamingCombine", targets: ["TeslaSwiftStreamingCombine"])
     ],
     dependencies: [
         .package(url: "https://github.com/ReactiveX/RxSwift.git", .exact("6.0.0-rc.2")),
