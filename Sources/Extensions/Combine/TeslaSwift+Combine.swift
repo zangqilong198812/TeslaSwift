@@ -118,7 +118,7 @@ extension TeslaSwift {
         return future
     }
     
-    public func getVehicleChargeState(_ vehicle: Vehicle) -> Future<ClimateState, Error> {
+    public func getVehicleClimateState(_ vehicle: Vehicle) -> Future<ClimateState, Error> {
         
         let future = Future<ClimateState,Error> { (subscriber: @escaping (Result<ClimateState, Error>) -> Void) in
             
