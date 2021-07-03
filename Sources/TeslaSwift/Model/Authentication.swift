@@ -46,7 +46,6 @@ open class AuthToken: Codable {
 
         accessToken = try? container.decode(String.self, forKey: .accessToken)
         tokenType = try? container.decode(String.self, forKey: .tokenType)
-        createdAt = (try? container.decode(Date.self, forKey: .createdAt)) ?? Date()
         expiresIn = try? container.decode(TimeInterval.self, forKey: .expiresIn)
         refreshToken = try? container.decode(String.self, forKey: .refreshToken)
         idToken = try? container.decode(String.self, forKey: .idToken)
@@ -56,7 +55,6 @@ open class AuthToken: Codable {
 	enum CodingKeys: String, CodingKey {
 		case accessToken = "access_token"
 		case tokenType = "token_type"
-		case createdAt = "created_at"
 		case expiresIn = "expires_in"
 		case refreshToken  = "refresh_token"
         case idToken = "id_token"
