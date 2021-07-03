@@ -218,7 +218,7 @@
 		CF3F851D21C52B0B0086B564 /* VehicleConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleConfig.json; sourceTree = "<group>"; };
 		CF3F851F21C52BD60086B564 /* SetSpeedLimit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SetSpeedLimit.json; sourceTree = "<group>"; };
 		CF3F852121C52C650086B564 /* SpeedLimitPin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SpeedLimitPin.json; sourceTree = "<group>"; };
-		CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TeslaSwift.podspec; path = ../TeslaSwift.podspec; sourceTree = "<group>"; };
+		CF48FA961C8B039F00B1DA93 /* TeslaSwift.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TeslaSwift.podspec; path = ../TeslaSwift.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		CF48FA981C8B08AC00B1DA93 /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF4D4D0C1D81F39900CCE6ED /* Pods_TeslaSwiftTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_TeslaSwiftTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_TeslaSwiftTests.framework"; sourceTree = "<group>"; };
