@@ -181,6 +181,10 @@ class VehicleViewController: UIViewController {
             }
         }
     }
+
+    @IBAction func logout(_ sender: Any) {
+        api.logout()
+    }
     
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)

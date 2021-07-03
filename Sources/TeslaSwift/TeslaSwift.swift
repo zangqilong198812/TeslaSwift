@@ -460,8 +460,8 @@ extension TeslaSwift {
 		email = nil
 		password = nil
 		cleanToken()
+        TeslaWebLoginViewController.removeCookies()
 	}
-	
 	/**
 	Fetchs the list of your vehicles including not yet delivered ones
 	

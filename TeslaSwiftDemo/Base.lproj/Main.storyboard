@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -99,7 +99,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="Bbt-TU-HOi" detailTextLabel="ulw-nk-We8" style="IBUITableViewCellStyleValue1" id="KGv-NT-M2M">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGv-NT-M2M" id="N9i-Hr-k3f">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
@@ -269,6 +269,13 @@
                                     <action selector="revokeToken:" destination="hQa-7w-LXN" eventType="touchUpInside" id="Syq-Wy-eWh"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8si-jS-X0j">
+                                <rect key="frame" x="251" y="165" width="48" height="30"/>
+                                <state key="normal" title="Logout"/>
+                                <connections>
+                                    <action selector="logout:" destination="hQa-7w-LXN" eventType="touchUpInside" id="vcY-Zf-xNP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Xr7-QY-Fkr"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -278,6 +285,7 @@
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="trailing" secondItem="1iA-0c-01W" secondAttribute="trailing" constant="136" id="53z-5N-2eV"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="trailing" secondItem="zs8-Um-QL5" secondAttribute="trailingMargin" id="580-EF-m7n"/>
                             <constraint firstItem="0TU-qj-zp8" firstAttribute="top" secondItem="RmL-KV-smN" secondAttribute="bottom" constant="-9" id="5Vo-j9-DC0"/>
+                            <constraint firstItem="8si-jS-X0j" firstAttribute="top" secondItem="yUy-VO-gOX" secondAttribute="bottom" constant="-9" id="6wA-UW-eLJ"/>
                             <constraint firstItem="dL3-Y4-FTE" firstAttribute="leading" secondItem="zs8-Um-QL5" secondAttribute="leadingMargin" id="6yK-w5-77i"/>
                             <constraint firstItem="Xr7-QY-Fkr" firstAttribute="bottom" secondItem="dL3-Y4-FTE" secondAttribute="bottom" constant="20" id="87g-in-Fax"/>
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
@@ -290,6 +298,7 @@
                             <constraint firstItem="ZeE-wh-PNs" firstAttribute="leading" secondItem="ugC-lm-CpD" secondAttribute="trailing" constant="13" id="Kwq-qr-Dmc"/>
                             <constraint firstItem="RmL-KV-smN" firstAttribute="top" secondItem="ZeE-wh-PNs" secondAttribute="bottom" constant="8" id="QY9-JF-OUt"/>
                             <constraint firstItem="Xr7-QY-Fkr" firstAttribute="trailing" secondItem="RmL-KV-smN" secondAttribute="trailing" constant="12" id="V0n-Tv-QrC"/>
+                            <constraint firstItem="0TU-qj-zp8" firstAttribute="leading" secondItem="8si-jS-X0j" secondAttribute="trailing" constant="9" id="WTi-6m-2xl"/>
                             <constraint firstItem="ySF-V2-hJS" firstAttribute="top" secondItem="xP4-ae-x7r" secondAttribute="bottom" constant="-1" id="XDi-tN-cHx"/>
                             <constraint firstItem="V2I-wH-VVW" firstAttribute="leading" secondItem="dL3-Y4-FTE" secondAttribute="leading" id="YoO-4n-cSJ"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="centerX" secondItem="dL3-Y4-FTE" secondAttribute="centerX" id="Zkk-J1-41o"/>
@@ -450,15 +459,6 @@
     <resources>
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
-        <systemColor name="darkTextColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="darkTextColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="darkTextColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

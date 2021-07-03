@@ -44,4 +44,14 @@ extension TeslaWebLoginViewController: WKNavigationDelegate {
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+extension TeslaWebLoginViewController {
+    static func removeCookies() {
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
+    }
+}
 #endif
