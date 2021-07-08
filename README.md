@@ -211,6 +211,7 @@ http://ts.la/joao290
 * Charged - for Tesla (https://getcharged.app/)
 * TeSlate (https://infinytum.co/)
 * Companion for Tesla - oAuth - (https://teslacompanion.app)
+* Pilot Log for Tesla (https://itunes.apple.com/us/app/pilot-log-for-Tesla/id1564398488?mt=8)
 
 Missing your app? open a PR or issue
 
