@@ -92,6 +92,7 @@ open class VehicleState: Codable {
 	open var frontTrunkOpen: Bool? { return (frontTrunkOpenBool ?? 0) > 0 }
 	
 	open var homelinkNearby: Bool?
+    open var homelinkDeviceCount: Int?
 	open var isUserPresent: Bool?
 	
 	open var lastAutoparkError: String?
@@ -165,6 +166,7 @@ open class VehicleState: Codable {
 		case frontTrunkOpenBool			 = "ft"
 		
 		case homelinkNearby			 = "homelink_nearby"
+        case homelinkDeviceCount = "homelink_device_count"
 		case isUserPresent 			= "is_user_present"
 		
 		case lastAutoparkError		 = "last_autopark_error"
@@ -229,6 +231,7 @@ open class VehicleState: Codable {
 		frontTrunkOpenBool = try? container.decode(Int.self, forKey: .frontTrunkOpenBool)
 		
 		homelinkNearby = try? container.decode(Bool.self, forKey: .homelinkNearby)
+        homelinkDeviceCount = try? container.decode(Int.self, forKey: .homelinkNearby)
 		isUserPresent = try? container.decode(Bool.self, forKey: .isUserPresent)
 		
 		lastAutoparkError = try? container.decode(String.self, forKey: .lastAutoparkError)
@@ -284,6 +287,7 @@ open class VehicleState: Codable {
         try container.encodeIfPresent(driverRearWindowOpenBool, forKey: .driverRearWindowOpenBool)
 		try container.encodeIfPresent(frontTrunkOpenBool, forKey: .frontTrunkOpenBool)
 		try container.encodeIfPresent(homelinkNearby, forKey: .homelinkNearby)
+        try container.encodeIfPresent(homelinkDeviceCount, forKey: .homelinkDeviceCount)
 		try container.encodeIfPresent(isUserPresent, forKey: .isUserPresent)
 		try container.encodeIfPresent(lastAutoparkError, forKey: .lastAutoparkError)
 		try container.encodeIfPresent(locked, forKey: .locked)
