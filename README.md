@@ -213,6 +213,7 @@ http://ts.la/joao290
 * Companion for Tesla - oAuth - (https://teslacompanion.app)
 * Pilot Log for Tesla (https://itunes.apple.com/us/app/pilot-log-for-Tesla/id1564398488?mt=8)
 * EV Companion (https://itunes.apple.com/us/app/ev-companion/id1574209459?mt=8)
+* S3XY Key Fob (https://kenmaz.net/tesla-app/)
 
 Missing your app? open a PR or issue
 
