@@ -142,6 +142,10 @@
 		CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF06D021FB639B8003320E3 /* StreamViewController.swift */; };
 		CFF06D051FB63CF9003320E3 /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = CFF06D041FB63CF9003320E3 /* Podfile.lock */; };
 		CFF5CFFF1EABD1AB00655B81 /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
+		DE97F3662737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE97F3642737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift */; };
+		DE97F3672737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE97F3642737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift */; };
+		DE97F3682737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE97F3652737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift */; };
+		DE97F3692737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE97F3652737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +276,8 @@
 		CFF048051F72F115006B52F7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		CFF06D021FB639B8003320E3 /* StreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
 		CFF06D041FB63CF9003320E3 /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
+		DE97F3642737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduledDepartureCommandOptions.swift; sourceTree = "<group>"; };
+		DE97F3652737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduledChargingCommandOptions.swift; sourceTree = "<group>"; };
 		E6CE3C92808A0629E156F4D1 /* Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift-TeslaSwiftTests/Pods-TeslaSwift-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -337,6 +343,8 @@
 				176F073A2219E25A000877D7 /* RemoteSeatHeaterRequestOptions.swift */,
 				CF1BD59B1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift */,
 				1787516C221C393700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift */,
+				DE97F3652737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift */,
+				DE97F3642737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift */,
 				1759B7412228D3210032EB4C /* SentryModeCommandOptions.swift */,
 				CF1BD5981DD505EF00E4C493 /* SetSunRoofCommandOptions.swift */,
 				CF1BD5951DD5051600E4C493 /* SetTemperatureCommandOptions.swift */,
@@ -790,6 +798,7 @@
 				CF0D2F2F1D95A4A900E5A304 /* GenericResponse.swift in Sources */,
 				CFC819A41DBBA2EA00A8E47B /* VehicleViewController.swift in Sources */,
 				CF48FA9B1C8B09C500B1DA93 /* LoginViewController.swift in Sources */,
+				DE97F3682737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift in Sources */,
 				CFA984F91CC2545600B23C7D /* TeslaEndpoint.swift in Sources */,
 				1AA73E8C235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */,
 				CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */,
@@ -813,6 +822,7 @@
 				CF21582F258E369700110C52 /* TeslaSwift+StreamingRx.swift in Sources */,
 				CFF048021F72EDC7006B52F7 /* Distance.swift in Sources */,
 				CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */,
+				DE97F3662737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF0D2F2B1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
 				CF0D2F291D95A4A900E5A304 /* ClimateState.swift in Sources */,
@@ -873,6 +883,7 @@
 				1AABBBAB242646E200FFED6C /* Speed.swift in Sources */,
 				CFF001AD1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
 				CFAE27901F76644400D28079 /* Codable+JSONString.swift in Sources */,
+				DE97F3672737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift in Sources */,
 				1A5ED54D233A2C8E001B3809 /* TeslaSwift+Rx.swift in Sources */,
 				17875171221C4C7700B840DD /* RemoteSteeringWheelHeaterRequestOptions.swift in Sources */,
 				170D32D622D0EE4D00B6A51A /* NearbyChargingSites.swift in Sources */,
@@ -882,6 +893,7 @@
 				1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
 				650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
 				CFB5D7B81E66088F003EA1EF /* ErrorMessage.swift in Sources */,
+				DE97F3692737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift in Sources */,
 				CF215845258E443300110C52 /* StreamControl.swift in Sources */,
 				1759B7432228D3210032EB4C /* SentryModeCommandOptions.swift in Sources */,
 				1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */,

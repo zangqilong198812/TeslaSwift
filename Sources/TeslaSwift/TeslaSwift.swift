@@ -20,6 +20,8 @@ public enum VehicleCommand {
 	case chargeLimitPercentage(limit: Int)
 	case startCharging
 	case stopCharging
+    case scheduledCharging(enable: Bool, time: Int)
+    case scheduledDeparture(options: ScheduledDepartureCommandOptions)
 	case flashLights
     case triggerHomeLink(location: CLLocation)
 	case honkHorn
@@ -71,6 +73,10 @@ public enum VehicleCommand {
 			return  "command/charge_start"
 		case .stopCharging:
 			return "command/charge_stop"
+        case .scheduledCharging:
+            return "command/set_scheduled_charging"
+        case .scheduledDeparture:
+            return "command/set_scheduled_departure"
 		case .flashLights:
 			return "command/flash_lights"
         case .triggerHomeLink:
@@ -859,6 +865,11 @@ extension TeslaSwift {
 				case let .chargeLimitPercentage(limit):
 					let body = ChargeLimitPercentageCommandOptions(limit: limit)
 					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                case let .scheduledCharging(enable, time):
+                    let body = ScheduledChargingCommandOptions(enable: enable, time: time)
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                case let .scheduledDeparture(body):
+                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
 				case let .setTemperature(driverTemperature, passengerTemperature):
 					 let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
 					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
