@@ -498,6 +498,33 @@ extension TeslaSwift {
 	}
     
     /**
+    Fetchs the list of your products
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) -> Void {
+        
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                
+                self.request(.products, body: nullBody) { (result: Result<ArrayResponse<Product>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    /**
     Fetchs the summary of a vehicle
     
     - returns: A completion handler with a Vehicle.
@@ -914,6 +941,169 @@ extension TeslaSwift {
 		}
 		
 	}
+    
+    
+    /**
+    Fetchs the status of your energy site
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getEnergySiteStatus(siteID: String, completion: @escaping (Result<EnergySiteStatus, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getEnergySiteStatus(siteID: siteID), body: nullBody) { (result: Result<Response<EnergySiteStatus>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Fetchs the live status of your energy site
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getEnergySiteLiveStatus(siteID: String, completion: @escaping (Result<EnergySiteLiveStatus, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getEnergySiteLiveStatus(siteID: siteID), body: nullBody) { (result: Result<Response<EnergySiteLiveStatus>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Fetchs the info of your energy site
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getEnergySiteInfo(siteID: String, completion: @escaping (Result<EnergySiteInfo, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getEnergySiteInfo(siteID: siteID), body: nullBody) { (result: Result<Response<EnergySiteInfo>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Fetchs the history of your energy site
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getEnergySiteHistory(siteID: String, period: EnergySiteHistory.Period, completion: @escaping (Result<EnergySiteHistory, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getEnergySiteHistory(siteID: siteID, period: period), body: nullBody) { (result: Result<Response<EnergySiteHistory>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Fetchs the status of your Powerwall battery
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getBatteryStatus(batteryID: String, completion: @escaping (Result<BatteryStatus, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getBatteryStatus(batteryID: batteryID), body: nullBody) { (result: Result<Response<BatteryStatus>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Fetchs the data of your Powerwall battery
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getBatteryData(batteryID: String, completion: @escaping (Result<BatteryData, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getBatteryData(batteryID: batteryID), body: nullBody) { (result: Result<Response<BatteryData>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Fetchs the history of your Powerwall battery
+     
+    - returns: A completion handler with an array of Products.
+    */
+    public func getBatteryPowerHistory(batteryID: String, completion: @escaping (Result<BatteryPowerHistory, Error>) -> ()) -> Void {
+        checkAuthentication { (result: Result<AuthToken, Error>) in
+            switch result {
+            case .failure(let error):
+                completion(Result.failure(error))
+            case .success(_):
+                self.request(.getBatteryPowerHistory(batteryID: batteryID), body: nullBody) { (result: Result<Response<BatteryPowerHistory>, Error>) in
+                    switch result {
+                    case .failure(let error):
+                        completion(Result.failure(error))
+                    case .success(let data):
+                        completion(Result.success(data.response))
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 extension TeslaSwift {
@@ -1067,6 +1257,20 @@ public let teslaJSONEncoder: JSONEncoder = {
 
 public let teslaJSONDecoder: JSONDecoder = {
 	let decoder = JSONDecoder()
-	decoder.dateDecodingStrategy = .secondsSince1970
+//	decoder.dateDecodingStrategy = .secondsSince1970
+    decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
+            let container = try decoder.singleValueContainer()
+            if let dateDouble = try? container.decode(Double.self) {
+                return Date(timeIntervalSince1970: dateDouble)
+            } else {
+                let dateString = try container.decode(String.self)
+                let dateFormatter = ISO8601DateFormatter()
+                var date = dateFormatter.date(from: dateString)
+                guard let date = date else {
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode date string \(dateString)")
+                }
+                return date
+            }
+        })
 	return decoder
 }()

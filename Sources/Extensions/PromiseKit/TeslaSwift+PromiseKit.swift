@@ -248,5 +248,67 @@ extension TeslaSwift {
         
         return promise
     }
-    
+    public func getEnergySiteStatus(siteID: String) -> Promise<EnergySiteStatus> {
+        
+        let (promise, seal) = Promise<EnergySiteStatus>.pending()
+        
+        getEnergySiteStatus(siteID: siteID, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getEnergySiteLiveStatus(siteID: String) -> Promise<EnergySiteLiveStatus> {
+        
+        let (promise, seal) = Promise<EnergySiteLiveStatus>.pending()
+        
+        getEnergySiteLiveStatus(siteID: siteID, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getEnergySiteInfo(siteID: String) -> Promise<EnergySiteInfo> {
+        
+        let (promise, seal) = Promise<EnergySiteInfo>.pending()
+        
+        getEnergySiteInfo(siteID: siteID, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getEnergySiteHistory(siteID: String, period: EnergySiteHistory.Period) -> Promise<EnergySiteHistory> {
+        
+        let (promise, seal) = Promise<EnergySiteHistory>.pending()
+        
+        getEnergySiteHistory(siteID: siteID, period: period, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getBatteryStatus(batteryID: String) -> Promise<BatteryStatus> {
+        
+        let (promise, seal) = Promise<BatteryStatus>.pending()
+        
+        getBatteryStatus(batteryID: batteryID, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getBatteryData(batteryID: String) -> Promise<BatteryData> {
+        
+        let (promise, seal) = Promise<BatteryData>.pending()
+        
+        getBatteryData(batteryID: batteryID, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
+    public func getBatteryPowerHistory(batteryID: String) -> Promise<BatteryPowerHistory> {
+        
+        let (promise, seal) = Promise<BatteryPowerHistory>.pending()
+        
+        getBatteryPowerHistory(batteryID: batteryID, completion: promisify(seal: seal))
+        
+        return promise
+    }
+
 }

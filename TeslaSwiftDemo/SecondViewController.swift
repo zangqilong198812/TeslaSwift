@@ -7,19 +7,96 @@
 //
 
 import UIKit
+#if canImport(Combine)
+import Combine
+#endif
 
-class SecondViewController: UIViewController {
-
-	override func viewDidLoad() {
+class SecondViewController: UIViewController, UITableViewDataSource {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var data:[Product]?
+    
+    override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
+        
+        getProducts()
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name.loginDone, object: nil, queue: nil) { [weak self] (notification: Notification) in
+            
+            self?.getProducts()
+        }
 	}
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.estimatedRowHeight = 50.0
+        
+    }
+    
+    func getProducts() {
+        
+        #if swift(>=5.1)
+        if #available(iOS 13.0, *) {
+            
+            api.getProducts { (result: Result<[Product], Error>) in
+                DispatchQueue.main.async {
+                    self.data = try? result.get()
+                    self.tableView.reloadData()
+                    print(self.data)
+                }
+            }
 
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-
-
+        }
+        #else
+        _ = api.getProducts().done { (response) in
+            DispatchQueue.main.async {
+                self.data = response
+                self.tableView.reloadData()
+                print(response)
+            }
+        }
+        #endif
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "product-cell", for: indexPath)
+        
+        let product = data![(indexPath as NSIndexPath).row]
+        
+        if let vehicle = product.vehicle {
+            cell.textLabel?.text = vehicle.displayName
+            cell.detailTextLabel?.text = vehicle.vin
+        } else if let energySite = product.energySite {
+            cell.textLabel?.text = energySite.siteName
+            cell.detailTextLabel?.text = energySite.resourceType
+        } else {
+            cell.textLabel?.text = "Unknown"
+            cell.detailTextLabel?.text = "Unknown"
+        }
+        
+        return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "toProductDetail" {
+            
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let vc = segue.destination as! ProductViewController
+                vc.product = data![indexPath.row]
+            }
+            
+        }
+    }
+    
 }
 

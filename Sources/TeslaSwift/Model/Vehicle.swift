@@ -36,7 +36,7 @@ open class Vehicle: Codable {
 	
 	// MARK: Codable protocol
 	
-	private enum CodingKeys: String, CodingKey {
+	enum CodingKeys: String, CodingKey {
 		
 		case backseatToken			 = "backseat_token"
 		case backseatTokenUpdatedAt	 = "backseat_token_updated_at"

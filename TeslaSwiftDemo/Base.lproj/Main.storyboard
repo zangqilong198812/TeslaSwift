@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -99,7 +100,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="Bbt-TU-HOi" detailTextLabel="ulw-nk-We8" style="IBUITableViewCellStyleValue1" id="KGv-NT-M2M">
-                                        <rect key="frame" x="0.0" y="24.5" width="343" height="44"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGv-NT-M2M" id="N9i-Hr-k3f">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
@@ -379,7 +380,7 @@
             </objects>
             <point key="canvasLocation" x="3471" y="-322"/>
         </scene>
-        <!--Second-->
+        <!--Second View Controller-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="TeslaSwift" customModuleProvider="target" sceneMemberID="viewController">
@@ -387,34 +388,234 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="83" y="313" width="209.5" height="41.5"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-8G-4RY">
+                                <rect key="frame" x="16" y="46" width="343" height="574"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" systemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDk-cv-Gan">
-                                <rect key="frame" x="80" y="362.5" width="215" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" systemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="product-cell" textLabel="69t-9c-gga" detailTextLabel="x9J-au-INv" style="IBUITableViewCellStyleValue1" id="Yyh-Ow-eeV">
+                                        <rect key="frame" x="0.0" y="44.5" width="343" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yyh-Ow-eeV" id="pNw-fx-9ZQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="69t-9c-gga">
+                                                    <rect key="frame" x="16" y="13" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" systemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x9J-au-INv">
+                                                    <rect key="frame" x="285" y="13" width="42" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="KZF-oY-DPf" kind="show" identifier="toProductDetail" id="ndd-yT-FP2"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="8rJ-Kc-sve" id="kq8-Y2-C1d"/>
+                                    <outlet property="delegate" destination="8rJ-Kc-sve" id="oG3-xS-Bqi"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kcs-jz-oFJ"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="NDk-cv-Gan" firstAttribute="top" secondItem="zEq-FU-wV5" secondAttribute="bottom" constant="8" symbolic="YES" id="Day-4N-Vmt"/>
-                            <constraint firstItem="NDk-cv-Gan" firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="JgO-Fn-dHn"/>
-                            <constraint firstItem="kcs-jz-oFJ" firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
-                            <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
-                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" id="yt2-mj-flR"/>
+                    <connections>
+                        <outlet property="tableView" destination="nhs-8G-4RY" id="B6Q-Ri-Ofl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="360"/>
+            <point key="canvasLocation" x="1688.8" y="359.37031484257875"/>
+        </scene>
+        <!--Product View Controller-->
+        <scene sceneID="7EH-v3-QoE">
+            <objects>
+                <viewController id="KZF-oY-DPf" customClass="ProductViewController" customModule="TeslaSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rvH-WK-clJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="poC-sF-vfc">
+                                <rect key="frame" x="10" y="44" width="355" height="100"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="qOS-Jo-f2s">
+                                        <rect key="frame" x="0.0" y="0.0" width="177.5" height="100"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Energy Site" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0G-m3-HCM">
+                                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="17.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvJ-wp-DRj">
+                                                <rect key="frame" x="0.0" y="17.5" width="177.5" height="82.5"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="H2o-oI-Usg">
+                                                        <rect key="frame" x="0.0" y="0.0" width="89" height="82.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI0-ab-UAH">
+                                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="32.5"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="Status">
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getEnergySiteStatus:" destination="KZF-oY-DPf" eventType="touchUpInside" id="3q6-kg-pdg"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1B-OQ-qne">
+                                                                <rect key="frame" x="0.0" y="32.5" width="65.5" height="50"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="Live Status">
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getEnergySiteLiveStatus:" destination="KZF-oY-DPf" eventType="touchUpInside" id="ciN-gi-Hpu"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="C5L-BA-4o3">
+                                                        <rect key="frame" x="89" y="0.0" width="88.5" height="82.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAb-Ji-5c1">
+                                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="31"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="Info">
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getEnergySiteInfo:" destination="KZF-oY-DPf" eventType="touchUpInside" id="Dmp-37-Roc"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUe-aE-kx1">
+                                                                <rect key="frame" x="0.0" y="31" width="70.5" height="51.5"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="History">
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getEnergySiteHistory:" destination="KZF-oY-DPf" eventType="touchUpInside" id="QFm-z5-Rj9"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="M39-nQ-wYJ">
+                                        <rect key="frame" x="177.5" y="0.0" width="177.5" height="100"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nS2-0o-a3A">
+                                                <rect key="frame" x="0.0" y="0.0" width="47" height="21.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tLV-ic-Y6S">
+                                                <rect key="frame" x="0.0" y="21.5" width="141" height="78.5"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="zgF-VI-j4G">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70.5" height="78.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-9f-3dQ">
+                                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="47.5"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="Status">
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getBatteryStatus:" destination="KZF-oY-DPf" eventType="touchUpInside" id="wuR-Lc-rPQ"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKp-qN-wwk">
+                                                                <rect key="frame" x="0.0" y="47.5" width="54.5" height="31"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="Data">
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getBatteryData:" destination="KZF-oY-DPf" eventType="touchUpInside" id="dvQ-5e-leC"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="7QQ-be-XDI">
+                                                        <rect key="frame" x="70.5" y="0.0" width="70.5" height="78.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTx-NK-cGE">
+                                                                <rect key="frame" x="0.0" y="0.0" width="70.5" height="78.5"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain">
+                                                                    <string key="title">Power
+History</string>
+                                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                                </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="getBatteryPowerHistory:" destination="KZF-oY-DPf" eventType="touchUpInside" id="xCh-KU-eHd"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="4RC-gN-e3D"/>
+                                </constraints>
+                            </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Select an action to get started" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hf1-5C-SiX">
+                                <rect key="frame" x="10" y="184.5" width="355" height="423.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyn-UI-iNK">
+                                <rect key="frame" x="10" y="154" width="355" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cXt-MN-hjN"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cXt-MN-hjN" firstAttribute="bottom" secondItem="hf1-5C-SiX" secondAttribute="bottom" constant="10" id="4mP-2F-cYw"/>
+                            <constraint firstItem="poC-sF-vfc" firstAttribute="top" secondItem="cXt-MN-hjN" secondAttribute="top" id="WlT-ro-N0P"/>
+                            <constraint firstItem="hf1-5C-SiX" firstAttribute="top" secondItem="vyn-UI-iNK" secondAttribute="bottom" constant="10" id="bEi-qg-lRC"/>
+                            <constraint firstItem="vyn-UI-iNK" firstAttribute="top" secondItem="poC-sF-vfc" secondAttribute="bottom" constant="10" id="cYa-sV-yoJ"/>
+                            <constraint firstItem="hf1-5C-SiX" firstAttribute="leading" secondItem="cXt-MN-hjN" secondAttribute="leading" constant="10" id="eUp-X1-AoB"/>
+                            <constraint firstItem="cXt-MN-hjN" firstAttribute="trailing" secondItem="vyn-UI-iNK" secondAttribute="trailing" constant="10" id="jC6-fI-VAc"/>
+                            <constraint firstItem="vyn-UI-iNK" firstAttribute="leading" secondItem="cXt-MN-hjN" secondAttribute="leading" constant="10" id="jJd-u3-Cyi"/>
+                            <constraint firstItem="cXt-MN-hjN" firstAttribute="trailing" secondItem="hf1-5C-SiX" secondAttribute="trailing" constant="10" id="r4O-4Z-hJx"/>
+                            <constraint firstItem="cXt-MN-hjN" firstAttribute="trailing" secondItem="poC-sF-vfc" secondAttribute="trailing" constant="10" id="rdy-J3-eKS"/>
+                            <constraint firstItem="poC-sF-vfc" firstAttribute="leading" secondItem="cXt-MN-hjN" secondAttribute="leading" constant="10" id="uyH-2b-l8B"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jl7-xJ-q7i"/>
+                    <connections>
+                        <outlet property="textView" destination="hf1-5C-SiX" id="hNd-yR-awq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZYZ-4F-3el" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2572" y="359"/>
         </scene>
         <!--Tab Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -428,7 +629,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Beb-9k-El1" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="udJ-mL-ZXk" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="gEs-3m-96K" kind="presentation" identifier="loginSegue" id="e2P-M6-ieN"/>
                     </connections>
                 </tabBarController>
@@ -455,12 +656,37 @@
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
         </scene>
+        <!--Second-->
+        <scene sceneID="oK7-fF-8Ad">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="udJ-mL-ZXk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZXc-pc-Lch">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="QUn-ei-jMG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tCg-xX-egR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="749.60000000000002" y="359.37031484257875"/>
+        </scene>
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

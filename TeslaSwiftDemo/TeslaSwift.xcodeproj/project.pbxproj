@@ -35,6 +35,26 @@
 		650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		65F055182173DB3D00BE3BE5 /* ShareToVehicleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F055172173DB3D00BE3BE5 /* ShareToVehicleOptions.swift */; };
+		708FBA45274D75E70026CEEF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA44274D75E70026CEEF /* Product.swift */; };
+		708FBA46274D75E70026CEEF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA44274D75E70026CEEF /* Product.swift */; };
+		708FBA48274E9CE40026CEEF /* EnergySiteStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA47274E9CE30026CEEF /* EnergySiteStatus.swift */; };
+		708FBA49274E9CE40026CEEF /* EnergySiteStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA47274E9CE30026CEEF /* EnergySiteStatus.swift */; };
+		708FBA4B274E9CEC0026CEEF /* EnergySiteLiveStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA4A274E9CEC0026CEEF /* EnergySiteLiveStatus.swift */; };
+		708FBA4C274E9CEC0026CEEF /* EnergySiteLiveStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA4A274E9CEC0026CEEF /* EnergySiteLiveStatus.swift */; };
+		708FBA4E274E9CF90026CEEF /* EnergySiteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA4D274E9CF90026CEEF /* EnergySiteInfo.swift */; };
+		708FBA4F274E9CF90026CEEF /* EnergySiteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA4D274E9CF90026CEEF /* EnergySiteInfo.swift */; };
+		708FBA51274E9D040026CEEF /* EnergySiteHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA50274E9D040026CEEF /* EnergySiteHistory.swift */; };
+		708FBA52274E9D040026CEEF /* EnergySiteHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA50274E9D040026CEEF /* EnergySiteHistory.swift */; };
+		708FBA54274E9D120026CEEF /* BatteryStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA53274E9D120026CEEF /* BatteryStatus.swift */; };
+		708FBA55274E9D120026CEEF /* BatteryStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA53274E9D120026CEEF /* BatteryStatus.swift */; };
+		708FBA57274E9D1A0026CEEF /* BatteryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA56274E9D1A0026CEEF /* BatteryData.swift */; };
+		708FBA58274E9D1A0026CEEF /* BatteryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA56274E9D1A0026CEEF /* BatteryData.swift */; };
+		708FBA5A274E9D250026CEEF /* BatteryPowerHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA59274E9D250026CEEF /* BatteryPowerHistory.swift */; };
+		708FBA5B274E9D250026CEEF /* BatteryPowerHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA59274E9D250026CEEF /* BatteryPowerHistory.swift */; };
+		708FBA5D274EA1740026CEEF /* EnergySite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5C274EA1740026CEEF /* EnergySite.swift */; };
+		708FBA5E274EA1740026CEEF /* EnergySite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5C274EA1740026CEEF /* EnergySite.swift */; };
+		708FBA60274EA4260026CEEF /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5F274EA4260026CEEF /* ProductViewController.swift */; };
+		708FBA61274EA4260026CEEF /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5F274EA4260026CEEF /* ProductViewController.swift */; };
 		7D161BA01E9DC805001C89ED /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 		8CC62B67A853293ADBFB6B75 /* Pods_TeslaSwift_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */; };
 		CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF01EA661C9EC1950064B2B5 /* VehicleState.json */; };
@@ -183,6 +203,16 @@
 		650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftwareUpdate.swift; sourceTree = "<group>"; };
 		65F055172173DB3D00BE3BE5 /* ShareToVehicleOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareToVehicleOptions.swift; sourceTree = "<group>"; };
 		663732209E4E55CAD3A287C6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		708FBA44274D75E70026CEEF /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		708FBA47274E9CE30026CEEF /* EnergySiteStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySiteStatus.swift; sourceTree = "<group>"; };
+		708FBA4A274E9CEC0026CEEF /* EnergySiteLiveStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySiteLiveStatus.swift; sourceTree = "<group>"; };
+		708FBA4D274E9CF90026CEEF /* EnergySiteInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySiteInfo.swift; sourceTree = "<group>"; };
+		708FBA50274E9D040026CEEF /* EnergySiteHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySiteHistory.swift; sourceTree = "<group>"; };
+		708FBA53274E9D120026CEEF /* BatteryStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryStatus.swift; sourceTree = "<group>"; };
+		708FBA56274E9D1A0026CEEF /* BatteryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryData.swift; sourceTree = "<group>"; };
+		708FBA59274E9D250026CEEF /* BatteryPowerHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryPowerHistory.swift; sourceTree = "<group>"; };
+		708FBA5C274EA1740026CEEF /* EnergySite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySite.swift; sourceTree = "<group>"; };
+		708FBA5F274EA4260026CEEF /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		7714DD772753FEF8BB88D841 /* Pods-TeslaSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7D161B9F1E9DC805001C89ED /* StreamEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamEvent.swift; sourceTree = "<group>"; };
 		893283E37D672FB17EB144D2 /* Pods-TeslaSwiftMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftMac/Pods-TeslaSwiftMac.release.xcconfig"; sourceTree = "<group>"; };
@@ -351,7 +381,16 @@
 				650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */,
 				CF3F851921C51FC30086B564 /* SpeedLimitOptions.swift */,
 				CF0D2F211D95A4A900E5A304 /* ValetCommandOptions.swift */,
+				708FBA44274D75E70026CEEF /* Product.swift */,
 				CF0D2F221D95A4A900E5A304 /* Vehicle.swift */,
+				708FBA5C274EA1740026CEEF /* EnergySite.swift */,
+				708FBA47274E9CE30026CEEF /* EnergySiteStatus.swift */,
+				708FBA4A274E9CEC0026CEEF /* EnergySiteLiveStatus.swift */,
+				708FBA4D274E9CF90026CEEF /* EnergySiteInfo.swift */,
+				708FBA50274E9D040026CEEF /* EnergySiteHistory.swift */,
+				708FBA53274E9D120026CEEF /* BatteryStatus.swift */,
+				708FBA56274E9D1A0026CEEF /* BatteryData.swift */,
+				708FBA59274E9D250026CEEF /* BatteryPowerHistory.swift */,
 				CFF001AB1E7561EB00B8139B /* VehicleConfig.swift */,
 				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
@@ -512,6 +551,7 @@
 				CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */,
 				CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */,
 				CFC819A31DBBA2EA00A8E47B /* VehicleViewController.swift */,
+				708FBA5F274EA4260026CEEF /* ProductViewController.swift */,
 				CFD2E7CA1C8A13D60005E882 /* Main.storyboard */,
 				CFF06D021FB639B8003320E3 /* StreamViewController.swift */,
 				CFD2E7CD1C8A13D60005E882 /* Assets.xcassets */,
@@ -799,6 +839,7 @@
 				CFC819A41DBBA2EA00A8E47B /* VehicleViewController.swift in Sources */,
 				CF48FA9B1C8B09C500B1DA93 /* LoginViewController.swift in Sources */,
 				DE97F3682737D8C100D7BA9B /* ScheduledChargingCommandOptions.swift in Sources */,
+				708FBA51274E9D040026CEEF /* EnergySiteHistory.swift in Sources */,
 				CFA984F91CC2545600B23C7D /* TeslaEndpoint.swift in Sources */,
 				1AA73E8C235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */,
 				CFD2E7C91C8A13D60005E882 /* SecondViewController.swift in Sources */,
@@ -819,6 +860,7 @@
 				CFF001A81E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CF0D2F351D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CF14238D1DF360A500CB4D96 /* ViewController+TeslaSwift.swift in Sources */,
+				708FBA48274E9CE40026CEEF /* EnergySiteStatus.swift in Sources */,
 				CF21582F258E369700110C52 /* TeslaSwift+StreamingRx.swift in Sources */,
 				CFF048021F72EDC7006B52F7 /* Distance.swift in Sources */,
 				CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */,
@@ -826,15 +868,22 @@
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF0D2F2B1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
 				CF0D2F291D95A4A900E5A304 /* ClimateState.swift in Sources */,
+				708FBA45274D75E70026CEEF /* Product.swift in Sources */,
 				CF0D2F251D95A4A900E5A304 /* Authentication.swift in Sources */,
 				CF1BD5991DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
 				CF0D2F311D95A4A900E5A304 /* GuiSettings.swift in Sources */,
+				708FBA54274E9D120026CEEF /* BatteryStatus.swift in Sources */,
+				708FBA5D274EA1740026CEEF /* EnergySite.swift in Sources */,
+				708FBA5A274E9D250026CEEF /* BatteryPowerHistory.swift in Sources */,
 				1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */,
 				CF1BD5961DD5051600E4C493 /* SetTemperatureCommandOptions.swift in Sources */,
+				708FBA60274EA4260026CEEF /* ProductViewController.swift in Sources */,
 				1AABBBAA242646E200FFED6C /* Speed.swift in Sources */,
 				CFEAF13D1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
 				CFF001AC1E7561EB00B8139B /* VehicleConfig.swift in Sources */,
+				708FBA4B274E9CEC0026CEEF /* EnergySiteLiveStatus.swift in Sources */,
 				CF215836258E36AB00110C52 /* TeslaSwift+StreamingCombine.swift in Sources */,
+				708FBA4E274E9CF90026CEEF /* EnergySiteInfo.swift in Sources */,
 				CF0D2F2D1D95A4A900E5A304 /* DriveState.swift in Sources */,
 				CF713548256AA59D00988AFE /* TeslaWebLoginViewContoller.swift in Sources */,
 				650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
@@ -844,6 +893,7 @@
 				CF1BD59C1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CFD2E7C71C8A13D60005E882 /* FirstViewController.swift in Sources */,
 				CF215844258E443300110C52 /* StreamControl.swift in Sources */,
+				708FBA57274E9D1A0026CEEF /* BatteryData.swift in Sources */,
 				CFF06D031FB639B8003320E3 /* StreamViewController.swift in Sources */,
 				1A5ED54C233A2C84001B3809 /* TeslaSwift+Rx.swift in Sources */,
 				CF3F851A21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
@@ -855,18 +905,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				176F073E2219ECF6000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
+				708FBA4F274E9CF90026CEEF /* EnergySiteInfo.swift in Sources */,
 				1AA73E87235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */,
+				708FBA61274EA4260026CEEF /* ProductViewController.swift in Sources */,
+				708FBA49274E9CE40026CEEF /* EnergySiteStatus.swift in Sources */,
 				CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CF0D2F261D95A4A900E5A304 /* Authentication.swift in Sources */,
 				CF5FF50E21AADC3E007B6306 /* ShareToVehicleOptions.swift in Sources */,
 				CF0D2F301D95A4A900E5A304 /* GenericResponse.swift in Sources */,
+				708FBA55274E9D120026CEEF /* BatteryStatus.swift in Sources */,
 				CFEAF13E1EACEE550003FA6E /* TeslaStreaming.swift in Sources */,
+				708FBA5B274E9D250026CEEF /* BatteryPowerHistory.swift in Sources */,
 				CF0D2F2E1D95A4A900E5A304 /* DriveState.swift in Sources */,
 				CF1BD59A1DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
 				1AA73E8D235B3FA40088D66A /* MaxDefrostCommandOptions.swift in Sources */,
 				CF1BD59D1DD5070100E4C493 /* RemoteStartDriveCommandOptions.swift in Sources */,
 				CF215830258E369700110C52 /* TeslaSwift+StreamingRx.swift in Sources */,
 				CF215837258E36AB00110C52 /* TeslaSwift+StreamingCombine.swift in Sources */,
+				708FBA52274E9D040026CEEF /* EnergySiteHistory.swift in Sources */,
 				CF0D2F281D95A4A900E5A304 /* ChargeState.swift in Sources */,
 				CF713549256AA59D00988AFE /* TeslaWebLoginViewContoller.swift in Sources */,
 				CFF048031F72EE15006B52F7 /* Distance.swift in Sources */,
@@ -875,8 +931,10 @@
 				CF0D2F2A1D95A4A900E5A304 /* ClimateState.swift in Sources */,
 				CF0D2F341D95A4A900E5A304 /* OpenTrunkOptions.swift in Sources */,
 				CFD2E7DC1C8A13D60005E882 /* TeslaSwiftTests.swift in Sources */,
+				708FBA58274E9D1A0026CEEF /* BatteryData.swift in Sources */,
 				CF0D2F3C1D95A4A900E5A304 /* VehicleState.swift in Sources */,
 				CF1BD5971DD5051600E4C493 /* SetTemperatureCommandOptions.swift in Sources */,
+				708FBA4C274E9CEC0026CEEF /* EnergySiteLiveStatus.swift in Sources */,
 				CF0D2F2C1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
 				CF0D2F321D95A4A900E5A304 /* GuiSettings.swift in Sources */,
 				CF4D4D0E1D81F46000CCE6ED /* TeslaSwift.swift in Sources */,
@@ -889,6 +947,8 @@
 				170D32D622D0EE4D00B6A51A /* NearbyChargingSites.swift in Sources */,
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
+				708FBA5E274EA1740026CEEF /* EnergySite.swift in Sources */,
+				708FBA46274D75E70026CEEF /* Product.swift in Sources */,
 				CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
 				1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
 				650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
