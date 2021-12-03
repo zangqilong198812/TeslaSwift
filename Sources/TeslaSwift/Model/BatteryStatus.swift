@@ -10,8 +10,12 @@ import Foundation
 
 // MARK: - BatteryStatus
 open class BatteryStatus: Codable {
-    let siteName, id: String
-    let energyLeft, totalPackEnergy, percentageCharged, batteryPower: Int
+    open var siteName: String
+    open var id: String
+    open var energyLeft: Int
+    open var totalPackEnergy: Int
+    open var percentageCharged: Int
+    open var batteryPower: Int
 
     enum CodingKeys: String, CodingKey {
         case siteName = "site_name"

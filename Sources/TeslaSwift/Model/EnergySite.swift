@@ -10,15 +10,25 @@ import Foundation
 
 // MARK: - EnergySite
 open class EnergySite: Codable {
-    let energySiteID: Int
-    let resourceType, siteName, id, gatewayID: String
-    let assetSiteID: String
-    let energyLeft, totalPackEnergy, percentageCharged: Int
-    let batteryType: String
-    let backupCapable: Bool
-    let batteryPower: Int
-    let syncGridAlertEnabled, breakerAlertEnabled: Bool
-    let components: Components
+    
+    // Unique to EnergySite
+    open var id: String
+    open var energySiteID: Int
+    open var assetSiteID: String
+    open var components: Components
+    
+    // Also available in EnergySiteStatus
+    open var resourceType: String
+    open var siteName: String
+    open var gatewayID: String
+    open var energyLeft: Int
+    open var totalPackEnergy: Int
+    open var percentageCharged: Int
+    open var batteryType: String
+    open var backupCapable: Bool
+    open var batteryPower: Int
+    open var syncGridAlertEnabled: Bool
+    open var breakerAlertEnabled: Bool
 
     enum CodingKeys: String, CodingKey {
         case energySiteID = "energy_site_id"
@@ -40,13 +50,14 @@ open class EnergySite: Codable {
     
     
     // MARK: - Components
-    struct Components: Codable {
-        let battery: Bool
-        let batteryType: String
-        let solar: Bool
-        let solarType: String
-        let grid, loadMeter: Bool
-        let marketType: String
+    open class Components: Codable {
+        open var battery: Bool
+        open var batteryType: String
+        open var solar: Bool
+        open var solarType: String
+        open var grid: Bool
+        open var loadMeter: Bool
+        open var marketType: String
 
         enum CodingKeys: String, CodingKey {
             case battery

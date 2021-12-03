@@ -10,15 +10,21 @@ import Foundation
 
 // MARK: - EnergySiteLiveStatus
 open class EnergySiteLiveStatus: Codable {
-    let solarPower, energyLeft, totalPackEnergy, percentageCharged: Int
-    let backupCapable: Bool
-    let batteryPower, loadPower: Int
-    let gridStatus: String
-    let gridServicesActive: Bool
-    let gridPower, gridServicesPower, generatorPower: Int
-    let islandStatus: String
-    let stormModeActive: Bool
-    let timestamp: Date
+    open var solarPower: Int
+    open var energyLeft: Int
+    open var totalPackEnergy: Int
+    open var percentageCharged: Int
+    open var backupCapable: Bool
+    open var batteryPower: Int
+    open var loadPower: Int
+    open var gridStatus: String
+    open var gridServicesActive: Bool
+    open var gridPower: Int
+    open var gridServicesPower: Int
+    open var generatorPower: Int
+    open var islandStatus: String
+    open var stormModeActive: Bool
+    open var timestamp: Date
 
     enum CodingKeys: String, CodingKey {
         case solarPower = "solar_power"

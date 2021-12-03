@@ -10,18 +10,21 @@ import Foundation
 
 // MARK: - EnergySiteInfo
 open class EnergySiteInfo: Codable {
-    let id, siteName: String
-    let backupReservePercent: Int
-    let defaultRealMode: String
-    let installationDate: Date
-    let userSettings: UserSettings
-    let components: Components
-    let version: String
-    let batteryCount: Int
-    let touSettings: TOUSettings
-    let nameplatePower, nameplateEnergy: Int
-    let installationTimeZone: String
-    let offGridVehicleChargingReservePercent: Int
+    open var id: String
+    open var siteName: String
+    open var backupReservePercent: Int
+    open var defaultRealMode: String
+    open var installationDate: Date
+    open var version: String
+    open var batteryCount: Int
+    open var nameplatePower: Int
+    open var nameplateEnergy: Int
+    open var installationTimeZone: String
+    open var offGridVehicleChargingReservePercent: Int
+    
+    open var userSettings: UserSettings
+    open var touSettings: TOUSettings
+    open var components: Components
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -41,16 +44,27 @@ open class EnergySiteInfo: Codable {
     
     
     // MARK: - Components
-    struct Components: Codable {
-        let solar: Bool
-        let solarType: String
-        let battery, grid, backup: Bool
-        let gateway: String
-        let loadMeter, touCapable, stormModeCapable, flexEnergyRequestCapable: Bool
-        let carChargingDataSupported, offGridVehicleChargingReserveSupported, vehicleChargingPerformanceViewEnabled, vehicleChargingSolarOffsetViewEnabled: Bool
-        let batterySolarOffsetViewEnabled, setIslandingModeEnabled, backupTimeRemainingEnabled: Bool
-        let batteryType: String
-        let configurable, gridServicesEnabled: Bool
+    open class Components: Codable {
+        open var solar: Bool
+        open var solarType: String
+        open var battery: Bool
+        open var grid: Bool
+        open var backup: Bool
+        open var gateway: String
+        open var loadMeter: Bool
+        open var touCapable: Bool
+        open var stormModeCapable: Bool
+        open var flexEnergyRequestCapable: Bool
+        open var carChargingDataSupported: Bool
+        open var offGridVehicleChargingReserveSupported: Bool
+        open var vehicleChargingPerformanceViewEnabled: Bool
+        open var vehicleChargingSolarOffsetViewEnabled: Bool
+        open var batterySolarOffsetViewEnabled: Bool
+        open var setIslandingModeEnabled: Bool
+        open var backupTimeRemainingEnabled: Bool
+        open var batteryType: String
+        open var configurable: Bool
+        open var gridServicesEnabled: Bool
 
         enum CodingKeys: String, CodingKey {
             case solar
@@ -74,9 +88,9 @@ open class EnergySiteInfo: Codable {
     }
 
     // MARK: - TouSettings
-    struct TOUSettings: Codable {
-        let optimizationStrategy: String
-        let schedule: [Schedule]
+    open class TOUSettings: Codable {
+        open var optimizationStrategy: String
+        open var schedule: [Schedule]
 
         enum CodingKeys: String, CodingKey {
             case optimizationStrategy = "optimization_strategy"
@@ -85,10 +99,11 @@ open class EnergySiteInfo: Codable {
     }
 
     // MARK: - Schedule
-    struct Schedule: Codable {
-        let target: String
-        let weekDays: [Int]
-        let startSeconds, endSeconds: Int
+    open class Schedule: Codable {
+        open var target: String
+        open var weekDays: [Int]
+        open var startSeconds: Int
+        open var endSeconds: Int
 
         enum CodingKeys: String, CodingKey {
             case target
@@ -99,8 +114,10 @@ open class EnergySiteInfo: Codable {
     }
 
     // MARK: - UserSettings
-    struct UserSettings: Codable {
-        let stormModeEnabled, syncGridAlertEnabled, breakerAlertEnabled: Bool
+    open class UserSettings: Codable {
+        open var stormModeEnabled: Bool
+        open var syncGridAlertEnabled: Bool
+        open var breakerAlertEnabled: Bool
 
         enum CodingKeys: String, CodingKey {
             case stormModeEnabled = "storm_mode_enabled"

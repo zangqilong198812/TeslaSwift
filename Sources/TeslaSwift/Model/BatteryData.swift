@@ -10,16 +10,18 @@ import Foundation
 
 // MARK: - Welcome
 open class BatteryData: Codable {
-    let siteName: String
-    let energyLeft, totalPackEnergy: Int
-    let gridStatus: String
-    let backup: Backup
-    let userSettings: UserSettings
-    let components: Components
-    let defaultRealMode, operation: String
-    let installationDate: Date
-    let powerReading: [PowerReading]
-    let batteryCount: Int
+    open var siteName: String
+    open var energyLeft: Int
+    open var totalPackEnergy: Int
+    open var gridStatus: String
+    open var defaultRealMode: String
+    open var operation: String
+    open var installationDate: Date
+    open var batteryCount: Int
+    open var backup: Backup
+    open var userSettings: UserSettings
+    open var components: Components
+    open var powerReading: [PowerReading]
 
     enum CodingKeys: String, CodingKey {
         case siteName = "site_name"
@@ -38,9 +40,9 @@ open class BatteryData: Codable {
     
     
     // MARK: - Backup
-    struct Backup: Codable {
-        let backupReservePercent: Int
-        let events: [Event]
+    open class Backup: Codable {
+        open var backupReservePercent: Int
+        open var events: [Event]
 
         enum CodingKeys: String, CodingKey {
             case backupReservePercent = "backup_reserve_percent"
@@ -49,22 +51,33 @@ open class BatteryData: Codable {
     }
 
     // MARK: - Event
-    struct Event: Codable {
+    open class Event: Codable {
         let timestamp: Date
         let duration: Int
     }
 
     // MARK: - Components
-    struct Components: Codable {
-        let solar: Bool
-        let solarType: String
-        let battery, grid, backup: Bool
-        let gateway: String
-        let loadMeter, touCapable, stormModeCapable, flexEnergyRequestCapable: Bool
-        let carChargingDataSupported, offGridVehicleChargingReserveSupported, vehicleChargingPerformanceViewEnabled, vehicleChargingSolarOffsetViewEnabled: Bool
-        let batterySolarOffsetViewEnabled, setIslandingModeEnabled, backupTimeRemainingEnabled: Bool
-        let batteryType: String
-        let configurable, gridServicesEnabled: Bool
+    open class Components: Codable {
+        open var solar: Bool
+        open var solarType: String
+        open var battery: Bool
+        open var grid: Bool
+        open var backup: Bool
+        open var gateway: String
+        open var loadMeter: Bool
+        open var touCapable: Bool
+        open var stormModeCapable: Bool
+        open var flexEnergyRequestCapable: Bool
+        open var carChargingDataSupported: Bool
+        open var offGridVehicleChargingReserveSupported: Bool
+        open var vehicleChargingPerformanceViewEnabled: Bool
+        open var vehicleChargingSolarOffsetViewEnabled: Bool
+        open var batterySolarOffsetViewEnabled: Bool
+        open var setIslandingModeEnabled: Bool
+        open var backupTimeRemainingEnabled: Bool
+        open var batteryType: String
+        open var configurable: Bool
+        open var gridServicesEnabled: Bool
 
         enum CodingKeys: String, CodingKey {
             case solar
@@ -88,10 +101,13 @@ open class BatteryData: Codable {
     }
 
     // MARK: - PowerReading
-    struct PowerReading: Codable {
-        let timestamp: Date
-        let loadPower, solarPower, gridPower, batteryPower: Int
-        let generatorPower: Int
+    open class PowerReading: Codable {
+        open var timestamp: Date
+        open var loadPower: Int
+        open var solarPower: Int
+        open var gridPower: Int
+        open var batteryPower: Int
+        open var generatorPower: Int
 
         enum CodingKeys: String, CodingKey {
             case timestamp
@@ -104,8 +120,10 @@ open class BatteryData: Codable {
     }
 
     // MARK: - UserSettings
-    struct UserSettings: Codable {
-        let stormModeEnabled, syncGridAlertEnabled, breakerAlertEnabled: Bool
+    open class UserSettings: Codable {
+        open var stormModeEnabled: Bool
+        open var syncGridAlertEnabled: Bool
+        open var breakerAlertEnabled: Bool
 
         enum CodingKeys: String, CodingKey {
             case stormModeEnabled = "storm_mode_enabled"
