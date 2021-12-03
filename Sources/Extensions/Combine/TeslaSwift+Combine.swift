@@ -194,6 +194,17 @@ extension TeslaSwift {
         return future
     }
     
+    public func getProducts() -> Future<[Product], Error> {
+        
+        let future = Future<[Product], Error> { (subscriber: @escaping (Result<[Product], Error>) -> Void) in
+            
+            self.getProducts(completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+    
     public func getEnergySiteStatus(siteID: String) -> Future<EnergySiteStatus, Error> {
         
         let future = Future<EnergySiteStatus, Error> { (subscriber: @escaping (Result<EnergySiteStatus, Error>) -> Void) in

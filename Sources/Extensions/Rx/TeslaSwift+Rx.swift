@@ -208,6 +208,18 @@ extension TeslaSwift {
         
         return future
     }
+    
+    public func getProducts() -> Single<[Product]> {
+        
+        let future = Single<[Product]>.create { (single: @escaping (SingleEvent<[Product]>) -> Void) -> Disposable in
+            self.getProducts(completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+        
     public func getEnergySiteStatus(siteID: String) -> Single<EnergySiteStatus> {
         
         let future = Single<EnergySiteStatus>.create { (single: @escaping (SingleEvent<EnergySiteStatus>) -> Void) -> Disposable in

@@ -248,6 +248,16 @@ extension TeslaSwift {
         
         return promise
     }
+    
+    public func getProducts() -> Promise<[Product]> {
+        
+        let (promise, seal) = Promise<[Product]>.pending()
+        
+        getProducts(completion: promisify(seal: seal))
+        
+        return promise
+    }
+        
     public func getEnergySiteStatus(siteID: String) -> Promise<EnergySiteStatus> {
         
         let (promise, seal) = Promise<EnergySiteStatus>.pending()
