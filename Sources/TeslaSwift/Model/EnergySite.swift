@@ -13,7 +13,7 @@ open class EnergySite: Codable {
     
     // Unique to EnergySite
     open var id: String
-    open var energySiteID: Int
+    open var energySiteID: String
     open var assetSiteID: String
     open var components: Components
     
