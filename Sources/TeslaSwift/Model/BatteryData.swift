@@ -11,8 +11,8 @@ import Foundation
 // MARK: - Welcome
 open class BatteryData: Codable {
     open var siteName: String
-    open var energyLeft: Int
-    open var totalPackEnergy: Int
+    open var energyLeft: Double
+    open var totalPackEnergy: Double
     open var gridStatus: String
     open var defaultRealMode: String
     open var operation: String
@@ -41,7 +41,7 @@ open class BatteryData: Codable {
     
     // MARK: - Backup
     open class Backup: Codable {
-        open var backupReservePercent: Int
+        open var backupReservePercent: Double
         open var events: [Event]
 
         enum CodingKeys: String, CodingKey {
@@ -103,11 +103,11 @@ open class BatteryData: Codable {
     // MARK: - PowerReading
     open class PowerReading: Codable {
         open var timestamp: Date
-        open var loadPower: Int
-        open var solarPower: Int
-        open var gridPower: Int
-        open var batteryPower: Int
-        open var generatorPower: Int
+        open var loadPower: Double
+        open var solarPower: Double
+        open var gridPower: Double
+        open var batteryPower: Double
+        open var generatorPower: Double
 
         enum CodingKeys: String, CodingKey {
             case timestamp

@@ -12,15 +12,15 @@ import Foundation
 open class EnergySiteInfo: Codable {
     open var id: String
     open var siteName: String
-    open var backupReservePercent: Int
+    open var backupReservePercent: Double
     open var defaultRealMode: String
     open var installationDate: Date
     open var version: String
     open var batteryCount: Int
-    open var nameplatePower: Int
-    open var nameplateEnergy: Int
+    open var nameplatePower: Double
+    open var nameplateEnergy: Double
     open var installationTimeZone: String
-    open var offGridVehicleChargingReservePercent: Int
+    open var offGridVehicleChargingReservePercent: Double
     
     open var userSettings: UserSettings
     open var touSettings: TOUSettings

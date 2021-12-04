@@ -34,8 +34,8 @@ open class BatteryPowerHistory: Codable {
         open var solarPower:Double
         open var batteryPower:Double
         open var gridPower: Double
-        open var gridServicesPower:Int
-        open var generatorPower: Int
+        open var gridServicesPower:Double
+        open var generatorPower: Double
 
         enum CodingKeys: String, CodingKey {
             case timestamp

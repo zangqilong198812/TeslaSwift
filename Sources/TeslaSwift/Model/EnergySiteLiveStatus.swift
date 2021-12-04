@@ -10,18 +10,18 @@ import Foundation
 
 // MARK: - EnergySiteLiveStatus
 open class EnergySiteLiveStatus: Codable {
-    open var solarPower: Int
-    open var energyLeft: Int
-    open var totalPackEnergy: Int
-    open var percentageCharged: Int
+    open var solarPower: Double
+    open var energyLeft: Double
+    open var totalPackEnergy: Double
+    open var percentageCharged: Double
     open var backupCapable: Bool
-    open var batteryPower: Int
-    open var loadPower: Int
+    open var batteryPower: Double
+    open var loadPower: Double
     open var gridStatus: String
     open var gridServicesActive: Bool
-    open var gridPower: Int
-    open var gridServicesPower: Int
-    open var generatorPower: Int
+    open var gridPower: Double
+    open var gridServicesPower: Double
+    open var generatorPower: Double
     open var islandStatus: String
     open var stormModeActive: Bool
     open var timestamp: Date
