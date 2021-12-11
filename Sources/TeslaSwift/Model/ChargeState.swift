@@ -16,6 +16,11 @@ open class ChargeState: Codable {
 		case disconnected = "Disconnected"
 		case stopped = "Stopped"
 	}
+    
+    public enum ScheduledChargingTimes: String, Codable {
+        case allWeek = "all_week"
+        case weekdays
+    }
 	
 	open var batteryHeaterOn: Bool?
 	/**
@@ -109,6 +114,12 @@ open class ChargeState: Codable {
 	
 	open var scheduledChargingPending: Bool?
 	open var scheduledChargingStartTime: TimeInterval?
+    open var scheduledDepartureTime: TimeInterval?
+    open var offPeakChargingEnabled: Bool?
+    open var offPeakChargingTimes: ScheduledChargingTimes?
+    open var offPeakHoursEndTime: Int?
+    open var preconditioningEnabled: Bool?
+    open var preconditioningTimes: ScheduledChargingTimes?
 	
 	/**
 	Only valid while charging
@@ -176,6 +187,12 @@ open class ChargeState: Codable {
 		
 		case scheduledChargingPending	 = "scheduled_charging_pending"
 		case scheduledChargingStartTime	 = "scheduled_charging_start_time"
+        case scheduledDepartureTime      = "scheduled_departure_time"
+        case offPeakChargingEnabled      = "off_peak_charging_enabled"
+        case offPeakChargingTimes        = "off_peak_charging_times"
+        case offPeakHoursEndTime         = "off_peak_hours_end_time"
+        case preconditioningEnabled      = "preconditioning_enabled"
+        case preconditioningTimes        = "preconditioning_times"
 		
 		case timeToFullCharge             = "time_to_full_charge"
 		
@@ -256,7 +273,12 @@ open class ChargeState: Codable {
 		
 		scheduledChargingPending = try? container.decode(Bool.self, forKey: .scheduledChargingPending)
 		scheduledChargingStartTime = try? container.decode(TimeInterval.self, forKey: .scheduledChargingStartTime)
-		
+        scheduledDepartureTime = try? container.decode(TimeInterval.self, forKey: .scheduledDepartureTime)
+        offPeakChargingEnabled = try? container.decode(Bool.self, forKey: .offPeakChargingEnabled)
+        offPeakChargingTimes = try? container.decode(ScheduledChargingTimes.self, forKey: .offPeakChargingTimes)
+        offPeakHoursEndTime = try? container.decode(Int.self, forKey: .offPeakHoursEndTime)
+        preconditioningEnabled = try? container.decode(Bool.self, forKey: .preconditioningEnabled)
+        preconditioningTimes = try? container.decode(ScheduledChargingTimes.self, forKey: .preconditioningTimes)
 
 		timeToFullCharge = try? container.decode(Double.self, forKey: .timeToFullCharge)
 		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
@@ -330,6 +352,12 @@ open class ChargeState: Codable {
 		
 		try container.encodeIfPresent(scheduledChargingPending, forKey: .scheduledChargingPending)
 		try container.encodeIfPresent(scheduledChargingStartTime, forKey: .scheduledChargingStartTime)
+        try container.encodeIfPresent(scheduledDepartureTime, forKey: .scheduledDepartureTime)
+        try container.encodeIfPresent(offPeakChargingEnabled, forKey: .offPeakChargingEnabled)
+        try container.encodeIfPresent(offPeakChargingTimes, forKey: .offPeakChargingTimes)
+        try container.encodeIfPresent(offPeakHoursEndTime, forKey: .offPeakHoursEndTime)
+        try container.encodeIfPresent(preconditioningEnabled, forKey: .preconditioningEnabled)
+        try container.encodeIfPresent(preconditioningTimes, forKey: .preconditioningTimes)
 		
 		try container.encodeIfPresent(timeToFullCharge, forKey: .timeToFullCharge)
 		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)

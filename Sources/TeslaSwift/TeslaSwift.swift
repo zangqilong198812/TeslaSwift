@@ -20,6 +20,8 @@ public enum VehicleCommand {
 	case chargeLimitPercentage(limit: Int)
 	case startCharging
 	case stopCharging
+    case scheduledCharging(enable: Bool, time: Int)
+    case scheduledDeparture(options: ScheduledDepartureCommandOptions)
 	case flashLights
     case triggerHomeLink(location: CLLocation)
 	case honkHorn
@@ -842,7 +844,6 @@ extension TeslaSwift {
             case .failure(let error):
                 completion(Result.failure(error))
             case .success(_):
-                
                     switch command {
                         case let .setMaxDefrost(on: state):
                             let body = MaxDefrostCommandOptions(state: state)
@@ -902,8 +903,6 @@ extension TeslaSwift {
                             let body = nullBody
                             self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                     }
-
-
             }
 
         }
