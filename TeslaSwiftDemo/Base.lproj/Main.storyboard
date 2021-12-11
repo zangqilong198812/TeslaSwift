@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -99,7 +99,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="Bbt-TU-HOi" detailTextLabel="ulw-nk-We8" style="IBUITableViewCellStyleValue1" id="KGv-NT-M2M">
-                                        <rect key="frame" x="0.0" y="24.5" width="343" height="44"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGv-NT-M2M" id="N9i-Hr-k3f">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dL3-Y4-FTE">
-                                <rect key="frame" x="16" y="174" width="343" height="424"/>
+                                <rect key="frame" x="16" y="204" width="343" height="394"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -276,6 +276,13 @@
                                     <action selector="logout:" destination="hQa-7w-LXN" eventType="touchUpInside" id="vcY-Zf-xNP"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z7f-gf-SKe">
+                                <rect key="frame" x="17" y="174" width="77" height="30"/>
+                                <state key="normal" title="Amps to 16"/>
+                                <connections>
+                                    <action selector="ampsTo16:" destination="hQa-7w-LXN" eventType="touchUpInside" id="mh4-Fz-TvV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Xr7-QY-Fkr"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -291,7 +298,7 @@
                             <constraint firstItem="g7a-lS-cgG" firstAttribute="leading" secondItem="V2I-wH-VVW" secondAttribute="trailing" constant="8" symbolic="YES" id="Csl-37-NKC"/>
                             <constraint firstItem="VFT-h9-uZn" firstAttribute="leading" secondItem="Xr7-QY-Fkr" secondAttribute="leading" constant="16" id="Foa-wU-Qu3"/>
                             <constraint firstItem="ugC-lm-CpD" firstAttribute="bottom" secondItem="RLA-89-uZU" secondAttribute="bottom" id="GjJ-te-7to"/>
-                            <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="130" id="Ifi-ov-SfX"/>
+                            <constraint firstItem="dL3-Y4-FTE" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="160" id="Ifi-ov-SfX"/>
                             <constraint firstItem="NiR-K7-WLA" firstAttribute="bottom" secondItem="ySF-V2-hJS" secondAttribute="bottom" id="JIz-DV-zDK"/>
                             <constraint firstItem="ugC-lm-CpD" firstAttribute="leading" secondItem="RLA-89-uZU" secondAttribute="trailing" constant="53.5" id="JJ2-l6-kNg"/>
                             <constraint firstItem="VFT-h9-uZn" firstAttribute="top" secondItem="1iA-0c-01W" secondAttribute="bottom" constant="7" id="Jpf-2w-9JS"/>
@@ -313,10 +320,12 @@
                             <constraint firstItem="v8v-jY-iJa" firstAttribute="top" secondItem="Xr7-QY-Fkr" secondAttribute="top" constant="37" id="pww-bt-4nh"/>
                             <constraint firstItem="qDa-tz-cjg" firstAttribute="baseline" secondItem="V2I-wH-VVW" secondAttribute="baseline" id="toM-KE-baz"/>
                             <constraint firstItem="xP4-ae-x7r" firstAttribute="trailing" secondItem="dL3-Y4-FTE" secondAttribute="trailing" id="u7E-K6-cVx"/>
+                            <constraint firstItem="z7f-gf-SKe" firstAttribute="leading" secondItem="Xr7-QY-Fkr" secondAttribute="leading" constant="17" id="uZw-bm-0UC"/>
                             <constraint firstItem="yUy-VO-gOX" firstAttribute="leading" secondItem="VFT-h9-uZn" secondAttribute="trailing" constant="16" id="uxG-li-1JI"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="leading" secondItem="Xr7-QY-Fkr" secondAttribute="leading" constant="16" id="vFA-SY-OzU"/>
                             <constraint firstItem="Xr7-QY-Fkr" firstAttribute="trailing" secondItem="0TU-qj-zp8" secondAttribute="trailing" constant="17" id="w3z-0J-Mqe"/>
                             <constraint firstItem="RLA-89-uZU" firstAttribute="leading" secondItem="1iA-0c-01W" secondAttribute="trailing" constant="25" id="xgg-rv-Kjc"/>
+                            <constraint firstItem="z7f-gf-SKe" firstAttribute="top" secondItem="VFT-h9-uZn" secondAttribute="bottom" constant="1" id="yFC-tD-Hdh"/>
                             <constraint firstItem="1iA-0c-01W" firstAttribute="top" secondItem="V2I-wH-VVW" secondAttribute="bottom" constant="32" id="yja-yV-dgv"/>
                             <constraint firstItem="ySF-V2-hJS" firstAttribute="leading" secondItem="g7a-lS-cgG" secondAttribute="trailing" constant="8" id="zKE-0q-Uzy"/>
                         </constraints>

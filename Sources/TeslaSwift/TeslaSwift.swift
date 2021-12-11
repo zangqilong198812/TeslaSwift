@@ -50,100 +50,103 @@ public enum VehicleCommand {
 	case setSteeringWheelHeater(on: Bool)
 	case sentryMode(activated: Bool)
     case windowControl(state: WindowState)
+    case setCharging(amps: Int)
 	
 	func path() -> String {
-		switch self {
-		case .valetMode:
-			return "command/set_valet_mode"
-		case .resetValetPin:
-			return "command/reset_valet_pin"
-		case .openChargeDoor:
-			return "command/charge_port_door_open"
-		case .closeChargeDoor:
-			return "command/charge_port_door_close"
-		case .chargeLimitStandard:
-			return "command/charge_standard"
-		case .chargeLimitMaxRange:
-			return "command/charge_max_range"
-		case .chargeLimitPercentage:
-			return  "command/set_charge_limit"
-		case .startCharging:
-			return  "command/charge_start"
-		case .stopCharging:
-			return "command/charge_stop"
-		case .flashLights:
-			return "command/flash_lights"
-        case .triggerHomeLink:
-            return "command/trigger_homelink"
-		case .honkHorn:
-			return "command/honk_horn"
-		case .unlockDoors:
-			return "command/door_unlock"
-		case .lockDoors:
-			return "command/door_lock"
-		case .setTemperature:
-			return "command/set_temps"
-        case .setMaxDefrost:
-            return "command/set_preconditioning_max"
-		case .startAutoConditioning:
-			return "command/auto_conditioning_start"
-		case .stopAutoConditioning:
-			return "command/auto_conditioning_stop"
-		case .setSunRoof:
-			return "command/sun_roof_control"
-		case .startVehicle:
-			return "command/remote_start_drive"
-		case .openTrunk:
-			return "command/actuate_trunk"
-		case .togglePlayback:
-			return "command/media_toggle_playback"
-		case .nextTrack:
-			return "command/media_next_track"
-		case .previousTrack:
-			return "command/media_prev_track"
-		case .nextFavorite:
-			return "command/media_next_fav"
-		case .previousFavorite:
-			return "command/media_prev_fav"
-		case .volumeUp:
-			return "command/media_volume_up"
-		case .volumeDown:
-			return "command/media_volume_down"
-		case .shareToVehicle:
-            return "command/share"
-		case .scheduleSoftwareUpdate:
-            return "command/schedule_software_update"
-		case .cancelSoftwareUpdate:
-            return "command/cancel_software_update"
-		case .speedLimitSetLimit:
-			return "command/speed_limit_set_limit"
-		case .speedLimitActivate:
-			return "command/speed_limit_activate"
-		case .speedLimitDeactivate:
-			return "command/speed_limit_deactivate"
-		case .speedLimitClearPin:
-			return "command/speed_limit_clear_pin"
-		case .setSeatHeater:
-			return "command/remote_seat_heater_request"
-		case .setSteeringWheelHeater:
-			return "command/remote_steering_wheel_heater_request"
-		case .sentryMode:
-			return "command/set_sentry_mode"
-        case .windowControl:
-            return "command/window_control"
-		}
-	}
+        switch self {
+            case .valetMode:
+                return "command/set_valet_mode"
+            case .resetValetPin:
+                return "command/reset_valet_pin"
+            case .openChargeDoor:
+                return "command/charge_port_door_open"
+            case .closeChargeDoor:
+                return "command/charge_port_door_close"
+            case .chargeLimitStandard:
+                return "command/charge_standard"
+            case .chargeLimitMaxRange:
+                return "command/charge_max_range"
+            case .chargeLimitPercentage:
+                return  "command/set_charge_limit"
+            case .startCharging:
+                return  "command/charge_start"
+            case .stopCharging:
+                return "command/charge_stop"
+            case .flashLights:
+                return "command/flash_lights"
+            case .triggerHomeLink:
+                return "command/trigger_homelink"
+            case .honkHorn:
+                return "command/honk_horn"
+            case .unlockDoors:
+                return "command/door_unlock"
+            case .lockDoors:
+                return "command/door_lock"
+            case .setTemperature:
+                return "command/set_temps"
+            case .setMaxDefrost:
+                return "command/set_preconditioning_max"
+            case .startAutoConditioning:
+                return "command/auto_conditioning_start"
+            case .stopAutoConditioning:
+                return "command/auto_conditioning_stop"
+            case .setSunRoof:
+                return "command/sun_roof_control"
+            case .startVehicle:
+                return "command/remote_start_drive"
+            case .openTrunk:
+                return "command/actuate_trunk"
+            case .togglePlayback:
+                return "command/media_toggle_playback"
+            case .nextTrack:
+                return "command/media_next_track"
+            case .previousTrack:
+                return "command/media_prev_track"
+            case .nextFavorite:
+                return "command/media_next_fav"
+            case .previousFavorite:
+                return "command/media_prev_fav"
+            case .volumeUp:
+                return "command/media_volume_up"
+            case .volumeDown:
+                return "command/media_volume_down"
+            case .shareToVehicle:
+                return "command/share"
+            case .scheduleSoftwareUpdate:
+                return "command/schedule_software_update"
+            case .cancelSoftwareUpdate:
+                return "command/cancel_software_update"
+            case .speedLimitSetLimit:
+                return "command/speed_limit_set_limit"
+            case .speedLimitActivate:
+                return "command/speed_limit_activate"
+            case .speedLimitDeactivate:
+                return "command/speed_limit_deactivate"
+            case .speedLimitClearPin:
+                return "command/speed_limit_clear_pin"
+            case .setSeatHeater:
+                return "command/remote_seat_heater_request"
+            case .setSteeringWheelHeater:
+                return "command/remote_steering_wheel_heater_request"
+            case .sentryMode:
+                return "command/set_sentry_mode"
+            case .windowControl:
+                return "command/window_control"
+            case .setCharging:
+                return "command/set_charging_amps"
+        }
+    }
 }
 
 public enum TeslaError: Error, Equatable {
-	case networkError(error: NSError)
-	case authenticationRequired
-	case authenticationFailed
-	case tokenRevoked
+    case networkError(error: NSError)
+    case authenticationRequired
+    case authenticationFailed
+    case tokenRevoked
     case noTokenToRefresh
     case tokenRefreshFailed
-	case invalidOptionsForCommand
-	case failedToParseData
+    case invalidOptionsForCommand
+    case failedToParseData
     case failedToReloadVehicle
     case internalError
 }
@@ -152,23 +155,23 @@ let ErrorInfo = "ErrorInfo"
 private var nullBody = ""
 
 open class TeslaSwift {
-	
-	open var useMockServer = false
-	open var debuggingEnabled = false
-	
+
+    open var useMockServer = false
+    open var debuggingEnabled = false
+
     open fileprivate(set) var token: AuthToken?
-	
+
     open fileprivate(set) var email: String?
-	fileprivate var password: String?
-	
-	public init() { }
+    fileprivate var password: String?
+
+    public init() { }
 }
 
 extension TeslaSwift {
-	
-	public var isAuthenticated: Bool {
-		return token != nil && (token?.isValid ?? false)
-	}
+
+    public var isAuthenticated: Bool {
+        return token != nil && (token?.isValid ?? false)
+    }
 
 
     /**
@@ -840,85 +843,88 @@ extension TeslaSwift {
                 completion(Result.failure(error))
             case .success(_):
                 
-    			switch command {
-                case let .setMaxDefrost(on: state):
-                    let body = MaxDefrostCommandOptions(state: state)
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .triggerHomeLink(coordinates):
-                    let body = HomeLinkCommandOptions(coordinates: coordinates)
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .valetMode(valetActivated, pin):
-                    let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .openTrunk(options):
-					let body = options
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .shareToVehicle(address):
-                    let body = address
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .chargeLimitPercentage(limit):
-					let body = ChargeLimitPercentageCommandOptions(limit: limit)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .setTemperature(driverTemperature, passengerTemperature):
-					 let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .setSunRoof(state, percent):
-					 let body = SetSunRoofCommandOptions(state: state, percent: percent)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .startVehicle(password):
-					 let body = RemoteStartDriveCommandOptions(password: password)
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .speedLimitSetLimit(speed):
-					 let body = SetSpeedLimitOptions(limit: speed)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .speedLimitActivate(pin):
-					 let body = SpeedLimitPinOptions(pin: pin)
-					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .speedLimitDeactivate(pin):
-					 let body = SpeedLimitPinOptions(pin: pin)
-					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				case let .speedLimitClearPin(pin):
-					 let body = SpeedLimitPinOptions(pin: pin)
-					 self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .setSeatHeater(seat, level):
-                     let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .setSteeringWheelHeater(on):
-                     let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .sentryMode(activated):
-                     let body = SentryModeCommandOptions(activated: activated)
-                     self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                case let .windowControl(state):
-                    let body = WindowControlCommandOptions(command: state)
-                    self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				default:
-                    let body = nullBody
-					self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-				}
-                
-                
+                    switch command {
+                        case let .setMaxDefrost(on: state):
+                            let body = MaxDefrostCommandOptions(state: state)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .triggerHomeLink(coordinates):
+                            let body = HomeLinkCommandOptions(coordinates: coordinates)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .valetMode(valetActivated, pin):
+                            let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .openTrunk(options):
+                            let body = options
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .shareToVehicle(address):
+                            let body = address
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .chargeLimitPercentage(limit):
+                            let body = ChargeLimitPercentageCommandOptions(limit: limit)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .setTemperature(driverTemperature, passengerTemperature):
+                            let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .setSunRoof(state, percent):
+                            let body = SetSunRoofCommandOptions(state: state, percent: percent)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .startVehicle(password):
+                            let body = RemoteStartDriveCommandOptions(password: password)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .speedLimitSetLimit(speed):
+                            let body = SetSpeedLimitOptions(limit: speed)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .speedLimitActivate(pin):
+                            let body = SpeedLimitPinOptions(pin: pin)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .speedLimitDeactivate(pin):
+                            let body = SpeedLimitPinOptions(pin: pin)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .speedLimitClearPin(pin):
+                            let body = SpeedLimitPinOptions(pin: pin)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .setSeatHeater(seat, level):
+                            let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .setSteeringWheelHeater(on):
+                            let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .sentryMode(activated):
+                            let body = SentryModeCommandOptions(activated: activated)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .windowControl(state):
+                            let body = WindowControlCommandOptions(command: state)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .setCharging(amps):
+                            let body = ChargeAmpsCommandOptions(amps: amps)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        default:
+                            let body = nullBody
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                    }
+
+
             }
-		
-		}
-		
-	}
+
+        }
+
+    }
 }
 
 extension TeslaSwift {
-	
-	func checkToken() -> Bool {
-		if let token = self.token {
-			return token.isValid
-		} else {
-			return false
-		}
-	}
-	
+
+    func checkToken() -> Bool {
+        if let token = self.token {
+            return token.isValid
+        } else {
+            return false
+        }
+    }
+
     func cleanToken()  {
-		token = nil
-	}
-	
+        token = nil
+    }
+
     func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
         guard let token = self.token else { completion(Result.failure(TeslaError.authenticationRequired)); return }
 

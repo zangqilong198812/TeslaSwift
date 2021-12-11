@@ -94,6 +94,8 @@
 		CF4D4D0F1D81F46B00CCE6ED /* TeslaEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */; };
 		CF5D13A71CB41BAE00744DCC /* WakeUp.json in Resources */ = {isa = PBXBuildFile; fileRef = CF5D13A61CB41BAE00744DCC /* WakeUp.json */; };
 		CF5FF50E21AADC3E007B6306 /* ShareToVehicleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F055172173DB3D00BE3BE5 /* ShareToVehicleOptions.swift */; };
+		CF67D222272D49D100738CB3 /* ChargeAmpsCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF67D221272D49D100738CB3 /* ChargeAmpsCommandOptions.swift */; };
+		CF67D223272D49D100738CB3 /* ChargeAmpsCommandOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF67D221272D49D100738CB3 /* ChargeAmpsCommandOptions.swift */; };
 		CF713548256AA59D00988AFE /* TeslaWebLoginViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF713547256AA59D00988AFE /* TeslaWebLoginViewContoller.swift */; };
 		CF713549256AA59D00988AFE /* TeslaWebLoginViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF713547256AA59D00988AFE /* TeslaWebLoginViewContoller.swift */; };
 		CFA984E61CBD6E0C00B23C7D /* SetValetMode.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA984E51CBD6E0C00B23C7D /* SetValetMode.json */; };
@@ -225,6 +227,7 @@
 		CF5D13A61CB41BAE00744DCC /* WakeUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WakeUp.json; sourceTree = "<group>"; };
 		CF5FF51021AAED84007B6306 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
 		CF5FF51121AAED8A007B6306 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .swiftlint.yml; path = ../.swiftlint.yml; sourceTree = "<group>"; };
+		CF67D221272D49D100738CB3 /* ChargeAmpsCommandOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeAmpsCommandOptions.swift; sourceTree = "<group>"; };
 		CF713547256AA59D00988AFE /* TeslaWebLoginViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaWebLoginViewContoller.swift; sourceTree = "<group>"; };
 		CF8D0CFE1D971B320069FFFE /* Pods_TeslaSwift_TeslaSwiftTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_TeslaSwift_TeslaSwiftTests.framework; path = "../../Library/Developer/Xcode/DerivedData/TeslaSwift-dvxfesbvbekzvlebgextwccbvtxb/Build/Products/Debug-iphonesimulator/Pods_TeslaSwift_TeslaSwiftTests.framework"; sourceTree = "<group>"; };
 		CFA037A31C8A160600FA2423 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
@@ -348,6 +351,7 @@
 				CFF001A71E755CF800B8139B /* VehicleExtended.swift */,
 				CF0D2F241D95A4A900E5A304 /* VehicleState.swift */,
 				1AA73E88235B3A960088D66A /* WindowControlCommandOptions.swift */,
+				CF67D221272D49D100738CB3 /* ChargeAmpsCommandOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -797,6 +801,7 @@
 				1AA73E89235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
 				1AC5CB1222DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */,
 				7D161BA01E9DC805001C89ED /* StreamEvent.swift in Sources */,
+				CF67D222272D49D100738CB3 /* ChargeAmpsCommandOptions.swift in Sources */,
 				CF1BD5931DD5041800E4C493 /* ChargeLimitPercentageCommandOptions.swift in Sources */,
 				CFB5D7B71E66088F003EA1EF /* ErrorMessage.swift in Sources */,
 				65F055182173DB3D00BE3BE5 /* ShareToVehicleOptions.swift in Sources */,
@@ -879,6 +884,7 @@
 				CF0D2F361D95A4A900E5A304 /* ValetCommandOptions.swift in Sources */,
 				CFF001A91E755CF800B8139B /* VehicleExtended.swift in Sources */,
 				CF3F851B21C51FC30086B564 /* SpeedLimitOptions.swift in Sources */,
+				CF67D223272D49D100738CB3 /* ChargeAmpsCommandOptions.swift in Sources */,
 				1AA73E8A235B3A960088D66A /* WindowControlCommandOptions.swift in Sources */,
 				650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */,
 				CFB5D7B81E66088F003EA1EF /* ErrorMessage.swift in Sources */,

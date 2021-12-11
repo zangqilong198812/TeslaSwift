@@ -169,6 +169,20 @@ class VehicleViewController: UIViewController {
         }
     }
 
+    @IBAction func ampsTo16(_ sender: Any) {
+        if let vehicle = vehicle {
+            _ = api.sendCommandToVehicle(vehicle, command: .setCharging(amps: 16)).done {
+                (response:CommandResponse) -> Void in
+
+                self.textView.text = (response.result! ? "true" : "false")
+                if let reason = response.reason {
+                    self.textView.text.append(reason)
+                }
+            }
+        }
+
+
+    }
     @IBAction func revokeToken(_ sender: Any) {
         api.revokeWeb { (result: Result<Bool, Error>) in
             DispatchQueue.main.async {
