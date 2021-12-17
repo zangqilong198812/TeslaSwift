@@ -12,7 +12,7 @@ import Foundation
 open class EnergySite: Codable {
     
     // Unique to EnergySite
-    open var id: String
+    open var id: String?
     open var energySiteID: Decimal
     open var assetSiteID: String
     open var components: Components
