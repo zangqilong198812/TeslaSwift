@@ -14,8 +14,8 @@ open class EnergySite: Codable {
     // Unique to EnergySite
     open var id: String?
     open var energySiteID: Decimal
-    open var assetSiteID: String
-    open var components: Components
+    open var assetSiteID: String?
+    open var components: Components?
     
     // Also available in EnergySiteStatus
     open var resourceType: String
