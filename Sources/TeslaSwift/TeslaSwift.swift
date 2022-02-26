@@ -74,6 +74,10 @@ public enum VehicleCommand {
                 return  "command/charge_start"
             case .stopCharging:
                 return "command/charge_stop"
+            case .scheduledCharging:
+                return "command/set_scheduled_charging"
+            case .scheduledDeparture:
+                return "command/set_scheduled_departure"
             case .flashLights:
                 return "command/flash_lights"
             case .triggerHomeLink:
@@ -859,6 +863,11 @@ extension TeslaSwift {
                             self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                         case let .shareToVehicle(address):
                             let body = address
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .scheduledCharging(enable, time):
+                            let body = ScheduledChargingCommandOptions(enable: enable, time: time)
+                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
+                        case let .scheduledDeparture(body):
                             self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
                         case let .chargeLimitPercentage(limit):
                             let body = ChargeLimitPercentageCommandOptions(limit: limit)
