@@ -208,4 +208,93 @@ extension TeslaSwift {
         
         return future
     }
+    
+    public func getProducts() -> Single<[Product]> {
+        
+        let future = Single<[Product]>.create { (single: @escaping (SingleEvent<[Product]>) -> Void) -> Disposable in
+            self.getProducts(completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+        
+    public func getEnergySiteStatus(siteID: String) -> Single<EnergySiteStatus> {
+        
+        let future = Single<EnergySiteStatus>.create { (single: @escaping (SingleEvent<EnergySiteStatus>) -> Void) -> Disposable in
+            self.getEnergySiteStatus(siteID: siteID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
+    public func getEnergySiteLiveStatus(siteID: String) -> Single<EnergySiteLiveStatus> {
+        
+        let future = Single<EnergySiteLiveStatus>.create { (single: @escaping (SingleEvent<EnergySiteLiveStatus>) -> Void) -> Disposable in
+            self.getEnergySiteLiveStatus(siteID: siteID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
+    public func getEnergySiteInfo(siteID: String) -> Single<EnergySiteInfo> {
+        
+        let future = Single<EnergySiteInfo>.create { (single: @escaping (SingleEvent<EnergySiteInfo>) -> Void) -> Disposable in
+            self.getEnergySiteInfo(siteID: siteID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
+    public func getEnergySiteHistory(siteID: String, period: EnergySiteHistory.Period) -> Single<EnergySiteHistory> {
+        
+        let future = Single<EnergySiteHistory>.create { (single: @escaping (SingleEvent<EnergySiteHistory>) -> Void) -> Disposable in
+            self.getEnergySiteHistory(siteID: siteID, period: period, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
+    public func getBatteryStatus(batteryID: String) -> Single<BatteryStatus> {
+        
+        let future = Single<BatteryStatus>.create { (single: @escaping (SingleEvent<BatteryStatus>) -> Void) -> Disposable in
+            self.getBatteryStatus(batteryID: batteryID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
+    public func getBatteryData(batteryID: String) -> Single<BatteryData> {
+        
+        let future = Single<BatteryData>.create { (single: @escaping (SingleEvent<BatteryData>) -> Void) -> Disposable in
+            self.getBatteryData(batteryID: batteryID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
+    public func getBatteryPowerHistory(batteryID: String) -> Single<BatteryPowerHistory> {
+        
+        let future = Single<BatteryPowerHistory>.create { (single: @escaping (SingleEvent<BatteryPowerHistory>) -> Void) -> Disposable in
+            self.getBatteryPowerHistory(batteryID: batteryID, completion: self.singlefy(subscriber: single))
+            
+            return Disposables.create { }
+        }
+        
+        return future
+    }
+
 }
