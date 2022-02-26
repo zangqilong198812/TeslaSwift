@@ -193,6 +193,94 @@ extension TeslaSwift {
         
         return future
     }
+    
+    public func getProducts() -> Future<[Product], Error> {
+        
+        let future = Future<[Product], Error> { (subscriber: @escaping (Result<[Product], Error>) -> Void) in
+            
+            self.getProducts(completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+    
+    public func getEnergySiteStatus(siteID: String) -> Future<EnergySiteStatus, Error> {
+        
+        let future = Future<EnergySiteStatus, Error> { (subscriber: @escaping (Result<EnergySiteStatus, Error>) -> Void) in
+            
+            self.getEnergySiteStatus(siteID: siteID, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+
+    public func getEnergySiteLiveStatus(siteID: String) -> Future<EnergySiteLiveStatus, Error> {
+        
+        let future = Future<EnergySiteLiveStatus, Error> { (subscriber: @escaping (Result<EnergySiteLiveStatus, Error>) -> Void) in
+            
+            self.getEnergySiteLiveStatus(siteID: siteID, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+
+    public func getEnergySiteInfo(siteID: String) -> Future<EnergySiteInfo, Error> {
+        
+        let future = Future<EnergySiteInfo, Error> { (subscriber: @escaping (Result<EnergySiteInfo, Error>) -> Void) in
+            
+            self.getEnergySiteInfo(siteID: siteID, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+
+    public func getEnergySiteHistory(siteID: String, period: EnergySiteHistory.Period) -> Future<EnergySiteHistory, Error> {
+        
+        let future = Future<EnergySiteHistory, Error> { (subscriber: @escaping (Result<EnergySiteHistory, Error>) -> Void) in
+            
+            self.getEnergySiteHistory(siteID: siteID, period: period, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+
+    public func getBatteryStatus(batteryID: String) -> Future<BatteryStatus, Error> {
+        
+        let future = Future<BatteryStatus, Error> { (subscriber: @escaping (Result<BatteryStatus, Error>) -> Void) in
+            
+            self.getBatteryStatus(batteryID: batteryID, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+
+    public func getBatteryData(batteryID: String) -> Future<BatteryData, Error> {
+        
+        let future = Future<BatteryData, Error> { (subscriber: @escaping (Result<BatteryData, Error>) -> Void) in
+            
+            self.getBatteryData(batteryID: batteryID, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
+
+    public func getBatteryPowerHistory(batteryID: String) -> Future<BatteryPowerHistory, Error> {
+        
+        let future = Future<BatteryPowerHistory, Error> { (subscriber: @escaping (Result<BatteryPowerHistory, Error>) -> Void) in
+            
+            self.getBatteryPowerHistory(batteryID: batteryID, completion: self.resultify(subscriber: subscriber))
+            
+        }
+        
+        return future
+    }
 }
 
 #endif
