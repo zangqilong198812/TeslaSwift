@@ -11,53 +11,35 @@ import XCTest
 import OHHTTPStubs
 
 class TeslaSwiftTests: XCTestCase {
-	
 	let headers = ["Content-Type" as NSObject :"application/json" as AnyObject]
+    var reuseToken: AuthToken! = """
+                                    { "access_token": "123", "expires_in": 300 }
+                                """.decodeJSON()
 	
 	override func setUp() {
 		super.setUp()
-		// Put setup code here. This method is called before the invocation of each test method in the class.
-		
-		let stubPath = OHPathForFile("Authentication.json", type(of: self))
-		_ = stub(condition: isPath(Endpoint.authentication.path)) {
-			_ in
-			return fixture(filePath: stubPath!, headers: self.headers)
-		}
-		
 		let path2 = OHPathForFile("Vehicles.json", type(of: self))
 		_ = stub(condition: isPath(Endpoint.vehicles.path)) {
 			_ in
 			return fixture(filePath: path2!, headers: self.headers)
 		}
-	}
-	
-	override func tearDown() {
-		// Put teardown code here. This method is called after the invocation of each test method in the class.
-		super.tearDown()
-		
-	}
+    }
 	
 	// MARK: - Authentication -
-	
+	/*
 	func testAuthenticate() {
 		
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
-		service.authenticate(email: "user", password: "pass")
-			.done { (response) -> Void in
-				
-				XCTAssertEqual(response.accessToken, "abc123-mock")
-				expection.fulfill()
-			}.catch { (error) in
-				print(error)
-		}
-		
+        let vc = service.authenticateWeb(completion: { result in
+            XCTAssertEqual(response.accessToken, "abc123-mock")
+            expection.fulfill()
+        })
 		waitForExpectations(timeout: 2, handler: nil)
-		
 	}
+
 	
 	func testAuthenticationFailed() {
 		
@@ -70,7 +52,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass")
 			.done { (response) -> Void in
@@ -87,15 +68,14 @@ class TeslaSwiftTests: XCTestCase {
 		}
 		
 		waitForExpectations(timeout: 2, handler: nil)
-		
 	}
+
 	
 	func testReuseFailedToken() {
 		
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		_ = service.authenticate(email: "user", password: "pass")
 			.done {
@@ -112,13 +92,13 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
+
 	
 	func testReuseToken() {
 		
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		_ = service.authenticate(email: "user", password: "pass")
 			.done {
@@ -136,39 +116,29 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
+     */
 	
 	// MARK: - Vehicles -
 	
 	func testGetVehicles() {
-		
 		let expection = expectation(description: "All Done")
 		
-		let service = TeslaSwift()
-		service.useMockServer = true
-		
-		_ = service.authenticate(email: "user", password: "pass")
-			.done {
-				(_) in
-				service.getVehicles()
-					.done {
-						(response) in
-						
-						XCTAssertEqual(response[0].displayName, "mockCar")
-						
-						expection.fulfill()
-						
-					}.catch{ (error) in
-						print(error)
-						XCTFail((error as NSError).description)
-				}
-		}
-		
-		waitForExpectations(timeout: 2, handler: nil)
-		
-	}
-	
+        let service = TeslaSwift()
+        service.reuse(token: reuseToken, email: "user")
+        service.getVehicles(completion: { result in
+            switch result {
+                case let .success(vehicles):
+                    XCTAssertEqual(vehicles[0].displayName, "mockCar")
+                case let .failure(error):
+                    XCTFail((error as NSError).description)
+            }
+            expection.fulfill()
+        })
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
 	// MARK: - Vehicle states -
-	
+
 	func testGetVehicleMobileState() {
 		
 		let stubPath = OHPathForFile("MobileAccess.json", type(of: self))
@@ -180,26 +150,27 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
+        service.reuse(token: reuseToken, email: "user")
 		
-		service.authenticate(email: "user", password: "pass").then { (token) in
-			service.getVehicles()
-			}.then { (vehicles)  in
-				service.getVehicleMobileAccessState(vehicles[0])
-			}.done { (response) -> Void in
-				
-				XCTAssertEqual(response, false)
-				
-				expection.fulfill()
-			}.catch { (error) in
-				print(error)
-				XCTFail((error as NSError).description)
-		}
-		
+        service.getVehicles(completion: { result in
+            if let vehicles = try? result.get() {
+                service.getVehicleMobileAccessState(vehicles[0]) { result2 in
+                    if let response = try? result2.get() {
+                        XCTAssertFalse(response)
+                    } else {
+                        XCTFail()
+                    }
+                    expection.fulfill()
+                }
+            } else {
+                XCTFail()
+                expection.fulfill()
+            }
+        })
 		waitForExpectations(timeout: 2, handler: nil)
 		
 	}
-	
+    /*
 	func testGetAllStates() {
 		
 		let stubPath2 = OHPathForFile("AllStates.json", type(of: self))
@@ -211,7 +182,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -246,7 +216,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -279,7 +248,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -310,7 +278,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -341,7 +308,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -372,7 +338,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -404,7 +369,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -436,7 +400,6 @@ class TeslaSwiftTests: XCTestCase {
         let expection = expectation(description: "All Done")
 
         let service = TeslaSwift()
-        service.useMockServer = true
 
         service.authenticate(email: "user", password: "pass").then { (token) in
             service.getVehicles()
@@ -472,7 +435,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -505,7 +467,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -536,7 +497,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -567,7 +527,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -598,7 +557,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -629,7 +587,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -660,7 +617,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -691,7 +647,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -722,7 +677,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -753,7 +707,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -784,7 +737,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -815,7 +767,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -846,7 +797,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -877,7 +827,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -908,7 +857,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -939,7 +887,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -970,7 +917,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1001,7 +947,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1034,7 +979,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1067,7 +1011,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1098,7 +1041,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1129,7 +1071,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1160,7 +1101,6 @@ class TeslaSwiftTests: XCTestCase {
 		let expection = expectation(description: "All Done")
 		
 		let service = TeslaSwift()
-		service.useMockServer = true
 		
 		service.authenticate(email: "user", password: "pass").then { (token) in
 			service.getVehicles()
@@ -1191,7 +1131,6 @@ class TeslaSwiftTests: XCTestCase {
 		}
 		
         let service = TeslaSwift()
-        service.useMockServer = true
         let expection = expectation(description: "All Done")
         var order = 0
         let stream = TeslaStreaming(teslaSwift: service)
@@ -1227,12 +1166,11 @@ class TeslaSwiftTests: XCTestCase {
 		waitForExpectations(timeout: 2, handler: nil)
 
     }
+     */
 	
 	//MARK: - Parsing extra -
 	
 	func testParseEmpty() {
-		
 		XCTAssertNoThrow( { () -> VehicleExtended? in "{}".decodeJSON() }())
-		
 	}
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-	var api: TeslaSwift {
+	public var api: TeslaSwift {
 		return (UIApplication.shared.delegate as! AppDelegate).api
 	}
 }

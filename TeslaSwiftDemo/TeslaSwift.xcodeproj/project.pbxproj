@@ -54,7 +54,6 @@
 		708FBA5D274EA1740026CEEF /* EnergySite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5C274EA1740026CEEF /* EnergySite.swift */; };
 		708FBA5E274EA1740026CEEF /* EnergySite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5C274EA1740026CEEF /* EnergySite.swift */; };
 		708FBA60274EA4260026CEEF /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5F274EA4260026CEEF /* ProductViewController.swift */; };
-		708FBA61274EA4260026CEEF /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708FBA5F274EA4260026CEEF /* ProductViewController.swift */; };
 		7D161BA01E9DC805001C89ED /* StreamEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D161B9F1E9DC805001C89ED /* StreamEvent.swift */; };
 		8CC62B67A853293ADBFB6B75 /* Pods_TeslaSwift_TeslaSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0A2FE496942C63F2654382 /* Pods_TeslaSwift_TeslaSwiftTests.framework */; };
 		CF01EA671C9EC1950064B2B5 /* VehicleState.json in Resources */ = {isa = PBXBuildFile; fileRef = CF01EA661C9EC1950064B2B5 /* VehicleState.json */; };
@@ -917,7 +916,6 @@
 				176F073E2219ECF6000877D7 /* RemoteSeatHeaterRequestOptions.swift in Sources */,
 				708FBA4F274E9CF90026CEEF /* EnergySiteInfo.swift in Sources */,
 				1AA73E87235B37560088D66A /* HomeLinkCommandOptions.swift in Sources */,
-				708FBA61274EA4260026CEEF /* ProductViewController.swift in Sources */,
 				708FBA49274E9CE40026CEEF /* EnergySiteStatus.swift in Sources */,
 				CF0D2F381D95A4A900E5A304 /* Vehicle.swift in Sources */,
 				CF0D2F261D95A4A900E5A304 /* Authentication.swift in Sources */,
@@ -1152,7 +1150,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ../TeslaSwiftTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = joao.TeslaSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1170,7 +1168,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ../TeslaSwiftTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = joao.TeslaSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
