@@ -16,9 +16,9 @@ let package = Package(
         .library(name: "TeslaSwiftStreamingCombine", targets: ["TeslaSwiftStreamingCombine"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", .exact("6.0.0-rc.2")),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.5.0"),
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.0.0"),
-        .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.0"),
+        .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.4"),
         //.package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", Package.Dependency.Requirement.branch("feature/spm-support"))
     ],
     targets: [
