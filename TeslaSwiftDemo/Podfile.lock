@@ -1,35 +1,35 @@
 PODS:
-  - OHHTTPStubs (9.0.0):
-    - OHHTTPStubs/Default (= 9.0.0)
-  - OHHTTPStubs/Core (9.0.0)
-  - OHHTTPStubs/Default (9.0.0):
+  - OHHTTPStubs (9.1.0):
+    - OHHTTPStubs/Default (= 9.1.0)
+  - OHHTTPStubs/Core (9.1.0)
+  - OHHTTPStubs/Default (9.1.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (9.0.0):
+  - OHHTTPStubs/JSON (9.1.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (9.0.0):
+  - OHHTTPStubs/NSURLSession (9.1.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (9.0.0)
-  - OHHTTPStubs/Swift (9.0.0):
+  - OHHTTPStubs/OHPathHelpers (9.1.0)
+  - OHHTTPStubs/Swift (9.1.0):
     - OHHTTPStubs/Default
-  - PromiseKit/CorePromise (6.13.1)
-  - RxCocoa (6.0.0-rc.2):
-    - RxRelay (= 6.0.0-rc.2)
-    - RxSwift (= 6.0.0-rc.2)
-  - RxRelay (6.0.0-rc.2):
-    - RxSwift (= 6.0.0-rc.2)
-  - RxSwift (6.0.0-rc.2)
+  - PromiseKit/CorePromise (6.17.0)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
   - Starscream (4.0.4)
 
 DEPENDENCIES:
   - OHHTTPStubs
   - OHHTTPStubs/Swift
   - PromiseKit/CorePromise (~> 6)
-  - RxCocoa (= 6.0.0-rc.2)
-  - RxSwift (= 6.0.0-rc.2)
-  - Starscream (~> 4)
+  - RxCocoa (~> 6.5.0)
+  - RxSwift (~> 6.5.0)
+  - Starscream (~> 4.0.4)
 
 SPEC REPOS:
   trunk:
@@ -41,13 +41,13 @@ SPEC REPOS:
     - Starscream
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: cb29d2a9d09a828ecb93349a2b0c64f99e0db89f
-  PromiseKit: 28fda91c973cc377875d8c0ea4f973013c05b6db
-  RxCocoa: 38445a25751be5907f52f7ea02c137f52ce2e7f2
-  RxRelay: b9e2483e83f46e4e7bf1234c6fe418e5c2eaf825
-  RxSwift: ada35be6643bedf6881cdbd6bbfb27aeea527670
+  OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
+  PromiseKit: 996202d4cae72b7801b312abef4cd2f995b2978a
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
-PODFILE CHECKSUM: a0238a624448a1bb34b8365e21591d1d9616d367
+PODFILE CHECKSUM: aa159de2040c01c83785974b9ab78e625e68eded
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

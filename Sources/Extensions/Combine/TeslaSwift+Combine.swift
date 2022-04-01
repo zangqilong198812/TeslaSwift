@@ -29,22 +29,11 @@ extension TeslaSwift {
         
     }
     
-    public func authenticate(email: String, password: String) -> Future<AuthToken, Error> {
-       
-        let future = Future<AuthToken,Error> { (subscriber: @escaping (Result<AuthToken, Error>) -> Void) in
-            
-            self.authenticate(email: email, password: password, completion: self.resultify(subscriber: subscriber))
-            
-        }
-    
-        return future
-    }
-    
-    public func revoke() -> Future<Bool, Error> {
+    public func revokeWeb() -> Future<Bool, Error> {
         
         let future = Future<Bool,Error> { (subscriber: @escaping (Result<Bool, Error>) -> Void) in
             
-            self.revoke(completion: self.resultify(subscriber: subscriber))
+            self.revokeWeb(completion: self.resultify(subscriber: subscriber))
             
         }
         

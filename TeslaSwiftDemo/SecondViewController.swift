@@ -44,7 +44,6 @@ class SecondViewController: UIViewController, UITableViewDataSource {
                 DispatchQueue.main.async {
                     self.data = try? result.get()
                     self.tableView.reloadData()
-                    print(self.data)
                 }
             }
 

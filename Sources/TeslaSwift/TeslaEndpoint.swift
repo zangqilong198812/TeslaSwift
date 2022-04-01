@@ -9,8 +9,6 @@
 import Foundation
 
 enum Endpoint {
-	
-	case authentication
     case revoke
     case oAuth2Authorization(auth: AuthCodeRequest)
     case oAuth2AuthorizationCN(auth: AuthCodeRequest)
@@ -46,8 +44,6 @@ extension Endpoint {
     var path: String {
         switch self {
             // Auth
-            case .authentication:
-                return "/oauth/token"
             case .revoke:
                 return "/oauth/revoke"
             case .oAuth2Authorization, .oAuth2AuthorizationCN:
@@ -106,7 +102,7 @@ extension Endpoint {
 	
 	var method: String {
 		switch self {
-            case .authentication, .revoke, .oAuth2Token, .oAuth2TokenCN, .wakeUp, .command:
+            case .revoke, .oAuth2Token, .oAuth2TokenCN, .wakeUp, .command:
                 return "POST"
         case .vehicles, .vehicleSummary, .mobileAccess, .allStates, .chargeState, .climateState, .driveState, .guiSettings, .vehicleState, .vehicleConfig, .nearbyChargingSites, .oAuth2Authorization, .oAuth2revoke, .oAuth2AuthorizationCN, .oAuth2revokeCN, .products, .getEnergySiteStatus, .getEnergySiteLiveStatus, .getEnergySiteInfo, .getEnergySiteHistory, .getBatteryStatus, .getBatteryData, .getBatteryPowerHistory:
                 return "GET"

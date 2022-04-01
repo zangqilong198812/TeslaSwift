@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,23 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z5s-gK-Z9Q">
-                                <rect key="frame" x="16" y="52" width="343" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kKd-sV-7Uh">
-                                <rect key="frame" x="16" y="101" width="343" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOr-QN-IoY">
-                                <rect key="frame" x="168.5" y="163" width="38" height="30"/>
-                                <state key="normal" title="Login"/>
-                                <connections>
-                                    <action selector="loginAction:" destination="gEs-3m-96K" eventType="touchUpInside" id="gra-hh-xWN"/>
-                                </connections>
-                            </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BW1-mo-rTp">
                                 <rect key="frame" x="-4" y="0.0" width="383" height="44"/>
                                 <items>
@@ -41,13 +24,13 @@
                                 </items>
                             </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JzU-9s-Xww">
-                                <rect key="frame" x="16" y="215" width="343" height="0.0"/>
+                                <rect key="frame" x="187.5" y="134" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLG-8m-UEH">
-                                <rect key="frame" x="153" y="200" width="69" height="30"/>
+                                <rect key="frame" x="153" y="84" width="69" height="30"/>
                                 <state key="normal" title="WebLogin"/>
                                 <connections>
                                     <action selector="webLoginAction:" destination="gEs-3m-96K" eventType="touchUpInside" id="HG8-Jf-YZB"/>
@@ -57,30 +40,19 @@
                         <viewLayoutGuide key="safeArea" id="o0e-Sq-to2"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="JzU-9s-Xww" secondAttribute="trailing" id="3BJ-aV-l9D"/>
-                            <constraint firstItem="Z5s-gK-Z9Q" firstAttribute="top" secondItem="o0e-Sq-to2" secondAttribute="top" constant="52" id="8OH-1d-Euj"/>
-                            <constraint firstItem="jLG-8m-UEH" firstAttribute="top" secondItem="BOr-QN-IoY" secondAttribute="bottom" constant="7" id="EZ0-zH-9Pp"/>
-                            <constraint firstItem="kKd-sV-7Uh" firstAttribute="top" secondItem="Z5s-gK-Z9Q" secondAttribute="bottom" constant="15" id="GCh-63-NJj"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="JzU-9s-Xww" secondAttribute="trailing" id="3BJ-aV-l9D"/>
                             <constraint firstItem="BW1-mo-rTp" firstAttribute="top" secondItem="7Wq-ak-cpO" secondAttribute="topMargin" id="MKZ-KR-L3H"/>
                             <constraint firstItem="BW1-mo-rTp" firstAttribute="leading" secondItem="7Wq-ak-cpO" secondAttribute="leadingMargin" constant="-20" id="PJd-tN-v0V"/>
-                            <constraint firstItem="BOr-QN-IoY" firstAttribute="top" secondItem="kKd-sV-7Uh" secondAttribute="bottom" constant="28" id="PyE-JF-qQL"/>
-                            <constraint firstItem="BOr-QN-IoY" firstAttribute="centerX" secondItem="o0e-Sq-to2" secondAttribute="centerX" id="Zz3-Im-cRv"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Z5s-gK-Z9Q" secondAttribute="trailing" id="dYC-3S-2FO"/>
-                            <constraint firstItem="Z5s-gK-Z9Q" firstAttribute="centerX" secondItem="o0e-Sq-to2" secondAttribute="centerX" id="egt-IU-ve3"/>
-                            <constraint firstItem="JzU-9s-Xww" firstAttribute="leading" secondItem="7Wq-ak-cpO" secondAttribute="leadingMargin" id="h1N-EP-lW7"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="kKd-sV-7Uh" secondAttribute="trailing" id="hNi-ku-GEZ"/>
+                            <constraint firstItem="JzU-9s-Xww" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7Wq-ak-cpO" secondAttribute="leadingMargin" id="h1N-EP-lW7"/>
                             <constraint firstItem="jLG-8m-UEH" firstAttribute="centerX" secondItem="7Wq-ak-cpO" secondAttribute="centerX" id="iSC-l1-Egg"/>
-                            <constraint firstItem="JzU-9s-Xww" firstAttribute="top" secondItem="BOr-QN-IoY" secondAttribute="bottom" constant="22" id="j6H-tH-kPn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BW1-mo-rTp" secondAttribute="trailing" constant="-20" id="lyZ-rz-eTx"/>
                             <constraint firstItem="JzU-9s-Xww" firstAttribute="centerX" secondItem="o0e-Sq-to2" secondAttribute="centerX" id="lzj-b4-6ch"/>
-                            <constraint firstItem="kKd-sV-7Uh" firstAttribute="leading" secondItem="7Wq-ak-cpO" secondAttribute="leadingMargin" id="vUQ-88-2og"/>
-                            <constraint firstItem="Z5s-gK-Z9Q" firstAttribute="leading" secondItem="7Wq-ak-cpO" secondAttribute="leadingMargin" id="z8t-9f-MLM"/>
+                            <constraint firstItem="JzU-9s-Xww" firstAttribute="top" secondItem="jLG-8m-UEH" secondAttribute="bottom" constant="20" id="nGw-5i-tGd"/>
+                            <constraint firstItem="jLG-8m-UEH" firstAttribute="top" secondItem="BW1-mo-rTp" secondAttribute="bottom" constant="40" id="wLF-uO-C5f"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="emailTextField" destination="Z5s-gK-Z9Q" id="f0S-XL-Ktb"/>
                         <outlet property="messageLabel" destination="JzU-9s-Xww" id="6YE-9o-mMY"/>
-                        <outlet property="passwordTextField" destination="kKd-sV-7Uh" id="INY-bB-yQL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dsp-Kb-94N" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -457,25 +429,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="poC-sF-vfc">
-                                <rect key="frame" x="10" y="44" width="355" height="100"/>
+                                <rect key="frame" x="10" y="44" width="355" height="103"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="qOS-Jo-f2s">
-                                        <rect key="frame" x="0.0" y="0.0" width="177.5" height="100"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="177.5" height="103"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Energy Site" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0G-m3-HCM">
-                                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="17.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="22"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvJ-wp-DRj">
-                                                <rect key="frame" x="0.0" y="17.5" width="177.5" height="82.5"/>
+                                                <rect key="frame" x="0.0" y="22" width="177.5" height="81"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="H2o-oI-Usg">
-                                                        <rect key="frame" x="0.0" y="0.0" width="89" height="82.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="89" height="81"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI0-ab-UAH">
-                                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="32.5"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI0-ab-UAH">
+                                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="31"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="Status">
                                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -484,8 +456,8 @@
                                                                     <action selector="getEnergySiteStatus:" destination="KZF-oY-DPf" eventType="touchUpInside" id="3q6-kg-pdg"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1B-OQ-qne">
-                                                                <rect key="frame" x="0.0" y="32.5" width="65.5" height="50"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1B-OQ-qne">
+                                                                <rect key="frame" x="0.0" y="31" width="65.5" height="50"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="Live Status">
                                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -497,9 +469,9 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="C5L-BA-4o3">
-                                                        <rect key="frame" x="89" y="0.0" width="88.5" height="82.5"/>
+                                                        <rect key="frame" x="89" y="0.0" width="88.5" height="81"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAb-Ji-5c1">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAb-Ji-5c1">
                                                                 <rect key="frame" x="0.0" y="0.0" width="48.5" height="31"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="Info">
@@ -509,8 +481,8 @@
                                                                     <action selector="getEnergySiteInfo:" destination="KZF-oY-DPf" eventType="touchUpInside" id="Dmp-37-Roc"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUe-aE-kx1">
-                                                                <rect key="frame" x="0.0" y="31" width="70.5" height="51.5"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUe-aE-kx1">
+                                                                <rect key="frame" x="0.0" y="31" width="70.5" height="50"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="History">
                                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -526,22 +498,22 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="M39-nQ-wYJ">
-                                        <rect key="frame" x="177.5" y="0.0" width="177.5" height="100"/>
+                                        <rect key="frame" x="177.5" y="0.0" width="177.5" height="103"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nS2-0o-a3A">
-                                                <rect key="frame" x="0.0" y="0.0" width="47" height="21.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="47" height="22"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tLV-ic-Y6S">
-                                                <rect key="frame" x="0.0" y="21.5" width="141" height="78.5"/>
+                                                <rect key="frame" x="0.0" y="22" width="141" height="81"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="zgF-VI-j4G">
-                                                        <rect key="frame" x="0.0" y="0.0" width="70.5" height="78.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="70.5" height="81"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-9f-3dQ">
-                                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="47.5"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-9f-3dQ">
+                                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="50"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="Status">
                                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -550,8 +522,8 @@
                                                                     <action selector="getBatteryStatus:" destination="KZF-oY-DPf" eventType="touchUpInside" id="wuR-Lc-rPQ"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKp-qN-wwk">
-                                                                <rect key="frame" x="0.0" y="47.5" width="54.5" height="31"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKp-qN-wwk">
+                                                                <rect key="frame" x="0.0" y="50" width="54.5" height="31"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="Data">
                                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -563,10 +535,10 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="7QQ-be-XDI">
-                                                        <rect key="frame" x="70.5" y="0.0" width="70.5" height="78.5"/>
+                                                        <rect key="frame" x="70.5" y="0.0" width="70.5" height="81"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTx-NK-cGE">
-                                                                <rect key="frame" x="0.0" y="0.0" width="70.5" height="78.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="70.5" height="81"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain">
                                                                     <string key="title">Power
@@ -589,14 +561,14 @@ History</string>
                                 </constraints>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Select an action to get started" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hf1-5C-SiX">
-                                <rect key="frame" x="10" y="184.5" width="355" height="423.5"/>
+                                <rect key="frame" x="10" y="187.5" width="355" height="420.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyn-UI-iNK">
-                                <rect key="frame" x="10" y="154" width="355" height="20.5"/>
+                                <rect key="frame" x="10" y="157" width="355" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

@@ -29,23 +29,11 @@ extension TeslaSwift {
         
     }
     
-    public func authenticate(email: String, password: String) -> Single<AuthToken> {
-       
-        let future = Single<AuthToken>.create { (single: @escaping (SingleEvent<AuthToken>) -> Void) -> Disposable in
-            
-            self.authenticate(email: email, password: password, completion: self.singlefy(subscriber: single))
-            
-            return Disposables.create { }
-        }
-    
-        return future
-    }
-    
-    public func revoke() -> Single<Bool> {
+    public func revokeWeb() -> Single<Bool> {
         
         let future = Single<Bool>.create { (single: @escaping (SingleEvent<Bool>) -> Void) -> Disposable in
             
-            self.revoke(completion: self.singlefy(subscriber: single))
+            self.revokeWeb(completion: self.singlefy(subscriber: single))
             
             return Disposables.create { }
         }

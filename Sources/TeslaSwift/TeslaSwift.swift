@@ -258,54 +258,6 @@ extension TeslaSwift {
 
     }
 
-	/**
-	Performs the authentication with the Tesla API for email and password logins
-	
-	You only need to call this once. The token will be stored and your credentials.
-    If the token expires, a token refresh will be done
-	
-	- parameter email:      The email address.
-	- parameter password:   The password.
-	
-	- returns: A completion handler with the AuthToken.
-	*/
-
-    public func authenticate(email: String, password: String, completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
-		
-		self.email = email
-		self.password = password
-
-		let body = AuthTokenRequest(email: email,
-		                            password: password,
-                                    grantType: .password)
-		
-        
-        request(.authentication, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { completion(Result.failure(TeslaError.internalError)); return }
-            
-            switch result {
-            case .success(let token):
-                self.token = token
-                completion(Result.success(token))
-            case .failure(let error):
-                if case let TeslaError.networkError(error: internalError) = error {
-                    if internalError.code == 302 || internalError.code == 403 {
-                        //Handle redirection for tesla.cn
-                        self.request(.authentication, body: body, completion: completion)
-                    } else if internalError.code == 401 {
-                        completion(Result.failure(TeslaError.authenticationFailed))
-                    } else {
-                        completion(Result.failure(error))
-                    }
-                } else {
-                    completion(Result.failure(error))
-                }
-            }
-            
-        }
-        
-	}
-
     /**
      Performs the token refresh with the Tesla API for Web logins
 
@@ -344,41 +296,6 @@ extension TeslaSwift {
 
     }
 
-    /**
-    Performs the token refresh with the Tesla API for password logins
-    
-    - returns: A completion handler with the AuthToken.
-    */
-
-    public func refreshToken(completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
-        guard let token = self.token else {
-            completion(Result.failure(TeslaError.noTokenToRefresh))
-            return
-        }
-        let body = AuthTokenRequest(grantType: .refreshToken, refreshToken: token.refreshToken)
-        
-        request(.authentication, body: body) { (result: Result<AuthToken, Error>) in
-                  
-                  switch result {
-                  case .success(let token):
-                      self.token = token
-                      completion(Result.success(token))
-                  case .failure(let error):
-                      if case let TeslaError.networkError(error: internalError) = error {
-                          if internalError.code == 401 {
-                              completion(Result.failure(TeslaError.tokenRefreshFailed))
-                          } else {
-                              completion(Result.failure(error))
-                          }
-                      } else {
-                          completion(Result.failure(error))
-                      }
-                  }
-                  
-              }
-        
-    }
-	
 	/**
 	Use this method to reuse a previous authentication token
 	
@@ -425,42 +342,7 @@ extension TeslaSwift {
             }
         }
     }
-	
-	/**
-	Revokes the stored token. Endpoint always returns true.
-	
-	- returns: A completion handler with the token revoke state.
-	*/
-	public func revoke(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
-		
-		guard let accessToken = self.token?.accessToken else {
-			cleanToken()
-			return completion(Result.success(false))
-		}
-			
-		cleanToken()
-		
-        checkAuthentication { (result: Result<AuthToken, Error>) in
 
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let body = ["token" : accessToken]
-                self.request(.revoke, body: body) { (result: Result<BoolResponse, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-	}
-	
 	/**
 	Removes all the information related to the previous authentication
 	
@@ -1129,11 +1011,7 @@ extension TeslaSwift {
             completion(Result.success(token))
         } else {
             if token.refreshToken != nil {
-                if token.isOAuth {
-                    refreshWebToken(completion: completion)
-                } else {
-                    refreshToken(completion: completion)
-                }
+                refreshWebToken(completion: completion)
             } else {
                 completion(Result.failure(TeslaError.authenticationRequired))
             }

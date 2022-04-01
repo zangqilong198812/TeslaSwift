@@ -24,15 +24,13 @@ class ProductViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // This page is best suited for Energy Sites, but Vehicles are also returned in the Product API
-        guard let energySite = energySite else {
+        guard energySite != nil else {
             textView.text = "Select the Vehicle tab to interact with a vehicle"
             textView.isEditable = false
             return
         }
         
         textView.isEditable = true
-        
-
     }
     
     
@@ -98,8 +96,8 @@ class ProductViewController: UIViewController {
     }
     
     @IBAction func getBatteryStatus(_ sender: Any) {
-        if let energySite = energySite {
-            api.getBatteryStatus(batteryID: "\(energySite.id)") { result in
+        if let energySiteId = energySite?.id {
+            api.getBatteryStatus(batteryID: "\(energySiteId)") { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let response):
@@ -113,8 +111,8 @@ class ProductViewController: UIViewController {
     }
     
     @IBAction func getBatteryData(_ sender: Any) {
-        if let energySite = energySite {
-            api.getBatteryData(batteryID: "\(energySite.id)") { result in
+        if let energySiteId = energySite?.id {
+            api.getBatteryData(batteryID: "\(energySiteId)") { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let response):
@@ -128,8 +126,8 @@ class ProductViewController: UIViewController {
     }
     
     @IBAction func getBatteryPowerHistory(_ sender: Any) {
-        if let energySite = energySite {
-            api.getBatteryPowerHistory(batteryID: "\(energySite.id)") { result in
+        if let energySiteId = energySite?.id {
+            api.getBatteryPowerHistory(batteryID: "\(energySiteId)") { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let response):

@@ -105,23 +105,11 @@ public class TeslaStreaming {
     }
 
     private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-        let isOAuth = teslaSwift.token?.isOAuth ?? false
-        let type: TeslaStreamAuthenticationType
-        if isOAuth {
-            guard let accessToken = teslaSwift.token?.accessToken else {
-                dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingOAuthToken))
-                return
-            }
-            type = .oAuth(accessToken)
-        } else {
-            guard let vehicleToken = vehicle.tokens?.first,
-                  let email = teslaSwift.email else {
-                dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingVehicleTokenOrEmail))
-                return
-            }
-            type = .bearer(email, vehicleToken)
+        guard let accessToken = teslaSwift.token?.accessToken else {
+            dataReceived(TeslaStreamingEvent.error(TeslaStreamingError.streamingMissingOAuthToken))
+            return
         }
-
+        let type: TeslaStreamAuthenticationType = .oAuth(accessToken)
         let authentication = TeslaStreamAuthentication(type: type, vehicleId: "\(vehicle.vehicleID!)")
 
         openStream(authentication: authentication, dataReceived: dataReceived)

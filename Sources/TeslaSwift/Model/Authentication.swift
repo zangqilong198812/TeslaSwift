@@ -31,11 +31,6 @@ open class AuthToken: Codable {
 			return false
 		}
 	}
-
-    open var isOAuth: Bool {
-        // idToken is only present on the new oAuth authentications
-        return idToken != nil
-    }
 	
 	public init(accessToken: String) {
 		self.accessToken = accessToken

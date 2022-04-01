@@ -26,37 +26,17 @@ extension TeslaSwift {
             
         }
     }
- 
-    /**
-     Performs the authentition with the Tesla API
-     
-     You only need to call this once. The token will be stored and your credentials.
-     If the token expires your credentials will be reused.
-     
-     - parameter email:      The email address.
-     - parameter password:   The password.
-     
-     - returns: A Promise with the AuthToken.
-     */
-    public func authenticate(email: String, password: String) -> Promise<AuthToken> {
-        
-        let (promise, seal) = Promise<AuthToken>.pending()
-        
-        authenticate(email: email, password: password, completion: promisify(seal: seal))
-        
-        return promise
-    }
     
     /**
      Revokes the stored token. Endpoint always returns true.
      
      - returns: A Promise with the token revoke state.
      */
-    public func revoke() -> Promise<Bool> {
+    public func revokeWeb() -> Promise<Bool> {
         
         let (promise, seal) = Promise<Bool>.pending()
         
-        revoke(completion: promisify(seal: seal))
+        revokeWeb(completion: promisify(seal: seal))
         
         return promise
         
