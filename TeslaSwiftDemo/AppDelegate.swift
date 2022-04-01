@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
-		
+
 		api.debuggingEnabled = true
 		
 		if let jsonString = UserDefaults.standard.object(forKey: "tesla.token") as? String,
