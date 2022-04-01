@@ -122,23 +122,14 @@ extension Endpoint {
         }
     }
 
-    func baseURL(_ useMockServer: Bool = false) -> String {
-        if useMockServer {
-            let mockUrl = UserDefaults.standard.string(forKey: "mock_base_url")
-            if mockUrl != nil && mockUrl!.count > 0 {
-                return mockUrl!
-            } else {
-                return "https://private-623898-modelsapi.apiary-mock.com"
-            }
-        } else {
-            switch self {
-                case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
-                    return "https://auth.tesla.com"
-                case .oAuth2AuthorizationCN, .oAuth2TokenCN, .oAuth2revokeCN:
-                    return "https://auth.tesla.cn"
-                default:
-                    return "https://owner-api.teslamotors.com"
-            }
+    func baseURL() -> String {
+        switch self {
+            case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
+                return "https://auth.tesla.com"
+            case .oAuth2AuthorizationCN, .oAuth2TokenCN, .oAuth2revokeCN:
+                return "https://auth.tesla.cn"
+            default:
+                return "https://owner-api.teslamotors.com"
         }
     }
 }

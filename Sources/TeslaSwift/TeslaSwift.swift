@@ -26,8 +26,6 @@ let ErrorInfo = "ErrorInfo"
 private var nullBody = ""
 
 open class TeslaSwift {
-
-    open var useMockServer = false
     open var debuggingEnabled = false
 
     open fileprivate(set) var token: AuthToken?
@@ -946,7 +944,7 @@ extension TeslaSwift {
     }
 
     func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
-        var urlComponents = URLComponents(url: URL(string: endpoint.baseURL(useMockServer))!, resolvingAgainstBaseURL: true)
+        var urlComponents = URLComponents(url: URL(string: endpoint.baseURL())!, resolvingAgainstBaseURL: true)
         urlComponents?.path = endpoint.path
         urlComponents?.queryItems = endpoint.queryParameters
         var request = URLRequest(url: urlComponents!.url!)
