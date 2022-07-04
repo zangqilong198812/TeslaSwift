@@ -113,7 +113,7 @@ extension TeslaSwift {
         return future
     }
     
-    public func getVehicleChargeState(_ vehicle: Vehicle) -> Single<ClimateState> {
+    public func getVehicleClimateState(_ vehicle: Vehicle) -> Single<ClimateState> {
         
         let future = Single<ClimateState>.create { (single: @escaping (SingleEvent<ClimateState>) -> Void) -> Disposable in
             
