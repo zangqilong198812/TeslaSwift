@@ -59,22 +59,18 @@ public class TeslaStreaming {
      - parameter dataReceived: callback to receive the websocket data
      */
     public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-
         if reloadsVehicle {
-
-            reloadVehicle(vehicle: vehicle) { (result: Result<Vehicle, Error>) in
-                switch result {
-                    case .failure(let error):
-                        dataReceived(TeslaStreamingEvent.error(error))
-                    case .success(let freshVehicle):
-                        self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
+            Task { @MainActor in
+                do {
+                    let freshVehicle = try await reloadVehicle(vehicle: vehicle)
+                    self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
+                } catch let error {
+                    dataReceived(TeslaStreamingEvent.error(error))
                 }
             }
-
         } else {
             startStream(vehicle: vehicle, dataReceived: dataReceived)
         }
-
     }
 
     /**
@@ -85,23 +81,12 @@ public class TeslaStreaming {
         logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
     }
 
-    private func reloadVehicle(vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
-
-        teslaSwift.getVehicles { (result: Result<[Vehicle], Error>) in
-
-            switch result {
-                case .failure(let error):
-                    completion(Result.failure(error))
-                case .success(let vehicles):
-
-                    for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
-                        completion(Result.success(freshVehicle))
-                        return
-                    }
-
-                    completion(Result.failure(TeslaError.failedToReloadVehicle))
-            }
+    private func reloadVehicle(vehicle: Vehicle) async throws -> Vehicle {
+        let vehicles = try await teslaSwift.getVehicles()
+        for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
+            return freshVehicle
         }
+        throw TeslaError.failedToReloadVehicle
     }
 
     private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {

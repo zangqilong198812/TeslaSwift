@@ -36,28 +36,11 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     }
     
     func getVehicles() {
-        
-        #if swift(>=5.1)
-        if #available(iOS 13.0, *) {
-            
-            
-            api.getVehicles { (result: Result<[Vehicle], Error>) in
-                
-                DispatchQueue.main.async {
-                    self.data = try? result.get()
-                    self.tableView.reloadData()
-                }
-                
-            }
-
-        }
-        #else
-        _ = api.getVehicles().done { (response) in
-            self.data = response
+        Task { @MainActor in
+            let vehicles = try await api.getVehicles()
+            self.data = vehicles
             self.tableView.reloadData()
         }
-        #endif
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

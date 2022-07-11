@@ -36,28 +36,10 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     }
     
     func getProducts() {
-        
-        #if swift(>=5.1)
-        if #available(iOS 13.0, *) {
-            
-            api.getProducts { (result: Result<[Product], Error>) in
-                DispatchQueue.main.async {
-                    self.data = try? result.get()
-                    self.tableView.reloadData()
-                }
-            }
-
+        Task { @MainActor in
+            self.data = try await api.getProducts()
+            self.tableView.reloadData()
         }
-        #else
-        _ = api.getProducts().done { (response) in
-            DispatchQueue.main.async {
-                self.data = response
-                self.tableView.reloadData()
-                print(response)
-            }
-        }
-        #endif
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
