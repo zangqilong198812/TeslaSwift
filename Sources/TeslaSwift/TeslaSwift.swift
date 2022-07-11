@@ -42,19 +42,17 @@ extension TeslaSwift {
         return token != nil && (token?.isValid ?? false)
     }
 
-
+    #if canImport(WebKit) && canImport(UIKit)
     /**
      Performs the authentication with the Tesla API for web logins
 
      For MFA users, this is the only way to authenticate.
      If the token expires, a token refresh will be done
 
-     - parameter completion:      The completion handler when the token as been retrieved
-     - returns: A ViewController that your app needs to present. This ViewController will ask the user for his/her Tesla credentials, MFA code if set and then dismiss on successful authentication
+     - returns: A ViewController that your app needs to present. This ViewController will ask the user for his/her Tesla credentials, MFA code if set and then dismiss on successful authentication.
+     An async function that returns when the token as been retrieved
      */
-    #if canImport(WebKit) && canImport(UIKit)
-
-    public func authenticateWeb(completion: @escaping (Result<AuthToken, Error>) -> ()) -> TeslaWebLoginViewController? {
+    public func authenticateWeb() -> (TeslaWebLoginViewController?, () async throws -> AuthToken) {
 
         let codeRequest = AuthCodeRequest()
         let endpoint = Endpoint.oAuth2Authorization(auth: codeRequest)
@@ -63,100 +61,80 @@ extension TeslaSwift {
         urlComponents?.queryItems = endpoint.queryParameters
 
         guard let safeUrlComponents = urlComponents else {
-            completion(Result.failure(TeslaError.authenticationFailed))
-            return nil
+            func error() async throws -> AuthToken {
+                throw TeslaError.authenticationFailed
+            }
+            return (nil, error)
         }
 
         let teslaWebLoginViewController = TeslaWebLoginViewController(url: safeUrlComponents.url!)
 
-        teslaWebLoginViewController.result = { result in
-            switch result {
-                case let .success(url):
-                    let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-                    if let queryItems = urlComponents?.queryItems {
-                        for queryItem in queryItems {
-                            if queryItem.name == "code", let code = queryItem.value {
-                                self.getAuthenticationTokenForWeb(code: code, completion: completion)
-                                return
-                            }
+        func result() async throws -> AuthToken {
+                let url = try await teslaWebLoginViewController.result()
+                let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+                if let queryItems = urlComponents?.queryItems {
+                    for queryItem in queryItems {
+                        if queryItem.name == "code", let code = queryItem.value {
+                            return try await self.getAuthenticationTokenForWeb(code: code)
                         }
                     }
-                    completion(Result.failure(TeslaError.authenticationFailed))
-                case let .failure(error):
-                    completion(Result.failure(error))
-            }
+                }
+            throw TeslaError.authenticationFailed
         }
-
-        return teslaWebLoginViewController
+        return (teslaWebLoginViewController, result)
     }
     #endif
 
-    private func getAuthenticationTokenForWeb(code: String, completion: @escaping (Result<AuthToken, Error>) -> ()) {
+    private func getAuthenticationTokenForWeb(code: String) async throws -> AuthToken {
 
         let body = AuthTokenRequestWeb(code: code)
 
-        request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { completion(Result.failure(TeslaError.authenticationFailed)); return }
-
-            DispatchQueue.main.async {
-                switch result {
-                    case .success(let token):
-                        self.token = token
-                        completion(Result.success(token))
-                    case .failure(let error):
-                        if case let TeslaError.networkError(error: internalError) = error {
-                            if internalError.code == 302 || internalError.code == 403 {
-                                self.request(.oAuth2TokenCN, body: body, completion: completion)
-                            } else if internalError.code == 401 {
-                                completion(Result.failure(TeslaError.authenticationFailed))
-                            } else {
-                                completion(Result.failure(error))
-                            }
-                        } else {
-                            completion(Result.failure(error))
-                        }
+        do {
+            let token: AuthToken = try await request(.oAuth2Token, body: body)
+            self.token = token
+            return token
+        } catch let error {
+            if case let TeslaError.networkError(error: internalError) = error {
+                if internalError.code == 302 || internalError.code == 403 {
+                    return try await self.request(.oAuth2TokenCN, body: body)
+                } else if internalError.code == 401 {
+                    throw TeslaError.authenticationFailed
+                } else {
+                    throw error
                 }
+            } else {
+                throw error
             }
         }
-
     }
 
     /**
      Performs the token refresh with the Tesla API for Web logins
 
-     - returns: A completion handler with the AuthToken.
+     - returns: The AuthToken.
      */
-    public func refreshWebToken(completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
-        guard let token = self.token else {
-            completion(Result.failure(TeslaError.noTokenToRefresh))
-            return
-        }
+    public func refreshWebToken() async throws -> AuthToken {
+        guard let token = self.token else { throw TeslaError.noTokenToRefresh }
         let body = AuthTokenRequestWeb(grantType: .refreshToken, refreshToken: token.refreshToken)
 
-        request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { completion(Result.failure(TeslaError.internalError)); return }
-
-            switch result {
-                case .success(let token):
-                    self.token = token
-                    completion(Result.success(token))
-                case .failure(let error):
-                    if case let TeslaError.networkError(error: internalError) = error {
-                        if internalError.code == 302 || internalError.code == 403 {
-                            //Handle redirection for tesla.cn
-                            self.request(.oAuth2TokenCN, body: body, completion: completion)
-                        } else if internalError.code == 401 {
-                            completion(Result.failure(TeslaError.tokenRefreshFailed))
-                        } else {
-                            completion(Result.failure(error))
-                        }
-                    } else {
-                        completion(Result.failure(error))
-                    }
+        do {
+            let authToken: AuthToken = try await request(.oAuth2Token, body: body)
+            self.token = authToken
+            return authToken
+        } catch let error {
+            if case let TeslaError.networkError(error: internalError) = error {
+                if internalError.code == 302 || internalError.code == 403 {
+                    //Handle redirection for tesla.cn
+                    return try await self.request(.oAuth2TokenCN, body: body)
+                } else if internalError.code == 401 {
+                    throw TeslaError.tokenRefreshFailed
+                } else {
+                    throw error
+                }
+            } else {
+                throw error
             }
-
         }
-
     }
 
 	/**
@@ -176,34 +154,19 @@ extension TeslaSwift {
     /**
      Revokes the stored token. Not working
 
-     - returns: A completion handler with the token revoke state.
+     - returns: The token revoke state.
      */
-    public func revokeWeb(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
-
+    public func revokeWeb() async throws -> Bool {
         guard let accessToken = self.token?.accessToken else {
             cleanToken()
-            return completion(Result.success(false))
+            return false
         }
 
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            self.cleanToken()
+        _ = try await checkAuthentication()
+        self.cleanToken()
 
-            switch result {
-                case .failure(let error):
-                    completion(Result.failure(error))
-                case .success(_):
-
-                    self.request(.oAuth2revoke(token: accessToken), body: nullBody) { (result: Result<BoolResponse, Error>) in
-
-                        switch result {
-                            case .failure(let error):
-                                completion(Result.failure(error))
-                            case .success(let data):
-                                completion(Result.success(data.response))
-                        }
-                    }
-            }
-        }
+        let response: BoolResponse = try await request(.oAuth2revoke(token: accessToken), body: nullBody)
+        return response.response
     }
 
 	/**
@@ -221,7 +184,7 @@ extension TeslaSwift {
 	/**
 	Fetchs the list of your vehicles including not yet delivered ones
 	
-	- returns: A completion handler with an array of Vehicles.
+	- returns: An array of Vehicles.
 	*/
     public func getVehicles(completion: @escaping (Result<[Vehicle], Error>) -> ()) -> Void {
         
@@ -867,80 +830,82 @@ extension TeslaSwift {
         token = nil
     }
 
-    func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
-        guard let token = self.token else { completion(Result.failure(TeslaError.authenticationRequired)); return }
+    func checkAuthentication() async throws -> AuthToken {
+        guard let token = self.token else { throw TeslaError.authenticationRequired }
 
         if checkToken() {
-            completion(Result.success(token))
+            return token
         } else {
             if token.refreshToken != nil {
-                refreshWebToken(completion: completion)
+                return try await refreshWebToken()
             } else {
-                completion(Result.failure(TeslaError.authenticationRequired))
+                throw TeslaError.authenticationRequired
             }
         }
 	}
-	
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType,
-                                                             completion: @escaping (Result<ReturnType, Error>) -> Void) {
+
+    private func request<ReturnType: Decodable, BodyType: Encodable>(
+        _ endpoint: Endpoint, body: BodyType
+    ) async throws -> ReturnType {
         let request = prepareRequest(endpoint, body: body)
         let debugEnabled = debuggingEnabled
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            guard error == nil else { completion(Result.failure(error!)); return }
-            guard let httpResponse = response as? HTTPURLResponse else { completion(Result.failure(TeslaError.failedToParseData)) ;return }
 
-            var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
-            responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
-            if let headers = httpResponse.allHeaderFields as? [String: String] {
-                responseString += "\nHEADERS: [\n"
-                headers.forEach {(key: String, value: String) in
-                    responseString += "\"\(key)\": \"\(value)\"\n"
-                }
-                responseString += "]"
-            }
+        let data: Data
+        let response: URLResponse
 
-            logDebug(responseString, debuggingEnabled: debugEnabled)
-
-            if case 200..<300 = httpResponse.statusCode {
-                do {
-                    if let data = data {
-                        let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-                        logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
-
-                        let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
-                        completion(Result.success(mapped))
+        if #available(iOS 15.0, *) {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } else {
+            (data, response) = try await withCheckedThrowingContinuation { continuation in
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let data = data, let response = response {
+                        continuation.resume(with: .success((data, response)))
+                    } else {
+                        continuation.resume(with: .failure(error ?? TeslaError.internalError))
                     }
-                } catch {
-                    logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
-                    completion(Result.failure(TeslaError.failedToParseData))
                 }
+            }
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse else { throw TeslaError.failedToParseData }
+
+        var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
+        responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
+        if let headers = httpResponse.allHeaderFields as? [String: String] {
+            responseString += "\nHEADERS: [\n"
+            headers.forEach {(key: String, value: String) in
+                responseString += "\"\(key)\": \"\(value)\"\n"
+            }
+            responseString += "]"
+        }
+
+        logDebug(responseString, debuggingEnabled: debugEnabled)
+
+        if case 200..<300 = httpResponse.statusCode {
+            do {
+                let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+                logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
+
+                let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
+                return mapped
+            } catch {
+                logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
+                throw TeslaError.failedToParseData
+            }
+        } else {
+            let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+            logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
+            if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
+               wwwAuthenticate.contains("invalid_token") {
+                throw TeslaError.tokenRevoked
+            } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
+                throw TeslaError.authenticationFailed
+            } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
+                throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))
             } else {
-                if let data = data {
-                    let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-                    logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
-                    if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
-                       wwwAuthenticate.contains("invalid_token") {
-                        completion(Result.failure(TeslaError.tokenRevoked))
-                    } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
-                        completion(Result.failure(TeslaError.authenticationFailed))
-                    } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
-                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))))
-                    } else {
-                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
-                    }
-                } else {
-                    if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
-                        if wwwAuthenticate.contains("invalid_token") {
-                            completion(Result.failure(TeslaError.authenticationFailed))
-                        }
-                    } else {
-                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
-                    }
-                }
+                throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))
             }
-        })
-
-        task.resume()
+        }
     }
 
     func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
@@ -1000,7 +965,6 @@ public let teslaJSONEncoder: JSONEncoder = {
 
 public let teslaJSONDecoder: JSONDecoder = {
 	let decoder = JSONDecoder()
-//	decoder.dateDecodingStrategy = .secondsSince1970
     decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
             let container = try decoder.singleValueContainer()
             if let dateDouble = try? container.decode(Double.self) {
