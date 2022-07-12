@@ -57,5 +57,5 @@ open class VehicleExtended: Vehicle {
 		
 		let superEncoder = container.superEncoder()
 		try super.encode(to: superEncoder)
-	}Authentication.swift:206
+	}
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class RemoteSteeringWheelHeaterRequestOptions: Encodable {VehicleState.swift:213
+open class RemoteSteeringWheelHeaterRequestOptions: Encodable {
     open var on: Bool
 
     init(on: Bool) {

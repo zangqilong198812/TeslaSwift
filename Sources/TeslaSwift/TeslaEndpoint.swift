@@ -28,7 +28,7 @@ enum Endpoint {
 	case vehicleState(vehicleID: String)
 	case vehicleConfig(vehicleID: String)
 	case wakeUp(vehicleID: String)
-	case command(vehicleID: String, command: RemoteSteeringWheelHeaterRequestOptions.swift:20VehicleCommand)
+	case command(vehicleID: String, command: VehicleCommand)
     case products
     case getEnergySiteStatus(siteID: String)
     case getEnergySiteLiveStatus(siteID: String)
