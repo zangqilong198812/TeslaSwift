@@ -123,15 +123,15 @@ Example on how to get a list of vehicles with promiseKit
 
 ```swift
 
-class ViewController {
+class CarsViewController: ViewController {
     func showCars() {
-    do {
+      do {
         let response = try await api.getVehicles()
         self.data = response
         self.tableView.reloadData()
-    } catch let errro {
+      } catch let error {
         //Process error
-   }
+     }
 }
 ```
 
@@ -151,7 +151,7 @@ import TeslaSwiftStreamingCombine
 import TeslaSwiftStreamingRx
 ```
 ```swift
-class ViewController {
+class CarsViewController: ViewController {
 
   func showStream() {
     stream = TeslaStreaming(teslaSwift: api)
@@ -159,11 +159,12 @@ class ViewController {
         for try await event in try await stream.openStream(vehicle: myVehicle) {
             switch event {
                 case .open:
+                    // Open
                 case .event(let streamEvent):
                     self.data.append(streamEvent)
                     self.tableView.reloadData()
                 case .error(let error):                    
-                    //Process error
+                    // Process error
                 case .disconnet:
                     break
             }
@@ -188,8 +189,6 @@ public let teslaJSONDecoder: JSONDecoder
 ```  
 
 ## Options
-
-You can use the mock server by setting: `api.useMockServer = true`
 
 You can enable debugging by setting: `api.debuggingEnabled = true`
 
