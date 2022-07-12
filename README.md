@@ -98,13 +98,13 @@ let (webloginViewController, result) = await api.authenticate()
 guard let safeWebLoginViewController = authViewControler else { return }
 present(safeWebLoginViewController, animated: true, completion: nil)
 Task { @MainActor in
-            do {
-                _ = try await result()
-                self.messageLabel.text = "Authentication success"
-            } catch let error {
-                // error
-            }
-        }
+        do {
+             _ = try await result()
+             self.messageLabel.text = "Authentication success"
+        } catch let error {
+            // error
+       }
+}
 ```
 
 
