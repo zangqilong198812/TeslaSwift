@@ -12,7 +12,6 @@ import Combine
 #endif
 
 class SecondViewController: UIViewController, UITableViewDataSource {
-    
     @IBOutlet weak var tableView: UITableView!
     
     var data:[Product]?
@@ -30,9 +29,7 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         tableView.estimatedRowHeight = 50.0
-        
     }
     
     func getProducts() {
@@ -47,7 +44,6 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "product-cell", for: indexPath)
         
         let product = data![(indexPath as NSIndexPath).row]
@@ -68,16 +64,12 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        
         if segue.identifier == "toProductDetail" {
-            
             if let indexPath = tableView.indexPathForSelectedRow {
                 let vc = segue.destination as! ProductViewController
                 vc.product = data![indexPath.row]
             }
-            
         }
     }
-    
 }
 

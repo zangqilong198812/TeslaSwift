@@ -10,15 +10,9 @@ import UIKit
 import CoreLocation
 
 class VehicleViewController: UIViewController {
-
 	@IBOutlet weak var textView: UITextView!
-	var vehicle: Vehicle?
-	
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
+	var vehicle: Vehicle?
 
     @IBAction func getVehicle(_ sender: Any) {
         guard let vehicle = vehicle else { return }
@@ -177,13 +171,9 @@ class VehicleViewController: UIViewController {
     
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)
-		
 		if segue.identifier == "toStream" {
-			
 			let vc = segue.destination as! StreamViewController
 			vc.vehicle = self.vehicle
 		}
 	}
-
-
 }

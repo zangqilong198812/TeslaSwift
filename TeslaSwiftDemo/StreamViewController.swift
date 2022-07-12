@@ -29,16 +29,12 @@ class StreamViewController: UIViewController {
         if !streaming {
             guard let vehicle = vehicle else { return }
             self.textView.text = ""
-
-            _ = stream.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
-
-                }) { (event) in
-                    DispatchQueue.main.async {
-                        self.processEvent(event: event)
-                    }
+            Task { @MainActor in
+                for try await event in try await stream.openStream(vehicle: vehicle) {
+                    self.processEvent(event: event)
                 }
-
-            streaming = true
+                self.streaming = true
+            }
         }
 	}
 	

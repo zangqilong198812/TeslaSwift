@@ -10,8 +10,6 @@ import UIKit
 import CoreLocation
 
 class ProductViewController: UIViewController {
-    
-
     @IBOutlet private weak var textView: UITextView!
     
     var product: Product?
@@ -22,14 +20,12 @@ class ProductViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // This page is best suited for Energy Sites, but Vehicles are also returned in the Product API
         guard energySite != nil else {
             textView.text = "Select the Vehicle tab to interact with a vehicle"
             textView.isEditable = false
             return
         }
-        
         textView.isEditable = true
     }
     
