@@ -16,25 +16,22 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
 
     @IBAction func webLoginAction(_ sender: AnyObject) {
-        if #available(iOS 13.0, *) {
-            let webloginViewController = api.authenticateWeb { (result) in
+        let (webloginViewController, result) = api.authenticateWeb()
 
-                DispatchQueue.main.async {
-                    switch result {
-                        case .success:
-                            self.messageLabel.text = "Authentication success"
-                            NotificationCenter.default.post(name: Notification.Name.loginDone, object: nil)
+        guard let safeWebloginViewController = webloginViewController else { return }
 
-                            self.dismiss(animated: true, completion: nil)
+        self.present(safeWebloginViewController, animated: true, completion: nil)
 
-                        case let .failure(error):
-                            self.messageLabel.text = "Authentication failed: \(error)"
-                    }
-                }
+        Task { @MainActor in
+            do {
+                _ = try await result()
+                self.messageLabel.text = "Authentication success"
+                NotificationCenter.default.post(name: Notification.Name.loginDone, object: nil)
+
+                self.dismiss(animated: true, completion: nil)
+            } catch let error {
+                self.messageLabel.text = "Authentication failed: \(error)"
             }
-            guard let safeWebloginViewController = webloginViewController else { return }
-
-            self.present(safeWebloginViewController, animated: true, completion: nil)
         }
     }
 }

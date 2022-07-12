@@ -9,7 +9,6 @@
 import Foundation
 
 open class ClimateState: Codable {
-
     /*
      * Fan speed 0-6 or nil
      */
@@ -61,7 +60,6 @@ open class ClimateState: Codable {
     open var timeStamp: Double?
 
     enum CodingKeys: String, CodingKey {
-
         case batteryHeater   = "battery_heater"
         case batteryHeaterNoPower = "battery_heater_no_power"
 
@@ -92,7 +90,6 @@ open class ClimateState: Codable {
 
         case rightTemperatureDirection     = "right_temp_direction"
 
-
         case seatHeaterLeft                 = "seat_heater_left"
         case seatHeaterRearCenter         = "seat_heater_rear_center"
         case seatHeaterRearLeft             = "seat_heater_rear_left"
@@ -108,11 +105,9 @@ open class ClimateState: Codable {
         case smartPreconditioning         = "smart_preconditioning"
 
         case timeStamp                    = "timestamp"
-
     }
 
     required public init(from decoder: Decoder) throws {
-
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         batteryHeater = try? container.decode(Bool.self, forKey: .batteryHeater)
@@ -147,7 +142,6 @@ open class ClimateState: Codable {
 
         rightTemperatureDirection  = try? container.decode(Int.self, forKey: .rightTemperatureDirection)
 
-
         seatHeaterLeft  = try? container.decode(Int.self, forKey: .seatHeaterLeft)
         seatHeaterRearCenter  = try? container.decode(Int.self, forKey: .seatHeaterRearCenter)
         seatHeaterRearLeft  = try? container.decode(Int.self, forKey: .seatHeaterRearLeft)
@@ -163,11 +157,9 @@ open class ClimateState: Codable {
         smartPreconditioning  = try? container.decode(Bool.self, forKey: .smartPreconditioning)
 
         timeStamp  = try? container.decode(Double.self, forKey: .timeStamp)
-
     }
 
     public func encode(to encoder: Encoder) throws {
-
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encodeIfPresent(batteryHeater, forKey: .batteryHeater)

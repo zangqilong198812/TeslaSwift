@@ -20,7 +20,6 @@ open class BatteryPowerHistory: Codable {
         case selfConsumptionData = "self_consumption_data"
     }
     
-    
     // MARK: - SelfConsumptionDatum
     open class SelfConsumptionDatum: Codable {
         open var timestamp: Date
@@ -31,10 +30,10 @@ open class BatteryPowerHistory: Codable {
     // MARK: - TimeSeries
     open class TimeSeries: Codable {
         open var timestamp: Date
-        open var solarPower:Double
-        open var batteryPower:Double
+        open var solarPower: Double
+        open var batteryPower: Double
         open var gridPower: Double
-        open var gridServicesPower:Double
+        open var gridServicesPower: Double
         open var generatorPower: Double
 
         enum CodingKeys: String, CodingKey {

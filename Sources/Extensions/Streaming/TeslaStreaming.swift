@@ -39,7 +39,6 @@ struct TeslaStreamAuthentication {
  *
  */
 public class TeslaStreaming {
-    
     var debuggingEnabled: Bool {
         teslaSwift.debuggingEnabled
     }
@@ -58,23 +57,33 @@ public class TeslaStreaming {
      - parameter reloadsVehicle: if you have a cached vehicle, the token might be expired, this forces a vehicle token reload
      - parameter dataReceived: callback to receive the websocket data
      */
-    public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-
+    public func openStream(vehicle: Vehicle, reloadsVehicle: Bool = true) async throws -> AsyncThrowingStream<TeslaStreamingEvent, Error> {
         if reloadsVehicle {
-
-            reloadVehicle(vehicle: vehicle) { (result: Result<Vehicle, Error>) in
-                switch result {
-                    case .failure(let error):
-                        dataReceived(TeslaStreamingEvent.error(error))
-                    case .success(let freshVehicle):
-                        self.startStream(vehicle: freshVehicle, dataReceived: dataReceived)
+            return AsyncThrowingStream { continuation in
+                Task {
+                    do {
+                        let freshVehicle = try await reloadVehicle(vehicle: vehicle)
+                        self.startStream(vehicle: freshVehicle, dataReceived: { data in
+                            continuation.yield(data)
+                            if data == .disconnected {
+                                continuation.finish()
+                            }
+                        })
+                    } catch let error {
+                        continuation.finish(throwing: error)
+                    }
                 }
             }
-
         } else {
-            startStream(vehicle: vehicle, dataReceived: dataReceived)
+            return AsyncThrowingStream { continuation in
+                startStream(vehicle: vehicle, dataReceived: { data in
+                    continuation.yield(data)
+                    if data == .disconnected {
+                        continuation.finish()
+                    }
+                })
+            }
         }
-
     }
 
     /**
@@ -85,23 +94,12 @@ public class TeslaStreaming {
         logDebug("Stream closed", debuggingEnabled: self.debuggingEnabled)
     }
 
-    private func reloadVehicle(vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
-
-        teslaSwift.getVehicles { (result: Result<[Vehicle], Error>) in
-
-            switch result {
-                case .failure(let error):
-                    completion(Result.failure(error))
-                case .success(let vehicles):
-
-                    for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
-                        completion(Result.success(freshVehicle))
-                        return
-                    }
-
-                    completion(Result.failure(TeslaError.failedToReloadVehicle))
-            }
+    private func reloadVehicle(vehicle: Vehicle) async throws -> Vehicle {
+        let vehicles = try await teslaSwift.getVehicles()
+        for freshVehicle in vehicles where freshVehicle.vehicleID == vehicle.vehicleID {
+            return freshVehicle
         }
+        throw TeslaError.failedToReloadVehicle
     }
 
     private func startStream(vehicle: Vehicle, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
@@ -116,7 +114,6 @@ public class TeslaStreaming {
     }
     
     private func openStream(authentication: TeslaStreamAuthentication, dataReceived: @escaping (TeslaStreamingEvent) -> Void) {
-        
         let url = httpStreaming.request.url?.absoluteString
         
         logDebug("Opening Stream to: \(url ?? "")", debuggingEnabled: debuggingEnabled)
@@ -127,54 +124,43 @@ public class TeslaStreaming {
 
             switch event {
                 case let .connected(headers):
-                    DispatchQueue.main.async {
+                    logDebug("Stream open headers: \(headers)", debuggingEnabled: self.debuggingEnabled)
 
-                        logDebug("Stream open headers: \(headers)", debuggingEnabled: self.debuggingEnabled)
+                    if let authMessage = StreamAuthentication(type: authentication.type, vehicleId: authentication.vehicleId), let string = try? teslaJSONEncoder.encode(authMessage) {
 
-                        if let authMessage = StreamAuthentication(type: authentication.type, vehicleId: authentication.vehicleId), let string = try? teslaJSONEncoder.encode(authMessage) {
-
-                            self.httpStreaming.write(data: string)
-                            dataReceived(TeslaStreamingEvent.open)
-                        } else {
-                            dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: ["errorDescription" : "Failed to parse authentication data"])))
-                            self.closeStream()
-                        }
+                        self.httpStreaming.write(data: string)
+                        dataReceived(TeslaStreamingEvent.open)
+                    } else {
+                        dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: ["errorDescription": "Failed to parse authentication data"])))
+                        self.closeStream()
                     }
                 case let .binary(data):
                     logDebug("Stream data: \(String(data: data, encoding: .utf8) ?? "")", debuggingEnabled: self.debuggingEnabled)
 
                     guard let message = try? teslaJSONDecoder.decode(StreamMessage.self, from: data) else { return }
 
-                    DispatchQueue.main.async {
-                        let type = message.messageType
-                        switch type {
-                            case "control:hello":
-                                logDebug("Stream got hello", debuggingEnabled: self.debuggingEnabled)
-                                break
-                            case "data:update":
-                                if let values = message.value {
-                                    let event = StreamEvent(values: values)
-                                    logDebug("Stream got data: \(values)", debuggingEnabled: self.debuggingEnabled)
-                                    dataReceived(TeslaStreamingEvent.event(event))
-                                }
-                            case "data:error":
-                                logDebug("Stream got data error: \(message.value ?? ""), \(message.errorType ?? "")", debuggingEnabled: self.debuggingEnabled)
-                                dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: [message.value ?? "error": message.errorType ?? ""])))
-                                break
-                            default:
-                                break
-                        }
+                    let type = message.messageType
+                    switch type {
+                        case "control:hello":
+                            logDebug("Stream got hello", debuggingEnabled: self.debuggingEnabled)
+                        case "data:update":
+                            if let values = message.value {
+                                let event = StreamEvent(values: values)
+                                logDebug("Stream got data: \(values)", debuggingEnabled: self.debuggingEnabled)
+                                dataReceived(TeslaStreamingEvent.event(event))
+                            }
+                        case "data:error":
+                            logDebug("Stream got data error: \(message.value ?? ""), \(message.errorType ?? "")", debuggingEnabled: self.debuggingEnabled)
+                            dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: [message.value ?? "error": message.errorType ?? ""])))
+                        default:
+                            break
                     }
                 case let .disconnected(error, code):
-                    DispatchQueue.main.async {
-                        logDebug("Stream disconnected \(code):\(error)", debuggingEnabled: self.debuggingEnabled)
-                        dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: Int(code), userInfo: ["error": error])))
-                    }
+                    logDebug("Stream disconnected \(code):\(error)", debuggingEnabled: self.debuggingEnabled)
+                    dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: Int(code), userInfo: ["error": error])))
                 case let .pong(data):
-                    DispatchQueue.main.async {
-                        logDebug("Stream Pong", debuggingEnabled: self.debuggingEnabled)
-                        self.httpStreaming.write(pong: data ?? Data())
-                    }
+                    logDebug("Stream Pong", debuggingEnabled: self.debuggingEnabled)
+                    self.httpStreaming.write(pong: data ?? Data())
                 case let .text(text):
                     logDebug("Stream Text: \(text)", debuggingEnabled: self.debuggingEnabled)
                 case let .ping(ping):
@@ -194,7 +180,6 @@ public class TeslaStreaming {
         }
 		httpStreaming.connect()
 	}
-
 }
 
 #if COCOAPODS

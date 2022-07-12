@@ -9,7 +9,6 @@
 import Foundation
 
 open class ChargeLimitPercentageCommandOptions: Encodable {
-	
 	open var percent: Int?
 	
 	init(limit: Int) {
@@ -17,6 +16,6 @@ open class ChargeLimitPercentageCommandOptions: Encodable {
 	}
 	
 	enum CodingKeys: String, CodingKey {
-		case percent	 = "percent"
+		case percent
 	}
 }

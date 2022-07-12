@@ -12,7 +12,6 @@ import Combine
 #endif
 
 class SecondViewController: UIViewController, UITableViewDataSource {
-    
     @IBOutlet weak var tableView: UITableView!
     
     var data:[Product]?
@@ -30,34 +29,14 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         tableView.estimatedRowHeight = 50.0
-        
     }
     
     func getProducts() {
-        
-        #if swift(>=5.1)
-        if #available(iOS 13.0, *) {
-            
-            api.getProducts { (result: Result<[Product], Error>) in
-                DispatchQueue.main.async {
-                    self.data = try? result.get()
-                    self.tableView.reloadData()
-                }
-            }
-
+        Task { @MainActor in
+            self.data = try await api.getProducts()
+            self.tableView.reloadData()
         }
-        #else
-        _ = api.getProducts().done { (response) in
-            DispatchQueue.main.async {
-                self.data = response
-                self.tableView.reloadData()
-                print(response)
-            }
-        }
-        #endif
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,7 +44,6 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "product-cell", for: indexPath)
         
         let product = data![(indexPath as NSIndexPath).row]
@@ -86,16 +64,12 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        
         if segue.identifier == "toProductDetail" {
-            
             if let indexPath = tableView.indexPathForSelectedRow {
                 let vc = segue.destination as! ProductViewController
                 vc.product = data![indexPath.row]
             }
-            
         }
     }
-    
 }
 

@@ -9,7 +9,6 @@
 import Foundation
 
 open class Response<T: Decodable>: Decodable {
-	
 	open var response: T
 	
 	public init(response: T) {
@@ -21,11 +20,9 @@ open class Response<T: Decodable>: Decodable {
 	enum CodingKeys: String, CodingKey {
 		case response
 	}
-	
 }
 
 open class ArrayResponse<T: Decodable>: Decodable {
-	
 	open var response: [T] = []
 	
 	// MARK: Codable protocol
@@ -33,12 +30,9 @@ open class ArrayResponse<T: Decodable>: Decodable {
 	enum CodingKeys: String, CodingKey {
 		case response
 	}
-	
 }
 
-
 open class BoolResponse: Decodable {
-	
 	open var response: Bool
 	
 	public init(response: Bool) {
@@ -48,7 +42,6 @@ open class BoolResponse: Decodable {
 	// MARK: Codable protocol
 	
 	enum CodingKeys: String, CodingKey {
-		case response = "response"
+		case response
 	}
-	
 }

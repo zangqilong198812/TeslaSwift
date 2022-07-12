@@ -9,7 +9,6 @@
 import Foundation
 
 open class SentryModeCommandOptions: Encodable {
-
     open var on: Bool
 
     init(activated: Bool) {
@@ -17,6 +16,6 @@ open class SentryModeCommandOptions: Encodable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case on = "on"
+        case on
     }
 }

@@ -202,13 +202,11 @@ extension String {
         return challenge
     }
 
-    var sha256:String {
-        get {
-            let inputData = Data(self.utf8)
-            let hashed = SHA256.hash(data: inputData)
-            let hashString = hashed.compactMap { String(format: "%02x", $0) }.joined()
-            return hashString
-        }
+    var sha256: String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        let hashString = hashed.compactMap { String(format: "%02x", $0) }.joined()
+        return hashString
     }
 
     func base64EncodedString() -> String {

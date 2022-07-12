@@ -42,19 +42,17 @@ extension TeslaSwift {
         return token != nil && (token?.isValid ?? false)
     }
 
-
+    #if canImport(WebKit) && canImport(UIKit)
     /**
      Performs the authentication with the Tesla API for web logins
 
      For MFA users, this is the only way to authenticate.
      If the token expires, a token refresh will be done
 
-     - parameter completion:      The completion handler when the token as been retrieved
-     - returns: A ViewController that your app needs to present. This ViewController will ask the user for his/her Tesla credentials, MFA code if set and then dismiss on successful authentication
+     - returns: A ViewController that your app needs to present. This ViewController will ask the user for his/her Tesla credentials, MFA code if set and then dismiss on successful authentication.
+     An async function that returns when the token as been retrieved
      */
-    #if canImport(WebKit) && canImport(UIKit)
-
-    public func authenticateWeb(completion: @escaping (Result<AuthToken, Error>) -> ()) -> TeslaWebLoginViewController? {
+    public func authenticateWeb() -> (TeslaWebLoginViewController?, () async throws -> AuthToken) {
 
         let codeRequest = AuthCodeRequest()
         let endpoint = Endpoint.oAuth2Authorization(auth: codeRequest)
@@ -63,100 +61,80 @@ extension TeslaSwift {
         urlComponents?.queryItems = endpoint.queryParameters
 
         guard let safeUrlComponents = urlComponents else {
-            completion(Result.failure(TeslaError.authenticationFailed))
-            return nil
+            func error() async throws -> AuthToken {
+                throw TeslaError.authenticationFailed
+            }
+            return (nil, error)
         }
 
         let teslaWebLoginViewController = TeslaWebLoginViewController(url: safeUrlComponents.url!)
 
-        teslaWebLoginViewController.result = { result in
-            switch result {
-                case let .success(url):
-                    let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-                    if let queryItems = urlComponents?.queryItems {
-                        for queryItem in queryItems {
-                            if queryItem.name == "code", let code = queryItem.value {
-                                self.getAuthenticationTokenForWeb(code: code, completion: completion)
-                                return
-                            }
+        func result() async throws -> AuthToken {
+                let url = try await teslaWebLoginViewController.result()
+                let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+                if let queryItems = urlComponents?.queryItems {
+                    for queryItem in queryItems {
+                        if queryItem.name == "code", let code = queryItem.value {
+                            return try await self.getAuthenticationTokenForWeb(code: code)
                         }
                     }
-                    completion(Result.failure(TeslaError.authenticationFailed))
-                case let .failure(error):
-                    completion(Result.failure(error))
-            }
+                }
+            throw TeslaError.authenticationFailed
         }
-
-        return teslaWebLoginViewController
+        return (teslaWebLoginViewController, result)
     }
     #endif
 
-    private func getAuthenticationTokenForWeb(code: String, completion: @escaping (Result<AuthToken, Error>) -> ()) {
+    private func getAuthenticationTokenForWeb(code: String) async throws -> AuthToken {
 
         let body = AuthTokenRequestWeb(code: code)
 
-        request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { completion(Result.failure(TeslaError.authenticationFailed)); return }
-
-            DispatchQueue.main.async {
-                switch result {
-                    case .success(let token):
-                        self.token = token
-                        completion(Result.success(token))
-                    case .failure(let error):
-                        if case let TeslaError.networkError(error: internalError) = error {
-                            if internalError.code == 302 || internalError.code == 403 {
-                                self.request(.oAuth2TokenCN, body: body, completion: completion)
-                            } else if internalError.code == 401 {
-                                completion(Result.failure(TeslaError.authenticationFailed))
-                            } else {
-                                completion(Result.failure(error))
-                            }
-                        } else {
-                            completion(Result.failure(error))
-                        }
+        do {
+            let token: AuthToken = try await request(.oAuth2Token, body: body)
+            self.token = token
+            return token
+        } catch let error {
+            if case let TeslaError.networkError(error: internalError) = error {
+                if internalError.code == 302 || internalError.code == 403 {
+                    return try await self.request(.oAuth2TokenCN, body: body)
+                } else if internalError.code == 401 {
+                    throw TeslaError.authenticationFailed
+                } else {
+                    throw error
                 }
+            } else {
+                throw error
             }
         }
-
     }
 
     /**
      Performs the token refresh with the Tesla API for Web logins
 
-     - returns: A completion handler with the AuthToken.
+     - returns: The AuthToken.
      */
-    public func refreshWebToken(completion: @escaping (Result<AuthToken, Error>) -> ()) -> Void {
-        guard let token = self.token else {
-            completion(Result.failure(TeslaError.noTokenToRefresh))
-            return
-        }
+    public func refreshWebToken() async throws -> AuthToken {
+        guard let token = self.token else { throw TeslaError.noTokenToRefresh }
         let body = AuthTokenRequestWeb(grantType: .refreshToken, refreshToken: token.refreshToken)
 
-        request(.oAuth2Token, body: body) { [weak self] (result: Result<AuthToken, Error>) in
-            guard let self = self else { completion(Result.failure(TeslaError.internalError)); return }
-
-            switch result {
-                case .success(let token):
-                    self.token = token
-                    completion(Result.success(token))
-                case .failure(let error):
-                    if case let TeslaError.networkError(error: internalError) = error {
-                        if internalError.code == 302 || internalError.code == 403 {
-                            //Handle redirection for tesla.cn
-                            self.request(.oAuth2TokenCN, body: body, completion: completion)
-                        } else if internalError.code == 401 {
-                            completion(Result.failure(TeslaError.tokenRefreshFailed))
-                        } else {
-                            completion(Result.failure(error))
-                        }
-                    } else {
-                        completion(Result.failure(error))
-                    }
+        do {
+            let authToken: AuthToken = try await request(.oAuth2Token, body: body)
+            self.token = authToken
+            return authToken
+        } catch let error {
+            if case let TeslaError.networkError(error: internalError) = error {
+                if internalError.code == 302 || internalError.code == 403 {
+                    //Handle redirection for tesla.cn
+                    return try await self.request(.oAuth2TokenCN, body: body)
+                } else if internalError.code == 401 {
+                    throw TeslaError.tokenRefreshFailed
+                } else {
+                    throw error
+                }
+            } else {
+                throw error
             }
-
         }
-
     }
 
 	/**
@@ -176,34 +154,19 @@ extension TeslaSwift {
     /**
      Revokes the stored token. Not working
 
-     - returns: A completion handler with the token revoke state.
+     - returns: The token revoke state.
      */
-    public func revokeWeb(completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
-
+    public func revokeWeb() async throws -> Bool {
         guard let accessToken = self.token?.accessToken else {
             cleanToken()
-            return completion(Result.success(false))
+            return false
         }
 
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            self.cleanToken()
+        _ = try await checkAuthentication()
+        self.cleanToken()
 
-            switch result {
-                case .failure(let error):
-                    completion(Result.failure(error))
-                case .success(_):
-
-                    self.request(.oAuth2revoke(token: accessToken), body: nullBody) { (result: Result<BoolResponse, Error>) in
-
-                        switch result {
-                            case .failure(let error):
-                                completion(Result.failure(error))
-                            case .success(let data):
-                                completion(Result.success(data.response))
-                        }
-                    }
-            }
-        }
+        let response: BoolResponse = try await request(.oAuth2revoke(token: accessToken), body: nullBody)
+        return response.response
     }
 
 	/**
@@ -221,91 +184,43 @@ extension TeslaSwift {
 	/**
 	Fetchs the list of your vehicles including not yet delivered ones
 	
-	- returns: A completion handler with an array of Vehicles.
+	- returns: An array of Vehicles.
 	*/
-    public func getVehicles(completion: @escaping (Result<[Vehicle], Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                self.request(.vehicles, body: nullBody) { (result: Result<ArrayResponse<Vehicle>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-		
+    public func getVehicles() async throws -> [Vehicle] {
+        _ = try await checkAuthentication()
+        let response: ArrayResponse<Vehicle> = try await request(.vehicles, body: nullBody)
+        return response.response
 	}
     
     /**
     Fetchs the list of your products
      
-    - returns: A completion handler with an array of Products.
+    - returns: An array of Products.
     */
-    public func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                self.request(.products, body: nullBody) { (result: Result<ArrayResponse<Product>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-        
+    public func getProducts() async throws -> [Product] {
+        _ = try await checkAuthentication()
+        let response: ArrayResponse<Product> = try await request(.products, body: nullBody)
+        return response.response
     }
     
     /**
     Fetchs the summary of a vehicle
     
-    - returns: A completion handler with a Vehicle.
+    - returns: A Vehicle.
     */
-    public func getVehicle(_ vehicleID: String, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                self.request(.vehicleSummary(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<Vehicle>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-        
+    public func getVehicle(_ vehicleID: String) async throws -> Vehicle {
+        _ = try await checkAuthentication()
+        let response: Response<Vehicle> = try await request(.vehicleSummary(vehicleID: vehicleID), body: nullBody)
+        return response.response
     }
     
     /**
     Fetches the summary of a vehicle
     
-    - returns: A completion handler with a Vehicle.
+    - returns: A Vehicle.
     */
-    public func getVehicle(_ vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
-        return getVehicle(vehicle.id!, completion: completion)
+    public func getVehicle(_ vehicle: Vehicle) async throws -> Vehicle {
+        return try await getVehicle(vehicle.id!)
     }
 	
     /**
@@ -313,296 +228,120 @@ extension TeslaSwift {
      
      - returns: A completion handler with all the data
      */
-	public func getAllData(_ vehicle: Vehicle, completion: @escaping (Result<VehicleExtended, Error>) -> ()) -> Void {
-    
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.allStates(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<VehicleExtended>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-
+    public func getAllData(_ vehicle: Vehicle) async throws -> VehicleExtended {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<VehicleExtended> = try await request(.allStates(vehicleID: vehicleID), body: nullBody)
+        return response.response
 	}
 	
 	/**
 	Fetches the vehicle mobile access state
 	
-	- returns: A completion handler with mobile access state.
+	- returns: The mobile access state.
 	*/
-    public func getVehicleMobileAccessState(_ vehicle: Vehicle, completion: @escaping (Result<Bool, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.mobileAccess(vehicleID: vehicleID), body: nullBody) { (result: Result<BoolResponse, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getVehicleMobileAccessState(_ vehicle: Vehicle) async throws -> Bool {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: BoolResponse = try await request(.mobileAccess(vehicleID: vehicleID), body: nullBody)
+        return response.response
     }
     
 	/**
 	Fetches the vehicle charge state
 	
-	- returns: A completion handler with charge state.
+	- returns: The charge state.
 	*/
-	public func getVehicleChargeState(_ vehicle: Vehicle, completion: @escaping (Result<ChargeState, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.chargeState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<ChargeState>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-		
+	public func getVehicleChargeState(_ vehicle: Vehicle) async throws -> ChargeState {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<ChargeState> = try await request(.chargeState(vehicleID: vehicleID), body: nullBody)
+        return response.response
 	}
 	
 	/**
 	Fetches the vehicle Climate state
 	
-	- returns: A completion handler with Climate state.
+	- returns: The Climate state.
 	*/
-    public func getVehicleClimateState(_ vehicle: Vehicle, completion: @escaping (Result<ClimateState, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.climateState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<ClimateState>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-  
+    public func getVehicleClimateState(_ vehicle: Vehicle) async throws -> ClimateState {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<ClimateState> = try await request(.climateState(vehicleID: vehicleID), body: nullBody)
+        return response.response
 	}
 	
 	/**
 	Fetches the vehicle drive state
 	
-	- returns: A completion handler with drive state.
+	- returns: The drive state.
 	*/
-	public func getVehicleDriveState(_ vehicle: Vehicle, completion: @escaping (Result<DriveState, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.driveState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<DriveState>,  Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-        
+	public func getVehicleDriveState(_ vehicle: Vehicle) async throws -> DriveState {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<DriveState> = try await request(.driveState(vehicleID: vehicleID), body: nullBody)
+        return response.response
 	}
 	
 	/**
 	Fetches the vehicle GUI Settings
 	
-	- returns: A completion handler with GUI Settings.
+	- returns: The GUI Settings.
 	*/
-    public func getVehicleGuiSettings(_ vehicle: Vehicle, completion: @escaping (Result<GuiSettings, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.guiSettings(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<GuiSettings>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getVehicleGuiSettings(_ vehicle: Vehicle) async throws -> GuiSettings {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<GuiSettings> = try await request(.guiSettings(vehicleID: vehicleID), body: nullBody)
+        return response.response
     }
 	
 	/**
 	Fetches the vehicle state
 	
-	- returns: A completion handler with vehicle state.
+	- returns: The vehicle state.
 	*/
-    public func getVehicleState(_ vehicle: Vehicle, completion: @escaping (Result<VehicleState, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.vehicleState(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<VehicleState>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-        
+    public func getVehicleState(_ vehicle: Vehicle) async throws -> VehicleState {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<VehicleState> = try await request(.vehicleState(vehicleID: vehicleID), body: nullBody)
+        return response.response
     }
 	
 	/**
 	Fetches the vehicle config
 	
-	- returns: A completion handler with vehicle config
+	- returns: The vehicle config
 	*/
-    public func getVehicleConfig(_ vehicle: Vehicle, completion: @escaping (Result<VehicleConfig, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.vehicleConfig(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<VehicleConfig>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getVehicleConfig(_ vehicle: Vehicle) async throws -> VehicleConfig {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<VehicleConfig> = try await request(.vehicleConfig(vehicleID: vehicleID), body: nullBody)
+        return response.response
     }
 
     /**
      Fetches the nearby charging sites
 
      - parameter vehicle: the vehicle to get nearby charging sites from
-     - returns: A completion handler with nearby charging sites
+     - returns: The nearby charging sites
      */
-    public func getNearbyChargingSites(_ vehicle: Vehicle, completion: @escaping (Result<NearbyChargingSites, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.nearbyChargingSites(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<NearbyChargingSites>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getNearbyChargingSites(_ vehicle: Vehicle) async throws -> NearbyChargingSites {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<NearbyChargingSites> = try await request(.nearbyChargingSites(vehicleID: vehicleID), body: nullBody)
+        return response.response
     }
 
 	/**
 	Wakes up the vehicle
 	
-	- returns: A completion handler with the current Vehicle
+	- returns: The current Vehicle
 	*/
-    public func wakeUp(_ vehicle: Vehicle, completion: @escaping (Result<Vehicle, Error>) -> ()) -> Void {
-        
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                
-                let vehicleID = vehicle.id!
-                
-                self.request(.wakeUp(vehicleID: vehicleID), body: nullBody) { (result: Result<Response<Vehicle>, Error>) in
-                    
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
-		
+    public func wakeUp(_ vehicle: Vehicle) async throws -> Vehicle {
+        _ = try await checkAuthentication()
+        let vehicleID = vehicle.id!
+        let response: Response<Vehicle> = try await request(.wakeUp(vehicleID: vehicleID), body: nullBody)
+        return response.response
 	}
 	
 	/**
@@ -612,106 +351,84 @@ extension TeslaSwift {
 	- parameter command: the command to send to the vehicle
 	- returns: A completion handler with the CommandResponse object containing the results of the command.
 	*/
-	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand, completion: @escaping (Result<CommandResponse, Error>) -> ()) -> Void {
-		
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                    switch command {
-                        case let .setMaxDefrost(on: state):
-                            let body = MaxDefrostCommandOptions(state: state)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .triggerHomeLink(coordinates):
-                            let body = HomeLinkCommandOptions(coordinates: coordinates)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .valetMode(valetActivated, pin):
-                            let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .openTrunk(options):
-                            let body = options
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .shareToVehicle(address):
-                            let body = address
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .scheduledCharging(enable, time):
-                            let body = ScheduledChargingCommandOptions(enable: enable, time: time)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .scheduledDeparture(body):
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .chargeLimitPercentage(limit):
-                            let body = ChargeLimitPercentageCommandOptions(limit: limit)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .setTemperature(driverTemperature, passengerTemperature):
-                            let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .setSunRoof(state, percent):
-                            let body = SetSunRoofCommandOptions(state: state, percent: percent)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .startVehicle(password):
-                            let body = RemoteStartDriveCommandOptions(password: password)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .speedLimitSetLimit(speed):
-                            let body = SetSpeedLimitOptions(limit: speed)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .speedLimitActivate(pin):
-                            let body = SpeedLimitPinOptions(pin: pin)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .speedLimitDeactivate(pin):
-                            let body = SpeedLimitPinOptions(pin: pin)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .speedLimitClearPin(pin):
-                            let body = SpeedLimitPinOptions(pin: pin)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .setSeatHeater(seat, level):
-                            let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .setSteeringWheelHeater(on):
-                            let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .sentryMode(activated):
-                            let body = SentryModeCommandOptions(activated: activated)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .windowControl(state):
-                            let body = WindowControlCommandOptions(command: state)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        case let .setCharging(amps):
-                            let body = ChargeAmpsCommandOptions(amps: amps)
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                        default:
-                            let body = nullBody
-                            self.request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body, completion: completion)
-                    }
-            }
-		
-		}
-		
+	public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand) async throws -> CommandResponse {
+        _ = try await checkAuthentication()
+
+        switch command {
+            case let .setMaxDefrost(on: state):
+                let body = MaxDefrostCommandOptions(state: state)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .triggerHomeLink(coordinates):
+                let body = HomeLinkCommandOptions(coordinates: coordinates)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .valetMode(valetActivated, pin):
+                let body = ValetCommandOptions(valetActivated: valetActivated, pin: pin)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .openTrunk(options):
+                let body = options
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .shareToVehicle(address):
+                let body = address
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .scheduledCharging(enable, time):
+                let body = ScheduledChargingCommandOptions(enable: enable, time: time)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .scheduledDeparture(body):
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .chargeLimitPercentage(limit):
+                let body = ChargeLimitPercentageCommandOptions(limit: limit)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .setTemperature(driverTemperature, passengerTemperature):
+                let body = SetTemperatureCommandOptions(driverTemperature: driverTemperature, passengerTemperature: passengerTemperature)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .setSunRoof(state, percent):
+                let body = SetSunRoofCommandOptions(state: state, percent: percent)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .startVehicle(password):
+                let body = RemoteStartDriveCommandOptions(password: password)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .speedLimitSetLimit(speed):
+                let body = SetSpeedLimitOptions(limit: speed)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .speedLimitActivate(pin):
+                let body = SpeedLimitPinOptions(pin: pin)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .speedLimitDeactivate(pin):
+                let body = SpeedLimitPinOptions(pin: pin)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .speedLimitClearPin(pin):
+                let body = SpeedLimitPinOptions(pin: pin)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .setSeatHeater(seat, level):
+                let body = RemoteSeatHeaterRequestOptions(seat: seat, level: level)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .setSteeringWheelHeater(on):
+                let body = RemoteSteeringWheelHeaterRequestOptions(on: on)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .sentryMode(activated):
+                let body = SentryModeCommandOptions(activated: activated)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .windowControl(state):
+                let body = WindowControlCommandOptions(command: state)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            case let .setCharging(amps):
+                let body = ChargeAmpsCommandOptions(amps: amps)
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+            default:
+                let body = nullBody
+                return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
+        }
 	}
-    
-    
+
     /**
     Fetchs the status of your energy site
      
-    - returns: A completion handler with an array of Products.
+    - returns: The EnergySiteStatus
     */
-    public func getEnergySiteStatus(siteID: String, completion: @escaping (Result<EnergySiteStatus, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getEnergySiteStatus(siteID: siteID), body: nullBody) { (result: Result<Response<EnergySiteStatus>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getEnergySiteStatus(siteID: String) async throws -> EnergySiteStatus {
+        _ = try await checkAuthentication()
+        let response: Response<EnergySiteStatus> = try await request(.getEnergySiteStatus(siteID: siteID), body: nullBody)
+        return response.response
     }
     
     /**
@@ -719,137 +436,65 @@ extension TeslaSwift {
      
     - returns: A completion handler with an array of Products.
     */
-    public func getEnergySiteLiveStatus(siteID: String, completion: @escaping (Result<EnergySiteLiveStatus, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getEnergySiteLiveStatus(siteID: siteID), body: nullBody) { (result: Result<Response<EnergySiteLiveStatus>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getEnergySiteLiveStatus(siteID: String) async throws -> EnergySiteLiveStatus {
+        _ = try await checkAuthentication()
+        let response: Response<EnergySiteLiveStatus> = try await request(.getEnergySiteLiveStatus(siteID: siteID), body: nullBody)
+        return response.response
     }
     
     /**
      Fetchs the info of your energy site
      
-    - returns: A completion handler with an array of Products.
+    - returns: The EnergySiteInfo.
     */
-    public func getEnergySiteInfo(siteID: String, completion: @escaping (Result<EnergySiteInfo, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getEnergySiteInfo(siteID: siteID), body: nullBody) { (result: Result<Response<EnergySiteInfo>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getEnergySiteInfo(siteID: String) async throws -> EnergySiteInfo {
+        _ = try await checkAuthentication()
+        let response: Response<EnergySiteInfo> = try await request(.getEnergySiteInfo(siteID: siteID), body: nullBody)
+        return response.response
     }
     
     /**
      Fetchs the history of your energy site
      
-    - returns: A completion handler with an array of Products.
+    - returns: The EnergySiteHistory
     */
-    public func getEnergySiteHistory(siteID: String, period: EnergySiteHistory.Period, completion: @escaping (Result<EnergySiteHistory, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getEnergySiteHistory(siteID: siteID, period: period), body: nullBody) { (result: Result<Response<EnergySiteHistory>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getEnergySiteHistory(siteID: String, period: EnergySiteHistory.Period) async throws  -> EnergySiteHistory {
+        _ = try await checkAuthentication()
+        let response: Response<EnergySiteHistory> = try await request(.getEnergySiteHistory(siteID: siteID, period: period), body: nullBody)
+        return response.response
     }
     
     /**
      Fetchs the status of your Powerwall battery
      
-    - returns: A completion handler with an array of Products.
+    - returns: The BatteryStatus
     */
-    public func getBatteryStatus(batteryID: String, completion: @escaping (Result<BatteryStatus, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getBatteryStatus(batteryID: batteryID), body: nullBody) { (result: Result<Response<BatteryStatus>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getBatteryStatus(batteryID: String) async throws -> BatteryStatus {
+        _ = try await checkAuthentication()
+        let response: Response<BatteryStatus> = try await request(.getBatteryStatus(batteryID: batteryID), body: nullBody)
+        return response.response
     }
     
     /**
      Fetchs the data of your Powerwall battery
      
-    - returns: A completion handler with an array of Products.
+    - returns: The BatteryData
     */
-    public func getBatteryData(batteryID: String, completion: @escaping (Result<BatteryData, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getBatteryData(batteryID: batteryID), body: nullBody) { (result: Result<Response<BatteryData>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getBatteryData(batteryID: String) async throws -> BatteryData {
+        _ = try await checkAuthentication()
+        let response: Response<BatteryData> = try await request(.getBatteryData(batteryID: batteryID), body: nullBody)
+        return response.response
     }
     
     /**
      Fetchs the history of your Powerwall battery
      
-    - returns: A completion handler with an array of Products.
+    - returns: The BatteryPowerHistory
     */
-    public func getBatteryPowerHistory(batteryID: String, completion: @escaping (Result<BatteryPowerHistory, Error>) -> ()) -> Void {
-        checkAuthentication { (result: Result<AuthToken, Error>) in
-            switch result {
-            case .failure(let error):
-                completion(Result.failure(error))
-            case .success(_):
-                self.request(.getBatteryPowerHistory(batteryID: batteryID), body: nullBody) { (result: Result<Response<BatteryPowerHistory>, Error>) in
-                    switch result {
-                    case .failure(let error):
-                        completion(Result.failure(error))
-                    case .success(let data):
-                        completion(Result.success(data.response))
-                    }
-                }
-            }
-        }
+    public func getBatteryPowerHistory(batteryID: String) async throws -> BatteryPowerHistory {
+        _ = try await checkAuthentication()
+        let response: Response<BatteryPowerHistory> = try await request(.getBatteryPowerHistory(batteryID: batteryID), body: nullBody)
+        return response.response
     }
 }
 
@@ -863,84 +508,86 @@ extension TeslaSwift {
         }
     }
 
-    func cleanToken()  {
+    func cleanToken() {
         token = nil
     }
 
-    func checkAuthentication(completion: @escaping (Result<AuthToken, Error>) -> ()) {
-        guard let token = self.token else { completion(Result.failure(TeslaError.authenticationRequired)); return }
+    func checkAuthentication() async throws -> AuthToken {
+        guard let token = self.token else { throw TeslaError.authenticationRequired }
 
         if checkToken() {
-            completion(Result.success(token))
+            return token
         } else {
             if token.refreshToken != nil {
-                refreshWebToken(completion: completion)
+                return try await refreshWebToken()
             } else {
-                completion(Result.failure(TeslaError.authenticationRequired))
+                throw TeslaError.authenticationRequired
             }
         }
 	}
-	
-    func request<ReturnType: Decodable, BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType,
-                                                             completion: @escaping (Result<ReturnType, Error>) -> Void) {
+
+    private func request<ReturnType: Decodable, BodyType: Encodable>(
+        _ endpoint: Endpoint, body: BodyType
+    ) async throws -> ReturnType {
         let request = prepareRequest(endpoint, body: body)
         let debugEnabled = debuggingEnabled
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            guard error == nil else { completion(Result.failure(error!)); return }
-            guard let httpResponse = response as? HTTPURLResponse else { completion(Result.failure(TeslaError.failedToParseData)) ;return }
 
-            var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
-            responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
-            if let headers = httpResponse.allHeaderFields as? [String: String] {
-                responseString += "\nHEADERS: [\n"
-                headers.forEach {(key: String, value: String) in
-                    responseString += "\"\(key)\": \"\(value)\"\n"
-                }
-                responseString += "]"
-            }
+        let data: Data
+        let response: URLResponse
 
-            logDebug(responseString, debuggingEnabled: debugEnabled)
-
-            if case 200..<300 = httpResponse.statusCode {
-                do {
-                    if let data = data {
-                        let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-                        logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
-
-                        let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
-                        completion(Result.success(mapped))
+        if #available(iOS 15.0, *) {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } else {
+            (data, response) = try await withCheckedThrowingContinuation { continuation in
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let data = data, let response = response {
+                        continuation.resume(with: .success((data, response)))
+                    } else {
+                        continuation.resume(with: .failure(error ?? TeslaError.internalError))
                     }
-                } catch {
-                    logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
-                    completion(Result.failure(TeslaError.failedToParseData))
                 }
+            }
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse else { throw TeslaError.failedToParseData }
+
+        var responseString = "\nRESPONSE: \(String(describing: httpResponse.url))"
+        responseString += "\nSTATUS CODE: \(httpResponse.statusCode)"
+        if let headers = httpResponse.allHeaderFields as? [String: String] {
+            responseString += "\nHEADERS: [\n"
+            headers.forEach {(key: String, value: String) in
+                responseString += "\"\(key)\": \"\(value)\"\n"
+            }
+            responseString += "]"
+        }
+
+        logDebug(responseString, debuggingEnabled: debugEnabled)
+
+        if case 200..<300 = httpResponse.statusCode {
+            do {
+                let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+                logDebug("RESPONSE BODY: \(objectString)\n", debuggingEnabled: debugEnabled)
+
+                let mapped = try teslaJSONDecoder.decode(ReturnType.self, from: data)
+                return mapped
+            } catch {
+                logDebug("ERROR: \(error)", debuggingEnabled: debugEnabled)
+                throw TeslaError.failedToParseData
+            }
+        } else {
+            let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
+            logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
+            if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
+               wwwAuthenticate.contains("invalid_token") {
+                throw TeslaError.tokenRevoked
+            } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
+                throw TeslaError.authenticationFailed
+            } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
+                throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: [ErrorInfo: mapped]))
             } else {
-                if let data = data {
-                    let objectString = String.init(data: data, encoding: String.Encoding.utf8) ?? "No Body"
-                    logDebug("RESPONSE BODY ERROR: \(objectString)\n", debuggingEnabled: debugEnabled)
-                    if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String,
-                       wwwAuthenticate.contains("invalid_token") {
-                        completion(Result.failure(TeslaError.tokenRevoked))
-                    } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
-                        completion(Result.failure(TeslaError.authenticationFailed))
-                    } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
-                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))))
-                    } else {
-                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
-                    }
-                } else {
-                    if let wwwAuthenticate = httpResponse.allHeaderFields["Www-Authenticate"] as? String {
-                        if wwwAuthenticate.contains("invalid_token") {
-                            completion(Result.failure(TeslaError.authenticationFailed))
-                        }
-                    } else {
-                        completion(Result.failure(TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))))
-                    }
-                }
+                throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))
             }
-        })
-
-        task.resume()
+        }
     }
 
     func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
@@ -1000,7 +647,6 @@ public let teslaJSONEncoder: JSONEncoder = {
 
 public let teslaJSONDecoder: JSONDecoder = {
 	let decoder = JSONDecoder()
-//	decoder.dateDecodingStrategy = .secondsSince1970
     decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
             let container = try decoder.singleValueContainer()
             if let dateDouble = try? container.decode(Double.self) {

@@ -15,13 +15,11 @@ import TeslaSwiftStreaming
 #endif
 
 extension TeslaStreaming  {
-
     public func streamPublisher(vehicle: Vehicle) -> TeslaStreamingPublisher {
         return TeslaStreamingPublisher(vehicle: vehicle, stream: self)
     }
 
     public struct TeslaStreamingPublisher: Publisher, Cancellable {
-
         public typealias Output = TeslaStreamingEvent
         public typealias Failure = Error
 
@@ -33,21 +31,26 @@ extension TeslaStreaming  {
             self.stream = stream
         }
 
-        public func receive<S>(subscriber: S) where S : Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
+        public func receive<S>(subscriber: S) where S: Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
 
-            stream.openStream(vehicle: vehicle) {
-                (streamEvent: TeslaStreamingEvent) in
-
-                switch streamEvent {
-                    case .open:
-                        _ = subscriber.receive(TeslaStreamingEvent.open)
-                    case .event(let event):
-                        _ = subscriber.receive(TeslaStreamingEvent.event(event))
-                    case .error(let error):
-                        _ = subscriber.receive(TeslaStreamingEvent.error(error))
-                    case .disconnected:
-                        _ = subscriber.receive(TeslaStreamingEvent.disconnected)
-                        subscriber.receive(completion: Subscribers.Completion.finished)
+            Task {
+                do {
+                    for try await streamEvent in try await stream.openStream(vehicle: vehicle) {
+                        switch streamEvent {
+                            case .open:
+                                _ = subscriber.receive(TeslaStreamingEvent.open)
+                            case .event(let event):
+                                _ = subscriber.receive(TeslaStreamingEvent.event(event))
+                            case .error(let error):
+                                _ = subscriber.receive(TeslaStreamingEvent.error(error))
+                            case .disconnected:
+                                _ = subscriber.receive(TeslaStreamingEvent.disconnected)
+                                subscriber.receive(completion: Subscribers.Completion.finished)
+                        }
+                    }
+                } catch let error {
+                    _ = subscriber.receive(TeslaStreamingEvent.error(error))
+                    subscriber.receive(completion: Subscribers.Completion.finished)
                 }
             }
         }
@@ -55,7 +58,6 @@ extension TeslaStreaming  {
         public func cancel() {
             stream.closeStream()
         }
-
     }
 }
 

@@ -13,22 +13,29 @@ import CoreLocation
 import TeslaSwift
 #endif
 
-public enum TeslaStreamingEvent {
+public enum TeslaStreamingEvent: Equatable {
     case open
     case event(StreamEvent)
     case error(Error)
     case disconnected
+
+    public static func == (lhs: TeslaStreamingEvent, rhs: TeslaStreamingEvent) -> Bool {
+        switch (lhs, rhs) {
+            case (.open, .open): return true
+            case (.event, .event): return true // ignore the event
+            case (.error, .error): return true // ignore the error
+            case (.disconnected, .disconnected): return true
+            default: return false
+        }
+    }
 }
 
 open class StreamEvent: Codable {
-	
     open var timestamp: Double?
     open var speed: CLLocationSpeed? // mph
     open var speedUnit: Speed? {
-        get {
-            guard let speed = speed else { return nil }
-            return Speed(milesPerHour: speed)
-        }
+        guard let speed = speed else { return nil }
+        return Speed(milesPerHour: speed)
     }
     open var odometer: Distance? // miles
     open var soc: Int?
@@ -53,14 +60,12 @@ open class StreamEvent: Codable {
 			                  course: heading,
 			                  speed: speed ?? 0,
 			                  timestamp: Date(timeIntervalSince1970: timestamp/1000))
-			
 		}
 		return nil
 	}
 	
 	init(values: String) {
 		// timeStamp,speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading
-		
 		let separatedValues = values.components(separatedBy: ",")
 		
 		guard separatedValues.count > 11 else { return }

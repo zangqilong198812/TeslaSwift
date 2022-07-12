@@ -9,7 +9,6 @@
 import Foundation
 
 class StreamAuthentication: Encodable {
-
     var messageType: String
     var token: String
     var value = "speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading"
@@ -28,7 +27,6 @@ class StreamAuthentication: Encodable {
                 self.messageType = "data:subscribe_oauth"
                 self.token = "\(oAuthToken)"
         }
-
         self.tag = vehicleId
     }
     
@@ -41,7 +39,6 @@ class StreamAuthentication: Encodable {
 }
 
 class StreamMessage: Decodable {
-    
     var messageType: String
     var value: String?
     var tag: String?

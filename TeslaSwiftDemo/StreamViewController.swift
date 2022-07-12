@@ -9,7 +9,6 @@
 import UIKit
 
 class StreamViewController: UIViewController {
-	
 	@IBOutlet weak var textView: UITextView!
 	
 	var streaming = false
@@ -18,15 +17,11 @@ class StreamViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
         stream = TeslaStreaming(teslaSwift: api)
-
-        // Do any additional setup after loading the view.
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		
 		stopStream(self)
 	}
 
@@ -34,48 +29,30 @@ class StreamViewController: UIViewController {
         if !streaming {
             guard let vehicle = vehicle else { return }
             self.textView.text = ""
-
-            #if swift(>=5.1)
-            if #available(iOS 13.0, *) {
-                _ = stream.streamPublisher(vehicle: vehicle).sink(receiveCompletion: { (completion) in
-
-                }) { (event) in
+            Task { @MainActor in
+                for try await event in try await stream.openStream(vehicle: vehicle) {
                     self.processEvent(event: event)
                 }
+                self.streaming = true
             }
-
-            #else
-
-            stream.openStream(vehicle: vehicle, dataReceived: {
-                (event: TeslaStreamingEvent) in
-                self.processEvent(event: event)
-            })
-
-            #endif
-
-            streaming = true
         }
 	}
 	
     func processEvent(event: TeslaStreamingEvent) {
         switch event {
-        case .error(let error):
-            textView.text = error.localizedDescription
-        case .event(let event):
-            textView.text = "\(self.textView.text ?? "")\nevent:\n \(event.descriptionKm)"
-        case .disconnected:
-            break
-        case .open:
-            textView.text = "open"
+            case .error(let error):
+                textView.text = error.localizedDescription
+            case .event(let event):
+                textView.text = "\(self.textView.text ?? "")\nevent:\n \(event.descriptionKm)"
+            case .disconnected:
+                break
+            case .open:
+                textView.text = "open"
         }
     }
-    
-    
+
 	@IBAction func stopStream(_ sender: Any) {
-		
         stream.closeStream()
-		
 		streaming = false
 	}
-
 }
