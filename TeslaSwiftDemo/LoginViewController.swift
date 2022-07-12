@@ -32,7 +32,6 @@ class LoginViewController: UIViewController {
             } catch let error {
                 self.messageLabel.text = "Authentication failed: \(error)"
             }
-
         }
     }
 }

@@ -1,7 +1,7 @@
 # TeslaSwift
 Swift library to access Tesla API based on [Tesla JSON API (Unofficial)](https://tesla-api.timdorr.com)
 
-[![Swift](https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.org/jonasman/TeslaSwift.svg?branch=master)](https://travis-ci.org/jonasman/TeslaSwift)
 [![TeslaSwift](https://img.shields.io/cocoapods/v/TeslaSwift.svg)](https://github.com/jonasman/TeslaSwift)
 
@@ -16,37 +16,37 @@ Copy `Sources` folder into your project
 If you don't need any extensions, use this line
 
 ```ruby
-pod 'TeslaSwift', '~> 7'
+pod 'TeslaSwift', '~> 8'
 ```
 If you need PromiseKit extensions, use this line 
 
 ```ruby
-pod 'TeslaSwift/PromiseKit', '~> 7'
+pod 'TeslaSwift/PromiseKit', '~> 8'
 ```
 If you need Combine extensions, use this line
 
 ```ruby
-pod 'TeslaSwift/Combine', '~> 7'
+pod 'TeslaSwift/Combine', '~> 8'
 ```
 If you need Rx extensions, use this line
 
 ```ruby
-pod 'TeslaSwift/Rx', '~> 7'
+pod 'TeslaSwift/Rx', '~> 8'
 ```
 
 #### Streaming extension
 
 ```ruby
-pod 'TeslaSwift/Streaming', '~> 7'
+pod 'TeslaSwift/Streaming', '~> 8'
 ```
 If you need Combine extensions for Streaming, use this line
 ```ruby
-pod 'TeslaSwift/StreamingCombine', '~> 7'
+pod 'TeslaSwift/StreamingCombine', '~> 8'
 ```
 If you need Rx extensions for Streaming, use this line
 
 ```ruby
-pod 'TeslaSwift/StreamingRx', '~> 7'
+pod 'TeslaSwift/StreamingRx', '~> 8'
 ```
 
 ### Swift Package Manager
@@ -54,7 +54,7 @@ pod 'TeslaSwift/StreamingRx', '~> 7'
 You can use [Swift Package Manager](https://swift.org/package-manager/) and specify a dependency in `Package.swift` by adding this or adding the dependency to Xcode:
 
 ```swift
-.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 7)
+.Package(url: "https://github.com/jonasman/TeslaSwift.git", majorVersion: 8)
 ```
 
 There are also extensions for Combine `TeslaSwiftCombine`, PromiseKit `TeslaSwiftPMK` and Rx `TeslaSwiftRx`
@@ -94,18 +94,17 @@ Perform an authentication with your MyTesla credentials using the web oAuth2 flo
 
 ```swift
 let api = TeslaSwift()
-let authViewControler = api.authenticate() {
-    (result: Result<AuthToken, Error>) in
-    switch result {
-        case .success(let token):
-            // Logged in
-        case .failure(let error):
-            // Failed
-
-    }
-}
-guard let safeWebLoginViewController = authViewControler else { /* error */ return }
+let (webloginViewController, result) = await api.authenticate()
+guard let safeWebLoginViewController = authViewControler else { return }
 present(safeWebLoginViewController, animated: true, completion: nil)
+Task { @MainActor in
+            do {
+                _ = try await result()
+                self.messageLabel.text = "Authentication success"
+            } catch let error {
+                // error
+            }
+        }
 ```
 
 
@@ -126,12 +125,12 @@ Example on how to get a list of vehicles with promiseKit
 
 class ViewController {
     func showCars() {
-        api.getVehicles()
-        .done { (response) in
-            self.data = response
-            self.tableView.reloadData()
-        }.catch { (error) in
-            //Process error
+    do {
+        let response = try await api.getVehicles()
+        self.data = response
+        self.tableView.reloadData()
+    } catch let errro {
+        //Process error
    }
 }
 ```
@@ -156,19 +155,22 @@ class ViewController {
 
   func showStream() {
     stream = TeslaStreaming(teslaSwift: api)
-    stream.openStream(vehicle: myVehicle, dataReceived: {
-                    (event: TeslaStreamEvent) in
-                    switch event {
-                    case .open:
-                    case .event(let streamEvent):
-                        self.data.append(streamEvent)
-                        self.tableView.reloadData()
-                    case .error(let error):                    
-                        //Process error
-                    case .disconnet:
-                        break
-                    }
-                })
+    do {
+        for try await event in try await stream.openStream(vehicle: myVehicle) {
+            switch event {
+                case .open:
+                case .event(let streamEvent):
+                    self.data.append(streamEvent)
+                    self.tableView.reloadData()
+                case .error(let error):                    
+                    //Process error
+                case .disconnet:
+                    break
+            }
+        }
+    } catch let error {
+    // error
+    }
 
     // After some events...
     stream.closeStream()
