@@ -15,7 +15,7 @@ import TeslaSwift
 
 extension TeslaSwift {
     public func revokeWeb() -> Future<Bool, Error> {
-        let future = Future<Bool,Error> { (subscriber: @escaping (Result<Bool, Error>) -> Void) in
+        let future = Future<Bool, Error> { (subscriber: @escaping (Result<Bool, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.revokeWeb()
@@ -29,7 +29,7 @@ extension TeslaSwift {
     }
     
     public func getVehicles() -> Future<[Vehicle], Error> {
-        let future = Future<[Vehicle],Error> { (subscriber: @escaping (Result<[Vehicle], Error>) -> Void) in
+        let future = Future<[Vehicle], Error> { (subscriber: @escaping (Result<[Vehicle], Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicles()
@@ -43,7 +43,7 @@ extension TeslaSwift {
     }
     
     public func getVehicle(_ vehicleID: String) -> Future<Vehicle, Error> {
-        let future = Future<Vehicle,Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
+        let future = Future<Vehicle, Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicle(vehicleID)
@@ -57,7 +57,7 @@ extension TeslaSwift {
     }
     
     public func getVehicle(_ vehicle: Vehicle) -> Future<Vehicle, Error> {
-        let future = Future<Vehicle,Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
+        let future = Future<Vehicle, Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicle(vehicle)
@@ -71,7 +71,7 @@ extension TeslaSwift {
     }
     
     public func getAllData(_ vehicle: Vehicle) -> Future<VehicleExtended, Error> {
-        let future = Future<VehicleExtended,Error> { (subscriber: @escaping (Result<VehicleExtended, Error>) -> Void) in
+        let future = Future<VehicleExtended, Error> { (subscriber: @escaping (Result<VehicleExtended, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getAllData(vehicle)
@@ -85,7 +85,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleMobileAccessState(_ vehicle: Vehicle) -> Future<Bool, Error> {
-        let future = Future<Bool,Error> { (subscriber: @escaping (Result<Bool, Error>) -> Void) in
+        let future = Future<Bool, Error> { (subscriber: @escaping (Result<Bool, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleMobileAccessState(vehicle)
@@ -99,7 +99,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleChargeState(_ vehicle: Vehicle) -> Future<ChargeState, Error> {
-        let future = Future<ChargeState,Error> { (subscriber: @escaping (Result<ChargeState, Error>) -> Void) in
+        let future = Future<ChargeState, Error> { (subscriber: @escaping (Result<ChargeState, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleChargeState(vehicle)
@@ -113,7 +113,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleClimateState(_ vehicle: Vehicle) -> Future<ClimateState, Error> {
-        let future = Future<ClimateState,Error> { (subscriber: @escaping (Result<ClimateState, Error>) -> Void) in
+        let future = Future<ClimateState, Error> { (subscriber: @escaping (Result<ClimateState, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleClimateState(vehicle)
@@ -127,7 +127,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleDriveState(_ vehicle: Vehicle) -> Future<DriveState, Error> {
-        let future = Future<DriveState,Error> { (subscriber: @escaping (Result<DriveState, Error>) -> Void) in
+        let future = Future<DriveState, Error> { (subscriber: @escaping (Result<DriveState, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleDriveState(vehicle)
@@ -141,7 +141,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleGuiSettings(_ vehicle: Vehicle) -> Future<GuiSettings, Error> {
-        let future = Future<GuiSettings,Error> { (subscriber: @escaping (Result<GuiSettings, Error>) -> Void) in
+        let future = Future<GuiSettings, Error> { (subscriber: @escaping (Result<GuiSettings, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleGuiSettings(vehicle)
@@ -155,7 +155,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleState(_ vehicle: Vehicle) -> Future<VehicleState, Error> {
-        let future = Future<VehicleState,Error> { (subscriber: @escaping (Result<VehicleState, Error>) -> Void) in
+        let future = Future<VehicleState, Error> { (subscriber: @escaping (Result<VehicleState, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleState(vehicle)
@@ -169,7 +169,7 @@ extension TeslaSwift {
     }
     
     public func getVehicleConfig(_ vehicle: Vehicle) -> Future<VehicleConfig, Error> {
-        let future = Future<VehicleConfig,Error> { (subscriber: @escaping (Result<VehicleConfig, Error>) -> Void) in
+        let future = Future<VehicleConfig, Error> { (subscriber: @escaping (Result<VehicleConfig, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.getVehicleConfig(vehicle)
@@ -183,7 +183,7 @@ extension TeslaSwift {
     }
     
     public func wakeUp(_ vehicle: Vehicle) -> Future<Vehicle, Error> {
-        let future = Future<Vehicle,Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
+        let future = Future<Vehicle, Error> { (subscriber: @escaping (Result<Vehicle, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.wakeUp(vehicle)
@@ -197,7 +197,7 @@ extension TeslaSwift {
     }
     
     public func sendCommandToVehicle(_ vehicle: Vehicle, command: VehicleCommand) -> Future<CommandResponse, Error> {
-        let future = Future<CommandResponse,Error> { (subscriber: @escaping (Result<CommandResponse, Error>) -> Void) in
+        let future = Future<CommandResponse, Error> { (subscriber: @escaping (Result<CommandResponse, Error>) -> Void) in
             Task {
                 do {
                     let result = try await self.sendCommandToVehicle(vehicle, command: command)

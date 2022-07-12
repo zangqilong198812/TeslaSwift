@@ -1,7 +1,7 @@
 disabled_rules: # rule identifiers to exclude from running
   - force_cast
   - operator_whitespace
-  - cyclomatic_complexity  
+  - cyclomatic_complexity
   - variable_name
   - switch_case_alignment
 included: # paths to include during linting. `--path` is ignored if present.

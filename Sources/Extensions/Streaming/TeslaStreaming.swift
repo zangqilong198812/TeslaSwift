@@ -143,7 +143,6 @@ public class TeslaStreaming {
                     switch type {
                         case "control:hello":
                             logDebug("Stream got hello", debuggingEnabled: self.debuggingEnabled)
-                            break
                         case "data:update":
                             if let values = message.value {
                                 let event = StreamEvent(values: values)
@@ -153,7 +152,6 @@ public class TeslaStreaming {
                         case "data:error":
                             logDebug("Stream got data error: \(message.value ?? ""), \(message.errorType ?? "")", debuggingEnabled: self.debuggingEnabled)
                             dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: [message.value ?? "error": message.errorType ?? ""])))
-                            break
                         default:
                             break
                     }
