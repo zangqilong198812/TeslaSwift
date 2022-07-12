@@ -31,7 +31,7 @@ extension TeslaStreaming  {
             self.stream = stream
         }
 
-        public func receive<S>(subscriber: S) where S : Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
+        public func receive<S>(subscriber: S) where S: Subscriber, TeslaStreamingPublisher.Failure == S.Failure, TeslaStreamingPublisher.Output == S.Input {
 
             Task {
                 do {

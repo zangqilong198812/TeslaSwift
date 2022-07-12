@@ -47,8 +47,7 @@ open class EnergySite: Codable {
         case breakerAlertEnabled = "breaker_alert_enabled"
         case components
     }
-    
-    
+    ValetCommandOptions.swift:23
     // MARK: - Components
     open class Components: Codable {
         open var battery: Bool

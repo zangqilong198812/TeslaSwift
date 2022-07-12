@@ -9,7 +9,6 @@
 import Foundation
 
 open class VehicleExtended: Vehicle {
-
 	open var userId: Int64?
 	open var chargeState: ChargeState?
 	open var climateState: ClimateState?
@@ -17,10 +16,8 @@ open class VehicleExtended: Vehicle {
 	open var guiSettings: GuiSettings?
 	open var vehicleConfig: VehicleConfig?
 	open var vehicleState: VehicleState?
-	
-	
+
 	private enum CodingKeys: String, CodingKey {
-		
 		case userId			 = "user_id"
 		case chargeState		 = "charge_state"
 		case climateState	 = "climate_state"
@@ -33,7 +30,6 @@ open class VehicleExtended: Vehicle {
 	}
 	
 	required public init(from decoder: Decoder) throws {
-		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		userId = try container.decodeIfPresent(Int64.self, forKey: .userId)
 		chargeState = try container.decodeIfPresent(ChargeState.self, forKey: .chargeState)
@@ -50,7 +46,6 @@ open class VehicleExtended: Vehicle {
 	}
 	
 	override open func encode(to encoder: Encoder) throws {
-		
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encodeIfPresent(userId, forKey: .userId)
 		try container.encodeIfPresent(chargeState, forKey: .chargeState)
@@ -62,6 +57,5 @@ open class VehicleExtended: Vehicle {
 		
 		let superEncoder = container.superEncoder()
 		try super.encode(to: superEncoder)
-	}
-	
+	}Authentication.swift:206
 }

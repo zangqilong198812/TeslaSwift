@@ -131,7 +131,7 @@ public class TeslaStreaming {
                         self.httpStreaming.write(data: string)
                         dataReceived(TeslaStreamingEvent.open)
                     } else {
-                        dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: ["errorDescription" : "Failed to parse authentication data"])))
+                        dataReceived(TeslaStreamingEvent.error(NSError(domain: "TeslaStreamingError", code: 0, userInfo: ["errorDescription": "Failed to parse authentication data"])))
                         self.closeStream()
                     }
                 case let .binary(data):

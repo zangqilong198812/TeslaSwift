@@ -9,7 +9,6 @@
 import Foundation
 
 open class ChargeState: Codable {
-	
 	public enum ChargingState: String, Codable {
 		case complete = "Complete"
 		case charging = "Charging"
@@ -40,8 +39,7 @@ open class ChargeState: Codable {
 	open var chargeLimitSOCMax: Int?
 	open var chargeLimitSOCMin: Int?
 	open var chargeLimitSOCStandard: Int?
-	
-	
+
 	open var chargeDistanceAddedIdeal: Distance?
 	open var chargeDistanceAddedRated: Distance?
 	
@@ -133,7 +131,6 @@ open class ChargeState: Codable {
 	open var userChargeEnableRequest: Bool?
 	
 	enum CodingKeys: String, CodingKey {
-		
 		case batteryHeaterOn				 = "battery_heater_on"
 		case batteryLevel                 = "battery_level"
 		case ratedBatteryRange           = "battery_range"
@@ -206,7 +203,6 @@ open class ChargeState: Codable {
 	}
 	
 	required public init(from decoder: Decoder) throws {
-		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		batteryHeaterOn = try? container.decode(Bool.self, forKey: .batteryHeaterOn)
 		
@@ -223,20 +219,16 @@ open class ChargeState: Codable {
 		chargeLimitSOCMin = try? container.decode(Int.self, forKey: .chargeLimitSOCMin)
 		chargeLimitSOCStandard = try? container.decode(Int.self, forKey: .chargeLimitSOCStandard)
 		
-		
 		chargeDistanceAddedIdeal = try? container.decode(Distance.self, forKey: .chargeDistanceAddedIdeal)
 		chargeDistanceAddedRated = try? container.decode(Distance.self, forKey: .chargeDistanceAddedRated)
-		
 
 		chargePortDoorOpen = try? container.decode(Bool.self, forKey: .chargePortDoorOpen)
 		chargePortLatch = try? container.decode(String.self, forKey: .chargePortLatch)
 		chargePortColdWeatherMode = try? container.decode(Bool.self, forKey: .chargePortColdWeatherMode)
-		
-		
+
 		chargeRate = try? container.decode(Speed.self, forKey: .chargeRate)
 
 		chargeToMaxRange = try? container.decode(Bool.self, forKey: .chargeToMaxRange)
-		
 
 		chargerActualCurrent = try? container.decode(Int.self, forKey: .chargerActualCurrent)
 		chargerPhases = try? container.decode(Int.self, forKey: .chargerPhases)
@@ -246,12 +238,10 @@ open class ChargeState: Codable {
 		chargerPower = try? container.decode(Int.self, forKey: .chargerPower)
  
 		chargerVoltage = try? container.decode(Int.self, forKey: .chargerVoltage)
-		
 
 		chargingState = try? container.decode(ChargingState.self, forKey: .chargingState)
 		
 		connChargeCable = try? container.decode(String.self, forKey: .connChargeCable)
-		
 
 		estimatedBatteryRange = try? container.decode(Distance.self, forKey: .estimatedBatteryRange)
 		
@@ -290,7 +280,6 @@ open class ChargeState: Codable {
 	}
 	
 	public func encode(to encoder: Encoder) throws {
-		
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encodeIfPresent(batteryHeaterOn, forKey: .batteryHeaterOn)
 		
@@ -363,8 +352,6 @@ open class ChargeState: Codable {
 		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
 		
 		try container.encodeIfPresent(tripCharging, forKey: .tripCharging)
-		
-		
 		
 		try container.encodeIfPresent(usableBatteryLevel, forKey: .usableBatteryLevel)
 		try container.encodeIfPresent(userChargeEnableRequest, forKey: .userChargeEnableRequest)

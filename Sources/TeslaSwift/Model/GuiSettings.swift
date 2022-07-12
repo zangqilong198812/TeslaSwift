@@ -9,15 +9,13 @@
 import Foundation
 
 open class GuiSettings: Codable {
-	
 	open var distanceUnits: String?
 	open var temperatureUnits: String?
 	open var chargeRateUnits: String?
 	open var time24Hours: Bool?
 	open var rangeDisplay: String?
 	open var timeStamp: Double?
-	
-	
+
 	enum CodingKeys: String, CodingKey {
 		case distanceUnits		 = "gui_distance_units"
 		case temperatureUnits	 = "gui_temperature_units"
@@ -28,7 +26,6 @@ open class GuiSettings: Codable {
 	}
 	
 	required public init(from decoder: Decoder) throws {
-		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		distanceUnits = try? container.decode(String.self, forKey: .distanceUnits)
 		temperatureUnits = try? container.decode(String.self, forKey: .temperatureUnits)
@@ -36,7 +33,6 @@ open class GuiSettings: Codable {
 		time24Hours = try? container.decode(Bool.self, forKey: .time24Hours)
 		rangeDisplay = try? container.decode(String.self, forKey: .rangeDisplay)
 		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
-		
 	}
 	
 	public func encode(to encoder: Encoder) throws {
@@ -47,6 +43,5 @@ open class GuiSettings: Codable {
 		try container.encodeIfPresent(time24Hours, forKey: .time24Hours)
 		try container.encodeIfPresent(rangeDisplay, forKey: .rangeDisplay)
 		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
-		
 	}
 }

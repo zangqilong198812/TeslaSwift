@@ -16,6 +16,6 @@ open class RemoteStartDriveCommandOptions: Encodable {
 	}
 	
 	enum CodingKeys: String, CodingKey {
-		case password		 = "password"
+		case password
 	}
 }

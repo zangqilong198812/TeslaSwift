@@ -33,7 +33,6 @@ open class DriveState: Codable {
 	open var timeStamp: Double?
 	open var power: Int?
 	
-	
 	open var position: CLLocation? {
 		if let latitude = latitude,
 			let longitude = longitude,
@@ -66,9 +65,7 @@ open class DriveState: Codable {
 	}
 
 	required public init(from decoder: Decoder) throws {
-		
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-
 		
         shiftState = try? container.decode(ShiftState.self, forKey: .shiftState)
 		
@@ -85,14 +82,11 @@ open class DriveState: Codable {
 		date = try? container.decode(Date.self, forKey: .date)
 		timeStamp = try? container.decode(Double.self, forKey: .timeStamp)
 		power = try? container.decode(Int.self, forKey: .power)
-		
 	}
 	
 	public func encode(to encoder: Encoder) throws {
-		
 		var container = encoder.container(keyedBy: CodingKeys.self)
-		
-		
+
 		try container.encodeIfPresent(shiftState, forKey: .shiftState)
 		
 		try container.encodeIfPresent(speed, forKey: .speed)
@@ -109,5 +103,4 @@ open class DriveState: Codable {
 		try container.encodeIfPresent(timeStamp, forKey: .timeStamp)
 		try container.encodeIfPresent(power, forKey: .power)
 	}
-	
 }

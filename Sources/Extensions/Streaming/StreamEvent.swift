@@ -34,10 +34,8 @@ open class StreamEvent: Codable {
     open var timestamp: Double?
     open var speed: CLLocationSpeed? // mph
     open var speedUnit: Speed? {
-        get {
-            guard let speed = speed else { return nil }
-            return Speed(milesPerHour: speed)
-        }
+        guard let speed = speed else { return nil }
+        return Speed(milesPerHour: speed)
     }
     open var odometer: Distance? // miles
     open var soc: Int?

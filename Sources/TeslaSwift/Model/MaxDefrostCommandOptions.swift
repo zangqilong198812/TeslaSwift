@@ -8,9 +8,7 @@
 
 import Foundation
 
-
 open class MaxDefrostCommandOptions: Encodable {
-    
     open var on: Bool
     
     init(state: Bool) {
@@ -18,6 +16,6 @@ open class MaxDefrostCommandOptions: Encodable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case on             = "on"
+        case on
     }
 }

@@ -36,7 +36,7 @@ public class TeslaWebLoginViewController: UIViewController {
 
 extension TeslaWebLoginViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url, url.absoluteString.starts(with: "https://auth.tesla.com/void/callback")  {
+        if let url = navigationAction.request.url, url.absoluteString.starts(with: "https://auth.tesla.com/void/callback") {
             decisionHandler(.cancel)
             self.dismiss(animated: true) {
                 self.continuation?.resume(returning: url)

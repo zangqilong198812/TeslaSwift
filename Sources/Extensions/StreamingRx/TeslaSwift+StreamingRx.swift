@@ -30,7 +30,7 @@ extension TeslaStreaming {
             self.stream = stream
         }
 
-        public func subscribe<Observer>(_ observer: Observer) -> Disposable where Observer : ObserverType, TeslaStreamingRxPublisher.Element == Observer.Element {
+        public func subscribe<Observer>(_ observer: Observer) -> Disposable where Observer: ObserverType, TeslaStreamingRxPublisher.Element == Observer.Element {
             Task {
                 do {
                     for try await streamEvent in try await stream.openStream(vehicle: vehicle) {

@@ -42,7 +42,6 @@ open class EnergySiteInfo: Codable {
         case offGridVehicleChargingReservePercent = "off_grid_vehicle_charging_reserve_percent"
     }
     
-    
     // MARK: - Components
     open class Components: Codable {
         open var solar: Bool

@@ -9,7 +9,6 @@
 import Foundation
 
 open class ValetCommandOptions: Codable {
-	
 	open var on: Bool = false
 	open var password: String?
 	
@@ -19,7 +18,7 @@ open class ValetCommandOptions: Codable {
 	}
 	
 	enum CodingKeys: String, CodingKey {
-		case on			 = "on"
-		case password	 = "password"
+		case on
+		case password
 	}
 }

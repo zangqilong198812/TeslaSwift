@@ -37,8 +37,7 @@ open class BatteryData: Codable {
         case powerReading = "power_reading"
         case batteryCount = "battery_count"
     }
-    
-    
+    VehicleExtended.swift:21
     // MARK: - Backup
     open class Backup: Codable {
         open var backupReservePercent: Double

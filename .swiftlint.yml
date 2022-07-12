@@ -4,9 +4,15 @@ disabled_rules: # rule identifiers to exclude from running
   - cyclomatic_complexity
   - variable_name
   - switch_case_alignment
+  - trailing_whitespace
+  - no_space_in_method_call
+  - nesting
+  - function_body_length
+  - type_body_length
+  - file_length
 included: # paths to include during linting. `--path` is ignored if present.
   - Sources
-line_length: 200
+line_length: 600
 variable_name:
   min_length: # only min_length
     error: 3 # only error

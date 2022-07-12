@@ -419,8 +419,7 @@ extension TeslaSwift {
                 return try await request(Endpoint.command(vehicleID: vehicle.id!, command: command), body: body)
         }
 	}
-    
-    
+
     /**
     Fetchs the status of your energy site
      
@@ -509,7 +508,7 @@ extension TeslaSwift {
         }
     }
 
-    func cleanToken()  {
+    func cleanToken() {
         token = nil
     }
 
@@ -584,7 +583,7 @@ extension TeslaSwift {
             } else if httpResponse.allHeaderFields["Www-Authenticate"] != nil, httpResponse.statusCode == 401 {
                 throw TeslaError.authenticationFailed
             } else if let mapped = try? teslaJSONDecoder.decode(ErrorMessage.self, from: data) {
-                throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo:[ErrorInfo: mapped]))
+                throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: [ErrorInfo: mapped]))
             } else {
                 throw TeslaError.networkError(error: NSError(domain: "TeslaError", code: httpResponse.statusCode, userInfo: nil))
             }

@@ -206,10 +206,8 @@ open class VehicleState: Codable {
 		case vehicleName			 = "vehicle_name"
 	}
 	
-	required public init(from decoder: Decoder) throws {
-		
+	required public init(from decoder: Decoder) throws {TeslaWebLoginViewContoller.swift:39
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-
 
 		apiVersion = try? container.decode(Int.self, forKey: .apiVersion)
 		
