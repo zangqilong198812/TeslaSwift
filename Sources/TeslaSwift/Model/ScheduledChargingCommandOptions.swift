@@ -13,7 +13,7 @@ open class ScheduledChargingCommandOptions: Encodable {
     open var enable: Bool
     open var time: Int
     
-    init(enable: Bool, time: Int) {
+    public init(enable: Bool, time: Int) {
         self.enable = enable
         self.time = time
     }

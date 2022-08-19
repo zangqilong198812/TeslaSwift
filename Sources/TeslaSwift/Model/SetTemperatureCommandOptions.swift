@@ -12,7 +12,7 @@ open class SetTemperatureCommandOptions: Encodable {
 
 	open var driverTemp: Double?
 	open var passengerTemp: Double?
-	init(driverTemperature: Double, passengerTemperature: Double) {
+    public init(driverTemperature: Double, passengerTemperature: Double) {
 		driverTemp = driverTemperature
 		passengerTemp = passengerTemperature
 	}

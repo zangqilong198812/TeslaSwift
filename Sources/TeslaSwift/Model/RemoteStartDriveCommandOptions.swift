@@ -11,7 +11,7 @@ import Foundation
 open class RemoteStartDriveCommandOptions: Encodable {
 
 	open var password: String?
-	init(password: String) {
+    public init(password: String) {
 		self.password = password
 	}
 	

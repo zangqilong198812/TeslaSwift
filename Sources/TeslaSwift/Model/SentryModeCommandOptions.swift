@@ -11,7 +11,7 @@ import Foundation
 open class SentryModeCommandOptions: Encodable {
     open var on: Bool
 
-    init(activated: Bool) {
+    public init(activated: Bool) {
         self.on = activated
     }
 

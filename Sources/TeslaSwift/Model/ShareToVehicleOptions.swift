@@ -22,7 +22,6 @@ open class ShareToVehicleOptions: Codable {
     }
 	
     public class ShareToVehicleValue: Codable {
-		
 		public let intentAction: String
         public let intentType: String
         public let intentText: String

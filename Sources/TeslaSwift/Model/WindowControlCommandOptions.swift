@@ -20,7 +20,7 @@ open class WindowControlCommandOptions: Encodable {
     open var longitude: CLLocationDegrees = 0
     open var command: WindowState
     
-    init(command: WindowState) {
+    public init(command: WindowState) {
         self.command = command
     }
     

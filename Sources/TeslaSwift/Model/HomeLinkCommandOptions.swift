@@ -14,7 +14,7 @@ open class HomeLinkCommandOptions: Encodable {
     open var latitude: CLLocationDegrees
     open var longitude: CLLocationDegrees
     
-    init(coordinates: CLLocation) {
+    public init(coordinates: CLLocation) {
         self.latitude = coordinates.coordinate.latitude
         self.longitude = coordinates.coordinate.longitude
     }

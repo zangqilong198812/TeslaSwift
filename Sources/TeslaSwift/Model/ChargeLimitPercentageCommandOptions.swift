@@ -11,7 +11,7 @@ import Foundation
 open class ChargeLimitPercentageCommandOptions: Encodable {
 	open var percent: Int?
 	
-	init(limit: Int) {
+    public init(limit: Int) {
 		percent = limit
 	}
 	

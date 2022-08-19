@@ -17,7 +17,7 @@ open class SetSunRoofCommandOptions: Encodable {
 
 	open var state: RoofState
 	open var percent: Int?
-	init(state: RoofState, percent: Int?) {
+    public init(state: RoofState, percent: Int?) {
 		self.state = state
 		self.percent = percent
 	}

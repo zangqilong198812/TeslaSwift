@@ -11,7 +11,7 @@ import Foundation
 open class MaxDefrostCommandOptions: Encodable {
     open var on: Bool
     
-    init(state: Bool) {
+    public init(state: Bool) {
         on = state
     }
     

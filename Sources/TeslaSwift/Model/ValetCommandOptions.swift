@@ -12,7 +12,7 @@ open class ValetCommandOptions: Codable {
 	open var on: Bool = false
 	open var password: String?
 	
-	init(valetActivated: Bool, pin: String?) {
+    public init(valetActivated: Bool, pin: String?) {
 		on = valetActivated
 		password = pin
 	}

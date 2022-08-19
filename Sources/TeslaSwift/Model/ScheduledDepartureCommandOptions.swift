@@ -18,7 +18,7 @@ open class ScheduledDepartureCommandOptions: Encodable {
     open var endOffPeakTime: Int
     open var offPeakChargingWeekdaysOnly: Bool
     
-    init(enable: Bool, departureTime: Int, preconditioningEnabled: Bool, preconditioningWeekdaysOnly: Bool, offPeakChargingEnabled: Bool, endOffPeakTime: Int, offPeakChargingWeekdaysOnly: Bool) {
+    public init(enable: Bool, departureTime: Int, preconditioningEnabled: Bool, preconditioningWeekdaysOnly: Bool, offPeakChargingEnabled: Bool, endOffPeakTime: Int, offPeakChargingWeekdaysOnly: Bool) {
         self.enable = enable
         self.departureTime = departureTime
         self.preconditioningEnabled = preconditioningEnabled

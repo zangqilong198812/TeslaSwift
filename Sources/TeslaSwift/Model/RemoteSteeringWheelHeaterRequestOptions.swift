@@ -11,7 +11,7 @@ import Foundation
 open class RemoteSteeringWheelHeaterRequestOptions: Encodable {
     open var on: Bool
 
-    init(on: Bool) {
+    public init(on: Bool) {
         self.on = on
     }
 

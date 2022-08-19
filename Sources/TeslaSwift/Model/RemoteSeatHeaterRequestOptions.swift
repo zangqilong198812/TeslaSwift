@@ -13,7 +13,7 @@ open class RemoteSeatHeaterRequestOptions: Encodable {
     open var seat: HeatedSeat
     open var level: HeatLevel
 
-    init(seat: HeatedSeat, level: HeatLevel) {
+    public init(seat: HeatedSeat, level: HeatLevel) {
         self.seat = seat
         self.level = level
     }

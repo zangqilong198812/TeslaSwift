@@ -12,7 +12,7 @@ open class ChargeAmpsCommandOptions: Encodable {
 
     open var amps: Int
 
-    init(amps: Int) {
+    public init(amps: Int) {
         self.amps = amps
     }
 
