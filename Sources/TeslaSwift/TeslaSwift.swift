@@ -25,15 +25,25 @@ public enum TeslaError: Error, Equatable {
 let ErrorInfo = "ErrorInfo"
 private var nullBody = ""
 
+public enum TeslaAPILocal {
+    case china
+    case other
+}
+
 open class TeslaSwift {
     open var debuggingEnabled = false
 
     open fileprivate(set) var token: AuthToken?
 
     open fileprivate(set) var email: String?
+    
+    open fileprivate(set) var local = TeslaAPILocal.china
+    
     fileprivate var password: String?
 
-    public init() { }
+    public init(local: TeslaAPILocal) {
+        self.local = local
+    }
 }
 
 extension TeslaSwift {
@@ -56,7 +66,7 @@ extension TeslaSwift {
 
         let codeRequest = AuthCodeRequest()
         let endpoint = Endpoint.oAuth2Authorization(auth: codeRequest)
-        var urlComponents = URLComponents(string: endpoint.baseURL())
+        var urlComponents = URLComponents(string: endpoint.baseURL(local: local))
         urlComponents?.path = endpoint.path
         urlComponents?.queryItems = endpoint.queryParameters
 
@@ -90,7 +100,12 @@ extension TeslaSwift {
         let body = AuthTokenRequestWeb(code: code)
 
         do {
-            let token: AuthToken = try await request(.oAuth2Token, body: body)
+            let token: AuthToken
+            if local == .china {
+                token = try await request(.oAuth2TokenCN, body: body)
+            } else {
+                token = try await request(.oAuth2Token, body: body)
+            }
             self.token = token
             return token
         } catch let error {
@@ -591,7 +606,7 @@ extension TeslaSwift {
     }
 
     func prepareRequest<BodyType: Encodable>(_ endpoint: Endpoint, body: BodyType) -> URLRequest {
-        var urlComponents = URLComponents(url: URL(string: endpoint.baseURL())!, resolvingAgainstBaseURL: true)
+        var urlComponents = URLComponents(url: URL(string: endpoint.baseURL(local: local))!, resolvingAgainstBaseURL: true)
         urlComponents?.path = endpoint.path
         urlComponents?.queryItems = endpoint.queryParameters
         var request = URLRequest(url: urlComponents!.url!)

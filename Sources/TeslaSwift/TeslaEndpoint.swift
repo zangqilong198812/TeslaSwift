@@ -122,14 +122,19 @@ extension Endpoint {
         }
     }
 
-    func baseURL() -> String {
+    func baseURL(local: TeslaAPILocal) -> String {
         switch self {
             case .oAuth2Authorization, .oAuth2Token, .oAuth2revoke:
                 return "https://auth.tesla.com"
             case .oAuth2AuthorizationCN, .oAuth2TokenCN, .oAuth2revokeCN:
                 return "https://auth.tesla.cn"
             default:
+            if local == .china {
+                return "https://owner-api.vn.cloud.tesla.cn"
+            } else {
                 return "https://owner-api.teslamotors.com"
+            }
+                
         }
     }
 }
