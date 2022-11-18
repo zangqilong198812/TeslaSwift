@@ -32,6 +32,9 @@
 		1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */; };
 		1AE27F7722D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */; };
 		1AE27F7822D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */; };
+		409CD3692927B5C200CA4F35 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409CD3682927B5C200CA4F35 /* LoginView.swift */; };
+		40E3C6E12920A38C00BDD41D /* TeslaWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E3C6E02920A38C00BDD41D /* TeslaWebView.swift */; };
+		40E3C6E22920A38C00BDD41D /* TeslaWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E3C6E02920A38C00BDD41D /* TeslaWebView.swift */; };
 		650A507D218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		650A507E218ABAEF0068EC13 /* SoftwareUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A507C218ABAEF0068EC13 /* SoftwareUpdate.swift */; };
 		65F055182173DB3D00BE3BE5 /* ShareToVehicleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F055172173DB3D00BE3BE5 /* ShareToVehicleOptions.swift */; };
@@ -197,6 +200,8 @@
 		1AABBBA9242646E200FFED6C /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		1AC5CB1122DA7807009B7190 /* TeslaSwift+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+Combine.swift"; sourceTree = "<group>"; };
 		1AE27F7622D91DE800456310 /* TeslaSwift+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TeslaSwift+PromiseKit.swift"; sourceTree = "<group>"; };
+		409CD3682927B5C200CA4F35 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		40E3C6E02920A38C00BDD41D /* TeslaWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaWebView.swift; sourceTree = "<group>"; };
 		41383385906DAF4DE7F67D34 /* Pods-TeslaSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwiftTests/Pods-TeslaSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		45C81FFBA84397F3FE471905 /* Pods_TeslaSwiftAll_TeslaSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeslaSwiftAll_TeslaSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F4E32676B9AA496A9E76FC3 /* Pods-TeslaSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeslaSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeslaSwift/Pods-TeslaSwift.release.xcconfig"; sourceTree = "<group>"; };
@@ -351,6 +356,7 @@
 				CF4398BB27F7A726004895E1 /* VehicleCommands.swift */,
 				CFA984F81CC2545600B23C7D /* TeslaEndpoint.swift */,
 				CF713547256AA59D00988AFE /* TeslaWebLoginViewContoller.swift */,
+				40E3C6E02920A38C00BDD41D /* TeslaWebView.swift */,
 				1A9B1B1C22DA40AF0014CE17 /* Model */,
 			);
 			path = TeslaSwift;
@@ -554,6 +560,7 @@
 				CFD2E7C41C8A13D60005E882 /* AppDelegate.swift */,
 				CF14238C1DF360A500CB4D96 /* ViewController+TeslaSwift.swift */,
 				CF48FA981C8B08AC00B1DA93 /* TabController.swift */,
+				409CD3682927B5C200CA4F35 /* LoginView.swift */,
 				CF48FA9A1C8B09C500B1DA93 /* LoginViewController.swift */,
 				CFD2E7C61C8A13D60005E882 /* FirstViewController.swift */,
 				CFD2E7C81C8A13D60005E882 /* SecondViewController.swift */,
@@ -872,11 +879,13 @@
 				CF21582F258E369700110C52 /* TeslaSwift+StreamingRx.swift in Sources */,
 				CFF048021F72EDC7006B52F7 /* Distance.swift in Sources */,
 				CF0D2F371D95A4A900E5A304 /* Vehicle.swift in Sources */,
+				409CD3692927B5C200CA4F35 /* LoginView.swift in Sources */,
 				DE97F3662737D8C100D7BA9B /* ScheduledDepartureCommandOptions.swift in Sources */,
 				CFD2E7C51C8A13D60005E882 /* AppDelegate.swift in Sources */,
 				CF0D2F2B1D95A4A900E5A304 /* CommandResponse.swift in Sources */,
 				CF0D2F291D95A4A900E5A304 /* ClimateState.swift in Sources */,
 				CF4398BC27F7A726004895E1 /* VehicleCommands.swift in Sources */,
+				40E3C6E12920A38C00BDD41D /* TeslaWebView.swift in Sources */,
 				708FBA45274D75E70026CEEF /* Product.swift in Sources */,
 				CF0D2F251D95A4A900E5A304 /* Authentication.swift in Sources */,
 				CF1BD5991DD505EF00E4C493 /* SetSunRoofCommandOptions.swift in Sources */,
@@ -969,6 +978,7 @@
 				1AC5CB1322DA7807009B7190 /* TeslaSwift+Combine.swift in Sources */,
 				1AE27F7822D91DE900456310 /* TeslaSwift+PromiseKit.swift in Sources */,
 				CF4D4D0F1D81F46B00CCE6ED /* TeslaEndpoint.swift in Sources */,
+				40E3C6E22920A38C00BDD41D /* TeslaWebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

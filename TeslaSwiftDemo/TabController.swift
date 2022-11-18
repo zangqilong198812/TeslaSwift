@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class TabController: UITabBarController {
 
@@ -15,8 +16,8 @@ class TabController: UITabBarController {
 		
 		if (!api.isAuthenticated) {
 			
-			performSegue(withIdentifier: "loginSegue", sender: self)
-			
+		//	performSegue(withIdentifier: "loginSegue", sender: self)
+			present(UIHostingController(rootView: LoginView()), animated: true)
 		}
 	}
 }

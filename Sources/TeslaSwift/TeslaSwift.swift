@@ -93,6 +93,40 @@ extension TeslaSwift {
         }
         return (teslaWebLoginViewController, result)
     }
+    
+    public func authenticateWebView(completion:@escaping (AuthToken?) -> Void) -> TeslaWebView? {
+
+        let codeRequest = AuthCodeRequest()
+        let endpoint = Endpoint.oAuth2Authorization(auth: codeRequest)
+        var urlComponents = URLComponents(string: endpoint.baseURL(local: local))
+        urlComponents?.path = endpoint.path
+        urlComponents?.queryItems = endpoint.queryParameters
+
+        guard let safeUrlComponents = urlComponents else {
+            completion(nil)
+            return nil
+        }
+
+        let teslaWebLoginView = TeslaWebView(url: safeUrlComponents.url!) { result in
+            switch result {
+            case let .success(url):
+                Task {
+                    let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+                    if let queryItems = urlComponents?.queryItems, let codeItem = queryItems.first(where: { item in
+                        item.name == "code"
+                    }), let code = codeItem.value {
+                        let token = try? await self.getAuthenticationTokenForWeb(code: code)
+                        completion(token)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            case .failure(_):
+                completion(nil)
+            }
+        }
+        return teslaWebLoginView
+    }
     #endif
 
     private func getAuthenticationTokenForWeb(code: String) async throws -> AuthToken {

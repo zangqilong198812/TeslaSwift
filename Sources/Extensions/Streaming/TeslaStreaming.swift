@@ -45,8 +45,16 @@ public class TeslaStreaming {
     private var httpStreaming: WebSocket
     private var teslaSwift: TeslaSwift
     
+    // owner-api.vn.cloud.tesla.cn
+        // china stream : wss://streaming.vn.cloud.tesla.cn/streaming/
+        // en stream : wss://streaming.vn.teslamotors.com/streaming/
     public init(teslaSwift: TeslaSwift) {
-        httpStreaming = WebSocket(request: URLRequest(url: URL(string: "wss://streaming.vn.teslamotors.com/streaming/")!))
+        if teslaSwift.local == .china {
+            httpStreaming = WebSocket(request: URLRequest(url: URL(string: "wss://streaming.vn.cloud.tesla.cn/streaming/")!))
+        } else {
+            httpStreaming = WebSocket(request: URLRequest(url: URL(string: "wss://streaming.vn.teslamotors.com/streaming/")!))
+        }
+        
         self.teslaSwift = teslaSwift
     }
 

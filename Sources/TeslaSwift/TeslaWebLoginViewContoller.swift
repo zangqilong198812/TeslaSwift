@@ -9,15 +9,18 @@
 #if canImport(WebKit) && canImport(UIKit)
 import WebKit
 
+public typealias TeslaLoginCallback = (Result<URL, Error>) -> Void
 public class TeslaWebLoginViewController: UIViewController {
     var webView = WKWebView()
+    let callback: TeslaLoginCallback?
     private var continuation: CheckedContinuation<URL, Error>?
 
     required init?(coder: NSCoder) {
         fatalError("not supported")
     }
 
-    init(url: URL) {
+    init(url: URL, callback: TeslaLoginCallback? = nil) {
+        self.callback = callback
         super.init(nibName: nil, bundle: nil)
         webView.navigationDelegate = self
         webView.load(URLRequest(url: url))
@@ -39,6 +42,7 @@ extension TeslaWebLoginViewController: WKNavigationDelegate {
         if let url = navigationAction.request.url, url.absoluteString.starts(with: "https://auth.tesla.com/void/callback") {
             decisionHandler(.cancel)
             self.dismiss(animated: true) {
+                self.callback?(.success(url))
                 self.continuation?.resume(returning: url)
             }
         } else {
@@ -48,6 +52,7 @@ extension TeslaWebLoginViewController: WKNavigationDelegate {
 
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         self.dismiss(animated: true) {
+            self.callback?(.failure(TeslaError.authenticationFailed))
             self.continuation?.resume(throwing: TeslaError.authenticationFailed)
         }
     }
